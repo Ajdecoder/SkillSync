@@ -1,0 +1,45 @@
+.registerContainer {
+    margin: 88px 255px;
+  }
+  
+  .log-signing {
+    margin: 4px;
+    margin-left: 196px;
+
+  }
+
+  .loginForm{
+    padding: 0 13rem;
+  }
+  
+  .log-sign:nth-child(2) {
+    margin-left: 31px !important;
+  }
+  
+  .loginfd {
+    padding: 2rem !important;
+
+    border-radius: 5px !important;
+    margin-bottom: 20px !important;
+  }
+
+  .loginfd:hover{
+    transform: scale(1.1);
+    transition: ease-in-out 0.31s;
+  }
+  
+  .registerForm{
+    display: flex !important;
+    flex-direction: column;
+  }
+
+  .login-btn{
+    margin: 12px;
+  }
+
+  .log-head{
+    margin-left: 15rem;
+  }
+
+
+  

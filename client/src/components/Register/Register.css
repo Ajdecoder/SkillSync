@@ -1,0 +1,51 @@
+.registerContainer {
+  margin: 88px 255px;
+}
+
+.log-sign {
+  margin: 4px;
+}
+
+.log-sign:nth-child(2) {
+  margin-left: 31px !important;
+}
+
+
+.reg-signup {
+  margin-left: -13px;
+}
+
+
+.Reg_input {
+  padding: 2rem;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  border: 1px solid rgb(209, 178, 178);
+}
+
+.Reg_input:hover{
+  transform: scale(1.1);
+  transition: ease-in-out 0.31s;
+}
+
+.registerForm {
+  display: flex !important;
+  flex-direction: column;
+}
+
+.reg-signup{
+  margin-left: -13px;
+}
+
+.Reg_input {
+  padding: 2rem !important;
+  border-radius: 5px !important;
+  margin-bottom: 20px !important;
+}
+
+.registerForm{
+  display: flex !important;
+  flex-direction: column;
+}
+
+
