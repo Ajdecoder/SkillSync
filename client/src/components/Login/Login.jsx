@@ -26,7 +26,10 @@ export const Login = ({ setLoginUser }) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:9002/login", user);
+      const res = await axios.post("http://localhost:9002/api/users/login", user, {
+        withCredentials: true,
+      });
+      toast.success(res.data.message);
 
       if (res.data) {
         setLoginUser(res.data.user);
@@ -36,7 +39,14 @@ export const Login = ({ setLoginUser }) => {
       }
     } catch (error) {
       console.error("Login failed:", error);
-      toast.error("An error occurred. Please try again later.");
+      if (error.response) {
+        if (error.response.status === 404) {
+          toast.error("User not registered");
+        } else {
+          toast.error(`Error: ${error.response.data.message}`);
+        }
+      }
+
     }
   };
 
@@ -77,7 +87,7 @@ export const Login = ({ setLoginUser }) => {
           </Button>
         </div>
       </form>
-      <ToastContainer position="bottom-center" />
+      <ToastContainer position="bottom-right" />
     </div>
   );
 };

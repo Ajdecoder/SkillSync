@@ -26,7 +26,7 @@ const Pages = () => {
   return (
     <>
       <Router>
-      <Header isLoggedIn={!!loggedInUser} setIsLoggedIn={setIsLoggedIn} userDetails={loggedInUser} />
+      <Header isLoggedIn={loggedInUser} setIsLoggedIn={setIsLoggedIn} userDetails={loggedInUser} />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -34,7 +34,7 @@ const Pages = () => {
           <Route path="/blog" element={<Blog />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/signup" element={<Register setLoginUser={setLoggedInUser} />} />
+          <Route path="/signup" element={<Register  />} />
           <Route path="/login" element={<Login setLoginUser={setLoggedInUser} />} />
           <Route path="/get-resources" element={<HireResources />} />
           <Route path="/post-resources" element={<PostResources />} />

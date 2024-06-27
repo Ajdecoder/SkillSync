@@ -67,7 +67,9 @@ function HireResources() {
     try {
       const res = await axios.post(
         "http://localhost:9002/requirements/getRequirement",
-        post
+        post,{
+          withCredentials: true,
+        }
       );
 
       if (res.data) {
@@ -240,7 +242,7 @@ function HireResources() {
             </div>
           </section>
         </form>
-      <ToastContainer position="top-left" />
+      <ToastContainer position="bottom-right" />
       </div>
     </>
   );

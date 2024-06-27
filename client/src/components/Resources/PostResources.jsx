@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function PostResources() {
   const [post, setPost] = useState({
@@ -66,7 +66,8 @@ function PostResources() {
     try {
       const res = await axios.post(
         "http://localhost:9002/requirements/postRequirement",
-        post
+        post,
+        { withCredentials: true }
       );
 
       if (res.data) {
@@ -239,7 +240,7 @@ function PostResources() {
             </div>
           </section>
         </form>
-      <ToastContainer position="top-left" />
+        <ToastContainer position="bottom-right" />
       </div>
     </>
   );

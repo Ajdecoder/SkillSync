@@ -4,9 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Register.css";
+import { useAuth } from "../context/authContext.provider";
 
 export const Register = () => {
   const navigate = useNavigate();
+
+  const tokenInLocalStorage = useAuth();
 
   const [user, setUser] = useState({
     name: "",
@@ -23,8 +26,9 @@ export const Register = () => {
     }));
   };
 
-  const register = async () => {
+  const register = async (e) => {
     // Validate user input
+    e.preventDefault();
     if (!user.name || !user.email || !user.password || !user.reEnterPassword) {
       toast.error("Please fill in all fields.");
       return;
@@ -36,14 +40,20 @@ export const Register = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:9002/register", user);
+      const response = await axios.post("http://localhost:9002/api/users/register", user, {
+        withCredentials: true,
+      });
       toast.success(response.data.message);
-
-      navigate("/login"); // Navigate to login page after successful registration
+      tokenInLocalStorage(response.data.jwttoken);
+      navigate("/login");
     } catch (error) {
       console.error("Registration error:", error);
       if (error.response) {
-        toast.error(`Error: ${error.response.data}`);
+        if (error.response.status === 400) {
+          toast.error("User already registered");
+        } else {
+          toast.error(`Error: ${error.response.data.message}`);
+        }
       } else if (error.request) {
         toast.error("Network Error: Please check your internet connection.");
       } else {
@@ -99,7 +109,7 @@ export const Register = () => {
         </button>
       </div>
       </form>
-      <ToastContainer />
+      <ToastContainer position="bottom-right" />
     </div>
   );
 };
