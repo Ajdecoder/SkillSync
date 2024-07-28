@@ -9,7 +9,7 @@ const Contact = () => {
       <section className='contact mb'>
         <Back name='Contact Us' title='Get Helps & Friendly Support' cover={img} />
         <div className='container'>
-          <form className='shadow'>
+          <form className='shadow' action="mailto:anujshrivastav530@gmail.com" method="GET" >
             <h4>Fillup The Form</h4> <br />
             <div>
               <input type='text' placeholder='Name' />

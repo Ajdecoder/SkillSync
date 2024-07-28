@@ -70,7 +70,7 @@ ul {
 button {
   border-radius: 5px;
   padding: 17px 30px;
-  background: #27ae60;
+  background: #216eb9;
   border: none;
   color: #fff;
   cursor: pointer;
@@ -164,10 +164,10 @@ img {
 .btn5 {
   border-radius: 50px;
   padding: 20px 40px;
-  color: #27ae60;
+  color: #216eb9;
   font-size: 20px;
   font-weight: 400;
-  border: 5px solid #27ae601f;
+  border: 5px solid #216eb91f;
   background: #fff;
 }
 .back {

@@ -20,9 +20,12 @@
   position: relative;
 }
 .team img {
-  width: 90px;
+  width: 97px;
+  right: 7px;
   height: 90px;
   border-radius: 50%;
+  position: relative;
+  bottom: 4px;
 }
 .team .img i {
   color: #108be7;

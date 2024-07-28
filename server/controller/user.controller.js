@@ -1,6 +1,10 @@
 // controller/user.controller.js
 import bcrypt from "bcrypt";
-import { CompanyPostCollection, CompanyGetCollection , User } from "../db/database.js";
+import {
+  CompanyPostCollection,
+  CompanyGetCollection,
+  User,
+} from "../db/database.js";
 
 export const getRequirement = async (req, res) => {
   const {
@@ -96,9 +100,7 @@ export const Login = async (req, res) => {
     }
 
     const token = await user.generateToken();
-    console.log("token from login",token)
 
-    // Set JWT token in a cookie
     res.cookie("jwttoken", token, {
       httpOnly: true,
     });
@@ -138,9 +140,7 @@ export const Register = async (req, res) => {
     await newUser.save();
 
     const token = await newUser.generateToken();
-    console.log("token from register",token)
 
-    // Set JWT token in a cookie
     res.cookie("jwttoken", token, {
       httpOnly: true,
     });
@@ -159,7 +159,6 @@ export const Register = async (req, res) => {
 
 export const Logout = async (req, res) => {
   try {
-    res.clearCookie("jwttoken");
     res.status(200).json({ message: "Logged out successfully" });
   } catch (err) {
     console.error("Logout error:", err);

@@ -5,10 +5,9 @@ dotenv.config();
 
 const verifyUser = (req, res, next) => {
   const token = req.cookies.jwttoken;
-  console.log("Your token",token)
   if (!token) {
     return res.status(401).json({
-      message: "No token, authorization denied",
+      message: ", authorization denied",
     });
   } else {
     try {

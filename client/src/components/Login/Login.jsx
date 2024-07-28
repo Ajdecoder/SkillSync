@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "../Login/Login.css";
 
 export const Login = ({ setLoginUser }) => {
@@ -26,9 +26,25 @@ export const Login = ({ setLoginUser }) => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:9002/api/users/login", user, {
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        "http://localhost:9002/api/users/login",
+        user,
+        {
+          withCredentials: true,
+        }
+      );
+
+      const authResponse = await axios.get(
+        "http://localhost:9002/api/users/showToken",
+        {
+          withCredentials: true,
+        }
+      );
+
+      // Store the JWT token in localStorage
+      localStorage.setItem("usertoken", authResponse.data.jwttoken);
+
+
       toast.success(res.data.message);
 
       if (res.data) {
@@ -46,7 +62,6 @@ export const Login = ({ setLoginUser }) => {
           toast.error(`Error: ${error.response.data.message}`);
         }
       }
-
     }
   };
 

@@ -4,12 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Register.css";
-import { useAuth } from "../context/authContext.provider";
 
 export const Register = () => {
   const navigate = useNavigate();
-
-  const tokenInLocalStorage = useAuth();
 
   const [user, setUser] = useState({
     name: "",
@@ -40,11 +37,24 @@ export const Register = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:9002/api/users/register", user, {
+      const response = await axios.post(
+        "http://localhost:9002/api/users/register",
+        user,
+        {
+          withCredentials: true,
+        }
+      );
+
+      // Get the JWT token from the server
+      const authResponse = await axios.get("http://localhost:9002/api/users/showToken", {
         withCredentials: true,
       });
+
+      // Store the JWT token in localStorage
+      localStorage.setItem("usertoken", authResponse.data.jwttoken);
+
+
       toast.success(response.data.message);
-      tokenInLocalStorage(response.data.jwttoken);
       navigate("/login");
     } catch (error) {
       console.error("Registration error:", error);
@@ -66,48 +76,48 @@ export const Register = () => {
     <div className="registerContainer m-5">
       <h1>Register</h1>
       <form onSubmit={register}>
-      <div className="registerForm">
-        <input
-          className="Reg_input"
-          type="text"
-          placeholder="Enter your name"
-          name="name"
-          value={user.name}
-          onChange={handleChange}
-        />
-        <input
-          className="Reg_input"
-          type="email"
-          placeholder="Enter your email"
-          name="email"
-          value={user.email}
-          onChange={handleChange}
-        />
-        <input
-          className="Reg_input"
-          type="password"
-          placeholder="Enter your password"
-          name="password"
-          value={user.password}
-          onChange={handleChange}
-        />
-        <input
-          className="Reg_input"
-          type="password"
-          placeholder="Re-enter your password"
-          name="reEnterPassword"
-          value={user.reEnterPassword}
-          onChange={handleChange}
-        />
-      </div>
-      <div className="reg-signup">
-        <button className="m-5 w-25 login-btn" onClick={register}>
-          Sign Up
-        </button>
-        <button className="w-25 sign-btn" onClick={() => navigate("/login")}>
-          Already have an account? Login Now
-        </button>
-      </div>
+        <div className="registerForm">
+          <input
+            className="Reg_input"
+            type="text"
+            placeholder="Enter your name"
+            name="name"
+            value={user.name}
+            onChange={handleChange}
+          />
+          <input
+            className="Reg_input"
+            type="email"
+            placeholder="Enter your email"
+            name="email"
+            value={user.email}
+            onChange={handleChange}
+          />
+          <input
+            className="Reg_input"
+            type="password"
+            placeholder="Enter your password"
+            name="password"
+            value={user.password}
+            onChange={handleChange}
+          />
+          <input
+            className="Reg_input"
+            type="password"
+            placeholder="Re-enter your password"
+            name="reEnterPassword"
+            value={user.reEnterPassword}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="reg-signup">
+          <button className="m-5 w-25 login-btn" onClick={register}>
+            Sign Up
+          </button>
+          <button className="w-25 sign-btn" onClick={() => navigate("/login")}>
+            Already have an account? Login Now
+          </button>
+        </div>
       </form>
       <ToastContainer position="bottom-right" />
     </div>

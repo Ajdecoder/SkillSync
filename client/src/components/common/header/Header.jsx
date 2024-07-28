@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import "./header.css";
 import { nav } from "../../data/Data";
 import { Link } from "react-router-dom";
+import { jwttokenDecode } from "../../utils/decode";
 
 const Header = ({ isLoggedIn, setIsLoggedIn, userDetails }) => {
+  
+  const userInfo = jwttokenDecode(localStorage.getItem("usertoken"));
+
   const [navList, setNavList] = useState(false);
   const [showAboutUser, setShowAboutUser] = useState(false);
 
@@ -20,7 +24,9 @@ const Header = ({ isLoggedIn, setIsLoggedIn, userDetails }) => {
       <header>
         <div className="container flex">
           <div className="logo">
-            <img src="./images/logo.png" alt="Logo" />
+            <Link to="/">
+              <img src="./images/logo.png" alt="Logo" />
+            </Link>
           </div>
           <div className="nav">
             <ul className={navList ? "small" : "flex"}>
@@ -53,7 +59,6 @@ const Header = ({ isLoggedIn, setIsLoggedIn, userDetails }) => {
                               <i className="fa fa-sign-out"></i> Logout
                             </button>
                           </div>
-                          {/* Add other user details as needed */}
                         </div>
                       )}
                     </>
