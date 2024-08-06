@@ -8,9 +8,6 @@
 
   }
 
-  .loginForm{
-    padding: 0 13rem;
-  }
   
   .log-sign:nth-child(2) {
     margin-left: 31px !important;
@@ -18,9 +15,9 @@
   
   .loginfd {
     padding: 2rem !important;
-
     border-radius: 5px !important;
     margin-bottom: 20px !important;
+    border: 1px solid rgb(209, 178, 178);
   }
 
   .loginfd:hover{
@@ -39,10 +36,16 @@
 
   .log-head{
     margin: 5rem;
+    text-align: center;
   }
 
   .loginContainer{
     margin: 88px 255px
   }
 
+  @media (screen and (min-width: 768px)){
+    .registerContainer {
+      margin: 88px 350px;
+    }
+  }
   

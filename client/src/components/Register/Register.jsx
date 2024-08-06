@@ -51,7 +51,8 @@ export const Register = () => {
       });
 
       // Store the JWT token in localStorage
-      localStorage.setItem("usertoken", authResponse.data.jwttoken);
+      localStorage.setItem("jwttoken", authResponse.data.jwttoken);
+      console.log(authResponse)
 
 
       toast.success(response.data.message);

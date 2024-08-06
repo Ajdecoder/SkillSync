@@ -1,4 +1,3 @@
-// controller/user.controller.js
 import bcrypt from "bcrypt";
 import {
   CompanyPostCollection,
@@ -17,8 +16,14 @@ export const getRequirement = async (req, res) => {
     to,
     desc_requirement,
     address,
-    documents,
   } = req.body;
+
+  const documents = req.files["documents"]
+    ? req.files["documents"][0].path.replace("public\\", "")
+    : null;
+  const cover_Img = req.files["cover_Img"]
+    ? req.files["cover_Img"][0].path.replace("public\\", "")
+    : null;
 
   try {
     const newReq = new CompanyGetCollection({
@@ -32,12 +37,15 @@ export const getRequirement = async (req, res) => {
       desc_requirement,
       address,
       documents,
+      cover_Img,
     });
 
     await newReq.save();
-    res.status(201).json({ message: "Get Post created successfully" });
+    res
+      .status(201)
+      .json({ message: "Get Post created successfully", hiring: true });
   } catch (err) {
-    console.error("Error:", err);
+    console.error("Error:", err); // Log the error for debugging
     res
       .status(500)
       .json({ message: "Failed to create post. Please try again later." });
@@ -55,8 +63,14 @@ export const postRequirement = async (req, res) => {
     to,
     desc_requirement,
     address,
-    documents,
   } = req.body;
+
+  const documents = req.files["documents"]
+    ? req.files["documents"][0].path.replace("public\\", "")
+    : null;
+  const cover_Img = req.files["cover_Img"]
+    ? req.files["cover_Img"][0].path.replace("public\\", "")
+    : null;
 
   try {
     const newPost = new CompanyPostCollection({
@@ -70,11 +84,13 @@ export const postRequirement = async (req, res) => {
       desc_requirement,
       address,
       documents,
+      cover_Img,
     });
 
     await newPost.save();
-
-    res.status(201).json({ message: "Post created successfully" });
+    res
+      .status(201)
+      .json({ message: "Post created successfully", required: true });
   } catch (err) {
     console.error("Error:", err);
     res
@@ -122,7 +138,7 @@ export const Login = async (req, res) => {
 };
 
 export const Register = async (req, res) => {
-  const { name, email, password, cpassword } = req.body;
+  const { name, email, password } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
@@ -168,4 +184,18 @@ export const Logout = async (req, res) => {
 
 export const greeting = (req, res) => {
   res.json({ msg: "hello world" });
+};
+
+export const allRequirements = async (req, res) => {
+  try {
+    const data1 = await CompanyGetCollection.find();
+
+    const data2 = await CompanyPostCollection.find();
+
+    const data = [...data1, ...data2];
+
+    res.json({ data });
+  } catch (error) {
+    console.error(error.message);
+  }
 };

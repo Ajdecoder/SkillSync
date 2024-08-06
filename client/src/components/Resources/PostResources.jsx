@@ -1,104 +1,91 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useAuth } from '../utils/AuthContext';
+import { Login } from '../Login/Login';
+
 
 function PostResources() {
-  const [post, setPost] = useState({
-    company_name: "",
-    company_website: "",
-    email: "",
-    ph_no: "",
+  const { loggedInUser } = useAuth();
+
+  const [resources, setResources] = useState({
+    company_name: '',
+    company_website: '',
+    email: '',
+    ph_no: '',
     available_expert: [],
-    from: "",
-    to: "",
-    desc_requirement: "",
-    address: "Please select a specified address",
-    Documents: null,
+    from: '',
+    to: '',
+    desc_requirement: '',
+    address: 'Please select a specified address',
+    documents: null,
+    cover_Img: null,
   });
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
 
-    let newValue = value;
-
-    if (type === "checkbox") {
-      const { available_expert } = post;
+    if (type === 'checkbox') {
+      const { available_expert } = resources;
       if (checked && !available_expert.includes(value)) {
-        newValue = [...available_expert, value];
+        setResources({
+          ...resources,
+          available_expert: [...available_expert, value],
+        });
       } else if (!checked && available_expert.includes(value)) {
-        newValue = available_expert.filter((expert) => expert !== value);
+        setResources({
+          ...resources,
+          available_expert: available_expert.filter((expert) => expert !== value),
+        });
       }
-    } else if (type === "file") {
-      newValue = files[0];
+    } else if (type === 'file') {
+      setResources({
+        ...resources,
+        [name]: files[0],
+      });
+    } else {
+      setResources({
+        ...resources,
+        [name]: value,
+      });
     }
-
-    setPost({
-      ...post,
-      [name]: newValue,
-    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if all required fields are filled
-    const requiredFields = [
-      "company_name",
-      "company_website",
-      "email",
-      "ph_no",
-      "from",
-      "to",
-      "desc_requirement",
-      "address",
-      "Documents",
-    ];
-
-    for (const field of requiredFields) {
-      if (!post[field]) {
-        toast.error(`Please fill all fields`);
-        return;
-      }
+    const formData = new FormData();
+    for (const key in resources) {
+      formData.append(key, resources[key]);
     }
 
-    // If all required fields are filled, proceed with form submission
     try {
       const res = await axios.post(
-        "http://localhost:9002/requirements/postRequirement",
-        post,
-        { withCredentials: true }
+        'http://localhost:9002/api/requirements/resourcesRequirement',
+        formData,
+        {
+          withCredentials: true,
+          headers: { 'Content-Type': 'multipart/form-data' },
+        }
       );
 
-      if (res.data) {
-        setPost({
-          company_name: "",
-          company_website: "",
-          email: "",
-          ph_no: "",
-          available_expert: [],
-          from: "",
-          to: "",
-          desc_requirement: "",
-          address: "Please select a specified address",
-          Documents: null,
-        });
-        toast.success("Resources Post Success");
-      }
+      toast.success('resources created successfully!');
+      console.log('resources created successfully:', res.data);
     } catch (error) {
-      console.error("Post failed:", error);
-      toast.error("An error occurred. Please try again later.");
+      console.error('resources failed:', error.response ? error.response.data : error.message);
+      toast.error('An error occurred. Please try again later.');
     }
   };
 
   return (
+    loggedInUser ?(
     <>
       <div className="demo-page">
         <form className="demo-page-content" onSubmit={handleSubmit}>
           <section>
-            <div className="href-target" id="input-types"></div>
-            <h1>Post a Requirement</h1>
-            <p>Companies will Connect to you soon :)</p>
+            <h1>resources a Requirement</h1>
+            <p>Companies will connect to you soon :)</p>
 
             <div className="nice-form-group">
               <label>Company Name</label>
@@ -106,20 +93,21 @@ function PostResources() {
                 type="text"
                 placeholder="Your company name"
                 name="company_name"
-                value={post.company_name}
+                value={resources.company_name}
                 onChange={handleChange}
+                required
               />
             </div>
 
             <div className="nice-form-group">
-              <label>Company website</label>
+              <label>Company Website</label>
               <input
                 type="url"
                 placeholder="www.Company.com"
                 name="company_website"
-                value={post.company_website}
+                value={resources.company_website}
                 onChange={handleChange}
-                className="icon-left"
+                required
               />
             </div>
 
@@ -129,9 +117,9 @@ function PostResources() {
                 type="email"
                 placeholder="Your email"
                 name="email"
-                value={post.email}
+                value={resources.email}
                 onChange={handleChange}
-                className="icon-left"
+                required
               />
             </div>
 
@@ -139,46 +127,46 @@ function PostResources() {
               <label>Phone Number</label>
               <input
                 type="tel"
-                placeholder="Your phonenumber"
+                placeholder="Your phone number"
                 name="ph_no"
-                value={post.ph_no}
+                value={resources.ph_no}
                 onChange={handleChange}
-                className="icon-left"
+                required
               />
             </div>
 
             <fieldset className="nice-form-group">
-              <legend>Available Expert</legend>
+              <legend>Available Experts</legend>
               <div className="nice-form-group">
                 <input
                   type="checkbox"
-                  id="webDeveloper"
+                  id="softwareEngineer"
                   name="available_expert"
-                  value="Web Developer"
-                  checked={post.available_expert.includes("Web Developer")}
+                  value="Software Engineer"
+                  checked={resources.available_expert.includes('Software Engineer')}
                   onChange={handleChange}
                 />
-                <label htmlFor="webDeveloper">Web Developer</label>
+                <label htmlFor="softwareEngineer">Software Engineer</label>
 
                 <input
                   type="checkbox"
-                  id="reactDeveloper"
+                  id="dataScientist"
                   name="available_expert"
-                  value="React Developer"
-                  checked={post.available_expert.includes("React Developer")}
+                  value="Data Scientist"
+                  checked={resources.available_expert.includes('Data Scientist')}
                   onChange={handleChange}
                 />
-                <label htmlFor="reactDeveloper">React Developer</label>
+                <label htmlFor="dataScientist">Data Scientist</label>
 
                 <input
                   type="checkbox"
-                  id="aiEngineer"
+                  id="uiuxDesigner"
                   name="available_expert"
-                  value="AI/ML Engineer"
-                  checked={post.available_expert.includes("AI/ML Engineer")}
+                  value="UI/UX Designer"
+                  checked={resources.available_expert.includes('UI/UX Designer')}
                   onChange={handleChange}
                 />
-                <label htmlFor="aiEngineer">AI/ML Engineer</label>
+                <label htmlFor="uiuxDesigner">UI/UX Designer</label>
               </div>
             </fieldset>
 
@@ -187,8 +175,9 @@ function PostResources() {
               <input
                 type="date"
                 name="from"
-                value={post.from}
+                value={resources.from}
                 onChange={handleChange}
+                required
               />
             </div>
 
@@ -197,8 +186,9 @@ function PostResources() {
               <input
                 type="date"
                 name="to"
-                value={post.to}
+                value={resources.to}
                 onChange={handleChange}
+                required
               />
             </div>
 
@@ -206,10 +196,11 @@ function PostResources() {
               <label>Describe Available Resources</label>
               <textarea
                 rows="5"
-                placeholder="More about experts or resources "
+                placeholder="More about experts or resources"
                 name="desc_requirement"
-                value={post.desc_requirement}
+                value={resources.desc_requirement}
                 onChange={handleChange}
+                required
               ></textarea>
             </div>
 
@@ -217,8 +208,9 @@ function PostResources() {
               <label>Company Location</label>
               <select
                 name="address"
-                value={post.address}
+                value={resources.address}
                 onChange={handleChange}
+                required
               >
                 <option>Please select a specified address</option>
                 <option>Delhi</option>
@@ -229,12 +221,27 @@ function PostResources() {
             </div>
 
             <div className="nice-form-group">
-              <label> Upload Docs</label>
-              <input type="file" name="Documents" onChange={handleChange} />
+              <label>Upload Document</label>
+              <input
+                type="file"
+                name="documents"
+                onChange={handleChange}
+                accept=".pdf,.doc,.docx"
+              />
             </div>
 
             <div className="nice-form-group">
-              <button className="Button" type="submit" onClick={handleSubmit}>
+              <label>Upload Cover Image</label>
+              <input
+                type="file"
+                name="cover_Img"
+                onChange={handleChange}
+                accept="image/*"
+              />
+            </div>
+
+            <div className="nice-form-group">
+              <button className="Button" type="submit">
                 Post Resources
               </button>
             </div>
@@ -243,6 +250,9 @@ function PostResources() {
         <ToastContainer position="bottom-right" />
       </div>
     </>
+    ) : (
+      <Login />
+    )
   );
 }
 

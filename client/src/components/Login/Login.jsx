@@ -5,9 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../Login/Login.css";
+import { useAuth } from "../utils/AuthContext";
 
-export const Login = ({ setLoginUser }) => {
+export const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth(); // Get login function from context
 
   const [user, setUser] = useState({
     email: "",
@@ -22,7 +24,7 @@ export const Login = ({ setLoginUser }) => {
     });
   };
 
-  const login = async (e) => {
+  const loginUser = async (e) => {
     e.preventDefault();
 
     try {
@@ -42,17 +44,13 @@ export const Login = ({ setLoginUser }) => {
       );
 
       // Store the JWT token in localStorage
-      localStorage.setItem("usertoken", authResponse.data.jwttoken);
+      localStorage.setItem("jwttoken", authResponse.data.jwttoken);
 
+      // Call the login function from context
+      login(res.data.user); // Update the context with user details
 
       toast.success(res.data.message);
-
-      if (res.data) {
-        setLoginUser(res.data.user);
-        navigate("/");
-      } else {
-        toast.error("Invalid email or password. Please try again.");
-      }
+      navigate("/");
     } catch (error) {
       console.error("Login failed:", error);
       if (error.response) {
@@ -68,7 +66,7 @@ export const Login = ({ setLoginUser }) => {
   return (
     <div className="loginContainer m-5">
       <h1 className="log-head">Login</h1>
-      <form onSubmit={login}>
+      <form onSubmit={loginUser}>
         <div className="loginForm">
           <input
             className="loginfd"

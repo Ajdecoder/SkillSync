@@ -65,7 +65,7 @@ export const list = [
     tech: "Python/Django Developer",
     category: "Hiring",
     tag: "Connect",
-    type: "5 Experts",
+    type: "4 Experts",
     location:"Gurugram"
   },
   {
@@ -75,7 +75,7 @@ export const list = [
     tech: "Java/Spring",
     category: "Required",
     tag: "Connect",
-    type: "5 Experts",
+    type: "6 Experts",
     location:"Surat"
   },
   {
@@ -83,9 +83,9 @@ export const list = [
     cover: "../images/list/p-4.jpeg",
     name: "Wingify",
     tech: "SQL",
-    category: "Provider",
+    category: "Hiring",
     tag: "Connect",
-    type: "5 Experts",
+    type: "3 Experts",
     location:"Pune"
   },
   {
@@ -95,7 +95,7 @@ export const list = [
     tech: "React Developer",
     category: "Required",
     tag: "Connect",
-    type: "5 Experts",
+    type: "1 Expert",
     location:"Noida"
   },
   {
@@ -105,7 +105,7 @@ export const list = [
     tech: "React Developer",
     category: "Hiring",
     tag: "Connect",
-    type: "5 Experts",
+    type: "2 Experts",
     location:"Delhi"
   },
 ]
@@ -323,14 +323,39 @@ export const price = [
 export const footer = [
   {
     title: "LAYOUTS",
-    text: [{ list: "Home Page" }, { list: "About Page" }, { list: "Service Page" }, { list: "Property Page" }, { list: "Contact Page" }, { list: "Single Blog" }],
+    text: [
+      { list: "Home" },
+      { list: "How It Works" },
+      { list: "About Us" },
+      { list: "Services" },
+      { list: "Contact" },
+      { list: "Blog" },
+    ],
   },
   {
-    title: "ALL SECTIONS",
-    text: [{ list: "Headers" }, { list: "Features" }, { list: "Attractive" }, { list: "Testimonials" }, { list: "Videos" }, { list: "Footers" }],
+    title: "RESOURCES",
+    text: [
+      { list: "FAQs" },
+      { list: "Contract Management" },
+      { list: "Employee Support" },
+      { list: "Guides & Tips" },
+    ],
   },
   {
     title: "COMPANY",
-    text: [{ list: "About" }, { list: "Blog" }, { list: "Pricing" }, { list: "Affiliate" }, { list: "Login" }, { list: "Changelog" }],
+    text: [
+      { list: "Our Mission" },
+      { list: "Careers" },
+      { list: "Privacy Policy" },
+      { list: "Terms of Service" },
+    ],
   },
-]
+  {
+    title: "CONNECT",
+    text: [
+      { list: "Follow Us on LinkedIn" },
+      { list: "Subscribe to Newsletter" },
+      { list: "Contact Support" },
+    ],
+  },
+];

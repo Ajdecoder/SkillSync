@@ -12,6 +12,15 @@
   margin-bottom: 20px;
   line-height: 30px;
 }
+
+.right-row img{
+  border-radius: 90px
+}
+
+.right-row {
+  margin-top: 10px;
+}
+
 @media screen and (max-width: 768px) {
   .about .container {
     flex-direction: column;

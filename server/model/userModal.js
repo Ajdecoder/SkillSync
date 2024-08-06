@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
@@ -15,6 +15,7 @@ export const companySchema = new mongoose.Schema({
   desc_requirement: { type: String },
   address: { type: String },
   documents: { type: String },
+  cover_Img: { type: String },
 });
 
 export const userSchema = new mongoose.Schema({
@@ -31,10 +32,11 @@ userSchema.methods.generateToken = async function () {
       {
         userId: this._id.toString(),
         email: this.email,
+        name: this.name,
       },
       process.env.JWT_SECRET,
       {
-        expiresIn: '100d',
+        expiresIn: "100d",
       }
     );
   } catch (err) {
@@ -42,5 +44,3 @@ userSchema.methods.generateToken = async function () {
     throw err;
   }
 };
-
-

@@ -5,6 +5,6 @@ export const jwttokenDecode = (token) => {
     const decoded_data = jwtDecode(token);
     return decoded_data;
   } else {
-    return "";
+    return "no token found";
   }
 };
