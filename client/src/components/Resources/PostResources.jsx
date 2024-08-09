@@ -1,24 +1,23 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useAuth } from '../utils/AuthContext';
-import { Login } from '../Login/Login';
-
+import React, { useState } from "react";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "../utils/AuthContext";
+import { Login } from "../Login/Login";
 
 function PostResources() {
   const { loggedInUser } = useAuth();
 
   const [resources, setResources] = useState({
-    company_name: '',
-    company_website: '',
-    email: '',
-    ph_no: '',
+    company_name: "",
+    company_website: "",
+    email: "",
+    ph_no: "",
     available_expert: [],
-    from: '',
-    to: '',
-    desc_requirement: '',
-    address: 'Please select a specified address',
+    from: "",
+    to: "",
+    desc_requirement: "",
+    address: "Please select a specified address",
     documents: null,
     cover_Img: null,
   });
@@ -26,7 +25,7 @@ function PostResources() {
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
 
-    if (type === 'checkbox') {
+    if (type === "checkbox") {
       const { available_expert } = resources;
       if (checked && !available_expert.includes(value)) {
         setResources({
@@ -36,10 +35,12 @@ function PostResources() {
       } else if (!checked && available_expert.includes(value)) {
         setResources({
           ...resources,
-          available_expert: available_expert.filter((expert) => expert !== value),
+          available_expert: available_expert.filter(
+            (expert) => expert !== value
+          ),
         });
       }
-    } else if (type === 'file') {
+    } else if (type === "file") {
       setResources({
         ...resources,
         [name]: files[0],
@@ -62,30 +63,31 @@ function PostResources() {
 
     try {
       const res = await axios.post(
-        'http://localhost:9002/api/requirements/resourcesRequirement',
+        "http://localhost:9002/api/requirements/getRequirement",
         formData,
         {
           withCredentials: true,
-          headers: { 'Content-Type': 'multipart/form-data' },
+          headers: { "Content-Type": "multipart/form-data" },
         }
       );
 
-      toast.success('resources created successfully!');
-      console.log('resources created successfully:', res.data);
+      toast.success("resources created successfully!");
+      console.log("resources created successfully:", res.data);
     } catch (error) {
-      console.error('resources failed:', error.response ? error.response.data : error.message);
-      toast.error('An error occurred. Please try again later.');
+      console.error(
+        "resources failed:",
+        error.response ? error.response.data : error.message
+      );
+      toast.error("An error occurred. Please try again later.");
     }
   };
 
-  return (
-    loggedInUser ?(
+  return loggedInUser ? (
     <>
       <div className="demo-page">
         <form className="demo-page-content" onSubmit={handleSubmit}>
           <section>
-            <h1>resources a Requirement</h1>
-            <p>Companies will connect to you soon :)</p>
+            <h1>Post a Requirement</h1>
 
             <div className="nice-form-group">
               <label>Company Name</label>
@@ -143,7 +145,9 @@ function PostResources() {
                   id="softwareEngineer"
                   name="available_expert"
                   value="Software Engineer"
-                  checked={resources.available_expert.includes('Software Engineer')}
+                  checked={resources.available_expert.includes(
+                    "Software Engineer"
+                  )}
                   onChange={handleChange}
                 />
                 <label htmlFor="softwareEngineer">Software Engineer</label>
@@ -153,7 +157,9 @@ function PostResources() {
                   id="dataScientist"
                   name="available_expert"
                   value="Data Scientist"
-                  checked={resources.available_expert.includes('Data Scientist')}
+                  checked={resources.available_expert.includes(
+                    "Data Scientist"
+                  )}
                   onChange={handleChange}
                 />
                 <label htmlFor="dataScientist">Data Scientist</label>
@@ -163,7 +169,9 @@ function PostResources() {
                   id="uiuxDesigner"
                   name="available_expert"
                   value="UI/UX Designer"
-                  checked={resources.available_expert.includes('UI/UX Designer')}
+                  checked={resources.available_expert.includes(
+                    "UI/UX Designer"
+                  )}
                   onChange={handleChange}
                 />
                 <label htmlFor="uiuxDesigner">UI/UX Designer</label>
@@ -250,9 +258,8 @@ function PostResources() {
         <ToastContainer position="bottom-right" />
       </div>
     </>
-    ) : (
-      <Login />
-    )
+  ) : (
+    <Login />
   );
 }
 

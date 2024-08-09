@@ -80,8 +80,7 @@ function HireResources() {
       <div className="demo-page">
         <form className="demo-page-content" onSubmit={handleSubmit}>
           <section>
-            <h1>resources a Requirement</h1>
-            <p>Companies will connect to you soon :)</p>
+            <h1>Hire a Requirement</h1>
 
             <div className="nice-form-group">
               <label>Company Name</label>

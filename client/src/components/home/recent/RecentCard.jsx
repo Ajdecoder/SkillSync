@@ -5,7 +5,7 @@ import { useAuth } from "../../utils/AuthContext";
 
 const RecentCard = () => {
   const { loggedInUser } = useAuth();
-  const [data, setData] = useState([]);
+  const [requirements, setRequirements] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -15,7 +15,9 @@ const RecentCard = () => {
           "http://localhost:9002/api/requirements/allRequirements",
           { withCredentials: true }
         );
-        setData(response.data.data || []);
+        const { data: { data: requirementsData } } = response;
+        setRequirements(requirementsData || []);
+        console.log(requirementsData[0].Status)
       } catch (error) {
         console.error("API Error:", error.message);
         setError("Failed to fetch data. Please try again later.");
@@ -29,13 +31,13 @@ const RecentCard = () => {
     return <div>{error}</div>;
   }
 
-  if (data.length === 0) {
+  if (requirements.length === 0) {
     return <div>Nothing is here</div>;
   }
 
   return (
     <div className="content grid3 mtop">
-      {data.map((val, index) => {
+      {requirements.map((val, index) => {
         const {
           company_name,
           company_website,
@@ -45,6 +47,7 @@ const RecentCard = () => {
           desc_requirement,
           address,
           cover_Img,
+          Status,
         } = val;
 
         return (
@@ -57,11 +60,11 @@ const RecentCard = () => {
                 <div className="category flex">
                   <span
                     style={{
-                      background: "Required" === "Required" ? "#25b5791a" : "#ff98001a",
-                      color: "Required" === "Hiring" ? "#25b579" : "#ff9800",
+                      background: Status==='required' ? "#25b5791a" : "#ff98001a",
+                      color: Status==='required' ? "#25b579" : "#ff9800",
                     }}
                   >
-                    Required
+                    {Status==='required' ? "Hiring" : "Required"}
                   </span>
                 </div>
                 <h4>{company_name}</h4>

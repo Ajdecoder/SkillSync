@@ -16,6 +16,7 @@ export const companySchema = new mongoose.Schema({
   address: { type: String },
   documents: { type: String },
   cover_Img: { type: String },
+  Status: { type: String},
 });
 
 export const userSchema = new mongoose.Schema({

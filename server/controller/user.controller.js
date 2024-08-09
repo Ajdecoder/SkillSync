@@ -63,6 +63,7 @@ export const postRequirement = async (req, res) => {
     to,
     desc_requirement,
     address,
+    Status,
   } = req.body;
 
   const documents = req.files["documents"]
@@ -85,6 +86,7 @@ export const postRequirement = async (req, res) => {
       address,
       documents,
       cover_Img,
+      Status,
     });
 
     await newPost.save();

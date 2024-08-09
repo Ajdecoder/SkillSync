@@ -4,7 +4,7 @@ header {
   padding: 24px 0;
   position: sticky;
   top: 0;
-  z-index: 99999;
+  z-index: 10;
   height: 15vh;
 }
 header img {
@@ -14,7 +14,13 @@ header a {
   margin-left: 30px;
   transition: 0.5s;
   font-weight: 500;
+  padding: 5px;
 }
+
+.reqli:nth-child(3){
+  background-color: red;
+}
+
 header a:hover {
   color: #216eb9;
 }
@@ -62,6 +68,40 @@ header .toggle {
   margin-left: 1rem;
   border-radius: 45px;
 }
+
+.dropdown{
+  background-color: white;
+    height: 8rem;
+    position: absolute;
+    top: 22px;
+    margin-left: 50px;
+    left: 0;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    width: 13rem;
+}
+
+.dropdown li {
+  margin-top: 14px
+}
+
+.nav li:hover .dropdown {
+  display: block;
+}
+
+.dropdown li {
+  padding: 10px;
+  list-style: none;
+}
+
+.dropdown li a {
+  text-decoration: none;
+  color: black;
+}
+
+.dropdown li a:hover {
+  color: #007bff;
+}
+
 @media screen and (max-width: 768px) {
   header {
     padding: 0;

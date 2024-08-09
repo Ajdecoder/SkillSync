@@ -1,10 +1,11 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { jwttokenDecode } from "../utils/decode"; // Adjust the path as necessary
+import { jwttokenDecode } from "../utils/decode"; 
+import Cookies from "js-cookie";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [loggedInUser, setLoggedInUser] = useState(null);
+  const [loggedInUser, setLoggedInUser] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("jwttoken");
