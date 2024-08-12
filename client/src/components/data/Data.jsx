@@ -4,7 +4,8 @@ export const nav = [
     path: "/",
   },
   {
-text: "Requirement"
+    text: "Requirement",
+    path: "/requirements",
   },
   {
     text: "about",

@@ -80,6 +80,7 @@ header .toggle {
     width: 13rem;
 }
 
+
 .dropdown li {
   margin-top: 14px
 }
@@ -102,15 +103,17 @@ header .toggle {
   color: #007bff;
 }
 
+.logo{
+  position: relative;
+  top: 10px;
+}
+
 @media screen and (max-width: 768px) {
   header {
     padding: 0;
   }
   header img {
     margin-top: 30px;
-  }
-  header .button {
-    display: none;
   }
   header .nav .flex {
     display: none;
@@ -130,6 +133,6 @@ header .toggle {
   header li a {
     display: inline-block;
     margin-bottom: 20px;
-    color: #fff;
+    color: #216eb9;
   }
 }

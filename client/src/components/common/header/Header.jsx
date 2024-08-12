@@ -52,7 +52,7 @@ const Header = () => {
             ))}
           </ul>
         </div>
-        <div className="button flex m-4">
+        <div className="button">
           {loggedInUser ? (
             <>
               <h6 className="profile-icon">

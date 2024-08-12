@@ -18,6 +18,7 @@ import { Register } from "../Register/Register";
 import HireResources from "../Resources/HireResources";
 import PostResources from "../Resources/PostResources";
 import { AuthProvider, useAuth } from "../utils/AuthContext.jsx";
+import { Resources } from "../Resources/Resources.jsx";
 
 const Pages = () => {
   return (
@@ -33,8 +34,12 @@ const Pages = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/signup" element={<RegisterAuthRoute />} />
           <Route path="/login" element={<LoginAuthRoute />} />
+          <Route path="requirements/" element={<Resources />} />
           <Route path="requirements/hire-talent" element={<HireResources />} />
-          <Route path="requirements/post-resources" element={<PostResources />} />
+          <Route
+            path="requirements/post-resources"
+            element={<PostResources />}
+          />
         </Routes>
         <Footer />
       </Router>

@@ -46,6 +46,10 @@
     flex-direction: column;
   }
 
+  .content {
+    padding: 0 79px;
+  }
+
   .price .content .box {
     width: 100%;
     padding: 30px;

@@ -12,7 +12,7 @@ const Contact = () => {
           title="Get Helps & Friendly Support"
           cover={img}
         />
-        <div className="container">
+        <div className="contact">
           <form
             className="shadow"
             action="mailto:anujshrivastav530@gmail.com"

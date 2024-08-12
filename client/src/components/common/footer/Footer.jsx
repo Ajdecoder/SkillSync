@@ -18,18 +18,18 @@ const Footer = () => {
       </section>
 
       <footer>
-        <div className='container'>
           <div className='box'>
-            <div className='logo'>
+            <div className='newsletter'>
               <h2>Do You Need Help With Anything?</h2>
               <p>Receive updates, hot deals, tutorials, discounts sent straignt in your inbox every month</p>
 
-              <div className='input flex'>
+              <div className='input'>
                 <input type='text' placeholder='Email Address' />
                 <button className="foot-btn" >Subscribe</button>
               </div>
             </div>
           </div>
+        <div className='container'>
 
           {footer.map((val) => (
             <div className='box'>

@@ -10,6 +10,7 @@ import Team from "./team/Team"
 const Home = () => {
   return (
     <>
+    <div>
       <Hero />
       <Featured />
       <Recent />
@@ -17,6 +18,7 @@ const Home = () => {
       <Location />
       <Team />
       <Price />
+    </div>
     </>
   )
 }

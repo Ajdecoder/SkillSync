@@ -7,7 +7,7 @@ const verifyUser = (req, res, next) => {
   const token = req.cookies.jwttoken;
   if (!token) {
     return res.status(401).json({
-      message: ", authorization denied",
+      message: "authorization denied",
     });
   } else {
     try {
