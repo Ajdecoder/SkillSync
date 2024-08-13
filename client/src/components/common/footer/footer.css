@@ -64,4 +64,8 @@ footer ul li {
   footer .container {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .registerContainer form{
+    display: block;
+  }
 }

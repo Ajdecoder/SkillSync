@@ -15,6 +15,14 @@ export const nav = [
     text: "contact",
     path: "/contact",
   },
+  {
+    text: "blog",
+    path: "/blog",
+  },
+  // {
+  //   text: "contact",
+  //   path: "/contact",
+  // },
 ];
 
 
@@ -57,6 +65,16 @@ export const featured = [
     total: "Stay connected with your partners.",
   },
 ];
+
+
+export const services = [
+  {
+    cover: "../images/services/s1.png",
+    name: "Skill Exchange Platform",
+    total: "Connect with experts from various fields.", 
+  }
+]
+
 export const list = [
   {
     id: 1,

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ".././../ResourcesCss/HireResources.css";
+import ".././../ResourcesCss/Resources.css";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";

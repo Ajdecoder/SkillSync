@@ -1,51 +1,54 @@
 .registerContainer {
-    margin: 88px 255px;
-  }
-  
-  .log-signing {
-    margin: 4px;
-    margin-left: 196px;
+  margin: 88px 255px;
+}
 
-  }
+.log-signing {
+  margin: auto;
+}
 
-  
-  .log-sign:nth-child(2) {
-    margin-left: 31px !important;
-  }
-  
-  .loginfd {
-    padding: 2rem !important;
-    border-radius: 5px !important;
-    margin-bottom: 20px !important;
-    border: 1px solid rgb(209, 178, 178);
-  }
+.log-sign:nth-child(2) {
+  margin-left: 31px !important;
+}
 
-  .loginfd:hover{
-    transform: scale(1.1);
-    transition: ease-in-out 0.31s;
-  }
-  
-  .registerForm{
-    display: flex !important;
-    flex-direction: column;
-  }
+.loginfd {
+  padding: 2rem !important;
+  border-radius: 5px !important;
+  margin-bottom: 20px !important;
+  border: 1px solid rgb(209, 178, 178);
+}
 
-  .login-btn{
-    margin: 12px;
-  }
+.loginfd:hover {
+  transform: scale(1.1);
+  transition: ease-in-out 0.31s;
+}
 
-  .log-head{
-    margin: 5rem;
-    text-align: center;
-  }
+.registerForm {
+  display: flex !important;
+  flex-direction: column;
+}
 
-  .loginContainer{
-    margin: 88px 255px
-  }
+.login-btn {
+  margin: 12px;
+}
 
-  @media (screen and (min-width: 768px)){
-    .registerContainer {
-      margin: 88px 350px;
-    }
-  }
-  
+.log-head {
+  margin: 5rem;
+  text-align: center;
+}
+
+.loginContainer {
+  margin: 0 auto 83px auto;
+  max-width: 61rem;
+  min-width: 22rem;
+}
+
+.loginContainer form{
+  background-color: #fff;
+  border-radius: 5px;
+  margin-top: 50px;
+  padding: 32px 54px;
+  min-width: 36rem;
+  max-width: 44rem;
+  margin: auto;
+}
+

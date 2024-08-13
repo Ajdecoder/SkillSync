@@ -6,7 +6,7 @@ const Back = ({ name, title, cover }) => {
       <div className='back'>
         <div className='container'>
           <span>{name}</span>
-          <h1>{title}</h1>
+          <h1>{title}</h1>  
         </div>
         <img src={cover} alt='' />
       </div>

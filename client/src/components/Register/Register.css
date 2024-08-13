@@ -48,4 +48,18 @@
   flex-direction: column;
 }
 
+.registerContainer{
+  min-width: 70%;
+  margin: auto;
+  margin-bottom: 33px;
+  margin-top: 33px;
+}
 
+.registerContainer h1{
+  text-align: center;
+}
+
+.registerContainer form{
+  max-width: 48rem;
+  margin: 36px auto;
+}

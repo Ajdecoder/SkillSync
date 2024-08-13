@@ -1,3 +1,7 @@
 .text {
   height: 26rem;
 }
+
+.shadow {
+    padding: 15px;
+}

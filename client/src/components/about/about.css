@@ -31,4 +31,11 @@
   .about .container img {
     margin-top: 50px;
   }
+  .button{
+    display: flex;
+    gap: 19px;
+  }
+  .toggle {
+    margin-bottom: 13px;
+  }
 }

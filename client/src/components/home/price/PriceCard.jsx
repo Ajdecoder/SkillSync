@@ -4,7 +4,7 @@ import { price } from "../../data/Data";
 const PriceCard = () => {
   return (
     <div className='content flex mtop'>
-      {price.map((item) => (
+      {price.map((item) => (  
         <div className='box shadow' key={item.id}>
           <div className='topbtn'>
             <button className='btn3'>{item.best}</button>

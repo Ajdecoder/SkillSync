@@ -12,6 +12,7 @@ menu,
 nav,
 section {
   display: block;
+  height: fit-content;
 }
 body {
   line-height: 1;
@@ -903,4 +904,8 @@ details summary::marker {
 }
 details summary::-webkit-details-marker {
   display: none;
+}
+
+.demo-page form {
+  margin-bottom: 36px;
 }

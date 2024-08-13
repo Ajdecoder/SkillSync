@@ -24,7 +24,7 @@ const Header = () => {
 
   return (
     <header>
-      <div className="container flex">
+      <div className="flex top-header">
         <div className="logo">
           <Link to="/">
             <img src="./images/logo.png" alt="Logo" />

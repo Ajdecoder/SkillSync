@@ -13,11 +13,16 @@
 }
 .contact form {
   padding: 30px;
+  margin: auto;
+    max-width: 55rem;
 }
 .contact form{
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
+}
+.contact > h1{
+  text-align: center;
 }
 @media screen and (max-width: 768px) {
   .contact h4 {

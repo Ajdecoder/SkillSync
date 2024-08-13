@@ -6,6 +6,7 @@ header {
   top: 0;
   z-index: 10;
   height: 15vh;
+  width: 100%;
 }
 header img {
   width: 170px;
@@ -17,7 +18,7 @@ header a {
   padding: 5px;
 }
 
-.reqli:nth-child(3){
+.reqli:nth-child(3) {
   background-color: red;
 }
 
@@ -30,7 +31,7 @@ header a:hover {
 
 .about-user {
   border: 3px solid grey;
-  width:auto;
+  width: auto;
   height: 10rem;
   position: fixed;
   top: 5.6rem;
@@ -40,7 +41,6 @@ header a:hover {
   padding: 10px;
   border-radius: 30px;
   box-shadow: 2px 3px;
-  
 }
 
 .about-user p {
@@ -69,20 +69,19 @@ header .toggle {
   border-radius: 45px;
 }
 
-.dropdown{
+.dropdown {
   background-color: white;
-    height: 8rem;
-    position: absolute;
-    top: 22px;
-    margin-left: 50px;
-    left: 0;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    width: 13rem;
+  height: 8rem;
+  position: absolute;
+  top: 22px;
+  margin-left: 50px;
+  left: 0;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  width: 13rem;
 }
 
-
 .dropdown li {
-  margin-top: 14px
+  margin-top: 14px;
 }
 
 .nav li:hover .dropdown {
@@ -103,12 +102,20 @@ header .toggle {
   color: #007bff;
 }
 
-.logo{
+.logo {
   position: relative;
   top: 10px;
 }
-
+.top-header{
+  justify-content: space-around;
+}
+  
 @media screen and (max-width: 768px) {
+
+  .top-header{
+    justify-content: space-around;
+  }
+
   header {
     padding: 0;
   }
@@ -134,5 +141,26 @@ header .toggle {
     display: inline-block;
     margin-bottom: 20px;
     color: #216eb9;
+  }
+
+  .head-btn {
+    height: 46px;
+    font-size: 8px;
+}
+
+}
+
+@media screen and (max-width: 955px) {
+  header img {
+    width: 138px;
+  }
+
+  .nav {
+    font-size: 0.8rem;
+  }
+
+  .head-btn {
+    height: 52px;
+    font-size: 12px;
   }
 }
