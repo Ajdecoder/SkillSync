@@ -9,17 +9,19 @@ const Location = () => {
       <section className="location padding">
         <div className="container">
           <Heading
-            title="Explore By Company and location"
+            title="Explore By Company and Location"
             subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
           />
 
           <div className="content grid3 mtop">
             {location.map((item, index) => (
-              <div className="box" key={index}>
-                <img
-                  src={item.cover}
-                  alt=""
-                />
+              <div
+                className="box"
+                key={index}
+                data-aos={index % 2 === 0 ? "fade-right" : "fade-left"}
+                data-aos-duration="1000"
+              >
+                <img src={item.cover} alt={item.name} />
                 <div className="overlay">
                   <h5>{item.name}</h5>
                   <p>

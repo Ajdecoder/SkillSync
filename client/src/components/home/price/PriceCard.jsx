@@ -4,8 +4,11 @@ import { price } from "../../data/Data";
 const PriceCard = () => {
   return (
     <div className='content flex mtop'>
-      {price.map((item) => (  
-        <div className='box shadow' key={item.id}>
+      {price.map((item , index) => (  
+        <div className='box shadow' key={item.id}
+        data-aos={index % 2 === 0 ? 'zoom-in-down' : 'zoom-in-up'}
+          data-aos-duration="1000"
+        >
           <div className='topbtn'>
             <button className='btn3'>{item.best}</button>
           </div>

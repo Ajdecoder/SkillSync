@@ -12,7 +12,10 @@ const Team = () => {
 
           <div className='content mtop grid3'>
             {team.map((val, index) => (
-              <div className='box' key={index}>
+              <div className='box' key={index}
+              data-aos={index % 2 === 0 ? 'flip-right' : 'flip-left'}
+                data-aos-duration="1000"
+              >
                 
                 <div className='details'>
                   <div className='img'>
