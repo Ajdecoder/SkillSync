@@ -52,7 +52,9 @@ const RecentCard = () => {
 
         return (
           loggedInUser && (
-            <div className="box shadow" key={index}>
+            <div className="box shadow" key={index}
+            data-aos={index%2 ===0 ? 'zoom-in-up':'zoom-in-down'}
+            >
               <div className="img">
                 <img src={`http://localhost:9002/${cover_Img}`} alt={company_name} />
               </div>

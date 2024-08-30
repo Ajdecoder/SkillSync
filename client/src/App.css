@@ -204,7 +204,7 @@ img {
   padding: 25px;
 }
 
-@media screen and (max-width: 560px) {
+@media screen and (max-width: 578px) {
   body {
     width: 551px;
   }
@@ -212,6 +212,7 @@ img {
     display: flex;
     flex-wrap: wrap;
   }
+
 }
 
 @media screen and (max-width: 750px) {

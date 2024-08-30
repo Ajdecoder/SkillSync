@@ -25,7 +25,6 @@ export const nav = [
   // },
 ];
 
-
 export const navExpand = [
   {
     text: "Hire Requirements",
@@ -66,14 +65,13 @@ export const featured = [
   },
 ];
 
-
 export const services = [
   {
     cover: "../images/services/s1.png",
     name: "Skill Exchange Platform",
-    total: "Connect with experts from various fields.", 
-  }
-]
+    total: "Connect with experts from various fields.",
+  },
+];
 
 export const list = [
   {
@@ -139,22 +137,22 @@ export const list = [
 ];
 export const awards = [
   {
-    icon: <i class="fa-solid fa-1"></i>,
+    icon: <i className="fa-solid fa-1"></i>,
     num: "Register",
     name: "Log-in or Sign-Up ",
   },
   {
-    icon: <i class="fa-solid fa-2"></i>,
+    icon: <i className="fa-solid fa-2"></i>,
     num: "Search ",
     name: "Search Your Requirements to get and to provide experts",
   },
   {
-    icon: <i class="fa-solid fa-3"></i>,
+    icon: <i className="fa-solid fa-3"></i>,
     num: "Match ",
     name: "Find experts who fullfill or matches Your Requirements ",
   },
   {
-    icon: <i class="fa-solid fa-4"></i>,
+    icon: <i className="fa-solid fa-4"></i>,
     num: "Connect",
     name: "Connect with them and ignite innovation",
   },
@@ -232,10 +230,10 @@ export const team = [
     address: "Liverpool, Canada",
     name: "Sargam S. Singh",
     icon: [
-      <i class="fa-brands fa-facebook-f"></i>,
-      <i class="fa-brands fa-linkedin"></i>,
-      <i class="fa-brands fa-twitter"></i>,
-      <i class="fa-brands fa-instagram"></i>,
+      <i className="fa-brands fa-facebook-f"></i>,
+      <i className="fa-brands fa-linkedin"></i>,
+      <i className="fa-brands fa-twitter"></i>,
+      <i className="fa-brands fa-instagram"></i>,
     ],
   },
   {
@@ -244,10 +242,10 @@ export const team = [
     address: "Montreal, Canada",
     name: "Harijeet M. Siller",
     icon: [
-      <i class="fa-brands fa-facebook-f"></i>,
-      <i class="fa-brands fa-linkedin"></i>,
-      <i class="fa-brands fa-twitter"></i>,
-      <i class="fa-brands fa-instagram"></i>,
+      <i className="fa-brands fa-facebook-f"></i>,
+      <i className="fa-brands fa-linkedin"></i>,
+      <i className="fa-brands fa-twitter"></i>,
+      <i className="fa-brands fa-instagram"></i>,
     ],
   },
   {
@@ -256,10 +254,10 @@ export const team = [
     address: "Denever, USA",
     name: "Anna K. Young",
     icon: [
-      <i class="fa-brands fa-facebook-f"></i>,
-      <i class="fa-brands fa-linkedin"></i>,
-      <i class="fa-brands fa-twitter"></i>,
-      <i class="fa-brands fa-instagram"></i>,
+      <i className="fa-brands fa-facebook-f"></i>,
+      <i className="fa-brands fa-linkedin"></i>,
+      <i className="fa-brands fa-twitter"></i>,
+      <i className="fa-brands fa-instagram"></i>,
     ],
   },
   {
@@ -268,10 +266,10 @@ export const team = [
     address: "2272 Briarwood Drive",
     name: "Michael P. Grimaldo",
     icon: [
-      <i class="fa-brands fa-facebook-f"></i>,
-      <i class="fa-brands fa-linkedin"></i>,
-      <i class="fa-brands fa-twitter"></i>,
-      <i class="fa-brands fa-instagram"></i>,
+      <i className="fa-brands fa-facebook-f"></i>,
+      <i className="fa-brands fa-linkedin"></i>,
+      <i className="fa-brands fa-twitter"></i>,
+      <i className="fa-brands fa-instagram"></i>,
     ],
   },
   {
@@ -280,10 +278,10 @@ export const team = [
     address: "2272 Briarwood Drive",
     name: "Michael P. Grimaldo",
     icon: [
-      <i class="fa-brands fa-facebook-f"></i>,
-      <i class="fa-brands fa-linkedin"></i>,
-      <i class="fa-brands fa-twitter"></i>,
-      <i class="fa-brands fa-instagram"></i>,
+      <i className="fa-brands fa-facebook-f"></i>,
+      <i className="fa-brands fa-linkedin"></i>,
+      <i className="fa-brands fa-twitter"></i>,
+      <i className="fa-brands fa-instagram"></i>,
     ],
   },
   {
@@ -292,39 +290,40 @@ export const team = [
     address: "Montreal, USA",
     name: "Adam K. Jollio",
     icon: [
-      <i class="fa-brands fa-facebook-f"></i>,
-      <i class="fa-brands fa-linkedin"></i>,
-      <i class="fa-brands fa-twitter"></i>,
-      <i class="fa-brands fa-instagram"></i>,
+      <i className="fa-brands fa-facebook-f"></i>,
+      <i className="fa-brands fa-linkedin"></i>,
+      <i className="fa-brands fa-twitter"></i>,
+      <i className="fa-brands fa-instagram"></i>,
     ],
   },
 ];
 export const price = [
   {
     plan: "Basic",
+    id:1,
     price: "29",
     ptext: "per user, per month",
     list: [
       {
-        icon: <i class="fa-solid fa-check"></i>,
+        icon: <i className="fa-solid fa-check"></i>,
         text: "99.5% Uptime Guarantee",
       },
       {
-        icon: <i class="fa-solid fa-check"></i>,
+        icon: <i className="fa-solid fa-check"></i>,
         text: "120GB CDN Bandwidth",
       },
       {
-        icon: <i class="fa-solid fa-check"></i>,
+        icon: <i className="fa-solid fa-check"></i>,
         text: "5GB Cloud Storage",
       },
       {
         change: "color",
-        icon: <i class="fa-solid fa-x"></i>,
+        icon: <i className="fa-solid fa-x"></i>,
         text: "Personal Help Support",
       },
       {
         change: "color",
-        icon: <i class="fa-solid fa-x"></i>,
+        icon: <i className="fa-solid fa-x"></i>,
         text: "Enterprise SLA",
       },
     ],
@@ -332,55 +331,57 @@ export const price = [
   {
     best: "Best Value",
     plan: "Standard",
+    id:2,
     price: "49",
     ptext: "per user, per month",
     list: [
       {
-        icon: <i class="fa-solid fa-check"></i>,
+        icon: <i className="fa-solid fa-check"></i>,
         text: "99.5% Uptime Guarantee",
       },
       {
-        icon: <i class="fa-solid fa-check"></i>,
+        icon: <i className="fa-solid fa-check"></i>,
         text: "150GB CDN Bandwidth",
       },
       {
-        icon: <i class="fa-solid fa-check"></i>,
+        icon: <i className="fa-solid fa-check"></i>,
         text: "10GB Cloud Storage",
       },
       {
-        icon: <i class="fa-solid fa-check"></i>,
+        icon: <i className="fa-solid fa-check"></i>,
         text: "Personal Help Support",
       },
       {
         change: "color",
-        icon: <i class="fa-solid fa-x"></i>,
+        icon: <i className="fa-solid fa-x"></i>,
         text: "Enterprise SLA",
       },
     ],
   },
   {
     plan: "Platinum",
+    id:3,
     price: "79",
     ptext: "2 user, per month",
     list: [
       {
-        icon: <i class="fa-solid fa-check"></i>,
+        icon: <i className="fa-solid fa-check"></i>,
         text: "100% Uptime Guarantee",
       },
       {
-        icon: <i class="fa-solid fa-check"></i>,
+        icon: <i className="fa-solid fa-check"></i>,
         text: "200GB CDN Bandwidth",
       },
       {
-        icon: <i class="fa-solid fa-check"></i>,
+        icon: <i className="fa-solid fa-check"></i>,
         text: "20GB Cloud Storage",
       },
       {
-        icon: <i class="fa-solid fa-check"></i>,
+        icon: <i className="fa-solid fa-check"></i>,
         text: "Personal Help Support",
       },
       {
-        icon: <i class="fa-solid fa-check"></i>,
+        icon: <i className="fa-solid fa-check"></i>,
         text: "Enterprise SLA",
       },
     ],
@@ -390,38 +391,38 @@ export const footer = [
   {
     title: "LAYOUTS",
     text: [
-      { list: "Home" },
-      { list: "How It Works" },
-      { list: "About Us" },
-      { list: "Services" },
-      { list: "Contact" },
-      { list: "Blog" },
+      { id: "home", list: "Home" },
+      { id: "how", list: "How It Works" },
+      { id: "about", list: "About Us" },
+      { id: "service", list: "Services" },
+      { id: "contact", list: "Contact" },
+      { id: "blog", list: "Blog" },
     ],
   },
   {
     title: "RESOURCES",
     text: [
-      { list: "FAQs" },
-      { list: "Contract Management" },
-      { list: "Employee Support" },
-      { list: "Guides & Tips" },
+      { id: "faqs", list: "FAQs" },
+      { id: "contract", list: "Contract Management" },
+      { id: "support", list: "Employee Support" },
+      { id: "guides", list: "Guides & Tips" },
     ],
   },
   {
     title: "COMPANY",
     text: [
-      { list: "Our Mission" },
-      { list: "Careers" },
-      { list: "Privacy Policy" },
-      { list: "Terms of Service" },
+      { id: "mission", list: "Our Mission" },
+      { id: "careers", list: "Careers" },
+      { id: "privacy", list: "Privacy Policy" },
+      { id: "terms", list: "Terms of Service" },
     ],
   },
   {
     title: "CONNECT",
     text: [
-      { list: "Follow Us on LinkedIn" },
-      { list: "Subscribe to Newsletter" },
-      { list: "Contact Support" },
+      { id: "linkedin", list: "Follow Us on LinkedIn" },
+      { id: "newsletter", list: "Subscribe to Newsletter" },
+      { id: "support", list: "Contact Support" },
     ],
   },
 ];

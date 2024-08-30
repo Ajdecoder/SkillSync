@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Heading from "../../common/Heading";
 import { location } from "../../data/Data";
 import "./style.css";
 
+
 const Location = () => {
+
   return (
     <>
       <section className="location padding">
@@ -19,7 +21,7 @@ const Location = () => {
                 className="box"
                 key={index}
                 data-aos={index % 2 === 0 ? "fade-right" : "fade-left"}
-                data-aos-duration="1000"
+                data-aos-duration="1500"
               >
                 <img src={item.cover} alt={item.name} />
                 <div className="overlay">

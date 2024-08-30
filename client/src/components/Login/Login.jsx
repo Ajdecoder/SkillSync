@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState } from "react"; 
 import { Button } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -10,11 +10,11 @@ import { useAuth } from "../utils/AuthContext";
 
 export const Login = () => {
   const navigate = useNavigate();
-  const { login } = useAuth(); // Get login function from context
+  const { login } = useAuth();
 
   const [user, setUser] = useState({
     email: "",
-    password: "",
+    password: "", 
   });
 
   const handleChange = (e) => {
@@ -47,18 +47,18 @@ export const Login = () => {
       // Store the JWT token in localStorage
       localStorage.setItem("jwttoken", authResponse.data.jwttoken);
 
-      // Call the login function from context
-      login(res.data.user); // Update the context with user details
+      login(res.data.user); 
 
       toast.success(res.data.message);
       navigate("/");
+      
     } catch (error) {
       console.error("Login failed:", error);
       if (error.response) {
         if (error.response.status === 404) {
           toast.error("User not registered");
         } else {
-          toast.error(`Error: ${error.response.data.message}`);
+          toast.error(`${error.response.data.message}`);
         }
       }
     }
