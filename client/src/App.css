@@ -33,7 +33,7 @@ body {
   background-color: #fff;
 }
 .container {
-  max-width: 80%;
+  max-width: 100%;
   margin: auto;
 }
 
@@ -177,7 +177,7 @@ img {
 }
 
 
-@media screen and (max-width: 1244px) {
+@media screen and (max-width: 998px) {
   .grid4,
   .grid3,
   .grid5 {
@@ -189,10 +189,7 @@ img {
   .heading {
     width: 100%;
   }
-  .container {
-    max-width: 75%;
-    min-width: 90%;
-  }
+
 
   .nav {
     font-size: 0.93em;
@@ -205,13 +202,14 @@ img {
 }
 
 @media screen and (max-width: 578px) {
-  body {
-    width: 551px;
-  }
   .grid3 {
     display: flex;
     flex-wrap: wrap;
   }
+
+  .awards h1 {
+    font-size: 20px !important;
+}
 
 }
 
