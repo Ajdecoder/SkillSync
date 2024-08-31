@@ -14,7 +14,7 @@ const Team = () => {
             {team.map((val, index) => (
               <div className='box' key={index}
               data-aos={index % 2 === 0 ? 'flip-right' : 'flip-left'}
-                data-aos-duration="1000"
+                data-aos-duration="1700"
               >
                 
                 <div className='details'>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "../common/header/Header";
 import {
   BrowserRouter as Router,
@@ -19,8 +19,18 @@ import HireResources from "../Resources/HireResources";
 import PostResources from "../Resources/PostResources";
 import { AuthProvider, useAuth } from "../utils/AuthContext.jsx";
 import { Resources } from "../Resources/Resources.jsx";
+import Aos from "aos";
+import "aos/dist/aos.css"
 
 const Pages = () => {
+
+  useEffect(()=>{
+    Aos.init({
+      duration:1300,
+      once:false,
+    })
+  },[])
+
   return (
     <AuthProvider>
       <Router>

@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
     const token = localStorage.getItem("jwttoken");
     if (token) {
       try {
-        const userInfo = jwttokenDecode(token);
+        const userInfo = jwttokenDecode(token); 
         if (userInfo) {
           setLoggedInUser(userInfo);
         }
