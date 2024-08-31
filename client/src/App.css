@@ -178,6 +178,7 @@ img {
 
 
 @media screen and (max-width: 998px) {
+@media screen and (max-width: 998px) {
   .grid4,
   .grid3,
   .grid5 {
@@ -189,6 +190,7 @@ img {
   .heading {
     width: 100%;
   }
+
 
 
   .nav {
@@ -205,6 +207,11 @@ img {
   .grid3 {
     display: flex;
     flex-wrap: wrap;
+  }
+
+  .awards h1 {
+    font-size: 20px !important;
+}
   }
 
   .awards h1 {
