@@ -120,6 +120,7 @@ export const Login = async (req, res) => {
     const token = await user.generateToken();
 
     res.cookie("jwttoken", token, {
+      maxAge: Date.now + 33,
       httpOnly: true,
     });
 
