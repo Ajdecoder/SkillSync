@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./header.css";
 import { nav, navExpand } from "../../data/Data";
 import { Link } from "react-router-dom";
@@ -9,17 +9,42 @@ const Header = () => {
   const [navList, setNavList] = useState(false);
   const [showAboutUser, setShowAboutUser] = useState(false);
   const [showExpand, setShowExpand] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
+  const [activeTab, setActiveTab] = useState(""); // State to track active tab
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 768);
+    };
+
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowExpand(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleMouseClick = () => {
     setShowAboutUser(!showAboutUser);
   };
 
-  const handleMouseEnter = () => {
-    setShowExpand(true);
+  const handleRequirementClick = (event) => {
+    event.preventDefault(); // Prevent default link behavior
+    event.stopPropagation(); // Stop the click event from propagating to the document
+    setShowExpand(prev => !prev);
   };
 
-  const handleMouseLeave = () => {
-    setShowExpand(false);
+  const handleNavClick = (itemText) => {
+    setActiveTab(itemText); // Set the active tab
   };
 
   return (
@@ -33,20 +58,39 @@ const Header = () => {
         <div className="nav">
           <ul className={navList ? "small" : "flex"}>
             {nav.map((item, index) => (
-              <li
-                key={index}
-                onMouseEnter={item.text === "Requirement" ? handleMouseEnter : null}
-                onMouseLeave={item.text === "Requirement" ? handleMouseLeave : null}
-              >
-                <Link to={item.path || "#"} className="reqli" >{item.text}</Link>
+              <li key={index}>
+                <div
+                  className="reqli-container"
+                  onClick={() => {
+                    handleNavClick(item.text); // Set active tab on click
+                    if (item.text === "Requirement") handleRequirementClick();
+                  }}
+                >
+                  <Link
+                    to={item.path}
+                    className={`reqli ${activeTab === item.text ? "active" : ""}`} // Apply active class
+                  >
+                    {item.text}
+                  </Link>
+                  {item.text === "Requirement" && (
+                    <i 
+                      className="exp-icon fa-solid fa-chevron-down"
+                      onClick={(event) => {
+                        handleRequirementClick(event);
+                      }}
+                    />
+                  )}
+                </div>
                 {item.text === "Requirement" && showExpand && (
-                  <ul className="dropdown">
-                    {navExpand.map((subItem, subIndex) => (
-                      <li key={subIndex}>
-                        <Link to={subItem.path}>{subItem.text}</Link>
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="dropdown-expand" ref={dropdownRef}>
+                    <ul className={isSmallScreen ? "" : "dropdown"}>
+                      {navExpand.map((subItem, subIndex) => (
+                        <li key={subIndex}>
+                          <Link to={subItem.path}>{subItem.text}</Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
               </li>
             ))}
@@ -56,7 +100,10 @@ const Header = () => {
           {loggedInUser ? (
             <>
               <h6 className="profile-icon">
-                <span className="profile-icon-details" onClick={handleMouseClick}>
+                <span
+                  className="profile-icon-details"
+                  onClick={handleMouseClick}
+                >
                   {loggedInUser.name.toUpperCase()[0]}
                 </span>
                 {showAboutUser && (
@@ -73,14 +120,18 @@ const Header = () => {
               </h6>
             </>
           ) : (
-              <Link to="/login" className="log-sign">
-                <i className="fa fa-sign-in"></i> Sign in
-              </Link>
+            <Link to="/login" className="log-sign">
+              <i className="fa fa-sign-in"></i> Sign in
+            </Link>
           )}
         </div>
         <div className="toggle">
           <button onClick={() => setNavList(!navList)}>
-            {navList ? <i className="fa fa-times"></i> : <i className="fa fa-bars"></i>}
+            {navList ? (
+              <i className="fa fa-times"></i>
+            ) : (
+              <i className="fa fa-bars"></i>
+            )}
           </button>
         </div>
       </div>

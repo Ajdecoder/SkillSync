@@ -4,8 +4,9 @@ export const nav = [
     path: "/",
   },
   {
-    text: "Requirement",
-    path: "/requirements",
+    flag: 'expand',
+    text: "Requirement",  
+    // path: "/requirements", 
   },
   {
     text: "about",
@@ -19,10 +20,7 @@ export const nav = [
     text: "blog",
     path: "/blog",
   },
-  // {
-  //   text: "contact",
-  //   path: "/contact",
-  // },
+
 ];
 
 export const navExpand = [
@@ -392,6 +390,7 @@ export const footer = [
     title: "LAYOUTS",
     text: [
       { id: "home", list: "Home" },
+      { id: "how", list: "How It Works" },
       { id: "about", list: "About Us" },
       { id: "service", list: "Services" },
       { id: "contact", list: "Contact" },
@@ -414,22 +413,6 @@ export const footer = [
       { id: "careers", list: "Careers" },
       { id: "privacy", list: "Privacy Policy" },
       { id: "terms", list: "Terms of Service" },
-    ],
-  },
-  {
-    title: "CONNECT",
-    text: [
-      { id: "linkedin", list: "Follow Us on LinkedIn" },
-      { id: "newsletter", list: "Subscribe to Newsletter" },
-      { id: "support", list: "Contact Support" },
-    ],
-  },
-  {
-    title: "CONNECT",
-    text: [
-      { id: "linkedin", list: "Follow Us on LinkedIn" },
-      { id: "newsletter", list: "Subscribe to Newsletter" },
-      { id: "support", list: "Contact Support" },
     ],
   },
   {
