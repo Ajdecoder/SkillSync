@@ -58,7 +58,7 @@ header .toggle {
   border: 4px solid #216eb9;
   padding: 10px;
   border-radius: 45px;
-  margin-left: 78px;
+  /* margin-left: 78px; */
 }
 .profile-icon {
   border: 4px solid #cc7a10;
@@ -131,11 +131,14 @@ header .toggle {
   }
   header .small {
     position: absolute;
-    top: 10vh;
-    left: 0;
-    width: 100%;
-    background-color: #216eb9;
-    padding: 20px;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    margin-top: 34px;
+    overflow-y: scroll;
+
   }
   header li a {
     display: inline-block;
@@ -152,11 +155,12 @@ header .toggle {
 
 @media screen and (max-width: 955px) {
   header img {
-    width: 138px;
+    width: 10.8rem;
   }
 
   .nav {
     font-size: 0.8rem;
+      
   }
 
   .head-btn {

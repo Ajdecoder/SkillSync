@@ -94,7 +94,7 @@
   height: 210px;
   background: rgb(15 28 47 / 30%);
   z-index: -1;
-  margin: 20px;
+  margin: 20px; 
   border-radius: 5px;
 }
 .location h5 {
@@ -109,6 +109,10 @@
 @media screen and (max-width: 800px) {
   footer .container{
     display: grid;
+  }
+
+  .log-sign{
+    display: none;
   }
 
 }
