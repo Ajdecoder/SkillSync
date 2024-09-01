@@ -8,6 +8,10 @@ header {
   height: 15vh;
   width: 100%;
 }
+.reqli.active {
+  border-bottom: 3px solid #063070; /* Change color to fit your design */
+}
+
 header img {
   width: 170px;
 }
@@ -73,11 +77,10 @@ header .toggle {
   background-color: white;
   height: 8rem;
   position: absolute;
-  top: 22px;
-  margin-left: 50px;
-  left: 0;
+  top: 60px;
+  left: 42px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  width: 13rem;
+  width: 14rem;
 }
 
 .dropdown li {
@@ -102,6 +105,7 @@ header .toggle {
   color: #007bff;
 }
 
+
 .logo {
   position: relative;
   top: 10px;
@@ -111,6 +115,20 @@ header .toggle {
 }
   
 @media screen and (max-width: 768px) {
+
+  .dropdown-expand{
+    border: 3px solid;
+    height: 110px;
+    display: block; 
+  }
+
+  .exp-icon{
+    margin-left: 33px;
+  }
+  
+  .dropdown{
+    all: unset;
+  }
 
   .top-header{
     justify-content: space-around;
@@ -130,15 +148,15 @@ header .toggle {
     margin-top: 20px;
   }
   header .small {
-    position: absolute;
-    height: 100vh;
+    position: fixed ;
+    height: 85vh;
     width: 100vw;
     display: flex;
     flex-direction: column;
     background: white;
     margin-top: 34px;
-    overflow-y: scroll;
-
+        padding-top: 1rem;
+    font-size: x-large;
   }
   header li a {
     display: inline-block;
@@ -166,5 +184,8 @@ header .toggle {
   .head-btn {
     height: 52px;
     font-size: 12px;
+  }
+  .small{
+    position: fixed;
   }
 }
