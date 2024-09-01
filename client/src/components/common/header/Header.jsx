@@ -73,14 +73,9 @@ const Header = () => {
               </h6>
             </>
           ) : (
-            <div className="head-btn">
               <Link to="/login" className="log-sign">
                 <i className="fa fa-sign-in"></i> Sign in
               </Link>
-              <Link to="/signup" className="log-sign">
-                <i className="fa fa-sign-out"></i> Join now
-              </Link>
-            </div>
           )}
         </div>
         <div className="toggle">
