@@ -2,9 +2,6 @@
   margin: 88px 255px;
 }
 
-.log-signing {
-  margin: auto;
-}
 
 .log-sign:nth-child(2) {
   margin-left: 31px !important;
@@ -38,8 +35,6 @@
 
 .loginContainer {
   margin: 0 auto 83px auto;
-  max-width: 61rem;
-  min-width: 22rem;
 }
 
 .loginContainer form{
@@ -47,8 +42,6 @@
   border-radius: 5px;
   margin-top: 50px;
   padding: 32px 54px;
-  min-width: 36rem;
-  max-width: 44rem;
   margin: auto;
 }
 
