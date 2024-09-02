@@ -17,7 +17,7 @@ const Footer = () => {
         </div>
       </section>
 
-      <footer>
+      <footer className="bottom-footer" >
         <div className='box'>
           <div className='newsletter'>
             <h2>Do You Need Help With Anything?</h2>

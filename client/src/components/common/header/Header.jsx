@@ -11,25 +11,16 @@ const Header = () => {
   const [showExpand, setShowExpand] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
   const [activeTab, setActiveTab] = useState("")
-  const dropdownRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth <= 768);
     };
 
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setShowExpand(false);
-      }
-    };
 
-    window.addEventListener("resize", handleResize);
-    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -82,7 +73,7 @@ const Header = () => {
                   )}
                 </div>
                 {item.text === "Requirement" && showExpand && (
-                  <div className="dropdown-expand" ref={dropdownRef}>
+                  <div className="dropdown-expand">
                     <ul className={isSmallScreen ? "" : "dropdown"}>
                       {navExpand.map((subItem, subIndex) => (
                         <li key={subIndex}>

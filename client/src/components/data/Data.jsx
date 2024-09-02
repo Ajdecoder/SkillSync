@@ -39,7 +39,7 @@ export const featured = [
     cover: "../images/hero/h1.png",
     name: "Enhance Productivity",
     total:
-      "Access specialized skills from partnering companies to accelerate project timelines.",
+      "Access specialized skills from partnering companies.",
   },
   {
     cover: "../images/hero/h2.png",

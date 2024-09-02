@@ -63,7 +63,7 @@ select {
   .hero .container {
     padding-top: 30%;
   }
-  form {
+  .flex {
     display: flex;
     flex-wrap: wrap;
   }

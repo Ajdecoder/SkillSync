@@ -4,7 +4,7 @@ import { featured } from "../../data/Data";
 const FeaturedCard = () => {
   return (
     <>
-      <div className="content grid5 mtop">
+      <div className="content featured-container grid5 mtop">
         {featured.map((items, index) => (
           <div
             className="box"
