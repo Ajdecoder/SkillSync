@@ -10,7 +10,7 @@ const Header = () => {
   const [showAboutUser, setShowAboutUser] = useState(false);
   const [showExpand, setShowExpand] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
-  const [activeTab, setActiveTab] = useState(""); // State to track active tab
+  const [activeTab, setActiveTab] = useState("")
   const dropdownRef = useRef(null);
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const Header = () => {
                   </Link>
                   {item.text === "Requirement" && (
                     <i 
-                      className="exp-icon fa-solid fa-chevron-down"
+                      className={`exp-icon fa-solid ${showExpand ? "fa-chevron-up" : "fa-chevron-down"}`}
                       onClick={(event) => {
                         handleRequirementClick(event);
                       }}
