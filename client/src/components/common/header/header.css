@@ -74,6 +74,9 @@ header .toggle {
 }
 
 .dropdown {
+  gap: 32px;
+  display: flex;
+  flex-direction: column;
   background-color: white;
   height: 8rem;
   position: absolute;
@@ -83,13 +86,6 @@ header .toggle {
   width: 14rem;
 }
 
-.dropdown li {
-  margin-top: 14px;
-}
-
-.nav li:hover .dropdown {
-  display: block;
-}
 
 .dropdown li {
   padding: 10px;
@@ -105,32 +101,42 @@ header .toggle {
   color: #007bff;
 }
 
-
 .logo {
   position: relative;
   top: 10px;
 }
-.top-header{
+.top-header {
   justify-content: space-around;
 }
-  
-@media screen and (max-width: 768px) {
 
-  .dropdown-expand{
-    border: 3px solid;
-    height: 110px;
-    display: block; 
+@media (max-width: 480px) {
+  header img {
+      width: 6.8rem !important;
+  }
+  header .small {
+    font-size: small !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .dropdown-expand {
+    display: block;
   }
 
-  .exp-icon{
+  .inpbox{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .exp-icon {
     margin-left: 33px;
   }
-  
-  .dropdown{
-    all: unset;
+
+  .dropdown-expand, ul> li {
+    margin-top: 13px;
   }
 
-  .top-header{
+  .top-header {
     justify-content: space-around;
   }
 
@@ -148,14 +154,14 @@ header .toggle {
     margin-top: 20px;
   }
   header .small {
-    position: fixed ;
+    position: fixed;
     height: 85vh;
     width: 100vw;
     display: flex;
     flex-direction: column;
     background: white;
     margin-top: 34px;
-        padding-top: 1rem;
+    padding-top: 1rem;
     font-size: x-large;
   }
   header li a {
@@ -167,8 +173,7 @@ header .toggle {
   .head-btn {
     height: 46px;
     font-size: 8px;
-}
-
+  }
 }
 
 @media screen and (max-width: 955px) {
@@ -178,14 +183,13 @@ header .toggle {
 
   .nav {
     font-size: 0.8rem;
-      
   }
 
   .head-btn {
     height: 52px;
     font-size: 12px;
   }
-  .small{
+  .small {
     position: fixed;
   }
 }

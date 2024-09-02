@@ -390,7 +390,6 @@ export const footer = [
     title: "LAYOUTS",
     text: [
       { id: "home", list: "Home" },
-      { id: "how", list: "How It Works" },
       { id: "about", list: "About Us" },
       { id: "service", list: "Services" },
       { id: "contact", list: "Contact" },
@@ -404,6 +403,7 @@ export const footer = [
       { id: "contract", list: "Contract Management" },
       { id: "support", list: "Employee Support" },
       { id: "guides", list: "Guides & Tips" },
+      { id: "partners", list: "Our Partners" },
     ],
   },
   {
@@ -413,6 +413,7 @@ export const footer = [
       { id: "careers", list: "Careers" },
       { id: "privacy", list: "Privacy Policy" },
       { id: "terms", list: "Terms of Service" },
+      { id: "press", list: "Press Releases" },
     ],
   },
   {
@@ -420,7 +421,26 @@ export const footer = [
     text: [
       { id: "linkedin", list: "Follow Us on LinkedIn" },
       { id: "newsletter", list: "Subscribe to Newsletter" },
-      { id: "support", list: "Contact Support" },
+      { id: "twitter", list: "Follow Us on Twitter" },
+      { id: "facebook", list: "Like Us on Facebook" },
+    ],
+  },
+  {
+    title: "LEGAL",
+    text: [
+      { id: "disclaimer", list: "Disclaimer" },
+      { id: "trademark", list: "Trademark Information" },
+      { id: "licensing", list: "Licensing" },
+      { id: "cookie", list: "Cookie Policy" },
+    ],
+  },
+  {
+    title: "SUPPORT",
+    text: [
+      { id: "contact", list: "Contact Us" },
+      { id: "faq", list: "FAQ" },
+      { id: "shipping", list: "Shipping & Returns" },
+      { id: "warranty", list: "Warranty Information" },
     ],
   },
 ];

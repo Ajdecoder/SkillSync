@@ -111,6 +111,10 @@
     display: grid;
   }
 
+  .content{
+    padding: 30px !important;
+  }
+
   .log-sign{
     display: none;
   }

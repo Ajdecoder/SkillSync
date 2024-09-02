@@ -17,7 +17,7 @@ const Hero = () => {
             />
 
             <form className="flex">
-              <div className="box">
+              <div className="box inpbox">
                 <span>City/Region</span>
                 <select>
                   <option value="">Select City/Region</option>
@@ -29,7 +29,7 @@ const Hero = () => {
                   {/* Add more city options here */}
                 </select>
               </div>
-              <div className="box">
+              <div className="box inpbox">
                 <span>Expert Type</span>
                 <select>
                   <option value="">Select Tech Expert Type</option>
@@ -42,7 +42,7 @@ const Hero = () => {
                   {/* Add more property type options here */}
                 </select>
               </div>
-              <div className="box">
+              <div className="box inpbox">
                 <span>Price Range</span>
                 <select>
                   <option value="">Select Price nge</option>

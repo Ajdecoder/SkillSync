@@ -55,6 +55,10 @@ select {
   border-radius: 34px;
 }
 
+.btn1{
+  margin: 16px;
+}
+
 @media screen and (max-width: 800px) {
   .hero .container {
     padding-top: 30%;

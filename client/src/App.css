@@ -219,7 +219,6 @@ img {
 
 @media screen and (max-width: 750px) {
   .grid3 {
-    display: flex;
     flex-wrap: wrap;
     justify-content: center;
   }
