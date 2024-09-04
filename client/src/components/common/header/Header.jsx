@@ -29,8 +29,6 @@ const Header = () => {
   };
 
   const handleRequirementClick = (event) => {
-    event.preventDefault(); // Prevent default link behavior
-    event.stopPropagation(); // Stop the click event from propagating to the document
     setShowExpand(prev => !prev);
   };
 
