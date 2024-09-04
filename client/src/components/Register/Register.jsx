@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Register.css";
-import { PORT } from "../../common";
+import { PORT } from "../../commonClient";
 
 export const Register = () => {
   const navigate = useNavigate();
