@@ -2,11 +2,9 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import userRoutes from "./routes/user.Routes.js";
-import companyRoutes from "./routes/user.Routes.js";
+import companyRoutes from "./routes/company.Routes.js";
 import { connectLoggedInRegDB, connectCompanyDB } from "./db/database.js";
-import verifyUser from "./middleware/auth.js";
 import cookieParser from "cookie-parser";
-import { upload } from "./middleware/multer.js";
 
 dotenv.config();
 const app = express();
