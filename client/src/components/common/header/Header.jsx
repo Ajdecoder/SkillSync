@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "./header.css";
 import { nav, navExpand } from "../../data/Data";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../utils/AuthContext";
+import logo from '/images/logo.png?url'
 
 const Header = () => {
   const { loggedInUser, logout } = useAuth();
@@ -29,13 +30,11 @@ const Header = () => {
   };
 
   const handleRequirementClick = (event) => {
-    event.preventDefault(); // Prevent default link behavior
-    event.stopPropagation(); // Stop the click event from propagating to the document
     setShowExpand(prev => !prev);
   };
 
   const handleNavClick = (itemText) => {
-    setActiveTab(itemText); // Set the active tab
+    setActiveTab(itemText); 
   };
 
   return (
@@ -43,7 +42,7 @@ const Header = () => {
       <div className="flex top-header">
         <div className="logo">
           <Link to="/">
-            <img src="./images/logo.png" alt="Logo" />
+            <img src={logo}alt="Logo" />
           </Link>
         </div>
         <div className="nav">
@@ -59,7 +58,7 @@ const Header = () => {
                 >
                   <Link
                     to={item.path}
-                    className={`reqli ${activeTab === item.text ? "active" : ""}`} // Apply active class
+                    className={`reqli ${activeTab === item.text ? "active" : ""}`} 
                   >
                     {item.text}
                   </Link>
