@@ -12,9 +12,17 @@ app.use(express.static("public"));
 const PORT = process.env.PORT || 9002;
 
 app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
+  cors((req, callback) => {
+    const allowedOrigins = [
+      "http://localhost:5173",
+      "https://app-skillsync.vercel.app"
+    ];
+    const origin = req.headers.origin;
+    if (allowedOrigins.includes(origin)) {
+      callback(null, { origin: true, credentials: true });
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
   })
 );
 
