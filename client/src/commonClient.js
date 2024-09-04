@@ -1,4 +1,4 @@
 const localhost = "http://localhost:9002";
-const prod_port = "https://skillsync-c521.onrender.com";
+const prod_port = null;
 
-export const PORT = prod_port ? prod_port : localhost;
+export const PORT_CLIENT = prod_port ? prod_port : localhost;

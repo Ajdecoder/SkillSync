@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Register.css";
-import { PORT } from "../../commonClient";
+import {PORT_CLIENT } from "../../commonClient";
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ export const Register = () => {
 
     try {
       const response = await axios.post(
-        `${PORT}/api/users/register`,
+        `${PORT_CLIENT}/api/users/register`,
         user,
         {
           withCredentials: true,
@@ -47,7 +47,7 @@ export const Register = () => {
       );
 
       // Get the JWT token from the server
-      const authResponse = await axios.get(`${PORT}/api/users/showToken`, {
+      const authResponse = await axios.get(`${PORT_CLIENT}/api/users/showToken`, {
         withCredentials: true,
       });
 
