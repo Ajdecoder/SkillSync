@@ -1,25 +1,16 @@
 import express from "express";
-import {
-  Login,
-  Logout,
-  Register,
-  allRequirements,
-  getRequirement,
-  greeting,
-  postRequirement,
-} from "../controller/user.controller.js";
+import { Login, Logout, Register } from "../controller/user.controller.js";
 import verifyUser from "../middleware/auth.js";
 import { upload } from "../middleware/multer.js";
 
-const router = express.Router();
+const Userrouter = express.Router();
 
-
-router.post("/login", Login);
-router.post("/register", Register);
-router.post("/logout", Logout);
+Userrouter.post("/login", Login);
+Userrouter.post("/register", Register);
+Userrouter.post("/logout", Logout);
 
 // Show token route
-router.get("/showToken", async (req, res) => {
+Userrouter.get("/showToken", async (req, res) => {
   try {
     const cookieshow = req.cookies;
     await res.send(cookieshow);
@@ -29,4 +20,4 @@ router.get("/showToken", async (req, res) => {
   }
 });
 
-export default router;
+export default Userrouter;
