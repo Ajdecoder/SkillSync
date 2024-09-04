@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./RecentCard.css";
+import "./RecentCard.css";  
 import { useAuth } from "../../utils/AuthContext";
 
 const RecentCard = () => {
@@ -17,7 +17,6 @@ const RecentCard = () => {
         );
         const { data: { data: requirementsData } } = response;
         setRequirements(requirementsData || []);
-        console.log(requirementsData[0].Status)
       } catch (error) {
         console.error("API Error:", error.message);
         setError("Failed to fetch data. Please try again later.");

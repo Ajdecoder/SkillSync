@@ -31,7 +31,7 @@ router.post(
   getRequirement
 );
 
-router.get("/allRequirements", verifyUser, allRequirements);
+router.get("/allRequirements", allRequirements);
 router.get("/greeting", greeting);
 router.post("/login", Login);
 router.post("/register", Register);
