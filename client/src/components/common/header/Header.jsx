@@ -33,7 +33,7 @@ const Header = () => {
   };
 
   const handleNavClick = (itemText) => {
-    setActiveTab(itemText); // Set the active tab
+    setActiveTab(itemText); 
   };
 
   return (
@@ -57,7 +57,7 @@ const Header = () => {
                 >
                   <Link
                     to={item.path}
-                    className={`reqli ${activeTab === item.text ? "active" : ""}`} // Apply active class
+                    className={`reqli ${activeTab === item.text ? "active" : ""}`} 
                   >
                     {item.text}
                   </Link>
