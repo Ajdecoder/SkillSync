@@ -3,11 +3,9 @@ import Heading from "../../common/Heading";
 import RecentCard from "./RecentCard";
 import { useAuth } from "../../utils/AuthContext";
 import { SampleRecentCard } from "../../SampleRecentCard";
-import { dummyRecentCards } from "../../data/Data";
 
 const Recent = () => {
   const { loggedInUser } = useAuth();
-  console.log(dummyRecentCards)
 
   return (
     <>

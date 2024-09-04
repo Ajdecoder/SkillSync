@@ -5,7 +5,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 10;
-  height: 15vh;
+  min-height: 15vh;
   width: 100%;
 }
 .reqli.active {
@@ -114,6 +114,13 @@ header .toggle {
   }
   header .small {
     font-size: small !important;
+  }
+
+  .footerContact .container {
+    height: 115px !important;
+  }
+  .send{
+    justify-content: center;
   }
 }
 

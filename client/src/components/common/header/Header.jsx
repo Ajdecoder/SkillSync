@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "./header.css";
 import { nav, navExpand } from "../../data/Data";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../utils/AuthContext";
+import logo from '/images/logo.png?url'
 
 const Header = () => {
   const { loggedInUser, logout } = useAuth();
@@ -41,7 +42,7 @@ const Header = () => {
       <div className="flex top-header">
         <div className="logo">
           <Link to="/">
-            <img src="./images/logo.png" alt="Logo" />
+            <img src={logo}alt="Logo" />
           </Link>
         </div>
         <div className="nav">

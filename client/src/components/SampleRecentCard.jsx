@@ -20,9 +20,9 @@ export const SampleRecentCard = () => {
         } = val;
 
         return (
-          <div>
+          <div key={i} >
             <div
-              className="box shadow"
+              className="box shadow recentdummy"
               key={i}
               data-aos={i % 2 === 0 ? "zoom-in-up" : "zoom-in-down"}
             >

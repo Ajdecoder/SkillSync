@@ -136,6 +136,13 @@ h4 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 30px;
+  padding: 0 18px;
+}
+.grid3 div{
+  border-radius: 30px;
+}
+.btn2{
+  margin-top: 13px;
 }
 img {
   width: 100%;
@@ -207,6 +214,12 @@ img {
     flex-wrap: wrap;
   }
 
+  .recentdummy{
+    height: 27rem;
+    width: 21rem;
+  }
+
+
   .head-btn{
     display: none;
   }
@@ -214,6 +227,15 @@ img {
   .awards h1 {
     font-size: 20px !important;
 }
+
+  .footerContact h1{
+    font-size: medium !important;
+  }
+  
+  .footerContact button{
+    margin-top: 9px;
+    font-size: 15px;
+  }
 
   
 
@@ -224,4 +246,13 @@ img {
     flex-wrap: wrap;
     justify-content: center;
   }
+
+  .footerContact button{
+    font-size: 15px;
+  }
+
+  .footerContact h1{
+    font-size: large !important;
+  }
+
 }

@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import Header from "../common/header/Header";
 import {
   BrowserRouter as Router,
   Routes,
@@ -21,6 +20,7 @@ import { AuthProvider, useAuth } from "../utils/AuthContext.jsx";
 import { Resources } from "../Resources/Resources.jsx";
 import Aos from "aos";
 import "aos/dist/aos.css"
+import Header from "../common/header/Header.jsx";
 
 const Pages = () => {
 
