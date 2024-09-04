@@ -7,7 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../Login/Login.css";
 import { useAuth } from "../utils/AuthContext";
-import {  PORT } from "../../commonClient";
+import { PORT_CLIENT } from "../../commonClient";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ export const Login = () => {
 
     try {
       const res = await axios.post(
-        `${PORT}/api/users/login`,
+        `${PORT_CLIENT}/api/users/login`,
         user,
         {
           withCredentials: true,
@@ -39,7 +39,7 @@ export const Login = () => {
       );
 
       const authResponse = await axios.get(
-        `${PORT}/api/users/showToken`,
+        `${PORT_CLIENT}/api/users/showToken`,
         {
           withCredentials: true,
         }

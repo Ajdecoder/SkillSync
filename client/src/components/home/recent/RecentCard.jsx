@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./RecentCard.css";  
 import { useAuth } from "../../utils/AuthContext";
+import { PORT_CLIENT } from "../../../commonClient";
 
 const RecentCard = () => {
   const { loggedInUser } = useAuth();
@@ -12,7 +13,7 @@ const RecentCard = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:9002/api/requirements/allRequirements",
+          `${PORT_CLIENT}/api/requirements/allRequirements`,
           { withCredentials: true }
         );
         const { data: { data: requirementsData } } = response;

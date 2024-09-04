@@ -5,6 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../utils/AuthContext";
 import { Login } from "../Login/Login";
+import { PORT_CLIENT } from "../../commonClient";
 
 function HireResources() {
   const { loggedInUser } = useAuth();
@@ -55,7 +56,7 @@ function HireResources() {
 
     try {
       const res = await axios.post(
-        'http://localhost:9002/api/requirements/getRequirement',
+        `${PORT_CLIENT}/api/requirements/getRequirement`,
         formData,
         {
           withCredentials: true,
