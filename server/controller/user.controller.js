@@ -175,12 +175,15 @@ export const Register = async (req, res) => {
   }
 };
 
-export const Logout = async (req, res) => {
+export const Delete = async (req, res) => {
   try {
+    const { user } = req.body;
+    const DeleteUser = await User.deleteOne({ user });
+
     res.status(200).json({ message: "Logged out successfully" });
   } catch (err) {
-    console.error("Logout error:", err);
-    res.status(500).json({ message: "Logout failed. Please try again later." });
+    console.error("Delete error:", err);
+    res.status(500).json({ message: "Delete failed. Please try again later." });
   }
 };
 
