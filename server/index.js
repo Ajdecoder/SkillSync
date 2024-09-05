@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 9002;
 
 app.use(
   cors({
-    origin: "https://app-skillsync.vercel.app/",
+    origin: "https://app-skillsync.vercel.app",
     credentials: true,
   })
 );
