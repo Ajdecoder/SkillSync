@@ -12,7 +12,7 @@ app.use(express.static("public"));
 const PORT = process.env.PORT || 9002;
 
 const corsOptions = {
-    origin: 'https://app-skillsync.vercel.app', 
+    origin: process.env.CORS_ORIGIN, 
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true, 
 };

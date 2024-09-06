@@ -1,4 +1,4 @@
-const localhost = "http://localhost:9002";
-const prod_port = "https://skillsync-c521.onrender.com";
+const PORT_LOCAL = "http://localhost:9002";
+const PORT_PRODUCTON = import.meta.env.VITE_PORT_PRODUCTON;
 
-export const PORT_CLIENT = prod_port ? prod_port : localhost;
+export const PORT_CLIENT = PORT_PRODUCTON && import.meta.env.MODE === 'production' ? PORT_PRODUCTON : PORT_LOCAL;   
