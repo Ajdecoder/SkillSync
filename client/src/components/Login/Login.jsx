@@ -38,15 +38,9 @@ export const Login = () => {
         }
       );
 
-      const authResponse = await axios.get(
-        `${PORT_CLIENT}/api/users/showToken`,
-        {
-          withCredentials: true,
-        }
-      );
-
       // Store the JWT token in localStorage
-      localStorage.setItem("jwttoken", authResponse.data.jwttoken);
+      localStorage.setItem("jwttoken", res.data.token);
+      console.log(res)
 
       login(res.data.user); 
 

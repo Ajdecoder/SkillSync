@@ -11,12 +11,13 @@ const app = express();
 app.use(express.static("public"));
 const PORT = process.env.PORT || 9002;
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-  })
-);
+const corsOptions = {
+    origin: process.env.CORS_ORIGIN, 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true, 
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

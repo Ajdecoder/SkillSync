@@ -1,5 +1,5 @@
 import express from "express";
-import { Login, Logout, Register } from "../controller/user.controller.js";
+import { Delete, Login,Register } from "../controller/user.controller.js";
 import verifyUser from "../middleware/auth.js";
 import { upload } from "../middleware/multer.js";
 
@@ -7,7 +7,7 @@ const Userrouter = express.Router();
 
 Userrouter.post("/login", Login);
 Userrouter.post("/register", Register);
-Userrouter.post("/logout", Logout);
+Userrouter.post("/DeleteAccount", Delete);
 
 // Show token route
 Userrouter.get("/showToken", async (req, res) => {
