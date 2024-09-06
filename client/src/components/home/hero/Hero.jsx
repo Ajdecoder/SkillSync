@@ -16,7 +16,7 @@ const Hero = () => {
               subtitle="Find new & featured porgrammer located in your local city."
             />
 
-            <form className="flex">
+            <form className="flex hero-form">
               <div className="box inpbox">
                 <span>City/Region</span>
                 <select>
