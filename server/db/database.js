@@ -4,11 +4,9 @@ import { companySchema, userSchema } from "../model/userModal.js";
 
 dotenv.config();
 
-export const connectCompanyDB = async () => {
+export const connectDB = async () => {
   try {
-    const connection = await mongoose.createConnection(
-      process.env.COMPANY_MONGO_URL
-    );
+    const connection = await mongoose.createConnection(process.env.MONGO_URL);
     console.log("Company collection MongoDB connected successfully");
     return connection;
   } catch (err) {
@@ -17,23 +15,15 @@ export const connectCompanyDB = async () => {
   }
 };
 
-export const connectLoggedInRegDB = async () => {
-  try {
-    const connection = await mongoose.createConnection(
-      process.env.REG_USER_MONGO_URL
-    );
-    console.log("Logged in user MongoDB connected successfully");
-    return connection;
-  } catch (err) {
-    console.error("Logged in user MongoDB connection error:", err);
-    process.exit(1);
-  }
-};
+const connect = await connectDB();
 
-const companyConnection = await connectCompanyDB();
-const userConnection = await connectLoggedInRegDB();
+export const CompanyPostCollection = connect.model(
+  "PostCollection",
+  companySchema
+);
+export const CompanyGetCollection = connect.model(
+  "GetCollection",
+  companySchema
+);
 
-export const CompanyPostCollection = companyConnection.model("PostCollection", companySchema);
-export const CompanyGetCollection = companyConnection.model("GetCollection", companySchema);
-
-export const User = userConnection.model("User", userSchema, "userCollection");
+export const User = connect.model("User", userSchema, "userCollection");
