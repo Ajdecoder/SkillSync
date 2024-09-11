@@ -31,10 +31,6 @@ const RecentCard = () => {
     return <div>{error}</div>;
   }
 
-  if (requirements.length === 0) {
-    return <div>Nothing is here</div>;
-  }
-
   return (
     <div className="content grid3 mtop">
       {requirements.map((val, index) => {
