@@ -1,16 +1,18 @@
 .blog-out {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
-        gap: 20px; /* Space between the grid items */
+        gap: 20px; 
         padding: 20px;
+        width: 100%;
       }
       
       .blog-post {
-        border: 3px solid #ddd;
+        box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
         padding: 18px;
         box-sizing: border-box;
-        background-color: #f9f9f9;
         border-radius: 5px;
+        transition: all 0.4s ease;
+        min-width: 5rem;
       }
       
       .blog-post h1 {
@@ -23,12 +25,47 @@
         width: 100%;
         height: auto;
         margin: 10px 0;
+        height: 15rem;
+        border: 1px solid;
       }
       
+      .blog-post h3{
+        margin-top: 19px;
+      }
+
+      .read-more-button{
+        margin: 15px 0 0 0;
+        display: inline-block;
+      }
+
       .blog-content {
         overflow: hidden;
         max-height: 10rem;
         margin-top: 6px;
+      }
+      
+      .blog-post:hover{
+        scale: 0.9;
+        animation: ease-in-out;
+        transition: 1.2s;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      }
+
+      .blog-title{
+        min-height: 2em;
+      }
+
+      .next-btn{
+        position: absolute;
+        right: 0;
+        margin:-7px 5px;
+      }
+      .prev-btn{
+        position: relative;
+        bottom: 8px;
+      }
+      .navigation-btn{
+        display: flex;
       }
       
       @media (max-width: 768px) {

@@ -3,7 +3,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 import userRoutes from "./routes/user.Routes.js";
 import companyRoutes from "./routes/company.Routes.js";
-import { connectLoggedInRegDB, connectCompanyDB } from "./db/database.js";
 import cookieParser from "cookie-parser";
 
 dotenv.config();
@@ -14,7 +13,7 @@ const PORT = process.env.PORT || 9002;
 const corsOptions = {
     origin: process.env.CORS_ORIGIN, 
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true, 
+    credentials: true,  
 };
 
 app.use(cors(corsOptions));
@@ -22,9 +21,6 @@ app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
-
-connectCompanyDB();
-connectLoggedInRegDB();
 
 app.use("/api/users", userRoutes);
 

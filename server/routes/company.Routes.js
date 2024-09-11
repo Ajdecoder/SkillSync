@@ -2,11 +2,9 @@ import express from "express";
 import {
   allRequirements,
   getRequirement,
-  greeting,
   postRequirement,
-} from "../controller/user.controller.js";
+} from "../controller/company.controller.js";
 import { upload } from "../middleware/multer.js";
-import router from "./user.Routes.js";
 
 const companyRouter = express.Router();
 
@@ -29,6 +27,5 @@ companyRouter.post(
 );
 
 companyRouter.get("/allRequirements", allRequirements);
-companyRouter.get("/greeting", greeting);
 
 export default companyRouter;

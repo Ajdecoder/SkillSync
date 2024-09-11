@@ -110,5 +110,8 @@
   footer .container{
     display: grid;
   } 
+  .blog-post{
+    min-width: 13rem;
+  }
 
 }
