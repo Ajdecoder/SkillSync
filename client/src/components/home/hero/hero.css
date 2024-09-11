@@ -67,6 +67,11 @@ select {
   margin: 16px;
 }
 
+
+.hero-form{
+  margin: auto;
+}
+
 @media screen and (max-width: 800px) {
   .hero .container {
     padding-top: 30%;
