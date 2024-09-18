@@ -14,14 +14,10 @@ import {
       to,
       desc_requirement,
       address,
+      documents,
+      cover_Img,
     } = req.body;
-  
-    const documents = req.files["documents"]
-      ? req.files["documents"][0].path.replace("public\\", "")
-      : null;
-    const cover_Img = req.files["cover_Img"]
-      ? req.files["cover_Img"][0].path.replace("public\\", "")
-      : null;
+
   
     try {
       const newReq = new CompanyGetCollection({
@@ -62,14 +58,9 @@ import {
       desc_requirement,
       address,
       Status,
+      
     } = req.body;
-  
-    const documents = req.files["documents"]
-      ? req.files["documents"][0].path.replace("public\\", "")
-      : null;
-    const cover_Img = req.files["cover_Img"]
-      ? req.files["cover_Img"][0].path.replace("public\\", "")
-      : null;
+
   
     try {
       const newPost = new CompanyPostCollection({
@@ -81,8 +72,8 @@ import {
         from,
         to,
         desc_requirement,
-        address,
         documents,
+        address,
         cover_Img,
         Status,
       });

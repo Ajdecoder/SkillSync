@@ -122,6 +122,9 @@ header .toggle {
   .send{
     justify-content: center;
   }
+  .blog-out{
+    grid-template-columns: 1fr !important;
+  }
 }
 
 @media screen and (max-width: 768px) {

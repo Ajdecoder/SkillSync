@@ -138,10 +138,10 @@ h4 {
   grid-gap: 30px;
   padding: 0 18px;
 }
-.grid3 div{
+.grid3 div {
   border-radius: 30px;
 }
-.btn2{
+.btn2 {
   margin-top: 13px;
 }
 img {
@@ -183,7 +183,6 @@ img {
   background: #fff;
 }
 
-
 @media screen and (max-width: 998px) {
   .grid4,
   .grid3,
@@ -197,7 +196,6 @@ img {
     width: 100%;
   }
 
-
   .nav {
     font-size: 0.93em;
   }
@@ -208,37 +206,38 @@ img {
   padding: 25px;
 }
 
-@media screen and (max-width: 578px) {
+@media (max-width: 578px) {
   .grid3 {
     display: flex;
     flex-wrap: wrap;
   }
 
-  .recentdummy{
+  .recentdummy {
     height: 27rem;
     width: 21rem;
   }
 
-
-  .head-btn{
+  .head-btn {
     display: none;
   }
 
   .awards h1 {
     font-size: 20px !important;
-}
+  }
 
-  .footerContact h1{
+  .footerContact h1 {
     font-size: medium !important;
   }
-  
-  .footerContact button{
+
+  .footerContact button {
     margin-top: 9px;
     font-size: 15px;
   }
 
-  
-
+  .blog-out {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr)) !important;
+  }
 }
 
 @media screen and (max-width: 750px) {
@@ -247,12 +246,20 @@ img {
     justify-content: center;
   }
 
-  .footerContact button{
+  .footerContact button {
     font-size: 15px;
   }
 
-  .footerContact h1{
+  .footerContact h1 {
     font-size: large !important;
   }
 
+  .blog-out{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.auto{
+  margin: auto !important;
+  display: table !important;
 }

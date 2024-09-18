@@ -1,75 +1,109 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+
 .blog-out {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
-        gap: 20px; 
-        padding: 20px;
-        width: 100%;
-      }
-      
-      .blog-post {
-        box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
-        padding: 18px;
-        box-sizing: border-box;
-        border-radius: 5px;
-        transition: all 0.4s ease;
-        min-width: 5rem;
-      }
-      
-      .blog-post h1 {
-        text-align: center;
-        font-size: 1.5rem;
-        margin-bottom: 10px;
-      }
-      
-      .blog-post img {
-        width: 100%;
-        height: auto;
-        margin: 10px 0;
-        height: 15rem;
-        border: 1px solid;
-      }
-      
-      .blog-post h3{
-        margin-top: 19px;
-      }
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+  gap: 20px;
+  padding: 20px;
+  width: 100%;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 500;
+}
 
-      .read-more-button{
-        margin: 15px 0 0 0;
-        display: inline-block;
-      }
+.blog-post {
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px,
+    rgba(0, 0, 0, 0.1) 0px 2px 4px 0px,
+    rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
+  padding: 18px;
+  font-weight: 300;
+  box-sizing: border-box;
+  border-radius: 5px;
+  transition: all 0.9s ease;
+  min-width: 5rem;
+}
 
-      .blog-content {
-        overflow: hidden;
-        max-height: 10rem;
-        margin-top: 6px;
-      }
-      
-      .blog-post:hover{
-        scale: 0.9;
-        animation: ease-in-out;
-        transition: 1.2s;
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-      }
+.submit-btn {
+  max-width: 10rem;
+  margin: auto;
+}
 
-      .blog-title{
-        min-height: 2em;
-      }
+.blog-post h1 {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
 
-      .next-btn{
-        position: absolute;
-        right: 0;
-        margin:-7px 5px;
-      }
-      .prev-btn{
-        position: relative;
-        bottom: 8px;
-      }
-      .navigation-btn{
-        display: flex;
-      }
-      
-      @media (max-width: 768px) {
-        .blog-out {
-          grid-template-columns: 1fr; /* Single column layout on smaller screens */
-        }
-      }
+.blog-post img {
+  width: 100%;
+  height: auto;
+  margin: 10px 0;
+  height: 15rem;
+  border: 1px solid;
+}
+
+.blog-post h3 {
+  margin-top: 19px;
+}
+
+.read-more-button {
+  margin: 15px 0 0 0;
+  display: inline-block;
+}
+
+.blog-content {
+  overflow: hidden;
+  max-height: 10rem;
+  margin-top: 6px;
+}
+
+.blog-post:hover {
+  scale: 0.9;
+  animation: ease-in-out;
+  transition: 1.2s;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 5px 0px,
+    rgba(0, 0, 0, 0.12) 0px 3px 14px 3px, rgba(0, 0, 0, 0.14) 0px 8px 10px 1px;
+}
+
+.blog-title {
+  min-height: 2em;
+}
+
+.next-btn {
+  position: absolute;
+  right: 0;
+  margin: -7px 5px;
+}
+.prev-btn {
+  position: relative;
+  bottom: 8px;
+}
+.navigation-btn {
+  display: flex;
+}
+
+.disabled-btn {
+  opacity: 0.5;
+}
+
+.loading-div {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #000;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin: 22px auto 22px auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .blog-out {
+    grid-template-columns: 1fr 1fr !important;
+    display: grid;
+  }
+}

@@ -4,9 +4,10 @@ import { nav, navExpand } from "../../data/Data";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../utils/AuthContext";
 import logo from '/images/logo.png?url'
+import { Loading } from "../../loading/Loading";
 
 const Header = () => {
-  const { loggedInUser, logout } = useAuth();
+  const { loggedInUser, logout,loading } = useAuth();
   const [navList, setNavList] = useState(false);
   const [showAboutUser, setShowAboutUser] = useState(false);
   const [showExpand, setShowExpand] = useState(false);
@@ -17,9 +18,6 @@ const Header = () => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth <= 768);
     };
-
-
-
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -37,6 +35,11 @@ const Header = () => {
     setActiveTab(itemText); 
   };
 
+
+  // if(!loading){
+  //   return 'loading...'
+  // }
+
   return (
     <header>
       <div className="flex top-header">
@@ -52,7 +55,7 @@ const Header = () => {
                 <div
                   className="reqli-container"
                   onClick={() => {
-                    handleNavClick(item.text); // Set active tab on click
+                    handleNavClick(item.text);
                     if (item.text === "Requirement") handleRequirementClick();
                   }}
                 >

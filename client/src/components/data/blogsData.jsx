@@ -701,22 +701,4 @@ export const blogPosts = [
     image: "https://media.istockphoto.com/id/1411304340/photo/two-modern-buildings-with-glass-windows-architecture-design-of-buildings-office-space-houses.jpg?s=1024x1024&w=is&k=20&c=X00czG-Ij796TcbNr35aMv3m7oXkIJ5h0L7VN5q_BPA=",
     content: `Adapting your business model to include contract staffing can offer flexibility and scalability. This article provides insights into how to make this transition smoothly...`
   },
-  {
-    id: "19",
-    title: "The Ethics of Contract Staffing",
-    author: "Charlotte King",
-    date: "June 10, 2024",
-    excerpt: "Discuss the ethical considerations involved in contract staffing practices.",
-    image: "https://media.istockphoto.com/id/1204743098/photo/partnership-of-business-concept-group-of-businessperson-customer-support-teamwork.jpg?s=612x612&w=0&k=20&c=xDsOni9tgXnYm8vQGQ6SqshjFjKvja8TF7Cq0jfxjgk=",
-    content: `Ethical considerations are crucial in staffing. This article explores the ethical implications of contract staffing and how companies can ensure fair practices...`
-  },
-  {
-    id: "20",
-    title: "Future-Proofing Your Contract Staffing Strategy",
-    author: "Amelia Scott",
-    date: "June 5, 2024",
-    excerpt: "Strategies for ensuring your contract staffing strategy remains relevant in the future.",
-    image: "https://media.istockphoto.com/id/1254347556/photo/business-people-joining-gears.jpg?s=612x612&w=0&k=20&c=ecAQGD0w20yZ1rEyUt_bYaJ_OmgLM0KjAhRo1OHKcIU=",
-    content: `Future-proofing your staffing strategy is essential in a rapidly changing market. This article discusses how to adapt and innovate your contract staffing practices for long-term success...`
-  },
 ];
