@@ -5,9 +5,11 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Register.css";
 import {PORT_CLIENT } from "../../commonClient";
+import { useAuth } from "../utils/AuthContext";
 
 export const Register = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const [user, setUser] = useState({
     name: "",
@@ -28,12 +30,16 @@ export const Register = () => {
     // Validate user input
     e.preventDefault();
     if (!user.name || !user.email || !user.password || !user.reEnterPassword) {
-      toast.error("Please fill in all fields.");
+      toast.error("Please fill in all fields.",{
+        autoClose:1000
+      });
       return;
     }
 
     if (user.password !== user.reEnterPassword) {
-      toast.error("Passwords do not match.");
+      toast.error("Passwords do not match.",{
+        autoClose:1000
+      });
       return;
     }
 
@@ -46,30 +52,37 @@ export const Register = () => {
         }
       );
 
-      // Get the JWT token from the server
-      const authResponse = await axios.get(`${PORT_CLIENT}/api/users/showToken`, {
-        withCredentials: true,
+      localStorage.setItem("jwttoken", response.data.token);
+      console.log(response);
+
+      login(response.data.user);
+
+      toast.success(response.data.message,{
+        autoClose:1000
       });
 
-      // Store the JWT token in localStorage
-      localStorage.setItem("jwttoken", authResponse.data.jwttoken);
-      console.log(authResponse)
+      navigate('/')
 
-
-      toast.success(response.data.message);
-      navigate("/login");
     } catch (error) {
       console.error("Registration error:", error);
       if (error.response) {
         if (error.response.status === 400) {
-          toast.error("User already registered");
+          toast.error("User already registered",{
+            autoClose:1000
+          });
         } else {
-          toast.error(`Error: ${error.response.data.message}`);
+          toast.error(`Error: ${error.response.data.message}`,{
+            autoClose:1000
+          });
         }
       } else if (error.request) {
-        toast.error("Network Error: Please check your internet connection.");
+        toast.error("Network Error: Please check your internet connection.",{
+          autoClose:1000
+        });
       } else {
-        toast.error("Error registering. Please try again later.");
+        toast.error("Error registering. Please try again later.",{
+          autoClose:1000
+        });
       }
     }
   };

@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import { companySchema, userSchema } from "../model/userModal.js";
+import { userSchema } from "../model/userModal.js";
+import { Requirement } from "../model/Requirement.js";
 
 dotenv.config();
 
@@ -19,11 +20,11 @@ const connect = await connectDB();
 
 export const CompanyPostCollection = connect.model(
   "PostCollection",
-  companySchema
+  Requirement
 );
 export const CompanyGetCollection = connect.model(
   "GetCollection",
-  companySchema
+  Requirement
 );
 
 export const User = connect.model("User", userSchema, "userCollection");

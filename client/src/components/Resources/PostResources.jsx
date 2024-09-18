@@ -72,14 +72,18 @@ function PostResources() {
         }
       );
 
-      toast.success("resources created successfully!");
+      toast.success("resources created successfully!",{
+        autoClose:1000
+      });
       console.log("resources created successfully:", res.data);
     } catch (error) {
       console.error(
         "resources failed:",
         error.response ? error.response.data : error.message
       );
-      toast.error("An error occurred. Please try again later.");
+      toast.error("An error occurred. Please try again later.",{
+        autoClose:1000
+      });
     }
   };
 

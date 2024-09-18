@@ -26,7 +26,7 @@ export const Login = async (req, res) => {
     // Send response with login details and token
     return res.status(200).json({
       success: true,
-      message: "Login successful",
+      message: `Login successful`,
       id: user._id,
       user: { name: user.name, email: user.email },
       token: token,
@@ -53,7 +53,6 @@ export const Register = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      cpassword: hashedPassword,
     });
     await newUser.save();
 
@@ -75,15 +74,53 @@ export const Register = async (req, res) => {
   }
 };
 
+export const ForgotPass = async (req, res) => {
+  try {
+    const data = await User.findOne({ email: req.body.email });
+    const ResetPasswordToken = await data.generateForgetPassToken();
+    res.status(200).send({
+      success: true,
+      ResetPasswordToken: ResetPasswordToken,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const ResetPassword = async (req, res) => {
+  try {
+    const user = await User.findOne(req.body.email);
+
+    const password = user.password;
+    const password2 = req.body.password2;
+
+    const changedPass = await User.updateOne(
+      { password: password },
+      { $set: { password: password2 } }
+    );
+
+    console.log('pass changed', password)
+
+    res.status(200).json({
+      success: true,
+      msg: "Password changed successfully",
+      changedPass,
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const Delete = async (req, res) => {
   try {
     const { user } = req.body;
     const DeleteUser = await User.deleteOne({ user });
 
-    res.status(200).json({ message: "User Deleted Successfully", deleted_user : DeleteUser });
+    res
+      .status(200)
+      .json({ message: "User Deleted Successfully", deleted_user: DeleteUser });
   } catch (err) {
     console.error("Delete error:", err);
     res.status(500).json({ message: "Delete failed. Please try again later." });
   }
 };
-

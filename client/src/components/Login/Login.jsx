@@ -1,5 +1,4 @@
-
-import React, { useState } from "react"; 
+import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +14,7 @@ export const Login = () => {
 
   const [user, setUser] = useState({
     email: "",
-    password: "", 
+    password: "",
   });
 
   const handleChange = (e) => {
@@ -30,30 +29,29 @@ export const Login = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(
-        `${PORT_CLIENT}/api/users/login`,
-        user,
-        {
-          withCredentials: true,
-        }
-      );
+      const res = await axios.post(`${PORT_CLIENT}/api/users/login`, user, {
+        withCredentials: true,
+      });
 
       // Store the JWT token in localStorage
       localStorage.setItem("jwttoken", res.data.token);
-      console.log(res)
+      login(res.data.user);
 
-      login(res.data.user); 
-
-      toast.success(res.data.message);
-      navigate("/");
-      
+      toast.success(res.data.message,{
+        autoClose:1000
+      });
+      // navigate("/");
     } catch (error) {
       console.error("Login failed:", error);
       if (error.response) {
         if (error.response.status === 404) {
-          toast.error("User not registered");
+          toast.error("User not registered",{
+            autoClose:1000
+          });
         } else {
-          toast.error(`${error.response.data.message}`);
+          toast.error(`${error.response.data.message}`,{
+            autoClose:1000
+          });
         }
       }
     }
@@ -94,6 +92,15 @@ export const Login = () => {
           >
             No Account? Signup Now
           </Button>
+        </div>
+        <div className="line" >
+          
+        </div>
+        <div className="auto" >
+          or
+        </div>
+        <div>
+          Continue with Google
         </div>
       </form>
       <ToastContainer position="bottom-right" />

@@ -58,12 +58,14 @@ const Pages = () => {
 };
 
 const LoginAuthRoute = () => {
-  const { loggedInUser } = useAuth();
-  return loggedInUser ? <Navigate to="/" /> : <Login />;
+  // const { loggedInUser } = useAuth();
+  // return loggedInUser ? <Navigate to="/" /> : <Login />;
+  return <Login />;
 };
 const RegisterAuthRoute = () => {
-  const { loggedInUser } = useAuth();
-  return loggedInUser ? <Navigate to="/" /> : <Register />;
+  // const { loggedInUser } = useAuth();
+  // return loggedInUser ? <Navigate to="/" /> : <Register />;
+  return <Register />;
 };
 
 export default Pages;

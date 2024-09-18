@@ -110,8 +110,9 @@
   footer .container{
     display: grid;
   } 
-  .blog-post{
-    min-width: 13rem;
+  .blog-out{
+    display: grid;
+    grid-template-columns: 1fr 1fr !important; 
   }
 
 }

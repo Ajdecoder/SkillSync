@@ -5,6 +5,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [loggedInUser, setLoggedInUser] = useState(false);
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const token = localStorage.getItem("jwttoken");
@@ -18,6 +19,7 @@ export const AuthProvider = ({ children }) => {
         console.error("Error decoding token:", error);
       }
     }
+    setLoading(false)
   }, []);
 
   const login = (userDetails) => {
@@ -30,7 +32,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ loggedInUser, login, logout }}>
+    <AuthContext.Provider value={{ loggedInUser, login, logout ,loading }}>
       {children}
     </AuthContext.Provider>
   );
