@@ -24,15 +24,3 @@
 .contact > h1{
   text-align: center;
 }
-@media screen and (max-width: 768px) {
-  .contact h4 {
-    width: 100%;
-    margin-bottom: 30px;
-  }
-  .contact form div {
-    flex-direction: column;
-  }
-  .contact input {
-    width: 100%;
-  }
-}

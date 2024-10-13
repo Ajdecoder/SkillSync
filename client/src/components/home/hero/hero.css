@@ -72,18 +72,3 @@ select {
   margin: auto;
 }
 
-@media screen and (max-width: 800px) {
-  .hero .container {
-    padding-top: 30%;
-  }
-  .hero-form {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  form .box {
-    border-left: none;
-  }
-  form input {
-    width: 100%;
-  }
-}

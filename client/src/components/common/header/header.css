@@ -8,25 +8,18 @@ header {
   min-height: 15vh;
   width: 100%;
 }
-.reqli.active {
-  border-bottom: 3px solid #063070; /* Change color to fit your design */
-}
+
 
 header img {
   width: 170px;
 }
 header a {
   margin-left: 30px;
-  transition: 0.5s;
   font-weight: 500;
   padding: 5px;
 }
 
-.reqli:nth-child(3) {
-  background-color: red;
-}
-
-header a:hover {
+nav,.active {
   color: #216eb9;
 }
 .profile-icon-details {
@@ -55,7 +48,7 @@ header h4 {
   font-weight: 500;
   margin: -7px 10px 16px 5px;
 }
-header .toggle {
+header .toggle {  
   display: none;
 }
 .log-sign {
@@ -108,97 +101,5 @@ header .toggle {
   justify-content: space-around;
 }
 
-@media (max-width: 480px) {
-  header img {
-      width: 6.8rem !important;
-  }
-  header .small {
-    font-size: small !important;
-  }
 
-  .footerContact .container {
-    height: 115px !important;
-  }
-  .send{
-    justify-content: center;
-  }
-  .blog-out{
-    grid-template-columns: 1fr !important;
-  }
-}
 
-@media screen and (max-width: 768px) {
-  .dropdown-expand {
-    display: block;
-  }
-
-  .inpbox{
-    display: flex;
-    flex-direction: column;
-  }
-
-  .exp-icon {
-    margin-left: 33px;
-  }
-
-  .dropdown-expand, ul> li {
-    margin-top: 13px;
-  }
-
-  .top-header {
-    justify-content: space-around;
-  }
-
-  header {
-    padding: 0;
-  }
-  header img {
-    margin-top: 30px;
-  }
-  header .nav .flex {
-    display: none;
-  }
-  header .toggle {
-    display: block;
-    margin-top: 20px;
-  }
-  header .small {
-    position: fixed;
-    height: 85vh;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    background: white;
-    margin-top: 34px;
-    padding-top: 1rem;
-    font-size: x-large;
-  }
-  header li a {
-    display: inline-block;
-    margin-bottom: 20px;
-    color: #216eb9;
-  }
-
-  .head-btn {
-    height: 46px;
-    font-size: 8px;
-  }
-}
-
-@media screen and (max-width: 955px) {
-  header img {
-    width: 10.8rem;
-  }
-
-  .nav {
-    font-size: 0.8rem;
-  }
-
-  .head-btn {
-    height: 52px;
-    font-size: 12px;
-  }
-  .small {
-    position: fixed;
-  }
-}

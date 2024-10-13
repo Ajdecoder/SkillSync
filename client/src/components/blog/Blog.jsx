@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { blogPosts } from "../data/blogsData";
 import "../blog/Blog.css";
 
-const Blog = () => {
+const Blog = ({ spin, setSpin }) => {
   const [currentPage, setCurrentPage] = useState(0);
-  const [spin, setSpin] = useState(true);
   const postsPerPage = 6;
 
   const startIndex = currentPage * postsPerPage;
@@ -12,10 +11,13 @@ const Blog = () => {
   const currentPosts = blogPosts.slice(startIndex, endIndex);
 
   useEffect(() => {
-    setTimeout(() => {
-      setSpin(false);
-    }, 1000);
-  }, []);
+    setSpin(true); 
+    const timeout = setTimeout(() => {
+      setSpin(false); 
+    }, 500); 
+
+    return () => clearTimeout(timeout); 
+  }, [currentPage, setSpin]);
 
   const handlePrev = () => {
     if (currentPage > 0) {
@@ -32,7 +34,7 @@ const Blog = () => {
   return (
     <>
       {spin ? (
-        <div className="loading-div"></div>
+        <div className="loading-div"></div> 
       ) : (
         <div className="blog-out">
           {currentPosts.map((data) => (
@@ -52,12 +54,13 @@ const Blog = () => {
           ))}
         </div>
       )}
+
       {/* Pagination buttons */}
       {!spin && (
         <div className="navigation-btn">
           <button
             onClick={handlePrev}
-            className={currentPage === 0 ? `prev-btn disabled-btn` : `prev-btn`}
+            className={currentPage === 0 ? "prev-btn disabled-btn" : "prev-btn"}
             disabled={currentPage === 0}
           >
             Prev
@@ -65,7 +68,9 @@ const Blog = () => {
           <button
             onClick={handleNext}
             className={
-              endIndex >= blogPosts.length ? "next-btn disabled-btn" : `next-btn`
+              endIndex >= blogPosts.length
+                ? "next-btn disabled-btn"
+                : "next-btn"
             }
             disabled={endIndex >= blogPosts.length}
           >

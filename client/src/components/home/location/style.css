@@ -106,13 +106,3 @@
   margin-right: 20px;
   opacity: 0.8;
 }
-@media screen and (max-width: 800px) {
-  footer .container{
-    display: grid;
-  } 
-  .blog-out{
-    display: grid;
-    grid-template-columns: 1fr 1fr !important; 
-  }
-
-}
