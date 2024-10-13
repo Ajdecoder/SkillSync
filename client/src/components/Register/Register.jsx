@@ -27,7 +27,6 @@ export const Register = () => {
   };
 
   const register = async (e) => {
-    // Validate user input
     e.preventDefault();
     if (!user.name || !user.email || !user.password || !user.reEnterPassword) {
       toast.error("Please fill in all fields.",{
@@ -132,6 +131,11 @@ export const Register = () => {
           <button className="w-25 sign-btn" onClick={() => navigate("/login")}>
             Already have an account? Login Now
           </button>
+        </div>
+        <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'5px'}} >
+        <div className="line" style={{width:'100%'}} ></div>
+          <div className="auto">or</div>
+          <button style={{width:'50%' }}>Continue with Google</button>
         </div>
       </form>
       <ToastContainer position="bottom-right" />

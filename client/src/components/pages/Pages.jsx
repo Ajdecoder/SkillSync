@@ -1,45 +1,54 @@
-import React, { useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import React, { Suspense, useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "../home/Home";
 import Footer from "../common/footer/Footer";
 import About from "../about/About";
 import Pricing from "../pricing/Pricing";
-import Blog from "../blog/Blog";
 import Services from "../services/Services";
 import Contact from "../contact/Contact";
 import { Login } from "../Login/Login";
 import { Register } from "../Register/Register";
 import HireResources from "../Resources/HireResources";
 import PostResources from "../Resources/PostResources";
-import { AuthProvider, useAuth } from "../utils/AuthContext.jsx";
+import { AuthProvider } from "../utils/AuthContext.jsx";
 import { Resources } from "../Resources/Resources.jsx";
 import Aos from "aos";
-import "aos/dist/aos.css"
-import Header from "../common/header/Header.jsx";
+import "aos/dist/aos.css";
+import "../blog/Blog.css";
+
+
+const Header = React.lazy(() => import("../common/header/Header.jsx"));
+const Blog = React.lazy(() => import("../blog/Blog"));
 
 const Pages = () => {
-
-  useEffect(()=>{
+  useEffect(() => {
     Aos.init({
-      duration:1300,
-      once:false,
-    })
-  },[])
+      duration: 1300,
+      once: false,
+    });
+  }, []);
+
+  const [spin, setSpin] = useState(false); 
 
   return (
     <AuthProvider>
       <Router>
+      <Suspense fallback={<Header/>} >
         <Header />
+      </Suspense>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/services" element={<Services />} />
-          <Route path="/blog" element={<Blog />} />
+          <Route
+            path="/blog"
+            element={
+              <Suspense fallback={<div className="loading-div">Loading...</div>}>
+                <Blog spin={spin} setSpin={setSpin} />
+              </Suspense>
+            }
+          />
+
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/signup" element={<RegisterAuthRoute />} />
@@ -58,13 +67,10 @@ const Pages = () => {
 };
 
 const LoginAuthRoute = () => {
-  // const { loggedInUser } = useAuth();
-  // return loggedInUser ? <Navigate to="/" /> : <Login />;
   return <Login />;
 };
+
 const RegisterAuthRoute = () => {
-  // const { loggedInUser } = useAuth();
-  // return loggedInUser ? <Navigate to="/" /> : <Register />;
   return <Register />;
 };
 

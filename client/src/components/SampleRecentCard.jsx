@@ -26,10 +26,11 @@ export const SampleRecentCard = () => {
               key={i}
               data-aos={i % 2 === 0 ? "zoom-in-up" : "zoom-in-down"}
             >
-              <div className="img">
+              <div className="  ">
                 <img
                   src={cover_Img}
                   alt={company_name}
+                  style={{height:'13rem'}}
                 />
               </div>
               <div className="text">

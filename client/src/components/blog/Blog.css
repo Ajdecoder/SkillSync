@@ -77,7 +77,7 @@
   position: relative;
   bottom: 8px;
 }
-.navigation-btn {
+navigation-btn {
   display: flex;
 }
 
@@ -101,9 +101,4 @@
   }
 }
 
-@media (max-width: 768px) {
-  .blog-out {
-    grid-template-columns: 1fr 1fr !important;
-    display: grid;
-  }
-}
+

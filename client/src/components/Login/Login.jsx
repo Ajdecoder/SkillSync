@@ -33,24 +33,23 @@ export const Login = () => {
         withCredentials: true,
       });
 
-      // Store the JWT token in localStorage
       localStorage.setItem("jwttoken", res.data.token);
       login(res.data.user);
 
-      toast.success(res.data.message,{
-        autoClose:1000
+      toast.success(res.data.message, {
+        autoClose: 1000,
       });
-      // navigate("/");
+      navigate("/");
     } catch (error) {
       console.error("Login failed:", error);
       if (error.response) {
         if (error.response.status === 404) {
-          toast.error("User not registered",{
-            autoClose:1000
+          toast.error("User not registered", {
+            autoClose: 1000,
           });
         } else {
-          toast.error(`${error.response.data.message}`,{
-            autoClose:1000
+          toast.error(`${error.response.data.message}`, {
+            autoClose: 1000,
           });
         }
       }
@@ -93,14 +92,10 @@ export const Login = () => {
             No Account? Signup Now
           </Button>
         </div>
-        <div className="line" >
-          
-        </div>
-        <div className="auto" >
-          or
-        </div>
-        <div>
-          Continue with Google
+        <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'5px'}} >
+        <div className="line" style={{width:'100%'}} ></div>
+          <div className="auto">or</div>
+          <button style={{width:'50%' }}>Continue with Google</button>
         </div>
       </form>
       <ToastContainer position="bottom-right" />

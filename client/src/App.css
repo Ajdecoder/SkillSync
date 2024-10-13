@@ -46,7 +46,7 @@ body {
   display: flex;
 }
 
-.nav {
+nav {
   margin-bottom: 21px !important;
   position: relative;
   right: 30px;
@@ -183,80 +183,10 @@ img {
   background: #fff;
 }
 
-@media screen and (max-width: 998px) {
-  .grid4,
-  .grid3,
-  .grid5 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .content {
-    padding: 0 10px !important;
-  }
-  .heading {
-    width: 100%;
-  }
-
-  .nav {
-    font-size: 0.93em;
-  }
-}
 
 .newsletter {
   position: static;
   padding: 25px;
-}
-
-@media (max-width: 578px) {
-  .grid3 {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .recentdummy {
-    height: 27rem;
-    width: 21rem;
-  }
-
-  .head-btn {
-    display: none;
-  }
-
-  .awards h1 {
-    font-size: 20px !important;
-  }
-
-  .footerContact h1 {
-    font-size: medium !important;
-  }
-
-  .footerContact button {
-    margin-top: 9px;
-    font-size: 15px;
-  }
-
-  .blog-out {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr)) !important;
-  }
-}
-
-@media screen and (max-width: 750px) {
-  .grid3 {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .footerContact button {
-    font-size: 15px;
-  }
-
-  .footerContact h1 {
-    font-size: large !important;
-  }
-
-  .blog-out{
-    grid-template-columns: 1fr 1fr;
-  }
 }
 
 .auto{

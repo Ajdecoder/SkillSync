@@ -729,11 +729,7 @@ body {
   width: 18em;
   padding: 2em 1em;
 }
-@media only screen and (max-width: 750px) {
-  .demo-page .demo-page-navigation {
-    display: none;
-  }
-}
+
 .demo-page .demo-page-navigation nav {
   position: -webkit-sticky;
   position: sticky;
@@ -767,11 +763,7 @@ body {
   padding: 2em 1em;
   max-width: 100%;
 }
-@media only screen and (min-width: 750px) {
-  .demo-page .demo-page-content {
-    width: calc(100% - 18em);
-  }
-}
+
 footer {
   text-align: center;
   padding: 1em 0;
