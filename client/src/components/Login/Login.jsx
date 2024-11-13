@@ -27,42 +27,34 @@ export const Login = () => {
   };
   const loginUser = async (e) => {
     e.preventDefault();
-  
+
     try {
       const res = await axios.post(`${PORT_CLIENT}/api/users/login`, user, {
         withCredentials: true,
       });
-  
+
       login(res.data.user);
-  
+
       setUser({
         email: "",
         password: "",
       });
-  
+
       if (res.status === 200) {
         const token = res.data.token;
         localStorage.setItem("jwttoken", token);
-  
-        
+
         toast.success(`${res.data.message}`, {
-          autoClose: 2000,  
+          autoClose: 2000,
         });
-  
-        
+
         setTimeout(() => {
           navigate("/");
-        }, 2000); 
+        }, 2000);
       }
-  
     } catch (error) {
-      console.error("Login failed:", error);
-      toast.error("Internal Server Error", {
-        autoClose: 1000,
-      });
-  
       if (error.response) {
-        if (error.response.status === 404) {
+        if (error.response.status === 404) { 
           toast.error("User not registered", {
             autoClose: 1000,
           });
@@ -74,7 +66,6 @@ export const Login = () => {
       }
     }
   };
-  
 
   return (
     <div className="loginContainer m-5">
@@ -122,7 +113,7 @@ export const Login = () => {
         >
           <div className="line" style={{ width: "100%" }}></div>
           <div className="auto">or</div>
-          <GoogleAuth/>
+          <GoogleAuth />
         </div>
       </form>
       <ToastContainer position="bottom-right" />
