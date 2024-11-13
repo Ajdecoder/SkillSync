@@ -1,5 +1,5 @@
 import React from "react";
-// import '../../tailwind.css'
+import '../../tailwind.css'
 
 
 export const GoogleAuth = () => {

@@ -20,7 +20,7 @@ header a {
 }
 
 nav,.active {
-  color: #216eb9;
+  color: #216eb9 !important;
 }
 .profile-icon-details {
   cursor: pointer;

@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./Register.css";
 import {PORT_CLIENT } from "../../commonClient";
 import { useAuth } from "../utils/AuthContext";
+import { GoogleAuth } from "../Oauth/Oauth";
 
 export const Register = () => {
   const navigate = useNavigate();
@@ -135,7 +136,7 @@ export const Register = () => {
         <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:'5px'}} >
         <div className="line" style={{width:'100%'}} ></div>
           <div className="auto">or</div>
-          <button style={{width:'50%' }}>Continue with Google</button>
+          <GoogleAuth/>
         </div>
       </form>
       <ToastContainer position="bottom-right" />

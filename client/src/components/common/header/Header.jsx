@@ -71,7 +71,7 @@ const Header = () => {
               <li key={index}>
                 <Link
                   to={item.path}
-                  className={`reqli ${activeTab === item.text ? "active" : ""}`}
+                  className={`reqli text-slate-500 ${activeTab === item.text ? "active" : ""}`}
                   onClick={(event) => {
                     handleNavClick(item.text);
                     if (item.text === "Requirement") {

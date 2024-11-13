@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import "./RecentCard.css";  
 import { useAuth } from "../../utils/AuthContext";
 import { PORT_CLIENT } from "../../../commonClient";
 
@@ -32,8 +31,8 @@ const RecentCard = () => {
   }
 
   return (
-    <div className="content grid3 mtop">
-      {requirements.map((val, index) => {
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+      {requirements.map((card, index) => {
         const {
           company_name,
           company_website,
@@ -44,47 +43,64 @@ const RecentCard = () => {
           address,
           cover_Img,
           Status,
-        } = val;
+        } = card;
 
         return (
           loggedInUser && (
-            <div className="box shadow" key={index} 
-              // data-aos={index%2 ===0 ? 'zoom-in-up':'zoom-in-down'} 
+            <div
+              key={index}
+              className="shadow-lg rounded-lg overflow-hidden bg-white p-6"
+              data-aos={index % 2 === 0 ? "zoom-in-up" : "zoom-in-down"}
             >
-              <div className="img">
-                <img src={`http://localhost:9002/${cover_Img}`} alt={company_name} />
-              </div>
-              <div className="text">
-                <div className="category flex">
+              <img
+                src={`http://localhost:9002/${cover_Img}`}
+                alt={company_name}
+                className="w-full h-52 object-cover"
+              />
+
+              <div className="p-4 space-y-2">
+                <div className="flex items-center space-x-2">
                   <span
-                    style={{
-                      background: Status==='required' ? "#25b5791a" : "#ff98001a",
-                      color: Status==='required' ? "#25b579" : "#ff9800",
-                    }}
+                    className={`text-sm font-semibold px-2 py-1 rounded ${
+                      Status === "required"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-orange-100 text-orange-700"
+                    }`}
                   >
-                    {Status==='required' ? "Hiring" : "Required"}
+                    {Status === "required" ? "Hiring" : "Required"}
                   </span>
                 </div>
-                <h4>{company_name}</h4>
-                <p>
-                  <i className="fa fa-location-dot"></i>{" "}
+
+                <h4 className="text-lg font-bold">{company_name}</h4>
+                <p className="text-sm text-gray-600">
+                  <i className="fa fa-location-dot mr-1"></i>
                   {available_expert.join(", ")}
                 </p>
-                <p>{address}</p>
-                <p>{desc_requirement}</p>
-                <p>From: {new Date(from).toLocaleDateString()}</p>
-                <p>To: {new Date(to).toLocaleDateString()}</p>
-                <p>
+                <p className="text-sm text-gray-500">{address}</p>
+                <p className="text-sm text-gray-500">{desc_requirement}</p>
+                <p className="text-xs text-gray-400">
+                  From: {new Date(from).toLocaleDateString()}
+                </p>
+                <p className="text-xs text-gray-400">
+                  To: {new Date(to).toLocaleDateString()}
+                </p>
+                <p className="text-sm text-blue-500">
                   Website:{" "}
-                  <a href={`http://${company_website}`} target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={`http://${company_website}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:text-blue-700"
+                  >
                     {company_website}
                   </a>
                 </p>
               </div>
-              <div className="button flex">
-                <div>
-                  <button className="btn2 bg-slate-500 border-s-indigo-500" >Connect</button>
-                </div>
+
+              <div className="p-2 inline-block justify-center bg-green-400 rounded-md hover:text-sky-600">
+                <button className="px-4 py-2 border border-gray-300 rounded hover:border-gray-400 transition duration-200">
+                  Connect
+                </button>
               </div>
             </div>
           )

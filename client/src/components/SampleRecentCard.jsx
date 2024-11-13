@@ -1,12 +1,12 @@
 import React from "react";
 import { dummyRecentCards } from "./data/Data";
-import "../components/home/recent/RecentCard.css";
-// import '../tailwind.css'
+import "../components/home/recent/RecentCard.css"; // If necessary, keep this for specific custom styles
+import '../tailwind.css';
 
 export const SampleRecentCard = () => {
   return (
-    <div className="content grid3 mtop">
-      {dummyRecentCards.map((val, i) => {
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+      {dummyRecentCards.map((card, index) => {
         const {
           company_name,
           company_website,
@@ -17,59 +17,53 @@ export const SampleRecentCard = () => {
           address,
           cover_Img,
           Status,
-        } = val;
+        } = card;
 
         return (
-          <div key={i} >
-            <div
-              className="box shadow recentdummy"
-              key={i}
-              data-aos={i % 2 === 0 ? "zoom-in-up" : "zoom-in-down"}
-            >
-              <div className="  ">
-                <img
-                  src={cover_Img}
-                  alt={company_name}
-                  style={{height:'13rem'}}
-                />
+          <div
+            key={index}
+            className="shadow-lg rounded-lg overflow-hidden bg-white p-10"
+            data-aos={index % 2 === 0 ? "zoom-in-up" : "zoom-in-down"}
+          >
+            <img src={cover_Img} alt={company_name} className="w-full h-52 object-cover" />
+
+            <div className="p-4 space-y-2">
+              <div className="flex items-center space-x-2">
+                <span
+                  className={`text-sm font-semibold px-2 py-1 rounded ${
+                    Status === "required" ? "bg-green-100 text-green-700" : "bg-orange-100 text-orange-700"
+                  }`}
+                >
+                  {Status === "required" ? "Hiring" : "Required"}
+                </span>
               </div>
-              <div className="text">
-                <div className="category flex">
-                  <span
-                    style={{
-                      background:
-                        Status === "required" ? "#25b5791a" : "#ff98001a",
-                      color: Status === "required" ? "#25b579" : "#ff9800",
-                    }}
-                  >
-                    {Status === "required" ? "Hiring" : "Required"}
-                  </span>
-                </div>
-                <h4>{company_name}</h4>
-                <p>
-                  <i className="fa fa-location-dot"></i>{" "}
-                  {available_expert.join(", ")}
-                </p>
-                <p>{address}</p>
-                <p>{desc_requirement}</p>
-                <p>From: {new Date(from).toLocaleDateString()}</p>
-                <p>To: {new Date(to).toLocaleDateString()}</p>
-                <p>
-                  Website:{" "}
-                  <a
-                    href={`http://${company_website}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {company_website}
-                  </a>
-                </p>
-              </div>
-              <div className="button flex">
-                <div>
-                  <button className="btn2 border border-slate-300 hover:border-slate-400 ...">Connect</button>
-                </div>
-              </div>
+
+              <h4 className="text-lg font-bold">{company_name}</h4>
+              <p className="text-sm text-gray-600">
+                <i className="fa fa-location-dot mr-1"></i>
+                {available_expert.join(", ")}
+              </p>
+              <p className="text-sm text-gray-500">{address}</p>
+              <p className="text-sm text-gray-500">{desc_requirement}</p>
+              <p className="text-xs text-gray-400">From: {new Date(from).toLocaleDateString()}</p>
+              <p className="text-xs text-gray-400">To: {new Date(to).toLocaleDateString()}</p>
+              <p className="text-sm text-blue-500">
+                Website:{" "}
+                <a
+                  href={`http://${company_website}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-blue-700"
+                >
+                  {company_website}
+                </a>
+              </p>
+            </div>
+
+            <div className="p-4 inline-block justify-center bg-green-400 rounded-md hover:text-sky-600">
+              <button className="px-4 py-2 border border-gray-300 rounded hover:border-gray-400 transition duration-200 ">
+                Connect
+              </button>
             </div>
           </div>
         );
