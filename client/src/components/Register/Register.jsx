@@ -66,15 +66,9 @@ export const Register = () => {
     } catch (error) {
       console.error("Registration error:", error);
       if (error.response) {
-        if (error.response.status === 400) {
-          toast.error("User already registered",{
+          toast.error(`${error.response.data.message}`,{
             autoClose:1000
           });
-        } else {
-          toast.error(`Error: ${error.response.data.message}`,{
-            autoClose:1000
-          });
-        }
       } else if (error.request) {
         toast.error("Network Error: Please check your internet connection.",{
           autoClose:1000
