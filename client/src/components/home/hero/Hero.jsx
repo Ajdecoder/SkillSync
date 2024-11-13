@@ -10,14 +10,13 @@ const Hero = () => {
   const { loggedInUser } = useAuth();
   const [programmers, setProgramers] = useState([]);
 
-  // Function to fetch programmer data
   const programmerDAtafetch = async () => {
     try {
       const response = await axios.get(
         `${PORT_CLIENT}/api/requirements/allRequirements`
       );
 
-      console.log("Full API Response:", response); // Log the entire response
+      console.log("Full API Response:", response);
       if (response.data && Array.isArray(response.data.data)) {
         setProgramers(response.data.data);
       } else {
@@ -28,22 +27,18 @@ const Hero = () => {
     }
   };
 
-  // Use useEffect to fetch data when component mounts
   useEffect(() => {
     programmerDAtafetch();
   }, []);
 
-  // Log programmers state whenever it updates
   useEffect(() => {
     console.log("programmers print->>>", programmers);
   }, [programmers]);
 
-  // State to hold the selected values for filtering
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedExpertType, setSelectedExpertType] = useState("");
   const [selectedPriceRange, setSelectedPriceRange] = useState("");
 
-  // Filter function to filter programmers based on selected values
   const filteredProgrammers = programmers.filter((programmer) => {
     return (
       (selectedCity === "" || programmer.address === selectedCity) &&
@@ -148,7 +143,10 @@ const Hero = () => {
           </div>
         </section>
       )}
-      <Recent programmers={programmers} filteredProgrammers={filteredProgrammers} />
+      <Recent
+        programmers={programmers}
+        filteredProgrammers={filteredProgrammers}
+      />
     </>
   );
 };

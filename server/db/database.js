@@ -5,7 +5,7 @@ import { Requirement } from "../model/Requirement.js";
 
 dotenv.config();
 
-export const connectDB = async () => {
+export const connectDB = async () => {  
   try {
     const connection = await mongoose.createConnection(process.env.MONGO_URL);
     console.log("Company collection MongoDB connected successfully");

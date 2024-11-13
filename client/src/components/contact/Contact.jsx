@@ -1,6 +1,7 @@
 import React from "react";
 import "./contact.css";
 
+
 const Contact = () => {
   return (
     <>
@@ -18,7 +19,7 @@ const Contact = () => {
             </div>
             <input type="text" placeholder="Subject" />
             <textarea cols="30" rows="10"></textarea>
-            <button className="submit-btn" >Submit Request</button>
+            <button className="submit-btn rounded-md px-7 py-4 bg-[#216eb9] border-none text-white font-bold cursor-pointer" >Submit Request</button>
           </form>
       </section>
     </>

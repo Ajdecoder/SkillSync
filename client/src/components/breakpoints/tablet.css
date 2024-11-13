@@ -16,7 +16,6 @@
   }
 }
 
-
 @media screen and (max-width: 800px) {
   footer .container {
     display: grid;
@@ -36,23 +35,23 @@
     width: 100%;
   }
 
-    footer .container {
-      display: grid;
-    }
-    .blog-out {
-      display: grid;
-      grid-template-columns: 1fr 1fr !important;
-    }
+  footer .container {
+    display: grid;
+  }
+  .blog-out {
+    display: grid;
+    grid-template-columns: 1fr 1fr !important;
+  }
 
-    footer .container {
-      display: grid;
-    }
-    .blog-out {
-      display: grid;
-      grid-template-columns: 1fr 1fr !important;
-    }
+  footer .container {
+    display: grid;
+  }
+  .blog-out {
+    display: grid;
+    grid-template-columns: 1fr 1fr !important;
+  }
 
-.price .content {
+  .price .content {
     flex-direction: column;
   }
 
@@ -66,9 +65,7 @@
     border-radius: 10px;
     margin-bottom: 50px;
   }
-
-  }
-
+}
 
 .registerContainer form {
   display: block;
@@ -100,8 +97,8 @@
   header {
     padding: 0;
   }
-  header img {
-    margin-top: 30px;
+  .logo img {
+    margin-top: 10px;
   }
   header nav .flex {
     display: none;
@@ -159,7 +156,8 @@
     display: flex;
     gap: 19px;
   }
-  header,.toggle {
+  header,
+  .toggle {
     margin-bottom: 13px;
     display: block !important;
   }
@@ -167,7 +165,6 @@
     grid-template-columns: 1fr 1fr !important;
     display: grid;
   }
-
 }
 
 @media screen and (max-width: 955px) {
@@ -188,12 +185,11 @@
   }
 }
 
-
 @media only screen and (max-width: 750px) {
-    .demo-page .demo-page-navigation {
-      display: none;
-    }
-    .demo-page .demo-page-content {
-        width: calc(100% - 18em);
-      }
+  .demo-page .demo-page-navigation {
+    display: none;
   }
+  .demo-page .demo-page-content {
+    width: calc(100% - 18em);
+  }
+}

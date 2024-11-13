@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { blogPosts } from "../data/blogsData";
 import "../blog/Blog.css";
+// import ".././../tailwind.css";
 
 const Blog = ({ spin, setSpin }) => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -11,12 +12,12 @@ const Blog = ({ spin, setSpin }) => {
   const currentPosts = blogPosts.slice(startIndex, endIndex);
 
   useEffect(() => {
-    setSpin(true); 
+    setSpin(true);
     const timeout = setTimeout(() => {
-      setSpin(false); 
-    }, 500); 
+      setSpin(false);
+    }, 500);
 
-    return () => clearTimeout(timeout); 
+    return () => clearTimeout(timeout);
   }, [currentPage, setSpin]);
 
   const handlePrev = () => {
@@ -34,7 +35,7 @@ const Blog = ({ spin, setSpin }) => {
   return (
     <>
       {spin ? (
-        <div className="loading-div"></div> 
+        <div className="loading-div"></div>
       ) : (
         <div className="blog-out">
           {currentPosts.map((data) => (
@@ -47,7 +48,7 @@ const Blog = ({ spin, setSpin }) => {
               <div className="blog-content">
                 <p>{data.content.slice(0, 200)}...</p>
               </div>
-              <div className="read-more-button">
+              <div className="read-more-button text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
                 <button>Read More</button>
               </div>
             </div>
@@ -57,10 +58,10 @@ const Blog = ({ spin, setSpin }) => {
 
       {/* Pagination buttons */}
       {!spin && (
-        <div className="navigation-btn">
+        <div className="navigation-btn flex">
           <button
             onClick={handlePrev}
-            className={currentPage === 0 ? "prev-btn disabled-btn" : "prev-btn"}
+            className={currentPage === 0 ? "prev-btn disabled-btn" : "prev-btn border border-red-500"}
             disabled={currentPage === 0}
           >
             Prev
@@ -76,7 +77,7 @@ const Blog = ({ spin, setSpin }) => {
           >
             Next
           </button>
-          <span style={{ margin: "auto" }}>
+          <span style={{ margin: "auto" }} >
             {currentPage + 1} of {Math.ceil(blogPosts.length / postsPerPage)}
           </span>
         </div>

@@ -12,7 +12,6 @@ const Home = () => {
     <>
     <div>
       <Hero />
-      <Recent />
       <Featured />
       <Awards />
       <Location />

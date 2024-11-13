@@ -1,7 +1,7 @@
 import React from "react";
 import { dummyRecentCards } from "./data/Data";
 import "../components/home/recent/RecentCard.css";
-
+// import '../tailwind.css'
 
 export const SampleRecentCard = () => {
   return (
@@ -67,7 +67,7 @@ export const SampleRecentCard = () => {
               </div>
               <div className="button flex">
                 <div>
-                  <button className="btn2">Connect</button>
+                  <button className="btn2 border border-slate-300 hover:border-slate-400 ...">Connect</button>
                 </div>
               </div>
             </div>

@@ -17,15 +17,27 @@ const Header = () => {
   useEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth <= 768);
+      // Reset the nav list state when switching to a larger screen
+      if (window.innerWidth > 768) {
+        setIsNavListOpen(false);
+      }
     };
-
+  
     window.addEventListener("resize", handleResize);
-    handleResize();
-
+    handleResize(); // call it once on component mount to set the initial state
+  
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  
+
+
+  useEffect(() => {
+    if (!loggedInUser) {
+      setShowAboutUser(false);
+    }
+  }, [loggedInUser]);
 
   const handleMouseClick = (event) => {
     event.stopPropagation();
@@ -63,7 +75,7 @@ const Header = () => {
                   onClick={(event) => {
                     handleNavClick(item.text);
                     if (item.text === "Requirement") {
-                      handleRequirementClick(event); // Toggle dropdown
+                      handleRequirementClick(event); 
                     }
                   }}
                 >

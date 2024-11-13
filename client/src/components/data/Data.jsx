@@ -295,10 +295,11 @@ export const team = [
     ],
   },
 ];
+
 export const price = [
   {
     plan: "Basic",
-    id:1,
+    id: 1,
     price: "29",
     ptext: "per user, per month",
     list: [
@@ -308,59 +309,59 @@ export const price = [
       },
       {
         icon: <i className="fa-solid fa-check"></i>,
-        text: "120GB CDN Bandwidth",
+        text: "100GB Cloud Storage",
       },
       {
         icon: <i className="fa-solid fa-check"></i>,
-        text: "5GB Cloud Storage",
+        text: "Email Support",
       },
       {
         change: "color",
         icon: <i className="fa-solid fa-x"></i>,
-        text: "Personal Help Support",
+        text: "Dedicated Account Manager",
       },
       {
         change: "color",
         icon: <i className="fa-solid fa-x"></i>,
-        text: "Enterprise SLA",
+        text: "Priority Support",
       },
     ],
   },
   {
     best: "Best Value",
     plan: "Standard",
-    id:2,
+    id: 2,
     price: "49",
     ptext: "per user, per month",
     list: [
       {
         icon: <i className="fa-solid fa-check"></i>,
-        text: "99.5% Uptime Guarantee",
+        text: "99.9% Uptime Guarantee",
       },
       {
         icon: <i className="fa-solid fa-check"></i>,
-        text: "150GB CDN Bandwidth",
+        text: "250GB Cloud Storage",
       },
       {
         icon: <i className="fa-solid fa-check"></i>,
-        text: "10GB Cloud Storage",
+        text: "Chat & Email Support",
       },
       {
         icon: <i className="fa-solid fa-check"></i>,
-        text: "Personal Help Support",
+        text: "Dedicated Account Manager",
       },
       {
         change: "color",
         icon: <i className="fa-solid fa-x"></i>,
-        text: "Enterprise SLA",
+        text: "Priority Support",
       },
     ],
   },
   {
     plan: "Platinum",
-    id:3,
-    price: "79",
-    ptext: "2 user, per month",
+    id: 3,
+    price: "99",
+    ptext: "per 3 users, per month",
     list: [
       {
         icon: <i className="fa-solid fa-check"></i>,
@@ -368,23 +369,25 @@ export const price = [
       },
       {
         icon: <i className="fa-solid fa-check"></i>,
-        text: "200GB CDN Bandwidth",
+        text: "500GB Cloud Storage",
       },
       {
         icon: <i className="fa-solid fa-check"></i>,
-        text: "20GB Cloud Storage",
+        text: "24/7 Premium Support",
       },
       {
         icon: <i className="fa-solid fa-check"></i>,
-        text: "Personal Help Support",
+        text: "Dedicated Account Manager",
       },
       {
         icon: <i className="fa-solid fa-check"></i>,
-        text: "Enterprise SLA",
+        text: "Priority Support & SLA",
       },
     ],
   },
 ];
+
+
 export const footer = [
   {
     title: "LAYOUTS",

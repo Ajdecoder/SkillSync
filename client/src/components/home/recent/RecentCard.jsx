@@ -48,8 +48,8 @@ const RecentCard = () => {
 
         return (
           loggedInUser && (
-            <div className="box shadow" key={index}
-            // data-aos={index%2 ===0 ? 'zoom-in-up':'zoom-in-down'}
+            <div className="box shadow" key={index} 
+              // data-aos={index%2 ===0 ? 'zoom-in-up':'zoom-in-down'} 
             >
               <div className="img">
                 <img src={`http://localhost:9002/${cover_Img}`} alt={company_name} />
@@ -83,7 +83,7 @@ const RecentCard = () => {
               </div>
               <div className="button flex">
                 <div>
-                  <button className="btn2">Connect</button>
+                  <button className="btn2 bg-slate-500 border-s-indigo-500" >Connect</button>
                 </div>
               </div>
             </div>

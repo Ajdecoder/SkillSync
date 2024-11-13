@@ -12,6 +12,7 @@
   border-radius: 5px !important;
   margin-bottom: 20px !important;
   border: 1px solid rgb(209, 178, 178);
+  animation: ease-in-out;
 }
 
 .loginfd:hover {

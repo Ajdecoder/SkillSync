@@ -13,8 +13,8 @@ const Recent = () => {
         <section className="recent padding">
           <div className="container">
             <Heading
-              title="Recent Company Listed"
-              subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+              title="Newly Listed Companies"
+              subtitle="Explore the latest companies seeking talent. Stay updated with fresh opportunities and potential career moves."
             />
             <RecentCard />
           </div>
