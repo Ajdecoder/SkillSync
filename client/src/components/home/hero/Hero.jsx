@@ -32,7 +32,7 @@ const Hero = () => {
   }, []);
 
   useEffect(() => {
-    console.log("programmers print->>>", programmers);
+    
   }, [programmers]);
 
   const [selectedCity, setSelectedCity] = useState("");

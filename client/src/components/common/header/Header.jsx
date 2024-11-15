@@ -66,7 +66,7 @@ const Header = () => {
           </Link>
         </div>
         <nav className="nav">
-          <ul className={isNavListOpen ? "small" : "flex"}>
+          <ul className={isNavListOpen ? "small overflow-scroll" : "flex"}>
             {nav.map((item, index) => (
               <li key={index}>
                 <Link
@@ -117,7 +117,7 @@ const Header = () => {
                     <p>Name: {loggedInUser.name}</p>
                     <p>Email: {loggedInUser.email}</p>
                     <div>
-                      <button onClick={logout} className="log-sign">
+                      <button onClick={logout} className="log-sign hover:bg-red-600 duration-500">
                         <i className="fa fa-sign-out"></i> Logout
                       </button>
                     </div>
@@ -126,9 +126,11 @@ const Header = () => {
               </h6>
             </>
           ) : (
+          <>
             <Link to="/login" className="log-sign">
               <i className="fa fa-sign-in"></i> Sign in
             </Link>
+          </>
           )}
         </div>
         <div className="toggle">

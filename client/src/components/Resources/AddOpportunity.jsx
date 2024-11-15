@@ -6,11 +6,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../utils/AuthContext";
 import { Login } from "../Login/Login";
 import TalentSearch from "../TalentSearch/TalentSearchForm";
+import AddOpportunityForm from "../AddOpportunity/AddOpportunityForm";
 
-const HireResources = () => {
+const AddOpportunity = () => {
   const { loggedInUser } = useAuth();
 
-  return loggedInUser ? <TalentSearch /> : <Login />;
+  return loggedInUser ? <AddOpportunityForm /> : <Login />;
 };
 
-export default HireResources;
+export default AddOpportunity;

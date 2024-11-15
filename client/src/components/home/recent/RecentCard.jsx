@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../utils/AuthContext";
 import { PORT_CLIENT } from "../../../commonClient";
+import { useNavigate } from "react-router-dom"; // Importing useNavigate
 
 const RecentCard = () => {
   const { loggedInUser } = useAuth();
   const [requirements, setRequirements] = useState([]);
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // Hook to navigate to another page
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,7 +17,9 @@ const RecentCard = () => {
           `${PORT_CLIENT}/api/requirements/allRequirements`,
           { withCredentials: true }
         );
-        const { data: { data: requirementsData } } = response;
+        const {
+          data: { data: requirementsData },
+        } = response;
         setRequirements(requirementsData || []);
       } catch (error) {
         console.error("API Error:", error.message);
@@ -29,6 +33,17 @@ const RecentCard = () => {
   if (error) {
     return <div>{error}</div>;
   }
+
+  const handleConnectClick = (company, index) => {
+    // Navigate to the new page, passing company data as state
+
+    const post_id = requirements[index]._id;
+    console.log("requirements Index", requirements[index]._id);
+    console.log("requirements", requirements);
+
+    // console.log("requirements Index",index)
+    navigate(`/connect/${post_id}`, { state: { company } });
+  };
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
@@ -98,7 +113,10 @@ const RecentCard = () => {
               </div>
 
               <div className="p-2 inline-block justify-center bg-green-400 rounded-md hover:text-sky-600">
-                <button className="px-4 py-2 border border-gray-300 rounded hover:border-gray-400 transition duration-200">
+                <button
+                  className="px-4 py-2 border border-gray-300 rounded hover:border-gray-400 transition duration-200"
+                  onClick={() => handleConnectClick(card, index)}
+                >
                   Connect
                 </button>
               </div>

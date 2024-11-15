@@ -25,12 +25,12 @@ export const nav = [
 
 export const navExpand = [
   {
-    text: "Hire Requirements",
+    text: "Talent Search",
     path: "requirements/hire-talent",
   },
   {
-    text: "Post Requirements",
-    path: "requirements/post-resources",
+    text: "Add Opportunity",
+    path: "requirements/add-opportunity",
   },
 ];
 

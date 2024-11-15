@@ -1,6 +1,6 @@
 import React from "react";
 import { dummyRecentCards } from "./data/Data";
-import "../components/home/recent/RecentCard.css"; // If necessary, keep this for specific custom styles
+import "../components/home/recent/RecentCard.css"; 
 import '../tailwind.css';
 
 export const SampleRecentCard = () => {
@@ -23,7 +23,6 @@ export const SampleRecentCard = () => {
           <div
             key={index}
             className="shadow-lg rounded-lg overflow-hidden bg-white p-10"
-            data-aos={index % 2 === 0 ? "zoom-in-up" : "zoom-in-down"}
           >
             <img src={cover_Img} alt={company_name} className="w-full h-52 object-cover" />
 
@@ -60,8 +59,8 @@ export const SampleRecentCard = () => {
               </p>
             </div>
 
-            <div className="p-4 inline-block justify-center bg-green-400 rounded-md hover:text-sky-600">
-              <button className="px-4 py-2 border border-gray-300 rounded hover:border-gray-400 transition duration-200 ">
+            <div className="p-2 inline-block justify-center bg-green-400 rounded-md hover:text-sky-600">
+              <button className="px-4 p-2 border border-gray-300 rounded hover:border-gray-400 transition duration-200 ">
                 Connect
               </button>
             </div>
