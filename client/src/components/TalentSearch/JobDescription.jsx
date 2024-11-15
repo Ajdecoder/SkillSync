@@ -1,0 +1,36 @@
+// JobDescription.js
+import React from 'react';
+import { useHireFormContext } from '../utils/HireFormContext';
+
+const JobDescription = ({  nextStep, prevStep }) => {
+
+    const {formData, handleFormDataChange} = useHireFormContext()
+
+  const handleDescriptionChange = (e) => {
+    handleFormDataChange({ description: e.target.value });
+  };
+
+  return (
+    <div className='p-4'>
+      <h2 className="text-xl font-semibold mb-4">Job Description</h2>
+      <textarea
+        value={formData.description}
+        onChange={handleDescriptionChange}
+        className="w-full p-3 border border-gray-300 rounded-md mb-4"
+        rows="4"
+        placeholder="Enter job description"
+      />
+
+      <div className="flex justify-between">
+        <button className="bg-gray-500 text-white px-4 py-2 rounded-md" onClick={prevStep}>
+          Back
+        </button>
+        <button className="bg-blue-500 text-white px-4 py-2 rounded-md" onClick={nextStep}>
+          Next
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default JobDescription;

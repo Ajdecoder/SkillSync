@@ -5,17 +5,7 @@ import "./footer.css";
 const Footer = () => {
   return (
     <>
-      <section className='footerContact'>
-        <div className='container'>
-          <div className='send flex'>
-            <div className='text'>
-              <h1>Do You Have Questions?</h1>
-              <p>We'll help you to grow your career and growth.</p>
-            </div>
-            <button className='btn5'>Contact Us Today</button>
-          </div>
-        </div>
-      </section>
+    
 
       <footer className="bottom-footer" >
         <div className='box'>
@@ -28,7 +18,7 @@ const Footer = () => {
 
             <div className='input'>
               <input type='text' placeholder='Email Address' />
-              <button className="foot-btn">Subscribe</button>
+              <button className="foot-btn bg-green-500 p-1">Subscribe</button>
             </div>
           </div>
         </div>

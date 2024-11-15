@@ -11,7 +11,7 @@ header {
 
 
 header img {
-  width: 170px;
+  width: 140px;
 }
 header a {
   margin-left: 30px;
@@ -73,9 +73,10 @@ header .toggle {
   height: 8rem;
   position: absolute;
   top: 60px;
-  left: 42px;
+  left: 17%;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  width: 14rem;
+  width: 11rem;
+  font-size: 84%;
 }
 
 

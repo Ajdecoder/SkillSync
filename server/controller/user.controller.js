@@ -28,7 +28,7 @@ export const Login = async (req, res) => {
       success: true,
       message: `Login successful`,
       id: user._id,
-      user: { name: user.name, email: user.email },
+      user: { name: user.name, email: user.email, role:user.role },
       token: token,
     });
   } catch (err) {
@@ -40,7 +40,7 @@ export const Login = async (req, res) => {
 };
 
 export const Register = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
 
   try {
     const existingUser = await User.findOne({ email });
@@ -52,6 +52,7 @@ export const Register = async (req, res) => {
     const newUser = new User({
       name,
       email,
+      role,
       password: hashedPassword,
     });
     await newUser.save();

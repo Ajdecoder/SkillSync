@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import crypto from 'crypto'
+import crypto from "crypto";
 
 dotenv.config();
 
@@ -9,6 +9,11 @@ export const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  role: {
+    type: String,
+    required: true,
+    enum: ["recruiter", "candidate"],
+  },
 });
 
 // Define a method to generate and return JWT token for a user
@@ -19,6 +24,7 @@ userSchema.methods.generateToken = async function () {
         userId: this._id.toString(),
         email: this.email,
         name: this.name,
+        role: this.role,
       },
       process.env.JWT_SECRET,
       {
@@ -31,9 +37,7 @@ userSchema.methods.generateToken = async function () {
   }
 };
 
-userSchema.methods.generateForgetPassToken = async function() {
-
-  const Resettoken = crypto.randomBytes(140).toString('hex');
-  return Resettoken
-
+userSchema.methods.generateForgetPassToken = async function () {
+  const Resettoken = crypto.randomBytes(140).toString("hex");
+  return Resettoken;
 };

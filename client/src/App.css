@@ -30,7 +30,7 @@ html::-webkit-scrollbar-thumb {
 
 body {
   font-family: "Poppins", sans-serif;
-  background-color: #fff;
+  background-color: #000000 ;
 }
 .container {
   /* max-width: 100%; */

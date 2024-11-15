@@ -9,69 +9,69 @@ import Contact from "../contact/Contact";
 import { Login } from "../Login/Login";
 import { Register } from "../Register/Register";
 import HireResources from "../Resources/HireResources";
-import PostResources from "../Resources/PostResources";
+import AddOpportunity from "../Resources/AddOpportunity.jsx";
 import { AuthProvider } from "../utils/AuthContext.jsx";
 import { Resources } from "../Resources/Resources.jsx";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import "../blog/Blog.css";
-
+import { HireFormProvider } from "../utils/HireFormContext.jsx";
+import ConnectPage from "../ConnectPage/ConnectPage.jsx";
+import { RegCandidate } from "../Register/RegCandidate.jsx";
+import { RegRecruiter } from "../Register/RegRecruiter.jsx";
 
 const Header = React.lazy(() => import("../common/header/Header.jsx"));
 const Blog = React.lazy(() => import("../blog/Blog"));
 
+
 const Pages = () => {
+
+
+  const [spin, setSpin] = useState(false);
+
+
+  const routes = [
+    { path: "/", component: <Home /> },
+    { path: "/about", component: <About /> },
+    { path: "/services", component: <Services /> },
+    { path: "/blog", component: <Blog  spin={spin} setSpin={setSpin} /> },
+    { path: "/pricing", component: <Pricing /> },
+    { path: "/contact", component: <Contact /> },
+    { path: "/login", component: <Login /> },
+    { path: "/requirements", component: <Resources /> },
+    { path: "/requirements/hire-talent", component: <HireResources /> },
+    { path: "/requirements/add-opportunity", component: <AddOpportunity /> },
+    { path: "/connect/:post_id", component: <ConnectPage /> },
+    { path: "/signup", component: <Register /> },
+    { path: "/signup/recruiter", component: <RegCandidate /> },
+    { path: "/signup/candidate", component: < RegRecruiter /> },
+  ];
+
   useEffect(() => {
     Aos.init({
       duration: 1300,
       once: false,
     });
   }, []);
-
-  const [spin, setSpin] = useState(false); 
+  
 
   return (
     <AuthProvider>
-      <Router>
-      <Suspense fallback={<Header/>} >
-        <Header />
-      </Suspense>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route
-            path="/blog"
-            element={
-              <Suspense fallback={<div className="loading-div">Loading...</div>}>
-                <Blog spin={spin} setSpin={setSpin} />
-              </Suspense>
-            }
-          />
-
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/signup" element={<RegisterAuthRoute />} />
-          <Route path="/login" element={<LoginAuthRoute />} />
-          <Route path="requirements/" element={<Resources />} />
-          <Route path="requirements/hire-talent" element={<HireResources />} />
-          <Route
-            path="requirements/post-resources"
-            element={<PostResources />}
-          />
-        </Routes>
-        <Footer />
-      </Router>
+      <HireFormProvider>
+        <Router>
+          <Suspense fallback={<div>Loading Header...</div>}>
+            <Header />
+          </Suspense>
+          <Routes>
+            {routes.map(({ path, component }, index) => (
+              <Route key={index} path={path} element={component} />
+            ))}
+          </Routes>
+          <Footer />
+        </Router>
+      </HireFormProvider>
     </AuthProvider>
   );
-};
-
-const LoginAuthRoute = () => {
-  return <Login />;
-};
-
-const RegisterAuthRoute = () => {
-  return <Register />;
 };
 
 export default Pages;

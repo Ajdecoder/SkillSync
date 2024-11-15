@@ -18,12 +18,12 @@ export const connectDB = async () => {
 
 const connect = await connectDB();
 
-export const CompanyPostCollection = connect.model(
-  "PostCollection",
+export const AddOpportunityCollection = connect.model(
+  "AddOpportunityCollection",
   Requirement
 );
-export const CompanyGetCollection = connect.model(
-  "GetCollection",
+export const HireTalentCollection = connect.model(
+  "HireTalentCollection",
   Requirement
 );
 

@@ -1,105 +1,105 @@
 import {
-    CompanyPostCollection,
-    CompanyGetCollection,
-  } from "../db/database.js";
-  
-  export const getRequirement = async (req, res) => {
-    const {
+  AddOpportunityCollection,
+  HireTalentCollection,
+} from "../db/database.js";
+
+// Function to create a new "Add Opportunity" post (job posting by employers)
+export const addOpportunity = async (req, res) => {
+  const {
+    title,
+    company_name,
+    company_website,
+    email,
+    ph_no,
+    location,
+    type,
+    salaryRange,
+    desc_requirement,
+    address,
+    cover_Img,
+  } = req.body;
+
+  try {
+    const newOpportunity = new AddOpportunityCollection({
+      title,
       company_name,
       company_website,
       email,
       ph_no,
-      available_expert,
-      from,
-      to,
+      location,
+      type,
+      salaryRange,
       desc_requirement,
       address,
-      documents,
       cover_Img,
-    } = req.body;
+    });
 
-  
-    try {
-      const newReq = new CompanyGetCollection({
-        company_name,
-        company_website,
-        email,
-        ph_no,
-        available_expert,
-        from,
-        to,
-        desc_requirement,
-        address,
-        documents,
-        cover_Img,
-      });
-  
-      await newReq.save();
-      res
-        .status(201)
-        .json({ message: "Get Post created successfully", hiring: true });
-    } catch (err) {
-      console.error("Error:", err); // Log the error for debugging
-      res
-        .status(500)
-        .json({ message: "Failed to create post. Please try again later." });
-    }
-  };
-  
-  export const postRequirement = async (req, res) => {
-    const {
-      company_name,
-      company_website,
+    await newOpportunity.save();
+    res
+      .status(201)
+      .json({ message: "Opportunity added successfully", required: true });
+  } catch (err) {
+    console.error("Error:", err);
+    res
+      .status(500)
+      .json({ message: "Failed to add opportunity. Please try again later." });
+  }
+};
+
+// Function to create a new "Hire Talent" card (candidate profile by users)
+export const hireTalent = async (req, res) => {
+  const {
+    name,
+    email,
+    ph_no,
+    skills,
+    experience,
+    location,
+    resume,
+    portfolio,
+    availability,
+    about,
+    profile_Img,
+  } = req.body;
+
+  try {
+    const newTalent = new HireTalentCollection({
+      name,
       email,
       ph_no,
-      available_expert,
-      from,
-      to,
-      desc_requirement,
-      address,
-      Status,
-      
-    } = req.body;
+      skills,
+      experience,
+      location,
+      resume,
+      portfolio,
+      availability,
+      about,
+      profile_Img,
+    });
 
-  
-    try {
-      const newPost = new CompanyPostCollection({
-        company_name,
-        company_website,
-        email,
-        ph_no,
-        available_expert,
-        from,
-        to,
-        desc_requirement,
-        documents,
-        address,
-        cover_Img,
-        Status,
-      });
-  
-      await newPost.save();
-      res
-        .status(201)
-        .json({ message: "Post created successfully", required: true });
-    } catch (err) {
-      console.error("Error:", err);
-      res
-        .status(500)
-        .json({ message: "Failed to create post. Please try again later." });
-    }
-  };
+    await newTalent.save();
+    res
+      .status(201)
+      .json({ message: "Talent card created successfully", hiring: true });
+  } catch (err) {
+    console.error("Error:", err);
+    res
+      .status(500)
+      .json({ message: "Failed to create talent card. Please try again later." });
+  }
+};
 
-  export const allRequirements = async (req, res) => {
-    try {
-      const data1 = await CompanyGetCollection.find();
-  
-      const data2 = await CompanyPostCollection.find();
-  
-      const data = [...data1, ...data2];
-  
-      res.json({ data });
-    } catch (error) {
-      console.error(error.message);
-    }
-  };
+// Function to fetch all data (both Add Opportunity and Hire Talent)
+export const allData = async (req, res) => {
+  try {
+    const opportunities = await AddOpportunityCollection.find();
+    const talents = await HireTalentCollection.find();
+
+    res.json({ opportunities, talents });
+  } catch (error) {
+    console.error("Error fetching data:", error.message);
+    res.status(500).json({ message: "Failed to fetch data. Please try again later." });
+  }
+};
+
+

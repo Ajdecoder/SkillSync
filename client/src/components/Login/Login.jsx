@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Button } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
@@ -25,6 +24,7 @@ export const Login = () => {
       [name]: value,
     });
   };
+
   const loginUser = async (e) => {
     e.preventDefault();
 
@@ -54,7 +54,7 @@ export const Login = () => {
       }
     } catch (error) {
       if (error.response) {
-        if (error.response.status === 404) { 
+        if (error.response.status === 404) {
           toast.error("User not registered", {
             autoClose: 1000,
           });
@@ -68,55 +68,58 @@ export const Login = () => {
   };
 
   return (
-    <div className="loginContainer m-5">
-      <h1 className="log-head">Login</h1>
-      <form onSubmit={loginUser}>
-        <div className="loginForm">
-          <input
-            className="loginfd"
-            type="email"
-            placeholder="Enter your email"
-            name="email"
-            value={user.email}
-            onChange={handleChange}
-            required
-          />
-          <input
-            className="loginfd"
-            type="password"
-            placeholder="Enter your password"
-            name="password"
-            value={user.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="log-signing">
-          <Button variant="primary" type="submit" className="login-btn">
-            Login
-          </Button>
-          <Button
-            variant="primary"
-            onClick={() => navigate("/signup")}
-            className="sign-btn"
-          >
-            No Account? Signup Now
-          </Button>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: "5px",
-          }}
-        >
-          <div className="line" style={{ width: "100%" }}></div>
-          <div className="auto">or</div>
-          <GoogleAuth />
-        </div>
-      </form>
-      <ToastContainer position="bottom-right" />
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
+        <h1 className="text-3xl font-semibold text-gray-800 text-center mb-6">Login</h1>
+        <form onSubmit={loginUser}>
+          <div className="space-y-4">
+            <input
+              type="email"
+              name="email"
+              value={user.email}
+              onChange={handleChange}
+              placeholder="Enter your email"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+            <input
+              type="password"
+              name="password"
+              value={user.password}
+              onChange={handleChange}
+              placeholder="Enter your password"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+          <div className="mt-6 flex justify-between items-center">
+            <button
+              type="submit"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200"
+            >
+              Login
+            </button>
+          </div>
+          <div className="mt-4 text-center text-gray-500">
+            No account?{" "}
+            <button
+              onClick={() => navigate("/signup")}
+              className="text-blue-600 hover:underline focus:outline-none"
+            >
+              Signup Now
+            </button>
+          </div>
+          <div className="flex items-center mt-6">
+            <div className="w-full h-px bg-gray-300"></div>
+            <span className="px-3 text-gray-500">or</span>
+            <div className="w-full h-px bg-gray-300"></div>
+          </div>
+          <div className="flex justify-center mt-4">
+            <GoogleAuth />
+          </div>
+        </form>
+        <ToastContainer position="bottom-right" />
+      </div>
     </div>
   );
 };
