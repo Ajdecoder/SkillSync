@@ -5,6 +5,7 @@ import { useAuth } from "../../utils/AuthContext";
 import axios from "axios";
 import { PORT_CLIENT } from "../../../commonClient";
 import Recent from "../recent/Recent";
+import { filterData } from "../../data/Data";
 
 const Hero = () => {
   const { loggedInUser } = useAuth();
@@ -13,10 +14,9 @@ const Hero = () => {
   const programmerDAtafetch = async () => {
     try {
       const response = await axios.get(
-        `${PORT_CLIENT}/api/requirements/allRequirements`
+        `${PORT_CLIENT}/api/requirements/allData`
       );
 
-      console.log("Full API Response:", response);
       if (response.data && Array.isArray(response.data.data)) {
         setProgramers(response.data.data);
       } else {
@@ -30,10 +30,6 @@ const Hero = () => {
   useEffect(() => {
     programmerDAtafetch();
   }, []);
-
-  useEffect(() => {
-    
-  }, [programmers]);
 
   const [selectedCity, setSelectedCity] = useState("");
   const [selectedExpertType, setSelectedExpertType] = useState("");
@@ -53,7 +49,10 @@ const Hero = () => {
     <>
       {loggedInUser ? (
         <section className="hero">
-          <div className="container">
+          <div className="hero-image">
+            <img src={'../../images/banner.jpg'} alt="Hero" />
+          </div>
+          <div className="hero-container">
             <Heading
               title="Search Your Way"
               subtitle="Find new & featured programmers located in your local city."
@@ -66,19 +65,9 @@ const Hero = () => {
                 <select
                   value={selectedCity}
                   onChange={(e) => setSelectedCity(e.target.value)}
-                >
-                  <option value="">Select City/Region</option>
-                  <option value="Delhi">Delhi</option>
-                  <option value="Gurugram">Gurugram</option>
-                  <option value="Noida">Noida</option>
-                  <option value="Pune">Pune</option>
-                  <option value="Surat">Surat</option>
-                  <option value="Bangalore">Bangalore</option>
-                  <option value="Hyderabad">Hyderabad</option>
-                  <option value="Mumbai">Mumbai</option>
-                  <option value="Chennai">Chennai</option>
-                  <option value="Kolkata">Kolkata</option>
-                  <option value="Ahmedabad">Ahmedabad</option>
+                >{filterData.map((cities)=>{
+                  return <option value={cities.city} >{cities.city}</option>
+                })}
                 </select>
               </div>
 
@@ -88,23 +77,9 @@ const Hero = () => {
                 <select
                   value={selectedExpertType}
                   onChange={(e) => setSelectedExpertType(e.target.value)}
-                >
-                  <option value="">Select Tech Expert Type</option>
-                  <option value="full-stack">Full Stack Developer</option>
-                  <option value="backend-developer">Backend Developer</option>
-                  <option value="frontend-developer">Frontend Developer</option>
-                  <option value="data-science">Data Scientist</option>
-                  <option value="ml-engineer">ML Engineer</option>
-                  <option value="ui-ux">UI/UX Designer</option>
-                  <option value="devops">DevOps Engineer</option>
-                  <option value="mobile-developer">Mobile App Developer</option>
-                  <option value="blockchain-developer">
-                    Blockchain Developer
-                  </option>
-                  <option value="cyber-security">
-                    Cyber Security Specialist
-                  </option>
-                  <option value="qa-engineer">QA Engineer</option>
+                >{filterData.map((expert)=>{
+                  return <option value={expert.expert} >{expert.expert}</option>
+                })}
                 </select>
               </div>
 
@@ -112,18 +87,11 @@ const Hero = () => {
               <div className="box inpbox">
                 <span>Price Range</span>
                 <select
-                  value={selectedPriceRange}
+                  value={selectedPriceRange} 
                   onChange={(e) => setSelectedPriceRange(e.target.value)}
-                >
-                  <option value="">Select Price Range</option>
-                  <option value="40000-50000">$40,000 - $50,000</option>
-                  <option value="50000-60000">$50,000 - $60,000</option>
-                  <option value="60000-70000">$60,000 - $70,000</option>
-                  <option value="70000-80000">$70,000 - $80,000</option>
-                  <option value="80000-90000">$80,000 - $90,000</option>
-                  <option value="90000-100000">$90,000 - $100,000</option>
-                  <option value="100000-150000">$100,000 - $150,000</option>
-                  <option value="150000-200000">$150,000 - $200,000</option>
+                >{filterData.map((salary)=>{
+                  return <option value={salary.expected_salary} >{salary.expected_salary}</option>
+                })}
                 </select>
               </div>
 
@@ -134,8 +102,8 @@ const Hero = () => {
           </div>
         </section>
       ) : (
-        <section className="hero">
-          <div className="container">
+        <section className="hero h-60">
+          <div className="hero-container">
             <Heading
               title="Search Your Way"
               subtitle="Find new & featured programmers located in your local city."

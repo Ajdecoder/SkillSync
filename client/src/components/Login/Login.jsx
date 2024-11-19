@@ -35,18 +35,16 @@ export const Login = () => {
 
       login(res.data.user);
 
-      setUser({
-        email: "",
-        password: "",
-      });
-
       if (res.status === 200) {
-        const token = res.data.token;
-        localStorage.setItem("jwttoken", token);
+        
+        const encoded_uInfo = res.data
+        localStorage.setItem("encoded_uInfo", JSON.stringify(encoded_uInfo));
+        localStorage.setItem("jwttoken", encoded_uInfo.token);
 
-        toast.success(`${res.data.message}`, {
-          autoClose: 2000,
-        });
+        toast.success("Login successful", { autoClose: 1200 });
+
+
+
 
         setTimeout(() => {
           navigate("/");

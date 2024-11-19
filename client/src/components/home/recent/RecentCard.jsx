@@ -14,7 +14,7 @@ const RecentCard = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${PORT_CLIENT}/api/requirements/allRequirements`,
+          `${PORT_CLIENT}/api/requirements/allData`,
           { withCredentials: true }
         );
         const {

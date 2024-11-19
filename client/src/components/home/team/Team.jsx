@@ -13,7 +13,7 @@ const Team = () => {
           subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
         />
 
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-1 sm:grid-cols-2 lg:grid-cols-3">
           {team.map((member, index) => (
             <div
               className="box shadow-lg rounded-lg overflow-hidden bg-white transition-transform transform hover:scale-105"
@@ -21,7 +21,7 @@ const Team = () => {
               data-aos={index % 2 === 0 ? "flip-right" : "flip-left"}
               data-aos-duration="1700"
             >
-              <div className="details p-6 space-y-4 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+              <div className="details space-y-4 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <div className="img relative">
                   <img
                     src={member.cover}
@@ -39,9 +39,9 @@ const Team = () => {
                   <h4 className="text-xl font-semibold">{member.name}</h4>
                 </div>
 
-                <ul className="flex justify-center space-x-4 text-blue-500">
+                <ul className="flex justify-center space-x-2 text-blue-500">
                   {member.icon.map((icon, index) => (
-                    <li key={index} className="text-lg">
+                    <li key={index} className="text-md text-center">
                       {icon}
                     </li>
                   ))}

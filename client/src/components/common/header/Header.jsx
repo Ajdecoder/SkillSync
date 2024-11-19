@@ -6,7 +6,7 @@ import { useAuth } from "../../utils/AuthContext";
 import logo from "/images/logo.png?url";
 import { Loading } from "../../loading/Loading";
 
-const Header = () => {
+const Header = ({ref}) => {
   const { loggedInUser, logout, loading } = useAuth();
   const [isNavListOpen, setIsNavListOpen] = useState(false);
   const [showAboutUser, setShowAboutUser] = useState(false);
@@ -108,8 +108,8 @@ const Header = () => {
         <div className="button">
           {loggedInUser ? (
             <>
-              <h6 className="profile-icon">
-                <span className="profile-icon-details" onClick={handleMouseClick}>
+              <h6 className="profile-icon hover:cursor-pointer" onClick={handleMouseClick}>
+                <span className="profile-icon-details">
                   {loggedInUser.name?.toUpperCase()[0]}
                 </span>
                 {showAboutUser && (
@@ -117,7 +117,7 @@ const Header = () => {
                     <p>Name: {loggedInUser.name}</p>
                     <p>Email: {loggedInUser.email}</p>
                     <div>
-                      <button onClick={logout} className="log-sign hover:bg-red-600 duration-500">
+                      <button onClick={logout} className="log-sign hover:bg-red-600 hover:text-black duration-500">
                         <i className="fa fa-sign-out"></i> Logout
                       </button>
                     </div>

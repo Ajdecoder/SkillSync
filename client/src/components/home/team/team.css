@@ -2,7 +2,7 @@
   background: #ffffff;
   border-radius: 6px;
   border: 1px solid rgb(62 28 131 / 10%);
-  padding: 2rem;
+  padding: 1rem;
   transition: 0.5s;
 }
 .team .box:hover {
@@ -11,7 +11,7 @@
 }
 .team .details {
   text-align: center;
-  margin-top: 30px;
+  top: 11px;
 }
 .team .img {
   width: 90px;

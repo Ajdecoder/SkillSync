@@ -18,6 +18,7 @@ export const RegCandidate = () => {
       email: "",
       password: "",
       reEnterPassword: "",
+      role: "candidate"
     });
   
     const handleChange = (e) => {
