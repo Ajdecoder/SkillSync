@@ -58,7 +58,7 @@ const Hero = () => {
               subtitle="Find new & featured programmers located in your local city."
             />
 
-            <form className="hero-form">
+            <form className="hero-form m-auto mt-6">
               {/* City/Region Dropdown */}
               <div className="box inpbox">
                 <span>City/Region</span>
