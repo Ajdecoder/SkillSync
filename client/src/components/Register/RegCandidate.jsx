@@ -5,7 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Register.css";
 import { PORT_CLIENT } from "../../commonClient";
-import { useAuth } from "../utils/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { GoogleAuth } from "../Oauth/Oauth";
 
 export const RegCandidate = () => {

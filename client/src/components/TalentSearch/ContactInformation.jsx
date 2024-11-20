@@ -1,6 +1,6 @@
 // ContactInformation.js
 import React, { useState } from 'react';
-import { useHireFormContext } from '../utils/HireFormContext';
+import { useHireFormContext } from '../context/HireFormContext';
 
 const ContactInformation = ({  nextStep, prevStep }) => {
     const {formData, handleFormDataChange} = useHireFormContext()

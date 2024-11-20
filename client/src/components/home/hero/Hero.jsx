@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Heading from "../../common/Heading";
 import "./hero.css";
-import { useAuth } from "../../utils/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import axios from "axios";
 import { PORT_CLIENT } from "../../../commonClient";
 import Recent from "../recent/Recent";

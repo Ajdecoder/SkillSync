@@ -1,6 +1,6 @@
 // DefineSkills.js
 import React, { useState } from "react";
-import { useHireFormContext } from "../utils/HireFormContext";
+import { useHireFormContext } from "../context/HireFormContext";
 
 const DefineSkills = ({ nextStep, prevStep }) => {
 

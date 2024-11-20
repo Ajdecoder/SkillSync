@@ -10,18 +10,17 @@ import { Login } from "../Login/Login";
 import { Register } from "../Register/Register";
 import HireResources from "../Resources/HireResources";
 import AddOpportunity from "../Resources/AddOpportunity.jsx";
-import { AuthProvider } from "../utils/AuthContext.jsx";
+import { AuthProvider } from "../context/AuthContext.jsx";
 import { Resources } from "../Resources/Resources.jsx";
 import Aos from "aos";
 import "aos/dist/aos.css";
 import "../blog/Blog.css";
-import { HireFormProvider } from "../utils/HireFormContext.jsx";
+import { HireFormProvider } from "../context/HireFormContext.jsx";
 import ConnectPage from "../ConnectPage/ConnectPage.jsx";
 import { RegCandidate } from "../Register/RegCandidate.jsx";
 import { RegRecruiter } from "../Register/RegRecruiter.jsx";
-
-const Header = React.lazy(() => import("../common/header/Header.jsx"));
-const Blog = React.lazy(() => import("../blog/Blog"));
+import Header from "../common/header/Header.jsx";
+import Blog from "../blog/Blog.jsx";
 
 const Pages = () => {
   const [spin, setSpin] = useState(false);

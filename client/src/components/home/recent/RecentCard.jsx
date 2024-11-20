@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useAuth } from "../../utils/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { PORT_CLIENT } from "../../../commonClient";
 import { useNavigate } from "react-router-dom"; // Importing useNavigate
 

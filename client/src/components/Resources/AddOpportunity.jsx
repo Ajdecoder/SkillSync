@@ -1,6 +1,6 @@
 import "../Resources/Resources.css";
 import "react-toastify/dist/ReactToastify.css";
-import { useAuth } from "../utils/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { Login } from "../Login/Login";
 import AddOpportunityForm from "../AddOpportunity/AddOpportunityForm";
 

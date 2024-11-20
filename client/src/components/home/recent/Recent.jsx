@@ -1,7 +1,7 @@
 import React from "react";
 import Heading from "../../common/Heading";
 import RecentCard from "./RecentCard";
-import { useAuth } from "../../utils/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { SampleRecentCard } from "../../SampleRecentCard";
 
 const Recent = () => {

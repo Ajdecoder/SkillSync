@@ -185,7 +185,7 @@
     display: block !important;
   }
   .blog-out {
-    grid-template-columns: 1fr 1fr !important;
+    grid-template-columns: 1fr !important;
     display: grid;
   }
 }

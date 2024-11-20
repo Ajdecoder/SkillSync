@@ -28,7 +28,7 @@ export const HireFormProvider = ({ children }) => {
 
   return (
     <HireFormContext.Provider value={{ formData, handleFormDataChange }}>
-      {/* {console.log("Form Data Here---->",formData)} */}
+      {console.log("Form Data Here---->",formData)}
       {children}
     </HireFormContext.Provider>
   );
