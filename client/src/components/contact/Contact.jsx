@@ -8,7 +8,7 @@ const Contact = () => {
           Get Help & Friendly Support
         </h1>
         <form
-          className="bg-white shadow-lg p-8 rounded-lg"
+          className="shadow-lg p-8 rounded-lg bg-[#111827]"
           action="mailto:anujshrivastav530@gmail.com"
           method="GET"
         >

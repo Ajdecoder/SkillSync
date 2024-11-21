@@ -10,7 +10,7 @@ const AddOpportunityForm = () => {
   const nextStep = () => setStep(step + 1);
   const prevStep = () => setStep(step - 1);
   const submitOpportunity = () => {
-    // Handle form submission (e.g., API call)
+    
     console.log("Opportunity submitted:", opportunityData);
   };
 

@@ -1,18 +1,32 @@
 .hero {
-  background-image: url("../../../../images/banner.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  height: 100%;
+  position: relative;
   width: 100%;
+  height: 80vh; /* Or any height you want */
+  background-image: url('../../images/banner.jpg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  color: black; /* Optional: Adjust text color for visibility */
   opacity: 0.8;
+
+}
+
+.hero .container {
+  position: relative;
+  z-index: 2; /* Make sure the content stays above the image */
+  padding: 20px;
+}
+
+.hero-image {
+  display: none; /* Remove this if you want to show the image separately */
 }
 .hero .container {
   padding-top: 5%;
 }
 .hero h1 {
   color: #fff;
-  font-size: 60px;
+  margin-top: 3rem;
+  font-size: 35px;
 }
 .hero p {
   color: #fff;
@@ -35,6 +49,7 @@ form input {
 form span {
   font-size: 14px;
   color: grey;
+  padding: 8px;
 }
 input::placeholder {
   font-size: 17px;
@@ -53,9 +68,9 @@ form h4 {
 
 .hero-form{
   display: flex;
+  margin: 4rem 2px 0 2px;
   align-items: baseline;
   justify-content: space-between;
-  margin: auto;
 }
 
 select {
@@ -65,10 +80,5 @@ select {
 
 .btn1{
   margin: 16px;
-}
-
-
-.hero-form{
-  margin: auto;
 }
 

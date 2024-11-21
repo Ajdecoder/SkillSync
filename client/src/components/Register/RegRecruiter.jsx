@@ -5,7 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Register.css";
 import { PORT_CLIENT } from "../../commonClient";
-import { useAuth } from "../utils/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { GoogleAuth } from "../Oauth/Oauth";
 
 
@@ -19,7 +19,8 @@ export const RegRecruiter = () => {
       name: "",
       email: "",
       password: "",
-      reEnterPassword: "",
+      cpassword: "",
+      role: "recruiter"
     });
   
     const handleChange = (e) => {
@@ -32,14 +33,14 @@ export const RegRecruiter = () => {
   
     const register = async (e) => {
       e.preventDefault();
-      if (!user.name || !user.email || !user.password || !user.reEnterPassword) {
+      if (!user.name || !user.email || !user.password || !user.cpassword) {
         toast.error("Please fill in all fields.", {
           autoClose: 1000,
         });
         return;
       }
   
-      if (user.password !== user.reEnterPassword) {
+      if (user.password !== user.cpassword) {
         toast.error("Passwords do not match.", {
           autoClose: 1000,
         });
@@ -54,10 +55,10 @@ export const RegRecruiter = () => {
             withCredentials: true,
           }
         );
+        console.log(response)
   
         localStorage.setItem("jwttoken", response.data.token);
         login(response.data.user);
-  
         toast.success(response.data.message, {
           autoClose: 1000,
         });
@@ -121,8 +122,8 @@ export const RegRecruiter = () => {
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   type="password"
                   placeholder="Re-enter your password"
-                  name="reEnterPassword"
-                  value={user.reEnterPassword}
+                  name="cpassword"
+                  value={user.cpassword}
                   onChange={handleChange}
                   required
                 />

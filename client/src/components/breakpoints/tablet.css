@@ -17,17 +17,44 @@
 }
 
 @media screen and (max-width: 800px) {
+
   footer .container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
   }
-  .hero .container {
-    padding-top: 30%;
-  }
+  
   .hero-form {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap; 
+    flex-direction: column;
   }
+
+  .hero{
+    height: 100vh;
+  }
+
+  .hero-form .inpbox{
+    display: block;
+    width: 80%;
+    margin: auto;
+  }
+
+  .hero-form select{
+    width: 100%;
+  }
+
+  .hero-form .btn1{
+    margin: auto;
+    padding: 12px;
+    background: rebeccapurple;
+
+  }
+
+
+  .hero-container h1{
+    font-size: larger;
+  }
+
   form .box {
     border-left: none;
   }
@@ -75,11 +102,6 @@
   .dropdown-expand {
     display: block;
     position: static;
-  }
-
-  .inpbox {
-    display: flex;
-    flex-direction: column;
   }
 
   .exp-icon {
@@ -163,7 +185,7 @@
     display: block !important;
   }
   .blog-out {
-    grid-template-columns: 1fr 1fr !important;
+    grid-template-columns: 1fr !important;
     display: grid;
   }
 }

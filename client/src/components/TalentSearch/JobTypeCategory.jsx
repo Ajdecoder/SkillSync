@@ -1,6 +1,6 @@
 // JobTypeCategory.js
 import React from 'react';
-import { useHireFormContext } from '../utils/HireFormContext';
+import { useHireFormContext } from '../context/HireFormContext';
 
 const JobTypeCategory = ({ nextStep }) => {
   const { formData, handleFormDataChange } = useHireFormContext();

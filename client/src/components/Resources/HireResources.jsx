@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from "react";
 import "../Resources/Resources.css";
-import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useAuth } from "../utils/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { Login } from "../Login/Login";
 import TalentSearch from "../TalentSearch/TalentSearchForm";
 
-const HireResources = () => {
+const   HireResources = () => {
   const { loggedInUser } = useAuth();
 
   return loggedInUser ? <TalentSearch /> : <Login />;

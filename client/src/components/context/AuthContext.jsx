@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const encoded_uInfo = localStorage.getItem('encoded_uInfo')
     const token = localStorage.getItem("jwttoken");
     if (token) {
       try {
@@ -29,6 +30,7 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     setLoggedInUser(null);
     localStorage.removeItem("jwttoken");
+    localStorage.removeItem("encoded_uInfo")
   };
 
   return (

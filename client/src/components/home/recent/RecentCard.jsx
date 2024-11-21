@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useAuth } from "../../utils/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { PORT_CLIENT } from "../../../commonClient";
 import { useNavigate } from "react-router-dom"; // Importing useNavigate
 
@@ -14,7 +14,7 @@ const RecentCard = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${PORT_CLIENT}/api/requirements/allRequirements`,
+          `${PORT_CLIENT}/api/requirements/allData`,
           { withCredentials: true }
         );
         const {

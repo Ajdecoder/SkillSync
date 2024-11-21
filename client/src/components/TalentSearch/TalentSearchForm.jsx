@@ -7,7 +7,7 @@ import JobDescription from "./JobDescription";
 import CompensationBenefits from "./CompensationBenefits";
 import ContactInformation from "./ContactInformation";
 import ReviewSubmit from "./ReviewSubmit";
-import { useHireFormContext } from "../utils/HireFormContext";
+import { useHireFormContext } from "../context/HireFormContext";
 
 const TalentSearchForm = () => {
     

@@ -4,9 +4,9 @@ export const nav = [
     path: "/",
   },
   {
-    flag: 'expand',
-    text: "Requirement",  
-    // path: "/requirements", 
+    flag: "expand",
+    text: "Requirement",
+    // path: "/requirements",
   },
   {
     text: "about",
@@ -20,6 +20,30 @@ export const nav = [
     text: "blog",
     path: "/blog",
   },
+];
+
+export const filterData = [
+  { city: "Delhi", expert: "Full Stack Developer" ,expected_salary: "40000-50000"},
+
+  { city: "Gurugram", expert: "Backend Developer" , expected_salary: "40000-50000"},
+
+  { city: "Noida", expert: "Frontend Developer" , expected_salary: "40000-50000"},
+
+  { city: "Pune", expert: "Data Scientist" , expected_salary: "40000-50000"},
+
+  { city: "Surat", expert: "ML Engineer" , expected_salary: "40000-50000"},
+
+  { city: "Bangalore", expert: "UI/UX Designer" , expected_salary: "40000-50000"},
+
+  { city: "Hyderabad", expert: "Engineer" , expected_salary: "40000-50000"},
+
+  { city: "Mumbai", expert: "Mobile App Developer" , expected_salary: "40000-50000"},
+
+  { city: "Chennai", expert: "Blockchain Developer" , expected_salary: "40000-50000"},
+
+  { city: "Kolkata", expert: "Cyber Security Specialist" , expected_salary: "40000-50000"},
+
+  { city: "Ahmedabad", expert: "QA Engineer" , expected_salary: "40000-50000"},
 
 ];
 
@@ -38,8 +62,7 @@ export const featured = [
   {
     cover: "../images/hero/h1.png",
     name: "Enhance Productivity",
-    total:
-      "Access specialized skills from partnering companies.",
+    total: "Access specialized skills from partnering companies.",
   },
   {
     cover: "../images/hero/h2.png",
@@ -262,7 +285,7 @@ export const team = [
     list: "51",
     cover: "../images/customer/team-4.jpg",
     address: "2272 Briarwood Drive",
-    name: "Michael P. Grimaldo",
+    name: "P. Grimaldo",
     icon: [
       <i className="fa-brands fa-facebook-f"></i>,
       <i className="fa-brands fa-linkedin"></i>,
@@ -274,7 +297,7 @@ export const team = [
     list: "42",
     cover: "../images/customer/team-5.jpg",
     address: "2272 Briarwood Drive",
-    name: "Michael P. Grimaldo",
+    name: "Q. Grimaldo",
     icon: [
       <i className="fa-brands fa-facebook-f"></i>,
       <i className="fa-brands fa-linkedin"></i>,
@@ -387,7 +410,6 @@ export const price = [
   },
 ];
 
-
 export const footer = [
   {
     title: "LAYOUTS",
@@ -454,119 +476,118 @@ export const dummyRecentCards = [
     company_website: "zepto.com",
     email: "contact@zepto.com",
     ph_no: "1234567890",
-    available_expert: [
-      "Software Engineer, Product Manager"
-    ],
+    available_expert: ["Software Engineer, Product Manager"],
     from: {
-      date: "2024-04-30T18:30:00.000Z"
+      date: "2024-04-30T18:30:00.000Z",
     },
     to: {
-      date: "2024-06-29T18:30:00.000Z"
+      date: "2024-06-29T18:30:00.000Z",
     },
-    desc_requirement: "Zepto is looking for software engineers and product managers to work on our innovative tech solutions.",
+    desc_requirement:
+      "Zepto is looking for software engineers and product managers to work on our innovative tech solutions.",
     address: "Bangalore, India",
     documents: "uploads\\1722892261133.pdf",
-    cover_Img: "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/537bea105787531.5f80d653e74ef.jpg",
-    Status: "required"
+    cover_Img:
+      "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/537bea105787531.5f80d653e74ef.jpg",
+    Status: "required",
   },
   {
     company_name: "Techify Solutions",
     company_website: "techifysolutions.com",
     email: "hr@techifysolutions.com",
     ph_no: "9876543210",
-    available_expert: [
-      "Data Scientist, UX Designer"
-    ],
+    available_expert: ["Data Scientist, UX Designer"],
     from: {
-      date: "2024-05-15T18:30:00.000Z"
+      date: "2024-05-15T18:30:00.000Z",
     },
     to: {
-      date: "2024-07-14T18:30:00.000Z"
+      date: "2024-07-14T18:30:00.000Z",
     },
-    desc_requirement: "Techify Solutions is seeking talented data scientists and UX designers to join our dynamic team.",
+    desc_requirement:
+      "Techify Solutions is seeking talented data scientists and UX designers to join our dynamic team.",
     address: "Pune, India",
     documents: "uploads\\techify_requirement.pdf",
-    cover_Img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTetAD4MghaF8eTN5Ir6O9gbSNwU7iijHDlQ&s",
-    Status: "required"
+    cover_Img:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTetAD4MghaF8eTN5Ir6O9gbSNwU7iijHDlQ&s",
+    Status: "required",
   },
   {
     company_name: "InnovateX",
     company_website: "innovatex.com",
     email: "careers@innovatex.com",
     ph_no: "1122334455",
-    available_expert: [
-      "DevOps Engineer, Cloud Architect"
-    ],
+    available_expert: ["DevOps Engineer, Cloud Architect"],
     from: {
-      date: "2024-06-01T18:30:00.000Z"
+      date: "2024-06-01T18:30:00.000Z",
     },
     to: {
-      date: "2024-08-01T18:30:00.000Z"
+      date: "2024-08-01T18:30:00.000Z",
     },
-    desc_requirement: "InnovateX is looking for DevOps engineers and cloud architects to help build our next-gen infrastructure.",
+    desc_requirement:
+      "InnovateX is looking for DevOps engineers and cloud architects to help build our next-gen infrastructure.",
     address: "Hyderabad, India",
     documents: "uploads\\innovatex_requirement.pdf",
-    cover_Img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-pkVr6UceZGnF0TxdlxftkJuapQ4sOA2VVA&s",
-    Status: "required"
+    cover_Img:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-pkVr6UceZGnF0TxdlxftkJuapQ4sOA2VVA&s",
+    Status: "required",
   },
   {
     company_name: "BrightFuture",
     company_website: "brightfuture.com",
     email: "jobs@brightfuture.com",
     ph_no: "9988776655",
-    available_expert: [
-      "Frontend Developer, QA Engineer"
-    ],
+    available_expert: ["Frontend Developer, QA Engineer"],
     from: {
-      date: "2024-07-10T18:30:00.000Z"
+      date: "2024-07-10T18:30:00.000Z",
     },
     to: {
-      date: "2024-09-09T18:30:00.000Z"
+      date: "2024-09-09T18:30:00.000Z",
     },
-    desc_requirement: "BrightFuture is in need of frontend developers and QA engineers to enhance our web and mobile applications.",
+    desc_requirement:
+      "BrightFuture is in need of frontend developers and QA engineers to enhance our web and mobile applications.",
     address: "Mumbai, India",
     documents: "uploads\\brightfuture_requirement.pdf",
     cover_Img: "https://thegoan.net/uploads/news/big_37840_Untitled.png",
-    Status: "required"
+    Status: "required",
   },
   {
     company_name: "NextGen Tech",
     company_website: "nextgentech.com",
     email: "hiring@nextgentech.com",
     ph_no: "7766554433",
-    available_expert: [
-      "Backend Developer, Cybersecurity Specialist"
-    ],
+    available_expert: ["Backend Developer, Cybersecurity Specialist"],
     from: {
-      date: "2024-08-05T18:30:00.000Z"
+      date: "2024-08-05T18:30:00.000Z",
     },
     to: {
-      date: "2024-10-04T18:30:00.000Z"
+      date: "2024-10-04T18:30:00.000Z",
     },
-    desc_requirement: "NextGen Tech is seeking backend developers and cybersecurity specialists to work on cutting-edge projects.",
+    desc_requirement:
+      "NextGen Tech is seeking backend developers and cybersecurity specialists to work on cutting-edge projects.",
     address: "Chennai, India",
     documents: "uploads\\nextgentech_requirement.pdf",
-    cover_Img: "https://media.glassdoor.com/l/cc/20/60/1e/nextgen-technologies-inc-usa.jpg",
-    Status: "required"
+    cover_Img:
+      "https://media.glassdoor.com/l/cc/20/60/1e/nextgen-technologies-inc-usa.jpg",
+    Status: "required",
   },
   {
     company_name: "Visionary Labs",
     company_website: "visionarylabs.com",
     email: "talent@visionarylabs.com",
     ph_no: "3344556677",
-    available_expert: [
-      "AI/ML Engineer, Full Stack Developer"
-    ],
+    available_expert: ["AI/ML Engineer, Full Stack Developer"],
     from: {
-      date: "2024-09-01T18:30:00.000Z"
+      date: "2024-09-01T18:30:00.000Z",
     },
     to: {
-      date: "2024-11-01T18:30:00.000Z"
+      date: "2024-11-01T18:30:00.000Z",
     },
-    desc_requirement: "Visionary Labs is on the lookout for AI/ML engineers and full stack developers to push the boundaries of innovation.",
+    desc_requirement:
+      "Visionary Labs is on the lookout for AI/ML engineers and full stack developers to push the boundaries of innovation.",
     address: "Delhi, India",
     documents: "uploads\\visionarylabs_requirement.pdf",
-    cover_Img: "https://www.shutterstock.com/image-photo/x-logo-san-francisco-on-260nw-2341306523.jpg",
-    Status: "required"
-  }
-]
+    cover_Img:
+      "https://www.shutterstock.com/image-photo/x-logo-san-francisco-on-260nw-2341306523.jpg",
+    Status: "required",
+  },
+];

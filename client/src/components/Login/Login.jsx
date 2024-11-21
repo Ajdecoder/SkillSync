@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../Login/Login.css";
-import { useAuth } from "../utils/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { PORT_CLIENT } from "../../commonClient";
 import { GoogleAuth } from "../Oauth/Oauth";
 
@@ -35,18 +35,16 @@ export const Login = () => {
 
       login(res.data.user);
 
-      setUser({
-        email: "",
-        password: "",
-      });
-
       if (res.status === 200) {
-        const token = res.data.token;
-        localStorage.setItem("jwttoken", token);
+        
+        const encoded_uInfo = res.data
+        localStorage.setItem("encoded_uInfo", JSON.stringify(encoded_uInfo));
+        localStorage.setItem("jwttoken", encoded_uInfo.token);
 
-        toast.success(`${res.data.message}`, {
-          autoClose: 2000,
-        });
+        toast.success("Login successful", { autoClose: 1200 });
+
+
+
 
         setTimeout(() => {
           navigate("/");

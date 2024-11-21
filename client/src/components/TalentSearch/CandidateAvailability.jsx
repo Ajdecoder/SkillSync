@@ -1,6 +1,6 @@
 // CandidateAvailability.js
 import React from 'react';
-import { useHireFormContext } from '../utils/HireFormContext';
+import { useHireFormContext } from '../context/HireFormContext';
 
 const CandidateAvailability = ({  nextStep, prevStep }) => {
     const {formData, handleFormDataChange} = useHireFormContext()

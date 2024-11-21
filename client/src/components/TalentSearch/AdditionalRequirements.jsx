@@ -1,6 +1,6 @@
 // AdditionalRequirements.js
 import React from "react";
-import { useHireFormContext } from "../utils/HireFormContext";
+import { useHireFormContext } from "../context/HireFormContext";
 
 const AdditionalRequirements = ({ nextStep, prevStep }) => {
   const { formData, handleFormDataChange } = useHireFormContext();
