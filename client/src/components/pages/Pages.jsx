@@ -45,15 +45,20 @@ const Pages = () => {
 
   useEffect(() => {
     Aos.init({
-      offset: 120, // Offset to start animations sooner (120px from the viewport)
-      duration: 1000, // Animation duration
-      easing: 'ease-in-out', // Smooth animation
-      delay: 100, // Delay between animations (optional)
-      once: false, // Whether animation should happen only once
-      mirror: true, 
+      offset: 30,
+      duration: 100,
+      easing: 'ease-in-out',
+      delay: 100,
+      once: true, // Set to true for animations only once
     });
+  
+    // Ensure AOS is refreshed on component updates
+    const handleScroll = () => Aos.refresh();
+    window.addEventListener('scroll', handleScroll);
+  
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
+  
   return (
     <AuthProvider>
       <HireFormProvider>
