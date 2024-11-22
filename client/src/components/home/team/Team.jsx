@@ -21,7 +21,7 @@ const Team = () => {
               data-aos={index % 2 === 0 ? "flip-right" : "flip-left"}
               data-aos-duration="1700"
             >
-              <div className="details space-y-4 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+              <div className="details space-y-4 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-10">
                 <div className="img relative">
                   <img
                     src={member.cover}

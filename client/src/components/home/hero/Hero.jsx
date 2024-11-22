@@ -59,38 +59,38 @@ const Hero = () => {
             />
 
             <form className="hero-form m-auto mt-6">
-              {/* City/Region Dropdown */}
+              
               <div className="box inpbox">
                 <span>City/Region</span>
                 <select
                   value={selectedCity}
                   onChange={(e) => setSelectedCity(e.target.value)}
                 >{filterData.map((cities)=>{
-                  return <option value={cities.city} >{cities.city}</option>
+                  return <option key={cities.city} value={cities.city} >{cities.city}</option>
                 })}
                 </select>
               </div>
 
-              {/* Expert Type Dropdown */}
+              
               <div className="box inpbox">
                 <span>Expert Type</span>
                 <select
                   value={selectedExpertType}
                   onChange={(e) => setSelectedExpertType(e.target.value)}
-                >{filterData.map((expert)=>{
-                  return <option value={expert.expert} >{expert.expert}</option>
+                >{filterData.map((experts)=>{
+                  return <option key={experts.expert} value={experts.expert} >{experts.expert}</option>
                 })}
                 </select>
               </div>
 
-              {/* Price Range Dropdown */}
+              
               <div className="box inpbox">
                 <span>Price Range</span>
                 <select
                   value={selectedPriceRange} 
                   onChange={(e) => setSelectedPriceRange(e.target.value)}
                 >{filterData.map((salary)=>{
-                  return <option value={salary.expected_salary} >{salary.expected_salary}</option>
+                  return <option key={salary.expected_salary} value={salary.expected_salary} >{salary.expected_salary}</option>
                 })}
                 </select>
               </div>

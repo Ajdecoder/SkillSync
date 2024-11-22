@@ -5,7 +5,7 @@ import "./footer.css";
 const Footer = () => {
   return (
     <>
-      <footer className="bg-gray-900 text-white py-12">
+      <footer className="bg-gray-900 text-white">
         {/* Newsletter Section */}
         <div className="box">
           <div className="newsletter text-center px-4 md:px-8">
@@ -49,7 +49,7 @@ const Footer = () => {
         </div>
 
         {/* Legal Section */}
-        <div className="legal text-center mt-12 text-gray-500 text-sm absolute w-full">
+        <div className="legal text-center mt-1.5 text-gray-500 text-sm absolute w-full">
           <span>© 2024. Designed By Ajdecoder.</span>
         </div>
       </footer>

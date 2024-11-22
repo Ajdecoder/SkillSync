@@ -23,29 +23,19 @@ export const nav = [
 ];
 
 export const filterData = [
-  { city: "Delhi", expert: "Full Stack Developer" ,expected_salary: "40000-50000"},
-
-  { city: "Gurugram", expert: "Backend Developer" , expected_salary: "40000-50000"},
-
-  { city: "Noida", expert: "Frontend Developer" , expected_salary: "40000-50000"},
-
-  { city: "Pune", expert: "Data Scientist" , expected_salary: "40000-50000"},
-
-  { city: "Surat", expert: "ML Engineer" , expected_salary: "40000-50000"},
-
-  { city: "Bangalore", expert: "UI/UX Designer" , expected_salary: "40000-50000"},
-
-  { city: "Hyderabad", expert: "Engineer" , expected_salary: "40000-50000"},
-
-  { city: "Mumbai", expert: "Mobile App Developer" , expected_salary: "40000-50000"},
-
-  { city: "Chennai", expert: "Blockchain Developer" , expected_salary: "40000-50000"},
-
-  { city: "Kolkata", expert: "Cyber Security Specialist" , expected_salary: "40000-50000"},
-
-  { city: "Ahmedabad", expert: "QA Engineer" , expected_salary: "40000-50000"},
-
+  { city: "Delhi", expert: "Full Stack Developer", expected_salary: "50000-60000" },
+  { city: "Gurugram", expert: "Backend Developer", expected_salary: "45000-55000" },
+  { city: "Noida", expert: "Frontend Developer", expected_salary: "40000-50000" },
+  { city: "Pune", expert: "Data Scientist", expected_salary: "70000-80000" },
+  { city: "Surat", expert: "ML Engineer", expected_salary: "65000-75000" },
+  { city: "Bangalore", expert: "UI/UX Designer", expected_salary: "55000-65000" },
+  { city: "Hyderabad", expert: "Engineer", expected_salary: "48000-58000" },
+  { city: "Mumbai", expert: "Mobile App Developer", expected_salary: "60000-70000" },
+  { city: "Chennai", expert: "Blockchain Developer", expected_salary: "80000-90000" },
+  { city: "Kolkata", expert: "Cyber Security Specialist", expected_salary: "75000-85000" },
+  { city: "Ahmedabad", expert: "QA Engineer", expected_salary: "40000-45000" },
 ];
+
 
 export const navExpand = [
   {
