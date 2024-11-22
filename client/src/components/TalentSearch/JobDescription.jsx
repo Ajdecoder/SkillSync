@@ -1,4 +1,4 @@
-// JobDescription.js
+
 import React from 'react';
 import { useHireFormContext } from '../context/HireFormContext';
 
@@ -7,14 +7,14 @@ const JobDescription = ({  nextStep, prevStep }) => {
     const {formData, handleFormDataChange} = useHireFormContext()
 
   const handleDescriptionChange = (e) => {
-    handleFormDataChange({ description: e.target.value });
+    handleFormDataChange({ Jobdescription: e.target.value });
   };
 
   return (
     <div className='p-4'>
       <h2 className="text-xl font-semibold mb-4">Job Description</h2>
       <textarea
-        value={formData.description}
+        value={formData.Jobdescription}
         onChange={handleDescriptionChange}
         className="w-full p-3 border border-gray-300 rounded-md mb-4"
         rows="4"

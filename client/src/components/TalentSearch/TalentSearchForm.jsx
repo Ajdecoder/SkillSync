@@ -4,7 +4,7 @@ import DefineSkills from "./DefineSkills";
 import CandidateAvailability from "./CandidateAvailability";
 import AdditionalRequirements from "./AdditionalRequirements";
 import JobDescription from "./JobDescription";
-import CompensationBenefits from "./CompensationBenefits";
+import compensationBenefits from "./CompensationBenefits";
 import ContactInformation from "./ContactInformation";
 import ReviewSubmit from "./ReviewSubmit";
 import { useHireFormContext } from "../context/HireFormContext";
@@ -54,7 +54,7 @@ const TalentSearchForm = () => {
         />
       )}
       {step === 6 && (
-        <CompensationBenefits
+        <compensationBenefits
           nextStep={nextStep}
           prevStep={prevStep}
           handleFormDataChange={handleFormDataChange}

@@ -1,21 +1,21 @@
-// CompensationBenefits.js
+// compensationBenefits.js
 import React from 'react';
 import { useHireFormContext } from '../context/HireFormContext';
 
-const CompensationBenefits = ({  nextStep, prevStep }) => {
+const compensationBenefits = ({  nextStep, prevStep }) => {
 
     const {formData, handleFormDataChange} = useHireFormContext()
 
-  const handleCompensationChange = (e) => {
+  const handlecompensationChange = (e) => {
     handleFormDataChange({ compensation: e.target.value });
   };
 
   return (
     <div className='p-4'>
-      <h2 className="text-xl font-semibold mb-4">Compensation & Benefits</h2>
+      <h2 className="text-xl font-semibold mb-4">compensation & Benefits</h2>
       <textarea
         value={formData.compensation}
-        onChange={handleCompensationChange}
+        onChange={handlecompensationChange}
         className="w-full p-3 border border-gray-300 rounded-md mb-4"
         rows="4"
         placeholder="Enter compensation and benefits details"
@@ -33,4 +33,4 @@ const CompensationBenefits = ({  nextStep, prevStep }) => {
   );
 };
 
-export default CompensationBenefits;
+export default compensationBenefits;

@@ -12,6 +12,7 @@
 .team .details {
   text-align: center;
   top: 11px;
+  margin: auto;
 }
 .team .img {
   width: 90px;

@@ -29,8 +29,8 @@
     flex-direction: column;
   }
 
-  .hero{
-    height: 100vh;
+  .hero-notloggedin{
+    height: 40vh;
   }
 
   .hero-form .inpbox{
@@ -187,6 +187,9 @@
   .blog-out {
     grid-template-columns: 1fr !important;
     display: grid;
+  }
+  .team-cards{
+    display: flex !important;
   }
 }
 
