@@ -1,7 +1,7 @@
 import React from "react";
 import Heading from "../../common/Heading";
 import { team } from "../../data/Data";
-import "./team.css"; // Keep this if you have specific custom styles for this component
+import "./team.css";
 import '../../../tailwind.css';
 
 const Team = () => {
@@ -39,7 +39,7 @@ const Team = () => {
                   <h4 className="text-xl font-semibold">{member.name}</h4>
                 </div>
 
-                <ul className="flex justify-center space-x-2 text-blue-500">
+                <ul className="flex justify-center p-0 space-x-2 text-blue-500 team-cards">
                   {member.icon.map((icon, index) => (
                     <li key={index} className="text-md text-center">
                       {icon}

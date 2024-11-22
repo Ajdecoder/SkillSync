@@ -95,15 +95,15 @@ const Hero = () => {
                 </select>
               </div>
 
-              <button className="btn1" type="button">
+              <button className="btn1 bg-[#663399] p-2" type="button">
                 <i className="fa fa-search"></i> Search
               </button>
             </form>
           </div>
         </section>
       ) : (
-        <section className="hero h-60">
-          <div className="hero-container">
+        <section className="hero-notloggedin h-60">
+          <div className="hero-container h-1">
             <Heading
               title="Search Your Way"
               subtitle="Find new & featured programmers located in your local city."

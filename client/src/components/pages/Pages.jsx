@@ -26,6 +26,9 @@ const Pages = () => {
   const [spin, setSpin] = useState(false);
   const { ref } = useRef();
 
+
+  
+
   const routes = [
     { path: "/", component: <Home /> },
     { path: "/about", component: <About /> },
@@ -42,6 +45,8 @@ const Pages = () => {
     { path: "/signup/recruiter", component: <RegCandidate /> },
     { path: "/signup/candidate", component: <RegRecruiter /> },
   ];
+
+
 
   useEffect(() => {
     Aos.init({

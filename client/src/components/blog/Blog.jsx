@@ -58,28 +58,56 @@ const Blog = ({ spin, setSpin }) => {
 
       {/* Pagination buttons */}
       {!spin && (
-        <div className="navigation-btn flex">
+        <div className="navigation-btn flex p-7">
           <button
             onClick={handlePrev}
-            className={currentPage === 0 ? "prev-btn disabled-btn" : "prev-btn border border-red-500"}
+            className={`${
+              currentPage === 0
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-blue-500 text-white hover:bg-gray-600"
+            } px-4 py-2 rounded-md font-semibold border border-red-500 transition-all duration-300`}
             disabled={currentPage === 0}
           >
-            Prev
+            <svg
+              className="w-6 h-6 text-gray-800 dark:text-white"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 10 16"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M7.293 1.707 1.707 7.293a1 1 0 0 0 0 1.414l5.586 5.586A1 1 0 0 0 9 13.586V2.414a1 1 0 0 0-1.707-.707Z"
+              />
+            </svg>
           </button>
-          <button
-            onClick={handleNext}
-            className={
-              endIndex >= blogPosts.length
-                ? "next-btn disabled-btn"
-                : "next-btn"
-            }
-            disabled={endIndex >= blogPosts.length}
-          >
-            Next
-          </button>
-          <span style={{ margin: "auto" }} >
+
+          <span style={{ margin: "auto" }}>
             {currentPage + 1} of {Math.ceil(blogPosts.length / postsPerPage)}
           </span>
+
+          <button
+            onClick={handleNext}
+            className={`${
+              endIndex >= blogPosts.length
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-blue-500 text-white hover:bg-green-600"
+            } px-4 py-2 rounded-md font-semibold border border-blue-500 transition-all duration-300 ml-4`}
+            disabled={endIndex >= blogPosts.length}
+          >
+            <svg
+              class="w-6 h-6 text-gray-800 dark:text-white"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 10 16"
+            >
+              <path d="M3.414 1A2 2 0 0 0 0 2.414v11.172A2 2 0 0 0 3.414 15L9 9.414a2 2 0 0 0 0-2.828L3.414 1Z" />
+            </svg>
+          </button>
         </div>
       )}
     </>

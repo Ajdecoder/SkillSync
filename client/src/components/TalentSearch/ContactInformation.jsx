@@ -1,4 +1,3 @@
-// ContactInformation.js
 import React, { useState } from 'react';
 import { useHireFormContext } from '../context/HireFormContext';
 
@@ -25,11 +24,11 @@ const ContactInformation = ({  nextStep, prevStep }) => {
         name="email"
         value={contactInfo.email || ''}
         onChange={handleContactChange}
-        className="w-full p-3 border border-gray-300 rounded-md mb-4"
+        className="border-gray-300 rounded-md mb-4 block w-full p-4 text-gray-900 border  bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         placeholder="Email"
       />
       <input
-        type="text"
+        type="number"
         name="phone"
         value={contactInfo.phone || ''}
         onChange={handleContactChange}
