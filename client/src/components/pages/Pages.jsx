@@ -21,6 +21,7 @@ import { RegCandidate } from "../Register/RegCandidate.jsx";
 import { RegRecruiter } from "../Register/RegRecruiter.jsx";
 import Header from "../common/header/Header.jsx";
 import Blog from "../blog/Blog.jsx";
+import { BlogPage } from "../blog/BlogPage.jsx";
 
 const Pages = () => {
   const [spin, setSpin] = useState(false);
@@ -44,6 +45,7 @@ const Pages = () => {
     { path: "/signup", component: <Register /> },
     { path: "/signup/recruiter", component: <RegCandidate /> },
     { path: "/signup/candidate", component: <RegRecruiter /> },
+    {path:"/blog/:Blogid", component:<BlogPage/>  }
   ];
 
 
@@ -54,7 +56,7 @@ const Pages = () => {
       duration: 100,
       easing: 'ease-in-out',
       delay: 100,
-      once: true, // Set to true for animations only once
+      once: true, 
     });
   
     // Ensure AOS is refreshed on component updates

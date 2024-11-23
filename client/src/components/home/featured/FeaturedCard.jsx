@@ -11,6 +11,7 @@ const FeaturedCard = () => {
             key={index}
             data-aos={index % 2 === 0 ? "flip-left" : "flip-right"}
             data-aos-duraton="3000"
+            data-aos-delay='7000'
           >
             <img src={items.cover} alt="" />
             <h4>{items.name}</h4>
