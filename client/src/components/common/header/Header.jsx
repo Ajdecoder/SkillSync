@@ -17,14 +17,14 @@ const Header = ({ ref }) => {
   useEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth <= 768);
-      
+
       if (window.innerWidth > 768) {
         setIsNavListOpen(false);
       }
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize(); 
+    handleResize();
 
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -110,35 +110,46 @@ const Header = ({ ref }) => {
             ))}
           </ul>
         </nav>
+
         <div className="button">
           {loggedInUser ? (
             <>
-              <h6
-                className="hover:cursor-pointer relative"
-                onClick={handleMouseClick}
+              {/* Display user's name */}
+              <div
+                className="flex items-center space-x-3 cursor-pointer hover:scale-[0.9] transition-ease-in duration-200  relative"
+                onClick={() => setShowAboutUser((prev) => !prev)}
               >
-                <span className=" inline-block bg-blue-500 text-white rounded-full p-3 text-lg font-bold">
+                <span className="inline-block bg-blue-500 text-white rounded-full p-3 text-lg font-bold">
                   {loggedInUser.name?.toUpperCase()[0]}
                 </span>
-                {showAboutUser && (
-                  <div className="absolute top-10 right-0 bg-white border border-gray-300 shadow-md p-4 min-w-[200px] z-10 rounded-lg opacity-100">
-                    <p className="text-sm text-gray-700 mb-2">
-                      Name: {loggedInUser.name}
-                    </p>
-                    <p className="text-sm text-gray-700 mb-2">
-                      Email: {loggedInUser.email}
-                    </p>
-                    <div>
-                      <button
-                        onClick={logout}
-                        className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition-colors duration-300"
-                      >
-                        <i className="fa fa-sign-out mr-2"></i> Logout
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </h6>
+              </div>
+
+              {/* About User dropdown */}
+              {showAboutUser && (
+                <div
+                  className={`absolute top-16 right-0 bg-white border border-gray-300 shadow-md p-4 min-w-[200px] z-10 rounded-lg transform transition-transform duration-300 ease-in-out ${
+                    showAboutUser
+                      ? "scale-100 opacity-100"
+                      : "scale-0 opacity-0"
+                  }`}
+                  style={{
+                    transformOrigin: "top right",
+                  }}
+                >
+                  <p className="text-sm text-gray-700 mb-2">
+                    <strong>Name:</strong> {loggedInUser.name}
+                  </p>
+                  <p className="text-sm text-gray-700 mb-2">
+                    <strong>Email:</strong> {loggedInUser.email}
+                  </p>
+                  <button
+                    onClick={logout}
+                    className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition-colors duration-300"
+                  >
+                    <i className="fa fa-sign-out mr-2"></i> Logout
+                  </button>
+                </div>
+              )}
             </>
           ) : (
             <>
@@ -148,6 +159,7 @@ const Header = ({ ref }) => {
             </>
           )}
         </div>
+
         <div className="toggle">
           <button onClick={() => setIsNavListOpen(!isNavListOpen)}>
             {isNavListOpen ? (
