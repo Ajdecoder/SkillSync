@@ -1,47 +1,33 @@
 import express from "express";
-import {
-  allData,
-  addOpportunity,
-  hireTalent,
-} from "../controller/company.controller.js";
-import { uploadFile } from "../middleware/cloudinary.js";
-import { multerUploader } from "../middleware/multer.js";
+import { allData, hireTalent } from "../controller/company.controller.js";
+// import { multerUploader } from "../middleware/multer.js"; // Disabled multer for now
 
 const companyRouter = express.Router();
 
-// Route to fetch all data (opportunities + talent profiles)
-companyRouter.get("/allData", allData);
+// Route to hire talent (without multer)
+import { multerUploader } from "../middleware/multer.js"; // Ensure multerUploader is defined
+import { uploadFile } from "../middleware/cloudinary.js"; // Cloudinary upload function
 
-// Route to create a new talent profile (Hire Talent)
 companyRouter.post(
   "/hireTalent",
-  multerUploader.fields([
-    { name: "resume", maxCount: 1 },
-    { name: "profile_Img", maxCount: 1 },
-  ]),
+  multerUploader.single("profile_Img"),  // Handle single file upload for 'profile_Img'
   async (req, res) => {
     try {
-      if (!req.files) return res.status(400).send("No file uploaded");
+      // Check if the file is uploaded
+      console.log(req.body,'req body in route')
+      if (!req.file) return res.status(400).send("No file uploaded");
 
-      const uploadResults = {};
+      // Upload file to Cloudinary
+      const profileImgUploadResult = await uploadFile(req.file.path);
 
-      if (req.files["resume"]) {
-        const resumeFile = req.files["resume"][0];
-        const resumeUploadResult = await uploadFile(resumeFile.path);
-        uploadResults.resumeUrl = resumeUploadResult.secure_url;
-      }
-
-      if (req.files["profile_Img"]) {
-        const profileImgFile = req.files["profile_Img"][0];
-        const profileImgUploadResult = await uploadFile(profileImgFile.path);
-        uploadResults.profileImgUrl = profileImgUploadResult.secure_url;
-      }
-
-      const savedProfile = await hireTalent({
+      // Create a new hireTalent object with the profile image URL
+      const hireData = {
         ...req.body,
-        resume: uploadResults.resumeUrl,
-        profile_Img: uploadResults.profileImgUrl,
-      });
+        profile_Img: profileImgUploadResult.secure_url,
+      };
+
+      // Create talent profile in the database
+      const savedProfile = await hireTalent(hireData);
 
       res.status(201).json({
         success: true,
@@ -55,47 +41,7 @@ companyRouter.post(
   }
 );
 
-// Route to create a new job opportunity (Add Opportunity)
-companyRouter.post(
-  "/addOpportunity",
-  multerUploader.fields([
-    { name: "documents", maxCount: 1 },
-    { name: "cover_Img", maxCount: 1 },
-  ]),
-  async (req, res) => {
-    try {
-      if (!req.files) return res.status(400).send("No file uploaded");
+companyRouter.get("/allData",allData)
 
-      const uploadResults = {};
-
-      if (req.files["documents"]) {
-        const documentFile = req.files["documents"][0];
-        const documentUploadResult = await uploadFile(documentFile.path);
-        uploadResults.documentUrl = documentUploadResult.secure_url;
-      }
-
-      if (req.files["cover_Img"]) {
-        const coverImgFile = req.files["cover_Img"][0];
-        const coverImgUploadResult = await uploadFile(coverImgFile.path);
-        uploadResults.coverImgUrl = coverImgUploadResult.secure_url;
-      }
-
-      const savedOpportunity = await addOpportunity({
-        ...req.body,
-        documents: uploadResults.documentUrl,
-        cover_Img: uploadResults.coverImgUrl,
-      });
-
-      res.status(201).json({
-        success: true,
-        msg: "Opportunity Created Successfully",
-        savedOpportunity,
-      });
-    } catch (err) {
-      console.error(err);
-      res.status(500).send("Failed to create opportunity");
-    }
-  }
-);
 
 export default companyRouter;

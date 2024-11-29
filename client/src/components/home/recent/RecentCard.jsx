@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
 import { PORT_CLIENT } from "../../../commonClient";
-import { useNavigate } from "react-router-dom"; // Importing useNavigate
+import { useNavigate } from "react-router-dom";
 
 const RecentCard = () => {
   const { loggedInUser } = useAuth();
   const [requirements, setRequirements] = useState([]);
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // Hook to navigate to another page
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,13 +35,13 @@ const RecentCard = () => {
   }
 
   const handleConnectClick = (company, index) => {
-    // Navigate to the new page, passing company data as state
+   
 
     const post_id = requirements[index]._id;
     console.log("requirements Index", requirements[index]._id);
     console.log("requirements", requirements);
 
-    // console.log("requirements Index",index)
+   
     navigate(`/connect/${post_id}`, { state: { company } });
   };
 

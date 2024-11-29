@@ -28,7 +28,7 @@ const JobTypeCategory = ({ nextStep }) => {
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded-md"
           onClick={nextStep}
-          disabled={!formData.jobType} // Disable button if jobType is not selected
+          disabled={!formData.jobType}
         >
           Next
         </button>

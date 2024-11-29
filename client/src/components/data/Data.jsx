@@ -6,7 +6,7 @@ export const nav = [
   {
     flag: "expand",
     text: "Requirement",
-    // path: "/requirements",
+    path: "/requirements",
   },
   {
     text: "about",
@@ -46,7 +46,24 @@ export const navExpand = [
     text: "Add Opportunity",
     path: "requirements/add-opportunity",
   },
+  {
+    text: "Saved Searches",
+    path: "requirements/saved-searches",
+  },
+  {
+    text: "Job Templates",
+    path: "requirements/job-templates",
+  },
+  {
+    text: "Bookmark Talent",
+    path: "requirements/bookmark-talent",
+  },
+  {
+    text: "Market Trends",
+    path: "requirements/market-trends",
+  },
 ];
+
 
 export const featured = [
   {

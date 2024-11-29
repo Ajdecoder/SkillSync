@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Heading from "../../common/Heading";
 import "./hero.css";
 import { useAuth } from "../../context/AuthContext";
@@ -10,20 +10,24 @@ import { filterData } from "../../data/Data";
 const Hero = () => {
   const { loggedInUser } = useAuth();
   const [programmers, setProgramers] = useState([]);
+  const [filterCategory, setFilterCategory] = useState({
+    selectedCity: "",
+    selectedExpertType: "",
+    selectedPriceRange: "",
+  });
+  const [error, setError] = useState(null);
 
   const programmerDAtafetch = async () => {
     try {
-      const response = await axios.get(
-        `${PORT_CLIENT}/api/requirements/allData`
-      );
-
+      const response = await axios.get(`${PORT_CLIENT}/api/requirements/allData`);
+      console.log(response)
       if (response.data && Array.isArray(response.data.data)) {
         setProgramers(response.data.data);
       } else {
-        console.error("Unexpected data structure:", response.data);
+        setError("Unexpected data structure");
       }
     } catch (error) {
-      console.error("Error fetching programmer data", error);
+      setError("Error fetching programmer data");
     }
   };
 
@@ -31,26 +35,29 @@ const Hero = () => {
     programmerDAtafetch();
   }, []);
 
-  const [selectedCity, setSelectedCity] = useState("");
-  const [selectedExpertType, setSelectedExpertType] = useState("");
-  const [selectedPriceRange, setSelectedPriceRange] = useState("");
+  const filteredProgrammers = useMemo(() => {
+    const { selectedCity, selectedExpertType, selectedPriceRange } = filterCategory;
+    return programmers.filter((programmer) => {
+      return (
+        (selectedCity === "" || programmer.address === selectedCity) &&
+        (selectedExpertType === "" || programmer.expertType === selectedExpertType) &&
+        (selectedPriceRange === "" || programmer.priceRange === selectedPriceRange)
+      );
+    });
+  }, [programmers, filterCategory]);
 
-  const filteredProgrammers = programmers.filter((programmer) => {
-    return (
-      (selectedCity === "" || programmer.address === selectedCity) &&
-      (selectedExpertType === "" ||
-        programmer.expertType === selectedExpertType) &&
-      (selectedPriceRange === "" ||
-        programmer.priceRange === selectedPriceRange)
-    );
-  });
+  const handleClick = () => {
+    console.log("filterCategory",filterCategory);
+  };
+
+  // if (error) return <div>Error: {error}</div>;
 
   return (
     <>
       {loggedInUser ? (
         <section className="hero">
           <div className="hero-image">
-            <img src={'../../images/banner.jpg'} alt="Hero" />
+            <img src={"/images/banner.jpg"} alt="Hero" />
           </div>
           <div className="hero-container">
             <Heading
@@ -59,43 +66,71 @@ const Hero = () => {
             />
 
             <form className="hero-form m-auto mt-6">
-              
+              {/* City Filter */}
               <div className="box inpbox">
                 <span>City/Region</span>
                 <select
-                  value={selectedCity}
-                  onChange={(e) => setSelectedCity(e.target.value)}
-                >{filterData.map((cities)=>{
-                  return <option key={cities.city} value={cities.city} >{cities.city}</option>
-                })}
+                  value={filterCategory.selectedCity}
+                  onChange={(e) =>
+                    setFilterCategory((prev) => ({ ...prev, selectedCity: e.target.value }))
+                  }
+                >
+                  <option value="">Please choose City/Region</option>
+                  {[...new Set(filterData.map((item) => item.city))].map((city) => (
+                    <option key={city} value={city}>
+                      {city}
+                    </option>
+                  ))}
                 </select>
               </div>
 
-              
+              {/* Expert Type Filter */}
               <div className="box inpbox">
                 <span>Expert Type</span>
                 <select
-                  value={selectedExpertType}
-                  onChange={(e) => setSelectedExpertType(e.target.value)}
-                >{filterData.map((experts)=>{
-                  return <option key={experts.expert} value={experts.expert} >{experts.expert}</option>
-                })}
+                  value={filterCategory.selectedExpertType}
+                  onChange={(e) =>
+                    setFilterCategory((prev) => ({
+                      ...prev,
+                      selectedExpertType: e.target.value,
+                    }))
+                  }
+                >
+                  <option value="">Please choose Expert Type</option>
+                  {[...new Set(filterData.map((item) => item.expert))].map((expert) => (
+                    <option key={expert} value={expert}>
+                      {expert}
+                    </option>
+                  ))}
                 </select>
               </div>
 
-              
+              {/* Price Range Filter */}
               <div className="box inpbox">
                 <span>Price Range</span>
                 <select
-                  value={selectedPriceRange} 
-                  onChange={(e) => setSelectedPriceRange(e.target.value)}
-                >{filterData.map((salary)=>{
-                  return <option key={salary.expected_salary} value={salary.expected_salary} >{salary.expected_salary}</option>
-                })}
+                  value={filterCategory.selectedPriceRange}
+                  onChange={(e) =>
+                    setFilterCategory((prev) => ({
+                      ...prev,
+                      selectedPriceRange: e.target.value,
+                    }))
+                  }
+                >
+                  <option value="">Please choose expected salary</option>
+                  {[...new Set(filterData.map((item) => item.expected_salary))].map((salary) => (
+                    <option key={salary} value={salary}>
+                      {salary}
+                    </option>
+                  ))}
                 </select>
               </div>
 
-              <button className="btn1 bg-[#663399] p-2" type="button">
+              <button
+                className="btn1 bg-[#663399] p-2"
+                type="button"
+                onClick={handleClick}
+              >
                 <i className="fa fa-search"></i> Search
               </button>
             </form>
@@ -111,10 +146,7 @@ const Hero = () => {
           </div>
         </section>
       )}
-      <Recent
-        programmers={programmers}
-        filteredProgrammers={filteredProgrammers}
-      />
+      <Recent programmers={programmers} filteredProgrammers={filteredProgrammers} filterCategory={filterCategory} />
     </>
   );
 };

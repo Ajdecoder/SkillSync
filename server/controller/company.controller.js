@@ -48,33 +48,33 @@ export const addOpportunity = async (req, res) => {
 
 // Function to create a new "Hire Talent" card (candidate profile by users)
 export const hireTalent = async (req, res) => {
+
+  console.log("req body",req.body)
+
+
   const {
-    name,
-    email,
-    ph_no,
+    jobType,
     skills,
-    experience,
-    location,
-    resume,
-    portfolio,
     availability,
-    about,
-    profile_Img,
+    requirements,
+    jobDescription,
+    compensation,
+    contactInfo,
+    status
   } = req.body;
+
+
 
   try {
     const newTalent = new HireTalentCollection({
-      name,
-      email,
-      ph_no,
+      jobType,
       skills,
-      experience,
-      location,
-      resume,
-      portfolio,
       availability,
-      about,
-      profile_Img,
+      requirements,
+      jobDescription,
+      compensation,
+      contactInfo,
+      status
     });
 
     await newTalent.save();

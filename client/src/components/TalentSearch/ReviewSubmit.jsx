@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useHireFormContext } from '../context/HireFormContext';
+import axios from 'axios';
 
 const ReviewSubmit = ({ prevStep }) => {
+  
   const { formData, handleFormDataChange } = useHireFormContext();
   const [editMode, setEditMode] = useState(false); 
   const [localFormData, setLocalFormData] = useState(formData); 
@@ -23,7 +25,7 @@ const ReviewSubmit = ({ prevStep }) => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-8 bg-white shadow-lg rounded-lg">
+    <div className="max-w-4xl mx-auto p-8 bg-white shadow-lg rounded-lg mt-5 mb-5">
       <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
         {editMode ? 'Edit Your Job Listing' : 'Review Your Job Listing'}
       </h2>

@@ -1,30 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import JobTypeCategory from "./JobTypeCategory";
 import DefineSkills from "./DefineSkills";
 import CandidateAvailability from "./CandidateAvailability";
 import AdditionalRequirements from "./AdditionalRequirements";
 import JobDescription from "./JobDescription";
-import compensationBenefits from "./CompensationBenefits";
 import ContactInformation from "./ContactInformation";
 import ReviewSubmit from "./ReviewSubmit";
+import CompensationBenefits from "./CompensationBenefits";
 import { useHireFormContext } from "../context/HireFormContext";
 
 const TalentSearchForm = () => {
-    
-  const {handleFormDataChange} = useHireFormContext()
-
+  const { handleFormDataChange } = useHireFormContext();
   const [step, setStep] = useState(1);
-  const nextStep = () => setStep(step + 1);
-  const prevStep = () => setStep(step - 1);
+
+  // Track the previous step using useRef
+  const prevStepRef = useRef(step);
+
+  const nextStep = () => setStep((prev) => prev + 1);
+  const prevStep = () => setStep((prev) => prev - 1);
+
+  useEffect(() => {
+    // Log steps only when step changes
+    if (step !== prevStepRef.current) {
+      console.log("Previous Step ====>", prevStepRef.current);
+      console.log("Next Step ====>", step);
+
+      // Update the ref with the current step
+      prevStepRef.current = step;
+    }
+  }, [step]);
 
   return (
     <div>
-
-      {step === 1 && (
-        <JobTypeCategory
-          nextStep={nextStep}
-        />
-      )}
+      {step === 1 && <JobTypeCategory nextStep={nextStep} />}
       {step === 2 && (
         <DefineSkills
           nextStep={nextStep}
@@ -54,7 +62,7 @@ const TalentSearchForm = () => {
         />
       )}
       {step === 6 && (
-        <compensationBenefits
+        <CompensationBenefits
           nextStep={nextStep}
           prevStep={prevStep}
           handleFormDataChange={handleFormDataChange}
@@ -68,9 +76,7 @@ const TalentSearchForm = () => {
         />
       )}
       {step === 8 && (
-        <ReviewSubmit
-          handleFormDataChange={handleFormDataChange}
-        />
+        <ReviewSubmit handleFormDataChange={handleFormDataChange} prevStep={prevStep} />
       )}
     </div>
   );

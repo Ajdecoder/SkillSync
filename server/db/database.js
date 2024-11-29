@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import { userSchema } from "../model/userModal.js";
-import { Requirement } from "../model/Requirement.js";
+import { HireTalentSchema } from "../model/HireTalentModal.js";
 
 dotenv.config();
 
@@ -20,11 +20,11 @@ const connect = await connectDB();
 
 export const AddOpportunityCollection = connect.model(
   "AddOpportunityCollection",
-  Requirement
+  HireTalentSchema
 );
 export const HireTalentCollection = connect.model(
-  "HireTalentCollection",
-  Requirement
+  "TalentSearchCollection",
+  HireTalentSchema
 );
 
 export const User = connect.model("User", userSchema, "userCollection");
