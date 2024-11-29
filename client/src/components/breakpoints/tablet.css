@@ -102,6 +102,7 @@
   .dropdown-expand {
     display: block;
     position: static;
+    height: auto;
   }
 
   .exp-icon {
@@ -132,19 +133,18 @@
   }
   header .small {
     position: fixed;
-    height: 85vh;
+    height: 100%;
     width: 100vw;
     display: flex;
     flex-direction: column;
     background: white;
     margin-top: 34px;
-    padding-top: 1rem;
+    padding-top: 2rem;
     font-size: x-large;
   }
   header li a {
     display: inline-block;
     margin-bottom: 20px;
-    color: #216eb9;
   }
 
   .head-btn {
@@ -191,6 +191,10 @@
   .team-cards{
     display: flex !important;
   }
+   .dropdown-expand ul{
+    flex-direction: column;
+    position: relative;
+  }
 }
 
 @media screen and (max-width: 955px) {
@@ -209,6 +213,7 @@
   .small {
     position: fixed;
   }
+  
 }
 
 @media only screen and (max-width: 750px) {
@@ -218,4 +223,6 @@
   .demo-page .demo-page-content {
     width: calc(100% - 18em);
   }
+
+  
 }

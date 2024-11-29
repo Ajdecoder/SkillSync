@@ -4,8 +4,13 @@ import RecentCard from "./RecentCard";
 import { useAuth } from "../../context/AuthContext";
 import { SampleRecentCard } from "../../SampleRecentCard";
 
-const Recent = () => {
+const Recent = (filteredProgrammers,programmers,filterCategory) => {
+
   const { loggedInUser } = useAuth();
+
+  // console.log('filetered programers in recent',filteredProgrammers)
+  // console.log('programers in recent',programmers)
+  // console.log('filterCategory in recent',filterCategory)
 
   return (
     <>

@@ -20,7 +20,7 @@ header a {
   padding: 5px;
 }
 
-nav,.active {
+.active {
   color: #216eb9 !important;
 }
 .profile-icon-details {
@@ -66,24 +66,46 @@ header .toggle {
   border-radius: 45px;
 }
 
-.dropdown {
-  gap: 32px;
+.dropdown-expand {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap; 
   background-color: white;
-  height: 8rem;
+  padding: 10px;
+  gap: 10px; 
+  border: 1px solid #ddd;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   position: absolute;
-  top: 60px;
-  left: 17%;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  width: 11rem;
-  font-size: 84%;
+  top: 2rem; 
+  left: 0;
+  right: 0; 
+  z-index: 1000;
+  height: 5rem;
 }
 
+.dropdown-expand ul {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.small a {
+  padding: 8px 12px;
+  text-decoration: none;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-expand a:hover {
+  background-color: #e0e0e0;
+}
 
 .dropdown li {
-  padding: 10px;
   list-style: none;
+  margin: auto;
 }
 
 .dropdown li a {
@@ -102,6 +124,8 @@ header .toggle {
   justify-content: space-around;
   align-items: center;
 }
+  
+
 
 
 

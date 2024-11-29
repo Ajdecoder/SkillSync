@@ -10,7 +10,7 @@ const Team = () => {
       <div className="container mx-auto px-4">
         <Heading
           title="Our Team"
-          subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+          subtitle="With diverse expertise and a shared commitment to excellence, our team collaborates seamlessly to create impactful results. Together, we believe in pushing boundaries, embracing challenges, and achieving greatness."
         />
 
         <div className="mt-10 grid gap-1 sm:grid-cols-2 lg:grid-cols-3">

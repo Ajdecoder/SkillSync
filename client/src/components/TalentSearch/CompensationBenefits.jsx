@@ -1,8 +1,7 @@
-// compensationBenefits.js
 import React from 'react';
 import { useHireFormContext } from '../context/HireFormContext';
 
-const compensationBenefits = ({  nextStep, prevStep }) => {
+const CompensationBenefits = ({  nextStep, prevStep }) => {
 
     const {formData, handleFormDataChange} = useHireFormContext()
 
@@ -33,4 +32,4 @@ const compensationBenefits = ({  nextStep, prevStep }) => {
   );
 };
 
-export default compensationBenefits;
+export default CompensationBenefits;

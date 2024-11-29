@@ -22,13 +22,11 @@ import { RegRecruiter } from "../Register/RegRecruiter.jsx";
 import Header from "../common/header/Header.jsx";
 import Blog from "../blog/Blog.jsx";
 import { BlogPage } from "../blog/BlogPage.jsx";
+import { Settings } from "../setttings/Setting.jsx";
 
 const Pages = () => {
   const [spin, setSpin] = useState(false);
   const { ref } = useRef();
-
-
-  
 
   const routes = [
     { path: "/", component: <Home /> },
@@ -45,7 +43,8 @@ const Pages = () => {
     { path: "/signup", component: <Register /> },
     { path: "/signup/recruiter", component: <RegCandidate /> },
     { path: "/signup/candidate", component: <RegRecruiter /> },
-    {path:"/blog/:Blogid", component:<BlogPage/>  }
+    {path:"/blog/:Blogid", component:<BlogPage/>  },
+    {path:"/profile/settings", component:<Settings/>  }
   ];
 
 
@@ -59,7 +58,7 @@ const Pages = () => {
       once: true, 
     });
   
-    // Ensure AOS is refreshed on component updates
+
     const handleScroll = () => Aos.refresh();
     window.addEventListener('scroll', handleScroll);
   
