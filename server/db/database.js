@@ -27,4 +27,5 @@ export const HireTalentCollection = connect.model(
   HireTalentSchema
 );
 
-export const User = connect.model("User", userSchema, "userCollection");
+export const Candidate = connect.model("Candidate", userSchema, "CandidateCollection");
+export const Recruiter = connect.model("Recruiter", userSchema, "RecruiterCollection");
