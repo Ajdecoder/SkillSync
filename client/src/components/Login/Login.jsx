@@ -38,6 +38,7 @@ export const Login = () => {
       const res = await axios.post(`${PORT_CLIENT}/api/users/login`, user, {
         withCredentials: true,
       });
+      console.log(PORT_CLIENT)
 
       login(res.data.user);
 
