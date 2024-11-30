@@ -151,8 +151,8 @@ export const ResetPassword = async (req, res) => {
 
 export const Delete = async (req, res) => {
   try {
-    const { Candidate } = req.body;
-    const DeleteCandidate = await Candidate.deleteOne({ Candidate });
+    const { _id } = req.body;
+    const DeleteCandidate = await Candidate.deleteOne({ _id });
 
     res
       .status(200)

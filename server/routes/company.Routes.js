@@ -1,5 +1,5 @@
 import express from "express";
-import { allData, hireTalent } from "../controller/company.controller.js";
+import { allOpportunitiesData, hireTalent } from "../controller/company.controller.js";
 // import { multerUploader } from "../middleware/multer.js"; // Disabled multer for now
 
 const companyRouter = express.Router();
@@ -41,7 +41,8 @@ companyRouter.post(
   }
 );
 
-companyRouter.get("/allData",allData)
+companyRouter.post("/addedOpportunites",allOpportunitiesData)
+companyRouter.post("/allTalents",allOpportunitiesData)
 
 
 export default companyRouter;

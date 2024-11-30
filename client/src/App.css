@@ -5,6 +5,11 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  scroll-behavior: smooth;
+}
+
 html::-webkit-scrollbar {
   background-color: #000;
   width: 12px;
@@ -30,7 +35,7 @@ html::-webkit-scrollbar-thumb {
 
 body {
   font-family: "Poppins", sans-serif;
-  background-color: #000000 ;
+  background-color: #000000;
 }
 .container {
   /* max-width: 100%; */
@@ -51,8 +56,6 @@ nav {
   position: relative;
   right: 30px;
 }
-
-
 
 a {
   text-decoration: none;
@@ -179,13 +182,12 @@ img {
   background: #fff;
 }
 
-
 .newsletter {
   position: static;
   padding: 25px;
 }
 
-.auto{
+.auto {
   margin: auto !important;
   display: table !important;
 }
