@@ -1,5 +1,10 @@
 import React, { Suspense, useEffect, useRef, useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import Home from "../home/Home";
 import Footer from "../common/footer/Footer";
 import About from "../about/About";
@@ -23,6 +28,17 @@ import Header from "../common/header/Header.jsx";
 import Blog from "../blog/Blog.jsx";
 import { BlogPage } from "../blog/BlogPage.jsx";
 import { Settings } from "../setttings/Setting.jsx";
+import { Auth0Provider } from "@auth0/auth0-react";
+
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // Scroll to top
+  }, [pathname]); // Trigger when the route changes
+
+  return null;
+};
 
 const Pages = () => {
   const [spin, setSpin] = useState(false);
@@ -41,43 +57,49 @@ const Pages = () => {
     { path: "/requirements/add-opportunity", component: <AddOpportunity /> },
     { path: "/connect/:post_id", component: <ConnectPage /> },
     { path: "/signup", component: <Register /> },
-    { path: "/signup/recruiter", component: <RegCandidate /> },
-    { path: "/signup/candidate", component: <RegRecruiter /> },
-    {path:"/blog/:Blogid", component:<BlogPage/>  },
-    {path:"/profile/settings", component:<Settings/>  }
+    { path: "/signup/recruiter", component: <RegRecruiter /> },
+    { path: "/signup/candidate", component: <RegCandidate /> },
+    { path: "/blog/:Blogid", component: <BlogPage /> },
+    { path: "/profile/settings", component: <Settings /> },
   ];
-
-
 
   useEffect(() => {
     Aos.init({
       offset: 30,
       duration: 100,
-      easing: 'ease-in-out',
+      easing: "ease-in-out",
       delay: 100,
-      once: true, 
+      once: true,
     });
-  
 
     const handleScroll = () => Aos.refresh();
-    window.addEventListener('scroll', handleScroll);
-  
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-  
+
   return (
     <AuthProvider>
-      <HireFormProvider>
-        <Router>
+      <Auth0Provider
+        domain="dev-yog8yr68bfvtwp3g.us.auth0.com"
+        clientId="0VfXemgsJftbilQdQh0so9swXkKaHzTB"
+        authorizationParams={{
+          redirect_uri: window.location.origin,
+        }}
+      >
+        <HireFormProvider>
+          <Router>
+            <ScrollToTop />
             <Header ref={ref} />
-          <Routes>
-            {routes.map(({ path, component }, index) => (
-              <Route key={index} path={path} element={component} />
-            ))}
-          </Routes>
-          <Footer />
-        </Router>
-      </HireFormProvider>
+            <Routes>
+              {routes.map(({ path, component }, index) => (
+                <Route key={index} path={path} element={component} />
+              ))}
+            </Routes>
+            <Footer />
+          </Router>
+        </HireFormProvider>
+      </Auth0Provider>
     </AuthProvider>
   );
 };

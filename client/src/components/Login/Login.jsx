@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useAsyncError, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../Login/Login.css";
@@ -16,6 +16,12 @@ export const Login = () => {
     email: "",
     password: "",
   });
+
+  const [showPass, setShowPass] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPass(!showPass);
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,18 +42,14 @@ export const Login = () => {
       login(res.data.user);
 
       if (res.status === 200) {
-        
-        const encoded_uInfo = res.data
+        const encoded_uInfo = res.data;
         localStorage.setItem("encoded_uInfo", JSON.stringify(encoded_uInfo));
         localStorage.setItem("jwttoken", encoded_uInfo.token);
 
         toast.success("Login successful", { autoClose: 1200 });
 
-
-
-
         setTimeout(() => {
-          navigate("/");
+          // navigate("/");
         }, 2000);
       }
     } catch (error) {
@@ -68,7 +70,9 @@ export const Login = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
-        <h1 className="text-3xl font-semibold text-gray-800 text-center mb-6">Login</h1>
+        <h1 className="text-3xl font-semibold text-gray-800 text-center mb-6">
+          Login
+        </h1>
         <form onSubmit={loginUser}>
           <div className="space-y-4">
             <input
@@ -80,15 +84,28 @@ export const Login = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
-            <input
-              type="password"
-              name="password"
-              value={user.password}
-              onChange={handleChange}
-              placeholder="Enter your password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
+            <div className="relative">
+              <input
+                type={showPass ? "text" : "password"}
+                name="password"
+                value={user.password}
+                onChange={handleChange}
+                placeholder="Enter your password"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+
+              <span
+                className="absolute right-4 top-2.5 text-blue-500 cursor-pointer"
+                onClick={togglePasswordVisibility}
+              >
+                {showPass ? (
+                  <i className="fa-regular fa-eye-slash"></i>
+                ) : (
+                  <i className="fa-solid fa-eye"></i>
+                )}
+              </span>
+            </div>
           </div>
           <div className="mt-6 flex justify-between items-center">
             <button

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { jwttokenDecode } from "../utils/decode"; 
+import { jwttokenDecode } from "../utils/decode";
 
 const AuthContext = createContext();
 
@@ -8,11 +8,12 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const encoded_uInfo = localStorage.getItem('encoded_uInfo')
+    const encoded_uInfo = localStorage.getItem("encoded_uInfo");
     const token = localStorage.getItem("jwttoken");
+
     if (token) {
       try {
-        const userInfo = jwttokenDecode(token); 
+        const userInfo = jwttokenDecode(token);
         if (userInfo) {
           setLoggedInUser(userInfo);
         }
@@ -23,14 +24,17 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
+  // Update the user state whenever login or logout occurs
   const login = (userDetails) => {
     setLoggedInUser(userDetails);
+    localStorage.setItem("jwttoken", userDetails.token); // Assuming userDetails contains token
+    localStorage.setItem("encoded_uInfo", JSON.stringify(userDetails));
   };
 
   const logout = () => {
     setLoggedInUser(null);
     localStorage.removeItem("jwttoken");
-    localStorage.removeItem("encoded_uInfo")
+    localStorage.removeItem("encoded_uInfo");
   };
 
   return (
