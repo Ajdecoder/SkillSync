@@ -4,7 +4,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 export const GoogleAuth = () => {
   const { loginWithRedirect } = useAuth0();
-  console.log(loginWithRedirect);
 
   return (
     <button

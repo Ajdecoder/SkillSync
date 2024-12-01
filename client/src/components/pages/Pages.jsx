@@ -29,6 +29,8 @@ import Blog from "../blog/Blog.jsx";
 import { BlogPage } from "../blog/BlogPage.jsx";
 import { Settings } from "../setttings/Setting.jsx";
 import { Auth0Provider } from "@auth0/auth0-react";
+import { SavedSearches } from "../Savedsearches/savedSearches.jsx";
+
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -53,14 +55,18 @@ const Pages = () => {
     { path: "/contact", component: <Contact /> },
     { path: "/login", component: <Login /> },
     { path: "/requirements", component: <Resources /> },
-    { path: "/requirements/hire-talent", component: <HireResources /> },
-    { path: "/requirements/add-opportunity", component: <AddOpportunity /> },
     { path: "/connect/:post_id", component: <ConnectPage /> },
     { path: "/signup", component: <Register /> },
     { path: "/signup/recruiter", component: <RegRecruiter /> },
     { path: "/signup/candidate", component: <RegCandidate /> },
     { path: "/blog/:Blogid", component: <BlogPage /> },
     { path: "/profile/settings", component: <Settings /> },
+    { path: "/requirements/hire-talent", component: <HireResources /> },
+    { path: "/requirements/add-opportunity", component: <AddOpportunity /> },
+    { path: "requirements/saved-searches", component: <SavedSearches /> },
+    { path: "requirements/job-templates", component: <SavedSearches /> },
+    { path: "requirements/bookmark-talent", component: <SavedSearches /> },
+    { path: "requirements/market-trends", component: <SavedSearches /> },
   ];
 
   useEffect(() => {

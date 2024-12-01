@@ -38,20 +38,21 @@ export const Login = () => {
       const res = await axios.post(`${PORT_CLIENT}/api/users/login`, user, {
         withCredentials: true,
       });
-      console.log(PORT_CLIENT)
+      console.log(res.data)
 
-      login(res.data.user);
+      login(res.data.accountInfo);
 
       if (res.status === 200) {
-        const encoded_uInfo = res.data;
-        localStorage.setItem("encoded_uInfo", JSON.stringify(encoded_uInfo));
-        localStorage.setItem("jwttoken", encoded_uInfo.token);
+        
+        const token = res.data.token
+        
+        localStorage.setItem("jwttoken", token);
 
         toast.success("Login successful", { autoClose: 1200 });
 
         setTimeout(() => {
-          // navigate("/");
-        }, 2000);
+          navigate("/");
+        }, 1500);
       }
     } catch (error) {
       if (error.response) {
@@ -88,6 +89,7 @@ export const Login = () => {
             <div className="relative">
               <input
                 type={showPass ? "text" : "password"}
+                autoComplete="current-pass"
                 name="password"
                 value={user.password}
                 onChange={handleChange}

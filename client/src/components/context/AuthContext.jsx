@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const encoded_uInfo = localStorage.getItem("encoded_uInfo");
+    
     const token = localStorage.getItem("jwttoken");
 
     if (token) {
@@ -24,17 +24,15 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  // Update the user state whenever login or logout occurs
+ 
   const login = (userDetails) => {
     setLoggedInUser(userDetails);
-    localStorage.setItem("jwttoken", userDetails.token); // Assuming userDetails contains token
-    localStorage.setItem("encoded_uInfo", JSON.stringify(userDetails));
+    localStorage.setItem("jwttoken", userDetails.token);
   };
 
   const logout = () => {
     setLoggedInUser(null);
     localStorage.removeItem("jwttoken");
-    localStorage.removeItem("encoded_uInfo");
   };
 
   return (
