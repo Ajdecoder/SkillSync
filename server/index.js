@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import userRoutes from "./routes/user.Routes.js";
 import companyRoutes from "./routes/company.Routes.js";
 import cookieParser from "cookie-parser";
+import chatBotRoutes from "./routes/chat.Routes.js"
 
 dotenv.config();
 const app = express();
@@ -25,6 +26,8 @@ app.use(cookieParser());
 app.use("/api/users", userRoutes  );
 
 app.use("/api/requirements", companyRoutes);
+
+app.use("/api/chatbot/",chatBotRoutes)
 
 app.get("/", (req, res) => {
   res.send("Welcome to the homepage");

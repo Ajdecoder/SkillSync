@@ -10,7 +10,8 @@ import { GoogleAuth } from "../Oauth/Oauth";
 
 export const RegRecruiter = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+
+  const {login} = useAuth()
 
   const [recruiter, setRecruiter] = useState({
     name: "",
@@ -69,16 +70,30 @@ export const RegRecruiter = () => {
           withCredentials: true,
         }
       );
-      console.log(response);
+      
+      login(response.data)
+
+      if (response.status === 200) {
+        const token = response.data.token;
+        localStorage.setItem("jwttoken", token);
+
+        toast.success("Candidate successfully Register", { autoClose: 1200 });
+
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      }
+
 
       localStorage.setItem("jwttoken", response.data.token);
-      login(response.data.recruiter);
+      
       toast.success(response.data.message, {
         autoClose: 1000,
       });
 
       navigate("/");
     } catch (error) {
+
       if (error.response) {
         toast.error(`${error.response.data.message}`, {
           autoClose: 1000,
@@ -87,6 +102,7 @@ export const RegRecruiter = () => {
         toast.error("Network Error: Please check your internet connection.", {
           autoClose: 1000,
         });
+        console.log(error)
       } else {
         toast.error("Error registering. Please try again later.", {
           autoClose: 1000,

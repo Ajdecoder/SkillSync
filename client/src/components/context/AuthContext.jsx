@@ -10,13 +10,11 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     
     const token = localStorage.getItem("jwttoken");
-
     if (token) {
       try {
-        const userInfo = jwttokenDecode(token);
-        if (userInfo) {
-          setLoggedInUser(userInfo);
-        }
+        const decodedUser = jwttokenDecode(token);
+        console.log("Decoded user in useEffect:", decodedUser);
+        setLoggedInUser(decodedUser);
       } catch (error) {
         console.error("Error decoding token:", error);
       }
@@ -24,10 +22,16 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
- 
   const login = (userDetails) => {
-    setLoggedInUser(userDetails);
+    // console.log("JWT details from auth context:", userDetails);
+    
     localStorage.setItem("jwttoken", userDetails.token);
+
+    
+    const decodedUser = jwttokenDecode(userDetails.token);
+    console.log("Decoded user after login:", decodedUser);
+
+    setLoggedInUser(decodedUser);
   };
 
   const logout = () => {
@@ -37,7 +41,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ loggedInUser, login, logout, loading }}>
-      {children}
+      {!loading ? children : <div>Loading...</div>}
     </AuthContext.Provider>
   );
 };

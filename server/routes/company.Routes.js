@@ -8,7 +8,7 @@ const companyRouter = express.Router();
 import { multerUploader } from "../middleware/multer.js"; // Ensure multerUploader is defined
 import { uploadFile } from "../middleware/cloudinary.js"; // Cloudinary upload function
 
-companyRouter.post(
+companyRouter.post( 
   "/hireTalent",
   multerUploader.single("profile_Img"),  // Handle single file upload for 'profile_Img'
   async (req, res) => {

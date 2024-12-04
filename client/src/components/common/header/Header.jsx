@@ -13,8 +13,7 @@ const Header = () => {
   const [showExpand, setShowExpand] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
   const location = useLocation();
-    
-  
+
   useEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth <= 768);
@@ -23,11 +22,11 @@ const Header = () => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-  
+
   useEffect(() => {
     if (!loggedInUser) setShowAboutUser(false);
   }, [loggedInUser]);
-  
+
   const handleRequirementClick = (event) => {
     event.preventDefault();
     setShowExpand((prev) => !prev);
@@ -40,33 +39,31 @@ const Header = () => {
   return (
     <header>
       <div className="flex top-header">
-        {/* Logo Section */}
         <div className="logo">
           <NavLink to="/">
             <img src={logo} alt="Logo" />
           </NavLink>
         </div>
 
-        {/* Navigation */}
         <nav className="nav">
           <ul className={isNavListOpen ? "small overflow-scroll" : "flex"}>
             {nav.map((item, index) => (
               <li key={index} className="nav-item">
                 <NavLink
                   to={item.path}
-                  className={({ isActive }) =>  
+                  className={({ isActive }) =>
                     `reqli text-slate-500 ${
                       isActive && !isRequirementActive ? "active" : ""
                     }`
                   }
                   onClick={(event) => {
-                    if (item.text === "Requirement") handleRequirementClick(event);
+                    if (item.text === "Requirement")
+                      handleRequirementClick(event);
                   }}
                 >
                   {item.text}
-                </NavLink>    
+                </NavLink>
 
-                {/* "Requirement" Dropdown */}
                 {item.text === "Requirement" && (
                   <>
                     <i
@@ -83,8 +80,8 @@ const Header = () => {
                             <li key={subIndex}>
                               <NavLink
                                 to={subItem.path}
-                                className={({ isActive }) =>
-                                  isActive ? "active" : "" // Active class on child links
+                                className={
+                                  ({ isActive }) => (isActive ? "active" : "") // Active class on child links
                                 }
                               >
                                 {subItem.text}
@@ -101,8 +98,8 @@ const Header = () => {
           </ul>
         </nav>
 
-        {/* User Section */}
         <div className="button">
+          {/* {console.log("jwt details from header", loggedInUser)} */}
           {loggedInUser ? (
             <>
               <div
@@ -110,23 +107,30 @@ const Header = () => {
                 onClick={() => setShowAboutUser((prev) => !prev)}
               >
                 <span className="inline-block bg-blue-500 text-white rounded-full p-3 text-lg font-bold">
-                  {loggedInUser.name?.toUpperCase()[0]}
+                  {(
+                    loggedInUser?.accountInfo?.name?.[0] ||
+                    loggedInUser?.name?.[0] ||
+                    "U"
+                  ).toUpperCase()}{" "}
                 </span>
               </div>
 
-              {/* User Dropdown */}
               <div
                 className={`absolute top-16 right-0 bg-white border border-gray-300 shadow-md p-4 min-w-[200px] z-10 rounded-lg transition-all duration-300 ease-in-out transform ${
-                  showAboutUser ? "opacity-100 scale-100 visible" : "opacity-0 scale-95 invisible"
+                  showAboutUser
+                    ? "opacity-100 scale-100 visible"
+                    : "opacity-0 scale-95 invisible"
                 }`}
               >
                 {showAboutUser && (
                   <>
                     <p className="text-sm text-gray-700 mb-2">
-                      <strong>Name:</strong> {loggedInUser.name}
+                      <strong>Name:</strong>{" "}
+                      {loggedInUser?.accountInfo?.name || loggedInUser.name}
                     </p>
                     <p className="text-sm text-gray-700 mb-2">
-                      <strong>Email:</strong> {loggedInUser.email}
+                      <strong>Email:</strong>{" "}
+                      {loggedInUser?.accountInfo?.email || loggedInUser.email}
                     </p>
                     <div className="flex flex-col p-2 gap-3">
                       <button
@@ -136,7 +140,7 @@ const Header = () => {
                         <i className="fa fa-sign-out mr-2"></i> Logout
                       </button>
                       <button>
-                        <Link to={'profile/settings'} >settings</Link>
+                        <Link to={"profile/settings"}>Settings</Link>
                       </button>
                     </div>
                   </>
@@ -150,7 +154,6 @@ const Header = () => {
           )}
         </div>
 
-        {/* Mobile Navigation Toggle */}
         <div className="toggle">
           <button onClick={() => setIsNavListOpen(!isNavListOpen)}>
             <i className={isNavListOpen ? "fa fa-times" : "fa fa-bars"}></i>
