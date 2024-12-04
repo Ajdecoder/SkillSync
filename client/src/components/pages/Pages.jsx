@@ -29,20 +29,21 @@ import Blog from "../blog/Blog.jsx";
 import { BlogPage } from "../blog/BlogPage.jsx";
 import { Settings } from "../setttings/Setting.jsx";
 import { Auth0Provider } from "@auth0/auth0-react";
+import { ChatBot } from "../chatbot/ChatBot.jsx";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
 
   useEffect(() => {
     window.scrollTo(0, 0); // Scroll to top
-  }, [pathname]); // Trigger when the route changes
+  }, [pathname]);
 
   return null;
 };
 
 const Pages = () => {
+  const [isChatOpen, setChatOpen] = useState(false);
   const [spin, setSpin] = useState(false);
-  const { ref } = useRef();
 
   const routes = [
     { path: "/", component: <Home /> },
@@ -90,12 +91,37 @@ const Pages = () => {
         <HireFormProvider>
           <Router>
             <ScrollToTop />
-            <Header ref={ref} />
+            <Header />
             <Routes>
               {routes.map(({ path, component }, index) => (
                 <Route key={index} path={path} element={component} />
               ))}
             </Routes>
+         {!isChatOpen &&   <button
+              onClick={() => setChatOpen(!isChatOpen)}
+              style={{
+                position: "fixed",
+                bottom: "3rem",
+                right: "20px",
+                zIndex: 1000,
+                backgroundColor: "#007bff",
+                color: "white",
+                border: "none",
+                borderRadius: "50%",
+                width: "60px",
+                height: "60px",
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                cursor: "pointer",
+              }}
+              className="animate-pulse"
+            >
+              💬
+            </button>}
+            {isChatOpen && (
+              <div className="w-[22rem] h-[32rem]">
+                <ChatBot />
+              </div>
+            )}
             <Footer />
           </Router>
         </HireFormProvider>

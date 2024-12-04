@@ -38,18 +38,18 @@ export const Login = () => {
       const res = await axios.post(`${PORT_CLIENT}/api/users/login`, user, {
         withCredentials: true,
       });
+      console.log("loging",res.data)
 
-      login(res.data.user);
+      login(res.data);
 
       if (res.status === 200) {
-        const encoded_uInfo = res.data;
-        localStorage.setItem("encoded_uInfo", JSON.stringify(encoded_uInfo));
-        localStorage.setItem("jwttoken", encoded_uInfo.token);
+        const token = res.data.token;
+        localStorage.setItem("jwttoken", token);
 
         toast.success("Login successful", { autoClose: 1200 });
 
         setTimeout(() => {
-          // navigate("/");
+          navigate("/");
         }, 2000);
       }
     } catch (error) {

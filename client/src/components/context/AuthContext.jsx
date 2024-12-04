@@ -8,15 +8,13 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const encoded_uInfo = localStorage.getItem("encoded_uInfo");
+    
     const token = localStorage.getItem("jwttoken");
-
     if (token) {
       try {
-        const userInfo = jwttokenDecode(token);
-        if (userInfo) {
-          setLoggedInUser(userInfo);
-        }
+        const decodedUser = jwttokenDecode(token);
+        console.log("Decoded user in useEffect:", decodedUser);
+        setLoggedInUser(decodedUser);
       } catch (error) {
         console.error("Error decoding token:", error);
       }
@@ -24,22 +22,26 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  // Update the user state whenever login or logout occurs
   const login = (userDetails) => {
-    setLoggedInUser(userDetails);
-    localStorage.setItem("jwttoken", userDetails.token); // Assuming userDetails contains token
-    localStorage.setItem("encoded_uInfo", JSON.stringify(userDetails));
+    // console.log("JWT details from auth context:", userDetails);
+    
+    localStorage.setItem("jwttoken", userDetails.token);
+
+    
+    const decodedUser = jwttokenDecode(userDetails.token);
+    console.log("Decoded user after login:", decodedUser);
+
+    setLoggedInUser(decodedUser);
   };
 
   const logout = () => {
     setLoggedInUser(null);
     localStorage.removeItem("jwttoken");
-    localStorage.removeItem("encoded_uInfo");
   };
 
   return (
     <AuthContext.Provider value={{ loggedInUser, login, logout, loading }}>
-      {children}
+      {!loading ? children : <div>Loading...</div>}
     </AuthContext.Provider>
   );
 };

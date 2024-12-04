@@ -10,7 +10,8 @@ import { GoogleAuth } from "../Oauth/Oauth";
 
 export const RegCandidate = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+
+  const {login} = useAuth()
 
   const [candidate, setCandidate] = useState({
     name: "",
@@ -41,7 +42,12 @@ export const RegCandidate = () => {
 
   const register = async (e) => {
     e.preventDefault();
-    if (!candidate.name || !candidate.email || !candidate.password || !candidate.reEnterPassword) {
+    if (
+      !candidate.name ||
+      !candidate.email ||
+      !candidate.password ||
+      !candidate.reEnterPassword
+    ) {
       toast.error("Please fill in all fields.", {
         autoClose: 1000,
       });
@@ -57,32 +63,49 @@ export const RegCandidate = () => {
 
     try {
       const response = await axios.post(
-        `${PORT_CLIENT}api/users/register/candidate`,
+        `${PORT_CLIENT}/api/users/register/candidate`,
         candidate,
         {
           withCredentials: true,
         }
       );
 
-      localStorage.setItem("jwttoken", response.data.token);
-      login(response.data.candidate);
+      login(response.data)
 
+      if (response.status === 200) {
+        const token = response.data.token;
+        localStorage.setItem("jwttoken", token);
+
+        toast.success("Candidate successfully Register", { autoClose: 1200 });
+
+        setTimeout(() => {
+          navigate("/");
+        }, 2000);
+      }
+
+      console.log("printing token from regcandi",response.data); // Log the response here
+      localStorage.setItem("jwttoken", response.data.token);
       toast.success(response.data.message, {
         autoClose: 1000,
       });
-
       navigate("/");
     } catch (error) {
       if (error.response) {
-        toast.error(`${error.response.data.message}`, {
-          autoClose: 1000,
-        });
-      } else if (error.request) {
-        toast.error("Network Error: Please check your internet connection.", {
-          autoClose: 1000,
-        });
+        
+        if (error.response.data && error.response.data.error) {
+
+          const errorMessage = error.response.data.error[0].message;
+          toast.error(errorMessage, { autoClose: 1000 });
+        } else {
+          toast.error(
+            `${error.response.data.message || "Something went wrong"}`,
+            {
+              autoClose: 1000,
+            }
+          );
+        }
       } else {
-        toast.error("Error registering. Please try again later.", {
+        toast.error("Network error. Please try again later.", {
           autoClose: 1000,
         });
       }
