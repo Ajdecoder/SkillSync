@@ -7,12 +7,12 @@ export const useHireFormContext = () => useContext(HireFormContext);
 export const HireFormProvider = ({ children }) => {
   const [formData, setFormData] = useState({  
     jobType: '',
-    skills: [],   
+    skills: [],
     availability: '',
     requirements: '',
     Jobdescription: '',
     compensation: '', 
-    contactInfo: { email: '', phone: '' },  
+    contactInfo: { email: '', phone: '' },
   });
 
   const handleFormDataChange = (newData) => {

@@ -6,6 +6,7 @@ export const Login = async (req, res) => {
 
   try {
     const accountType = await Candidate.findOne({ email }) || await Recruiter.findOne({ email });
+    console.log(accountType)
 
     if (!accountType) {
       return res.status(404).json({ message: "User not found" });
