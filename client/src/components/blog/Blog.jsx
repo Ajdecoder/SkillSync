@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { blogPosts } from "../data/blogsData";
 import "../blog/Blog.css";
 import { Link } from "react-router-dom";
-// import ".././../tailwind.css";
 
 const Blog = ({ spin, setSpin }) => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -42,8 +41,11 @@ const Blog = ({ spin, setSpin }) => {
           {currentPosts.map((data) => (
             <div key={data.id} className="blog-post">
               <h1 className="blog-title">{data.title}</h1>
-              <h3>By {data.author}</h3>
-              <p>{data.date}</p>
+              <div className="">
+                {" "}
+                <h3>By {data.author}</h3>
+                <p>{data.date}</p>
+              </div>
               <img src={data.image} alt={data.title} />
               <p>{data.excerpt.slice(0, 100)}...</p>
               <div className="blog-content">

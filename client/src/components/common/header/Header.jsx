@@ -4,10 +4,9 @@ import { nav, navExpand } from "../../data/Data";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import logo from "/images/logo.png?url";
-import { Loading } from "../../loading/Loading";
 
 const Header = () => {
-  const { loggedInUser, logout, loading } = useAuth();
+  const { loggedInUser, logout } = useAuth();
   const [isNavListOpen, setIsNavListOpen] = useState(false);
   const [showAboutUser, setShowAboutUser] = useState(false);
   const [showExpand, setShowExpand] = useState(false);
@@ -33,8 +32,6 @@ const Header = () => {
   };
 
   const isRequirementActive = location.pathname.includes("requirement");
-
-  if (loading) return <Loading />;
 
   return (
     <header>
@@ -103,7 +100,7 @@ const Header = () => {
           {loggedInUser ? (
             <>
               <div
-                className="flex items-center space-x-3 cursor-pointer hover:scale-[0.9] transition-ease-in duration-200 relative"
+                className="flex items-center space-x-3 cursor-pointer hover:scale-[0.9] transition-ease-in duration-200 relative mt-[-20px]"
                 onClick={() => setShowAboutUser((prev) => !prev)}
               >
                 <span className="inline-block bg-blue-500 text-white rounded-full p-3 text-lg font-bold">
@@ -139,7 +136,7 @@ const Header = () => {
                       >
                         <i className="fa fa-sign-out mr-2"></i> Logout
                       </button>
-                      <button>
+                      <button className="text-center" >
                         <Link to={"profile/settings"}>Settings</Link>
                       </button>
                     </div>
@@ -148,7 +145,7 @@ const Header = () => {
               </div>
             </>
           ) : (
-            <Link to="/login" className="log-sign">
+            <Link to="/login" className="log-sign relative bottom-4">
               <i className="fa fa-sign-in"></i> Sign in
             </Link>
           )}

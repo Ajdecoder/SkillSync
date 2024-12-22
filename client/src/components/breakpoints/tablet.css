@@ -179,6 +179,9 @@
     display: flex;
     gap: 19px;
   }
+  .button >div{
+    margin-top: 1px ;
+  }
   header,
   .toggle {
     margin-bottom: 13px;

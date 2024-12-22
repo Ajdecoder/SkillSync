@@ -35,7 +35,7 @@ export const HireTalentSchema = new mongoose.Schema(
         match: /.+\@.+\..+/,
       },
       phone: {
-        type: Number,
+        type: String,
         required: true,
         match: /^[0-9]{8,15}$/, // Validates phone number format
       },

@@ -8,9 +8,8 @@ export const HireFormProvider = ({ children }) => {
   const [formData, setFormData] = useState({  
     jobType: '',
     skills: [],
-    availability: '',
     requirements: '',
-    Jobdescription: '',
+    jobDescription: '',
     compensation: '', 
     contactInfo: { email: '', phone: '' },
   });

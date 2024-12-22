@@ -10,12 +10,12 @@ const CompensationBenefits = ({  nextStep, prevStep }) => {
   };
 
   return (
-    <div className='p-4'>
+    <div className='p-4 '>
       <h2 className="text-xl font-semibold mb-4">compensation & Benefits</h2>
       <textarea
         value={formData.compensation}
         onChange={handlecompensationChange}
-        className="w-full p-3 border border-gray-300 rounded-md mb-4"
+        className="w-full p-3 border border-gray-300 rounded-md mb-4 dark:bg-gray-700 text-white"
         rows="4"
         placeholder="Enter compensation and benefits details"
       />

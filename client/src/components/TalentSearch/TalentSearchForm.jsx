@@ -22,10 +22,7 @@ const TalentSearchForm = () => {
   useEffect(() => {
     // Log steps only when step changes
     if (step !== prevStepRef.current) {
-      console.log("Previous Step ====>", prevStepRef.current);
-      console.log("Next Step ====>", step);
-
-      // Update the ref with the current step
+      
       prevStepRef.current = step;
     }
   }, [step]);

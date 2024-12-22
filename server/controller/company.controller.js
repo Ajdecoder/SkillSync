@@ -54,6 +54,7 @@ export const hireTalent = async (req, res) => {
     jobType,
     skills,
     availability,
+    availableDate,
     requirements,
     jobDescription,
     compensation,
@@ -65,6 +66,7 @@ export const hireTalent = async (req, res) => {
     const newTalent = new HireTalentCollection({
       jobType,
       skills,
+      availableDate,
       availability,
       requirements,
       jobDescription,
@@ -116,10 +118,23 @@ export const allRequirementsData = async (req, res) => {
   try {
     const Addedopportunities = await AddOpportunityCollection.find();
     const talents = await HireTalentCollection.find();
+    console.log('Talents:', talents);
 
     res.status(200).json({
-      Addedopportunities,talents
-    })
-
-  } catch (error) {}
+      Addedopportunities,
+      talents,
+    });
+  } catch (error) {
+    console.log(error)
+  }
 };
+
+export const getRequirementById = async (req,res) => {
+  try {
+    const RequirementId = req.params.id;
+    const getRequirement = await HireTalentCollection.findById(RequirementId)
+    res.status(200).json(getRequirement);
+  } catch (error) {
+    console.log(error)
+  }
+}

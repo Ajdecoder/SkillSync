@@ -2,6 +2,10 @@ import bcrypt from "bcrypt";
 import { Candidate,Recruiter } from "../db/database.js";
 
 export const Login = async (req, res) => {
+
+console.log('printing login req masala =>',req)
+console.log('printing login res masala =>',res)
+
   const { email, password } = req.body;
 
   try {

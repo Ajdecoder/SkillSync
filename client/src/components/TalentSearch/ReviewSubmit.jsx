@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useHireFormContext } from '../context/HireFormContext';
 import axios from 'axios';
+import { PORT_CLIENT } from '../../commonClient';
+import { toast, ToastContainer } from 'react-toastify';
 
 const ReviewSubmit = ({ prevStep }) => {
   
@@ -16,8 +18,14 @@ const ReviewSubmit = ({ prevStep }) => {
   };
 
   const handleSubmit = () => {
-    handleFormDataChange(localFormData);
-    console.log('Form submitted:', localFormData);
+    try {
+      handleFormDataChange(localFormData);
+      console.log('Form submitted:', localFormData);
+      axios.post(`${PORT_CLIENT}/api/requirements/hireTalent`,localFormData)  
+      toast.success("Form Submitted SuccessFully", {autoClose:1200})
+    } catch (error){
+      toast.error("Error Submitting Form")
+    }
   };
 
   const toggleEditMode = () => {
@@ -99,8 +107,8 @@ const ReviewSubmit = ({ prevStep }) => {
             {editMode ? (
               <input
                 type="text"
-                value={localFormData.Jobdescription}
-                onChange={(e) => handleInputChange('Jobdescription', e.target.value)}
+                value={localFormData.jobDescription}
+                onChange={(e) => handleInputChange('jobDescription', e.target.value)}
                 className="w-full border rounded p-2 text-gray-600"
               />
             ) : (
@@ -114,8 +122,8 @@ const ReviewSubmit = ({ prevStep }) => {
             {editMode ? (
               <input
                 type="text"
-                value={localFormData.Jobdescription}
-                onChange={(e) => handleInputChange('Jobdescription', e.target.value)}
+                value={localFormData.compensation}
+                onChange={(e) => handleInputChange('compensation', e.target.value)}
                 className="w-full border rounded p-2 text-gray-600"
               />
             ) : (
@@ -148,6 +156,7 @@ const ReviewSubmit = ({ prevStep }) => {
           )}
         </div>
       </div>
+      <ToastContainer position='bottom-left' />
     </div>
   );
 };
