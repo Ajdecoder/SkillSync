@@ -10,10 +10,8 @@ function App() {
   const { isLoading, showLoading, hideLoading } = useScreenLoadingContext();
 
   useEffect(() => {
-    console.log("Showing Loading");
     showLoading();
     const timer = setTimeout(() => {
-      console.log("Hiding Loading");
       hideLoading();
     }, 2000);
   

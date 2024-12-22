@@ -51,8 +51,8 @@ export const navExpand = [
     path: "requirements/saved-searches",
   },
   {
-    text: "Job Templates",
-    path: "requirements/job-templates",
+    text: "Opportunities",
+    path: "requirements/saved-opportunities",
   },
   {
     text: "Bookmark Talent",

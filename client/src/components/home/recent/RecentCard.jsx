@@ -6,24 +6,24 @@ import { useNavigate } from "react-router-dom";
 
 const RecentCard = () => {
   const { loggedInUser } = useAuth();
-  const [requirements, setRequirements] = useState([]);
+  const [talents, setTalents] = useState([]); // changed from requirements to talents
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${PORT_CLIENT}/api/requirements/allData`,
+          `${PORT_CLIENT}/api/requirements/allRequirements`,
           { withCredentials: true }
         );
         const {
-          data: { data: requirementsData },
+          data: { talents },
         } = response;
-        setRequirements(requirementsData || []);
+        setTalents(talents || []);
       } catch (error) {
         console.error("API Error:", error.message);
-        setError("Failed to fetch data. Please try again later.");
+        setError("Failed to fetch data");
       }
     };
 
@@ -31,91 +31,93 @@ const RecentCard = () => {
   }, []);
 
   if (error) {
-    return <div>{error}</div>;
+    return <div className="text-center text-red-500">{error}</div>;
   }
+  console.log("talents in db",talents)
 
-  const handleConnectClick = (company, index) => {
-   
+  const handleConnectClick = (talent, index) => {
+    const post_id = talents[index]._id;
+    
 
-    const post_id = requirements[index]._id;
-    console.log("requirements Index", requirements[index]._id);
-    console.log("requirements", requirements);
-
-   
-    navigate(`/connect/${post_id}`, { state: { company } });
+    // Navigate to the connect page with talent details
+    navigate(`/connect/${post_id}`, { state: { talent } });
   };
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
-      {requirements.map((card, index) => {
+      {talents.map((talent, index) => {
         const {
-          company_name,
-          company_website,
-          available_expert,
-          from,
-          to,
-          desc_requirement,
-          address,
-          cover_Img,
-          Status,
-        } = card;
+          contactInfo: { email, phone },
+          jobType,
+          skills,
+          availability,
+          requirements,
+          jobDescription,
+          compensation,
+          status,
+          createdAt,
+          company_name, // Assuming 'company_name' is available in 'talents'
+        } = talent;
 
         return (
           loggedInUser && (
             <div
               key={index}
-              className="shadow-lg rounded-lg overflow-hidden bg-white p-6"
+              className="shadow-lg rounded-lg overflow-hidden bg-white p-6 hover:shadow-2xl transition-all duration-300"
               data-aos={index % 2 === 0 ? "zoom-in-up" : "zoom-in-down"}
             >
-              <img
-                src={`http://localhost:9002/${cover_Img}`}
-                alt={company_name}
-                className="w-full h-52 object-cover"
-              />
-
+              {/* Job Status */}
               <div className="p-4 space-y-2">
                 <div className="flex items-center space-x-2">
                   <span
-                    className={`text-sm font-semibold px-2 py-1 rounded ${
-                      Status === "required"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-orange-100 text-orange-700"
+                    className={`text-sm font-semibold px-3 py-1 rounded-full ${
+                      status === "Open"
+                        ? "bg-orange-100 text-orange-700"
+                        : "bg-green-100 text-green-700"
                     }`}
                   >
-                    {Status === "required" ? "Hiring" : "Required"}
+                    {status === "Open" ? "Pending" : "Approved"}
                   </span>
                 </div>
 
-                <h4 className="text-lg font-bold">{company_name}</h4>
+                {/* Company Name */}
+                <h4 className="text-xl font-semibold text-gray-800">{company_name}</h4>
+
+                {/* Skills */}
                 <p className="text-sm text-gray-600">
-                  <i className="fa fa-location-dot mr-1"></i>
-                  {available_expert.join(", ")}
+                  <i className="fa fa-location-dot mr-2"></i>
+                  {skills.join(", ")}
                 </p>
-                <p className="text-sm text-gray-500">{address}</p>
-                <p className="text-sm text-gray-500">{desc_requirement}</p>
+
+                {/* Requirements */}
+                <p className="text-sm text-gray-500">{requirements}</p>
+
+                {/* Job Description */}
+                <p className="text-sm text-gray-500">{jobDescription}</p>
+
+                {/* Compensation */}
+                <p className="text-sm text-gray-500">{compensation}</p>
+
+                {/* Availability and Post Date */}
                 <p className="text-xs text-gray-400">
-                  From: {new Date(from).toLocaleDateString()}
+                  Availability: {availability}
                 </p>
                 <p className="text-xs text-gray-400">
-                  To: {new Date(to).toLocaleDateString()}
+                  Posted on: {new Date(createdAt).toLocaleDateString()}
                 </p>
+
+                {/* Contact Info */}
                 <p className="text-sm text-blue-500">
-                  Website:{" "}
-                  <a
-                    href={`http://${company_website}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline hover:text-blue-700"
-                  >
-                    {company_website}
-                  </a>
+                  Contact Email: {email}
                 </p>
+                <p className="text-sm text-gray-500">Phone: {phone}</p>
               </div>
 
-              <div className="p-2 inline-block justify-center bg-green-400 rounded-md hover:text-sky-600">
+              {/* Connect Button */}
+              <div className="p-2 inline-block justify-center bg-green-500 rounded-md hover:bg-green-600 text-white">
                 <button
-                  className="px-4 py-2 border border-gray-300 rounded hover:border-gray-400 transition duration-200"
-                  onClick={() => handleConnectClick(card, index)}
+                  className="px-6 py-2 border border-transparent rounded-md transition duration-200"
+                  onClick={() => handleConnectClick(talent, index)}
                 >
                   Connect
                 </button>

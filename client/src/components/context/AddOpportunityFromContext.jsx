@@ -20,6 +20,7 @@ export const FormProvider = ({ children }) => {
 
   const updateForm = (data) => {
     setFormData((prev) => ({ ...prev, ...data }));
+    console.log('opportunity form data',formData)
   };
 
   return (

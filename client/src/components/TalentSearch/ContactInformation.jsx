@@ -32,7 +32,7 @@ const ContactInformation = ({ nextStep, prevStep }) => {
         name="phone"
         value={contactInfo.phone || ""}
         onChange={handleContactChange}
-        className="w-full p-3 border border-gray-300 rounded-md mb-4"
+        className="w-full p-3 border border-gray-300 rounded-md mb-4 dark:bg-gray-700 text-white"
         placeholder="Phone Number"
       />
 

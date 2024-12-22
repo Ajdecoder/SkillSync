@@ -30,6 +30,10 @@ import { BlogPage } from "../blog/BlogPage.jsx";
 import { Settings } from "../setttings/Setting.jsx";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { ChatBot } from "../chatbot/ChatBot.jsx";
+import {  SavedSearches } from "../Resources/SavedSearch.jsx";
+import { SavedOpportunity } from "../Resources/SavedOpportunity.jsx";
+import { MarketTrends } from "../Resources/MarketTrends.jsx";
+import { BookmarkTalent } from "../Resources/BookMarkTalent.jsx";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -56,6 +60,10 @@ const Pages = () => {
     { path: "/requirements", component: <Resources /> },
     { path: "/requirements/hire-talent", component: <HireResources /> },
     { path: "/requirements/add-opportunity", component: <AddOpportunity /> },
+    { path: "/requirements/saved-searches", component: <SavedSearches /> },
+    { path: "/requirements/saved-opportunities", component: <SavedOpportunity /> },
+    { path: "/requirements/bookmark-talent", component: <BookmarkTalent /> },
+    { path: "/requirements/market-trends", component: <MarketTrends /> },
     { path: "/connect/:post_id", component: <ConnectPage /> },
     { path: "/signup", component: <Register /> },
     { path: "/signup/recruiter", component: <RegRecruiter /> },
@@ -118,7 +126,7 @@ const Pages = () => {
               💬
             </button>}
             {isChatOpen && (
-              <div className="w-[22rem] h-[32rem]">
+              <div className="w-[22rem]">
                 <ChatBot />
               </div>
             )}
