@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  addOpportunity,
   allOpportunitiesData,
   allRequirementsData,
   allTalentsData,
@@ -47,10 +48,10 @@ companyRouter.post(
   // }
   hireTalent
 );
-
+companyRouter.post("/addOpportunity", addOpportunity);
 companyRouter.get("/addedOpportunites", allOpportunitiesData);
 companyRouter.get("/allTalents", allTalentsData);
 companyRouter.get("/allRequirements", allRequirementsData);
-companyRouter.get("/Companyrequirements/:id", getRequirementById)
+companyRouter.get("/Companyrequirements/:id", getRequirementById);
 
 export default companyRouter;
