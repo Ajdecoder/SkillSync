@@ -40,7 +40,7 @@ const RecentCard = () => {
     
 
     // Navigate to the connect page with talent details
-    navigate(`/connect/${post_id}`, { state: { talent } });
+    navigate(`talent/connect/${post_id}`, { state: { talent } });
   };
 
   return (

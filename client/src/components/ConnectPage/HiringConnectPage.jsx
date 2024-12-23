@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { PORT_CLIENT } from "../../commonClient";
 
-const ConnectPage = () => {
+const TalentConnectPage = () => {
   const [companyData, setCompanyData] = useState(null);
   const [error, setError] = useState(null);
 
@@ -174,4 +174,4 @@ const ConnectPage = () => {
   );
 };
 
-export default ConnectPage;
+export default TalentConnectPage;

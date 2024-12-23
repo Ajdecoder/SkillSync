@@ -2,12 +2,13 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import { userSchema } from "../model/userModal.js";
 import { HireTalentSchema } from "../model/HireTalentModal.js";
+import { AddOpportunitySchema } from "../model/AddOpportunityModal.js";
 
 dotenv.config();
 
 export const connectDB = async () => {  
   try {
-    const connection = await mongoose.createConnection(process.env.MONGO_URL);
+    const connection = await mongoose.connect(process.env.MONGO_URL);
     console.log("Company collection MongoDB connected successfully");
     return connection;
   } catch (err) {
@@ -20,7 +21,7 @@ const connect = await connectDB();
 
 export const AddOpportunityCollection = connect.model(
   "AddOpportunityCollection",
-  HireTalentSchema
+  AddOpportunitySchema
 );
 export const HireTalentCollection = connect.model(
   "TalentSearchCollection",

@@ -21,7 +21,6 @@ import Aos from "aos";
 import "aos/dist/aos.css";
 import "../blog/Blog.css";
 import { HireFormProvider } from "../context/HireFormContext.jsx";
-import ConnectPage from "../ConnectPage/ConnectPage.jsx";
 import { RegCandidate } from "../Register/RegCandidate.jsx";
 import { RegRecruiter } from "../Register/RegRecruiter.jsx";
 import Header from "../common/header/Header.jsx";
@@ -34,6 +33,9 @@ import {  SavedSearches } from "../Resources/SavedSearch.jsx";
 import { SavedOpportunity } from "../Resources/SavedOpportunity.jsx";
 import { MarketTrends } from "../Resources/MarketTrends.jsx";
 import { BookmarkTalent } from "../Resources/BookMarkTalent.jsx";
+import { AddOpportunityFormProvider } from "../context/AddOpportunityFromContext.jsx";
+import TalentConnectPage from "../ConnectPage/HiringConnectPage.jsx";
+import OpportunityConnectPage from "../ConnectPage/OpportunityConnectPage.jsx";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -64,7 +66,8 @@ const Pages = () => {
     { path: "/requirements/saved-opportunities", component: <SavedOpportunity /> },
     { path: "/requirements/bookmark-talent", component: <BookmarkTalent /> },
     { path: "/requirements/market-trends", component: <MarketTrends /> },
-    { path: "/connect/:post_id", component: <ConnectPage /> },
+    { path: "talent/connect/:post_id", component: <TalentConnectPage /> },
+    { path: "opportunity/connect/:post_id", component: <OpportunityConnectPage /> },
     { path: "/signup", component: <Register /> },
     { path: "/signup/recruiter", component: <RegRecruiter /> },
     { path: "/signup/candidate", component: <RegCandidate /> },
@@ -97,6 +100,7 @@ const Pages = () => {
         }}
       >
         <HireFormProvider>
+          <AddOpportunityFormProvider>
           <Router>
             <ScrollToTop />
             <Header />
@@ -132,6 +136,7 @@ const Pages = () => {
             )}
             <Footer />
           </Router>
+          </AddOpportunityFormProvider>
         </HireFormProvider>
       </Auth0Provider>
     </AuthProvider>

@@ -1,8 +1,13 @@
+// context/FormProvider.js
 import React, { createContext, useContext, useState } from "react";
 
 const FormContext = createContext();
 
-export const FormProvider = ({ children }) => {
+export const useForm = () => {
+  return useContext(FormContext);
+};
+
+export const AddOpportunityFormProvider = ({ children }) => {
   const [formData, setFormData] = useState({
     title: "",
     company_name: "",
@@ -14,13 +19,10 @@ export const FormProvider = ({ children }) => {
     salaryRange: "",
     desc_requirement: "",
     address: "",
-    cover_Img: null, // For file uploads
-    documents: null, // For file uploads
   });
 
-  const updateForm = (data) => {
-    setFormData((prev) => ({ ...prev, ...data }));
-    console.log('opportunity form data',formData)
+  const updateForm = (newData) => {
+    setFormData((prevData) => ({ ...prevData, ...newData }));
   };
 
   return (
@@ -29,5 +31,3 @@ export const FormProvider = ({ children }) => {
     </FormContext.Provider>
   );
 };
-
-export const useForm = () => useContext(FormContext);

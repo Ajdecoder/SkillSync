@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { blogPosts } from "../data/blogsData";
 import "../blog/Blog.css";
 import { Link } from "react-router-dom";
+import { Spinner } from "../common/loadingSpinner/spinner";
 
 const Blog = ({ spin, setSpin }) => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -31,11 +32,11 @@ const Blog = ({ spin, setSpin }) => {
       setCurrentPage(currentPage + 1);
     }
   };
-
+  
   return (
     <>
       {spin ? (
-        <div className="loading-div"></div>
+        <Spinner/>
       ) : (
         <div className="blog-out">
           {currentPosts.map((data) => (

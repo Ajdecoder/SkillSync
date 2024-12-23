@@ -3,7 +3,7 @@ import {
   HireTalentCollection,
 } from "../db/database.js";
 
-// Function to create a new "Add Opportunity" post (job posting by employers)
+
 export const addOpportunity = async (req, res) => {
   const {
     title,
@@ -16,8 +16,9 @@ export const addOpportunity = async (req, res) => {
     salaryRange,
     desc_requirement,
     address,
-    cover_Img,
+    skills,
   } = req.body;
+
 
   try {
     const newOpportunity = new AddOpportunityCollection({
@@ -31,22 +32,20 @@ export const addOpportunity = async (req, res) => {
       salaryRange,
       desc_requirement,
       address,
-      cover_Img,
+      skills,
     });
 
     await newOpportunity.save();
-    res
-      .status(201)
-      .json({ message: "Opportunity added successfully", required: true });
+    console.log("New Opportunity:",newOpportunity)
+    res.status(201).json({ message: "Opportunity added successfully." });
   } catch (err) {
     console.error("Error:", err);
-    res
-      .status(500)
-      .json({ message: "Failed to add opportunity. Please try again later." });
+    res.status(500).json({ message: "Failed to add opportunity. Please try again later." });
   }
 };
 
-// Function to create a new "Hire Talent" card (candidate profile by users)
+
+
 export const hireTalent = async (req, res) => {
   console.log("req body", req.body);
 
@@ -87,7 +86,6 @@ export const hireTalent = async (req, res) => {
   }
 };
 
-// Function to fetch all data (both Add Opportunity and Hire Talent)
 export const allTalentsData = async (req, res) => {
   try {
     const talents = await HireTalentCollection.find();
@@ -104,7 +102,7 @@ export const allTalentsData = async (req, res) => {
 export const allOpportunitiesData = async (req, res) => {
   try {
     const Addedopportunities = await AddOpportunityCollection.find();
-
+    console.log("Data:",Addedopportunities)
     res.json({ Addedopportunities });
   } catch (error) {
     console.error("Error fetching data:", error.message);
@@ -118,23 +116,36 @@ export const allRequirementsData = async (req, res) => {
   try {
     const Addedopportunities = await AddOpportunityCollection.find();
     const talents = await HireTalentCollection.find();
-    console.log('Talents:', talents);
+    console.log("Talents:", talents);
 
     res.status(200).json({
       Addedopportunities,
       talents,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 
-export const getRequirementById = async (req,res) => {
+export const getRequirementById = async (req, res) => {
   try {
     const RequirementId = req.params.id;
-    const getRequirement = await HireTalentCollection.findById(RequirementId)
+
+    const getRequirementFromHireTalent = await HireTalentCollection.findById(RequirementId);
+    const getRequirementFromAddOpportunity = await AddOpportunityCollection.findById(RequirementId);
+
+    const getRequirement = getRequirementFromHireTalent || getRequirementFromAddOpportunity;
+
+    if (!getRequirement) {
+      return res.status(404).json({ message: "Requirement not found" });
+    }
+
     res.status(200).json(getRequirement);
   } catch (error) {
-    console.log(error)
+    console.error("Error fetching requirement:", error.message);
+    res.status(500).json({
+      message: "An error occurred while fetching the requirement.",
+    });
   }
-}
+};
+
