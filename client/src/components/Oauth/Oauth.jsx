@@ -1,10 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../tailwind.css";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export const GoogleAuth = () => {
-  const { user,loginWithRedirect,isAuthenticated } = useAuth0();
+  const { loginWithRedirect,user, isAuthenticated, isLoading, logout: auth0Logout } = useAuth0();
+  const [auth0User, setAuth0User] = useState(null);
 
+
+  const Auth0logout = () => {
+    setAuth0User(null);
+    localStorage.removeItem("Auth0user");
+  };
   
   return (
     <button

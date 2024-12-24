@@ -32,28 +32,10 @@
   }
 }
 
-@media screen and (max-width: 750px) {
-  .grid3 {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .footerContact button {
-    font-size: 15px;
-  }
-
-  .footerContact h1 {
-    font-size: large !important;
-  }
-
-  .blog-out {
-    grid-template-columns: 1fr 1fr;
-  }
-}
 
 @media screen and (max-width: 480px) {
   header img {
-    width: 6.8rem !important;
+    width: 8.8rem !important;
   }
   header .small {
     font-size: small !important;
@@ -72,4 +54,7 @@
   .blog-out {
     grid-template-columns: 1fr !important;
   }
+  .log-sign {
+    bottom: -8px !important;
+}
 }

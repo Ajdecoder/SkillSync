@@ -11,7 +11,7 @@ import { GoogleAuth } from "../Oauth/Oauth";
 export const RegRecruiter = () => {
   const navigate = useNavigate();
 
-  const {login} = useAuth()
+  const {loginWithJWT} = useAuth()
 
   const [recruiter, setRecruiter] = useState({
     name: "",
@@ -71,7 +71,7 @@ export const RegRecruiter = () => {
         }
       );
       
-      login(response.data)
+      loginWithJWT(response.data)
 
       if (response.status === 200) {
         const token = response.data.token;

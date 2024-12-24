@@ -7,14 +7,17 @@ import { useAuth0 } from "@auth0/auth0-react";
 import logo from "/images/logo.png?url";
 
 const Header = () => {
-  const { loggedInUser, logout: customLogout } = useAuth();
-  const { user, isAuthenticated, isLoading, logout: auth0Logout } = useAuth0();
+  const { loggedInUser, logout: customLogout } = useAuth();  // Custom JWT auth context
+  const { user, isAuthenticated, isLoading, logout: auth0Logout } = useAuth0(); // Auth0
   const [isNavListOpen, setIsNavListOpen] = useState(false);
   const [showAboutUser, setShowAboutUser] = useState(false);
   const [showExpand, setShowExpand] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
   const location = useLocation();
 
+  // Log the users for debugging
+  console.log("OAuth User-->", user);
+  console.log("Custom Auth User-->", loggedInUser);
 
   useEffect(() => {
     const handleResize = () => {
@@ -31,15 +34,18 @@ const Header = () => {
   };
 
   const handleLogout = () => {
-    // Use appropriate logout based on authentication method
+    // Handle logout based on the authentication method
     if (loggedInUser) {
-      customLogout();
+      customLogout(); // Custom logout for JWT
     } else if (isAuthenticated) {
-      auth0Logout({ logoutParams: { returnTo: window.location.origin } });
+      auth0Logout({ returnTo: window.location.origin }); // Auth0 logout
     }
   };
 
+  // Determine which user to show (JWT or Auth0)
   const currentUser = loggedInUser || (isAuthenticated && user);
+
+  // Check if we're on a "requirement" page
   const isRequirementActive = location.pathname.includes("requirement");
 
   return (
