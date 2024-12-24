@@ -32,7 +32,7 @@ const OTPInput = ({ nextStep, prevStep }) => {
             value={digit}
             onChange={(e) => handleOtpChange(e, index)}
             maxLength={1}
-            className="w-12 h-12 text-xl text-center border-2 border-black bg-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-16 h-16 text-xl text-center border-2 border-black bg-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             required
           />
         ))}

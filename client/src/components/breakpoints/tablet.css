@@ -198,6 +198,9 @@
     flex-direction: column;
     position: relative;
   }
+  .log-sign{
+    bottom: 0px !important;
+  }
 }
 
 @media screen and (max-width: 955px) {
@@ -218,14 +221,26 @@
   }
   
 }
-
-@media only screen and (max-width: 750px) {
-  .demo-page .demo-page-navigation {
-    display: none;
-  }
-  .demo-page .demo-page-content {
-    width: calc(100% - 18em);
+@media screen and (max-width: 750px) {
+  .grid3 {
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
+  .footerContact button {
+    font-size: 15px;
+  }
+
+  .footerContact h1 {
+    font-size: large !important;
+  }
+
+  .blog-out {
+    grid-template-columns: 1fr 1fr;
+  }
   
+  .log-sign {
+    bottom: -5px !important;
+}
+
 }

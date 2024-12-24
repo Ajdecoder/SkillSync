@@ -10,7 +10,7 @@ import { GoogleAuth } from "../Oauth/Oauth";
 
 export const Login = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { loginWithJWT } = useAuth();
 
   const [user, setUser] = useState({
     email: "",
@@ -40,7 +40,7 @@ export const Login = () => {
       });
       console.log("loging",res.data)
 
-      login(res.data);
+      loginWithJWT(res.data);
 
       if (res.status === 200) {
         const token = res.data.token;
