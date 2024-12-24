@@ -70,7 +70,7 @@ export const Settings = () => {
 
           <div>
             <Link
-              to="/settings/change-password"
+              to="/profile/settings/change-password"
               className="block text-xl font-semibold text-blue-500 hover:underline"
             >
               Change Password

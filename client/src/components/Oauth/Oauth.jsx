@@ -3,7 +3,8 @@ import "../../tailwind.css";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export const GoogleAuth = () => {
-  const { loginWithRedirect } = useAuth0();
+  const { user,loginWithRedirect,isAuthenticated } = useAuth0();
+
   
   return (
     <button

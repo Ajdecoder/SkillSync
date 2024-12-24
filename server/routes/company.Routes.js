@@ -48,6 +48,7 @@ companyRouter.post(
   // }
   hireTalent
 );
+
 companyRouter.post("/addOpportunity", addOpportunity);
 companyRouter.get("/addedOpportunites", allOpportunitiesData);
 companyRouter.get("/allTalents", allTalentsData);

@@ -114,6 +114,28 @@ export const RecruiterRegister = async (req, res) => {
   }
 };
 
+export const changeAccPassword = async (req, res, next) => {
+  const {
+    email,
+    oldPassword,
+    newPassword,
+    confirmPassword,
+  } = req.body;
+}
+
+export const VerifyEmail = async (req, res, next) => {
+  try {
+    const data = await Candidate.findOne({ email: req.body.email });
+    const verificationToken = await data.generateForgetPassToken();
+    res.status(200).send({
+      success: true,
+      verificationToken: verificationToken,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export const ForgotPass = async (req, res) => {
   try {
     const data = await Candidate.findOne({ email: req.body.email });
@@ -151,7 +173,7 @@ export const ResetPassword = async (req, res) => {
   }
 };
 
-export const Delete = async (req, res) => {
+export const DeleteAcc = async (req, res) => {
   try {
     const { _id } = req.body;
     const DeleteCandidate = await Candidate.deleteOne({ _id });
