@@ -35,7 +35,6 @@ html::-webkit-scrollbar-thumb {
 
 body {
   font-family: "Poppins", sans-serif;
-  background-color: #000000;
 }
 .container {
   /* max-width: 100%; */
@@ -74,7 +73,6 @@ ul {
 button {
   border-radius: 5px;
   padding: 17px 30px;
-  background: #216eb9;
   border: none;
   color: #fff;
   cursor: pointer;

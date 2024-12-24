@@ -37,6 +37,11 @@ userSchema.methods.generateToken = async function () {
   }
 };
 
+userSchema.method.generateForgetPassToken = function (req, res) {
+  const Resettoken = crypto.randomBytes(140).toString("hex");
+  return Resettoken;
+}
+
 userSchema.methods.generateForgetPassToken = async function () {
   const Resettoken = crypto.randomBytes(140).toString("hex");
   return Resettoken;

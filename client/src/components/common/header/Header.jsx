@@ -3,15 +3,18 @@ import "./header.css";
 import { nav, navExpand } from "../../data/Data";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { useAuth0 } from "@auth0/auth0-react";
 import logo from "/images/logo.png?url";
 
 const Header = () => {
-  const { loggedInUser, logout } = useAuth();
+  const { loggedInUser, logout: customLogout } = useAuth();
+  const { user, isAuthenticated, isLoading, logout: auth0Logout } = useAuth0();
   const [isNavListOpen, setIsNavListOpen] = useState(false);
   const [showAboutUser, setShowAboutUser] = useState(false);
   const [showExpand, setShowExpand] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
   const location = useLocation();
+
 
   useEffect(() => {
     const handleResize = () => {
@@ -22,26 +25,34 @@ const Header = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {
-    if (!loggedInUser) setShowAboutUser(false);
-  }, [loggedInUser]);
-
   const handleRequirementClick = (event) => {
     event.preventDefault();
     setShowExpand((prev) => !prev);
   };
 
+  const handleLogout = () => {
+    // Use appropriate logout based on authentication method
+    if (loggedInUser) {
+      customLogout();
+    } else if (isAuthenticated) {
+      auth0Logout({ logoutParams: { returnTo: window.location.origin } });
+    }
+  };
+
+  const currentUser = loggedInUser || (isAuthenticated && user);
   const isRequirementActive = location.pathname.includes("requirement");
 
   return (
     <header>
       <div className="flex top-header">
+        {/* Logo */}
         <div className="logo">
           <NavLink to="/">
             <img src={logo} alt="Logo" />
           </NavLink>
         </div>
 
+        {/* Navigation */}
         <nav className="nav">
           <ul className={isNavListOpen ? "small overflow-scroll" : "flex"}>
             {nav.map((item, index) => (
@@ -53,14 +64,14 @@ const Header = () => {
                       isActive && !isRequirementActive ? "active" : ""
                     }`
                   }
-                  onClick={(event) => {
-                    if (item.text === "Requirement")
-                      handleRequirementClick(event);
-                  }}
+                  onClick={(event) =>
+                    item.text === "Requirement" && handleRequirementClick(event)
+                  }
                 >
                   {item.text}
                 </NavLink>
 
+                {/* Dropdown for "Requirement" */}
                 {item.text === "Requirement" && (
                   <>
                     <i
@@ -77,8 +88,8 @@ const Header = () => {
                             <li key={subIndex}>
                               <NavLink
                                 to={subItem.path}
-                                className={
-                                  ({ isActive }) => (isActive ? "active" : "") // Active class on child links
+                                className={({ isActive }) =>
+                                  isActive ? "active" : ""
                                 }
                               >
                                 {subItem.text}
@@ -95,54 +106,42 @@ const Header = () => {
           </ul>
         </nav>
 
+        {/* User Section */}
         <div className="button">
-          {/* {console.log("jwt details from header", loggedInUser)} */}
-          {loggedInUser ? (
+          {currentUser ? (
             <>
+              {/* User Avatar */}
               <div
                 className="flex items-center space-x-3 cursor-pointer hover:scale-[0.9] transition-ease-in duration-200 relative mt-[-20px]"
                 onClick={() => setShowAboutUser((prev) => !prev)}
               >
                 <span className="inline-block bg-blue-500 text-white rounded-full p-3 text-lg font-bold">
-                  {(
-                    loggedInUser?.accountInfo?.name?.[0] ||
-                    loggedInUser?.name?.[0] ||
-                    "U"
-                  ).toUpperCase()}{" "}
+                  {currentUser?.name?.[0]?.toUpperCase() || "U"}
                 </span>
               </div>
 
-              <div
-                className={`absolute top-16 right-0 bg-white border border-gray-300 shadow-md p-4 min-w-[200px] z-10 rounded-lg transition-all duration-300 ease-in-out transform ${
-                  showAboutUser
-                    ? "opacity-100 scale-100 visible"
-                    : "opacity-0 scale-95 invisible"
-                }`}
-              >
-                {showAboutUser && (
-                  <>
-                    <p className="text-sm text-gray-700 mb-2">
-                      <strong>Name:</strong>{" "}
-                      {loggedInUser?.accountInfo?.name || loggedInUser.name}
-                    </p>
-                    <p className="text-sm text-gray-700 mb-2">
-                      <strong>Email:</strong>{" "}
-                      {loggedInUser?.accountInfo?.email || loggedInUser.email}
-                    </p>
-                    <div className="flex flex-col p-2 gap-3">
-                      <button
-                        onClick={logout}
-                        className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition-colors duration-300"
-                      >
-                        <i className="fa fa-sign-out mr-2"></i> Logout
-                      </button>
-                      <button className="text-center" >
-                        <Link to={"profile/settings"}>Settings</Link>
-                      </button>
-                    </div>
-                  </>
-                )}
-              </div>
+              {/* Dropdown Menu */}
+              {showAboutUser && (
+                <div className="absolute top-16 right-0 bg-white border border-gray-300 shadow-md p-4 min-w-[200px] z-10 rounded-lg transition-all duration-300 ease-in-out">
+                  <p className="text-sm text-gray-700 mb-2">
+                    <strong>Name:</strong> {currentUser?.name || "User"}
+                  </p>
+                  <p className="text-sm text-gray-700 mb-2">
+                    <strong>Email:</strong> {currentUser?.email || "N/A"}
+                  </p>
+                  <div className="flex flex-col p-2 gap-3">
+                    <button
+                      onClick={handleLogout}
+                      className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition-colors duration-300"
+                    >
+                      <i className="fa fa-sign-out mr-2"></i> Logout
+                    </button>
+                    <Link to="profile/settings" className="text-center">
+                      Settings
+                    </Link>
+                  </div>
+                </div>
+              )}
             </>
           ) : (
             <Link to="/login" className="log-sign relative bottom-4">
@@ -151,6 +150,7 @@ const Header = () => {
           )}
         </div>
 
+        {/* Toggle Button */}
         <div className="toggle">
           <button onClick={() => setIsNavListOpen(!isNavListOpen)}>
             <i className={isNavListOpen ? "fa fa-times" : "fa fa-bars"}></i>
