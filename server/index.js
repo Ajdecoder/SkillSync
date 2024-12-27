@@ -5,6 +5,7 @@ import userRoutes from "./routes/user.Routes.js";
 import companyRoutes from "./routes/company.Routes.js";
 import cookieParser from "cookie-parser";
 import chatBotRoutes from "./routes/chat.Routes.js"
+import UserProfileRoutes from "./routes/userProfile.Routes.js";
 
 dotenv.config();
 const app = express();
@@ -24,6 +25,8 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/users", userRoutes  );
+
+app.use("/api/users/profile", UserProfileRoutes)
 
 app.use("/api/requirements", companyRoutes);
 

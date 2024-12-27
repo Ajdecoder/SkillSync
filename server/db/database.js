@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import { userSchema } from "../model/userModal.js";
 import { HireTalentSchema } from "../model/HireTalentModal.js";
 import { AddOpportunitySchema } from "../model/AddOpportunityModal.js";
+import { candidateProfileSchema, recruiterProfileSchema } from "../model/UserProfileModal.js";
+import { userSchema } from "../model/userModal.js";
 
 dotenv.config();
 
@@ -30,3 +31,5 @@ export const HireTalentCollection = connect.model(
 
 export const Candidate = connect.model("Candidate", userSchema, "CandidateCollection");
 export const Recruiter = connect.model("Recruiter", userSchema, "RecruiterCollection");
+export const CandidateUserProfile = connect.model("CandidateUserProfile", candidateProfileSchema, "CandidateProfileCollection");
+export const RecruiterUserProfile = connect.model("RecruiterUserProfile", recruiterProfileSchema, "RecruiterProfileCollection");

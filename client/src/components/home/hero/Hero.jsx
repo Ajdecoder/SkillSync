@@ -9,6 +9,7 @@ import { filterData } from "../../data/Data";
 
 const Hero = () => {
   const { loggedInUser } = useAuth();
+  // const {}
   const [programmers, setProgramers] = useState([]);
   const [filterCategory, setFilterCategory] = useState({
     selectedCity: "",
@@ -16,24 +17,6 @@ const Hero = () => {
     selectedPriceRange: "",
   });
   const [error, setError] = useState(null);
-
-  const programmerDAtafetch = async () => {
-    try {
-      const response = await axios.get(`${PORT_CLIENT}/api/requirements/allData`);
-      console.log(response)
-      if (response.data && Array.isArray(response.data.data)) {
-        setProgramers(response.data.data);
-      } else {
-        setError("Unexpected data structure");
-      }
-    } catch (error) {
-      setError("Error fetching programmer data");
-    }
-  };
-
-  useEffect(() => {
-    programmerDAtafetch();
-  }, []);
 
   const filteredProgrammers = useMemo(() => {
     const { selectedCity, selectedExpertType, selectedPriceRange } = filterCategory;
@@ -50,7 +33,6 @@ const Hero = () => {
     console.log("filterCategory",filterCategory);
   };
 
-  // if (error) return <div>Error: {error}</div>;
 
   return (
     <>

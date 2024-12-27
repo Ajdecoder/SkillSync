@@ -3,46 +3,41 @@ import { PORT_CLIENT } from "../../commonClient";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import useFetchData from "../hooks/useGetDataFetch";
 
 export const SavedOpportunity = () => {
   const { loggedInUser } = useAuth();
   const [opportunities, setOpportunities] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(
-          `${PORT_CLIENT}/api/requirements/addedOpportunites`,
-          { withCredentials: true }
-        );
-        const {
-          data: { Addedopportunities },
-        } = response;
-        setOpportunities(Addedopportunities || []);
-        console.log("Fetched Opportunities:", Addedopportunities);
-      } catch (error) {
-        console.error("API Error:", error.message);
-        setError("Failed to fetch data");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const { data, error, loading } = useFetchData(
+    `${PORT_CLIENT}/api/requirements/addedOpportunites`
+  );
 
-    fetchData();
-  }, []);
+  useEffect(() => {
+    if (data?.Addedopportunities) {
+      setOpportunities(data.Addedopportunities);
+    }
+  }, [data]);
+  
+  
+  console.log('opportunities loaded',opportunities)
+
+  // if (loading) {
+  //   return <div className="text-center text-gray-500">Loading...</div>;
+  // }
+
+  // if (error) {
+  //   return <div className="text-center text-red-500">{error}</div>;
+  // }
 
   const handleConnectClick = (opportunity) => {
     const post_id = opportunity._id;
     navigate(`/opportunity/connect/${post_id}`, { state: { opportunity } });
   };
 
-  if (loading) return <div>Loading opportunities...</div>;
-  if (error) return <div>{error}</div>;
-  if (opportunities.length === 0) return <div>No opportunities found</div>;
+  // if (loading) return <div>Loading opportunities...</div>;
+  // if (error) return <div>{error}</div>;
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">

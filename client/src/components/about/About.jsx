@@ -30,11 +30,11 @@ const About = () => {
               Learn More About Us
             </button>
           </div>
-          <div className="right row md:w-1/2">
+          <div className="right row md:w-1/2 h-80">
             <img
               src="./immio.jpg"
               alt="Agency"
-              className="rounded-lg shadow-lg w-full h-auto object-cover hover:scale-105 transition-transform dura-500"
+              className="rounded-lg shadow-lg w-full h-80  hover:scale-105 transition-transform duration-500"
             />
           </div>
         </div>

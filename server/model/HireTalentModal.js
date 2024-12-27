@@ -3,6 +3,9 @@ import mongoose from "mongoose";
 // Define the HireTalent Schema
 export const HireTalentSchema = new mongoose.Schema(
   {
+    requirementType: {
+      type: String,
+    },
     jobType: {
       type: String,
       required: true,

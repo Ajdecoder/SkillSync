@@ -2,38 +2,18 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { PORT_CLIENT } from "../../commonClient";
+import useFetchData from "../hooks/useGetDataFetch.jsx";
 
 const TalentConnectPage = () => {
-  const [companyData, setCompanyData] = useState(null);
+  
   const [error, setError] = useState(null);
 
   const { post_id } = useParams();
+  const { data: companyData, loading } = useFetchData(
+    `${PORT_CLIENT}/api/requirements/Companyrequirements/${post_id}`
+  );
 
-  useEffect(() => {
-    if (!post_id) {
-      setError("Invalid post ID.");
-      return;
-    }
-
-    const fetchCompanyRequirements = async () => {
-      try {
-        const response = await axios.get(
-          `${PORT_CLIENT}/api/requirements/Companyrequirements/${post_id}`
-        );
-
-        if (response.data) {
-          setCompanyData(response.data);
-        } else {
-          setError("No data found for the provided ID.");
-        }
-      } catch (error) {
-        console.error("Error fetching company data:", error);
-        setError("Failed to load company data.");
-      }
-    };
-
-    fetchCompanyRequirements();
-  }, [post_id]);
+  if (!post_id) return setError("Invalid post ID.");
 
   if (error) {
     return <div className="text-red-500">{error}</div>;

@@ -36,7 +36,6 @@ export const addOpportunity = async (req, res) => {
     });
 
     await newOpportunity.save();
-    console.log("New Opportunity:",newOpportunity)
     res.status(201).json({ message: "Opportunity added successfully." });
   } catch (err) {
     console.error("Error:", err);
@@ -47,7 +46,6 @@ export const addOpportunity = async (req, res) => {
 
 
 export const hireTalent = async (req, res) => {
-  console.log("req body", req.body);
 
   const {
     jobType,
@@ -102,7 +100,6 @@ export const allTalentsData = async (req, res) => {
 export const allOpportunitiesData = async (req, res) => {
   try {
     const Addedopportunities = await AddOpportunityCollection.find();
-    console.log("Data:",Addedopportunities)
     res.json({ Addedopportunities });
   } catch (error) {
     console.error("Error fetching data:", error.message);
@@ -116,7 +113,6 @@ export const allRequirementsData = async (req, res) => {
   try {
     const Addedopportunities = await AddOpportunityCollection.find();
     const talents = await HireTalentCollection.find();
-    console.log("Talents:", talents);
 
     res.status(200).json({
       Addedopportunities,

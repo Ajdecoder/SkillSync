@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "../Login/Login.css";
 import { useAuth } from "../context/AuthContext";
 import { PORT_CLIENT } from "../../commonClient";
 import { GoogleAuth } from "../Oauth/Oauth";
+import bgImage from '/images/logingPage/bg.png'
 
-export const Login = () => {
+export const LoginRecruiter = () => {
   const navigate = useNavigate();
   const { loginWithJWT } = useAuth();
 
@@ -35,10 +35,10 @@ export const Login = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(`${PORT_CLIENT}/api/users/login`, user, {
+      const res = await axios.post(`${PORT_CLIENT}/api/users/login/recruiter`, user, {
         withCredentials: true,
       });
-      console.log("loging",res.data)
+      console.log("Logging in", res.data);
 
       loginWithJWT(res.data);
 
@@ -68,10 +68,15 @@ export const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100 relative">
+      <img
+        src={bgImage}
+        alt="Login Illustration"
+        className="absolute inset-0 w-full h-full object-cover " // Background image with reduced opacity
+      />
+      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8 z-10 opacity-70">
         <h1 className="text-3xl font-semibold text-gray-800 text-center mb-6">
-          Login
+          Recruiter Login
         </h1>
         <form onSubmit={loginUser}>
           <div className="space-y-4">
@@ -81,7 +86,7 @@ export const Login = () => {
               value={user.email}
               onChange={handleChange}
               placeholder="Enter your email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
               required
             />
             <div className="relative">
@@ -91,18 +96,17 @@ export const Login = () => {
                 value={user.password}
                 onChange={handleChange}
                 placeholder="Enter your password"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
                 required
               />
-
               <span
                 className="absolute right-4 top-2.5 text-blue-500 cursor-pointer"
                 onClick={togglePasswordVisibility}
               >
                 {showPass ? (
-                  <i className="fa-regular fa-eye-slash"></i>
-                ) : (
                   <i className="fa-solid fa-eye"></i>
+                ) : (
+                  <i className="fa-solid fa-eye-slash"></i>
                 )}
               </span>
             </div>
