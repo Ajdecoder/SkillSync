@@ -1,4 +1,3 @@
-import React, { useEffect } from "react";
 import Heading from "../../common/Heading";
 import { location } from "../../data/Data";
 import "./style.css";
@@ -27,7 +26,7 @@ const Location = () => {
                 <div className="overlay">
                   <h5>{item.name}</h5>
                   <p>
-                    <label>{item.Villas}</label>
+                    <label>{item.Experts}</label>
                     <label>{item.Offices}</label>
                     <label>{item.Apartments}</label>
                   </p>

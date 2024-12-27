@@ -1,6 +1,9 @@
 import mongoose from "mongoose";
 
 export const AddOpportunitySchema = new mongoose.Schema({
+  requirementType: {
+    type: String,
+  },
   title: { type: String, required: true },
   desc_requirement: { type: String, required: true },
   skills: [

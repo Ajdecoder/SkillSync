@@ -25,8 +25,6 @@ export const chatResponse = async (req, res) => {
       ? await result.response.text()
       : result.response.text || 'No response text available';
 
-    console.log("Processed Result:", finalResult);
-
   
     res.status(200).json({ res: finalResult });
   } catch (error) {

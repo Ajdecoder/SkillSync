@@ -1,52 +1,122 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./header.css";
-import { nav, navExpand } from "../../data/Data";
+import { nav, navExpandCAndidate, navExpandRecruiter } from "../../data/Data";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useAuth0 } from "@auth0/auth0-react";
 import logo from "/images/logo.png?url";
+import clsx from "clsx";
 
 const Header = () => {
-  const { loggedInUser, logout: customLogout } = useAuth();  // Custom JWT auth context
-  const { user, isAuthenticated, isLoading, logout: auth0Logout } = useAuth0(); // Auth0
+  const { loggedInUser, logout: customLogout } = useAuth();
+  const { user, isAuthenticated, logout: auth0Logout } = useAuth0();
+  
+  // State management
   const [isNavListOpen, setIsNavListOpen] = useState(false);
   const [showAboutUser, setShowAboutUser] = useState(false);
   const [showExpand, setShowExpand] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
+  const [navExpand, setExpandNav] = useState([]);
+  
   const location = useLocation();
+  const dropdownRef = useRef(null); // Ref for user dropdown
+  const dropdownExpandRef = useRef(null); // Ref for Requirement dropdown
+  const headerRef = useRef(null); // Ref for header
 
-  // Log the users for debugging
-  console.log("OAuth User-->", user);
-  console.log("Custom Auth User-->", loggedInUser);
+  // Determine current user
+  const currentUser = loggedInUser || (isAuthenticated && user);
 
+  console.log("currentUser",user)
+
+  localStorage.setItem("currentUser",user)
+
+  // Set navigation based on user role
+  useEffect(() => {
+    setExpandNav(
+      loggedInUser?.role === "candidate" ? navExpandCAndidate : navExpandRecruiter
+    );
+  }, [loggedInUser]);
+
+  // Handle screen resizing
   useEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth <= 768);
       if (window.innerWidth > 768) setIsNavListOpen(false);
     };
+    
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Handle logout
+  const handleLogout = () => {
+    if (loggedInUser) {
+      customLogout();
+    } else if (isAuthenticated) {
+      auth0Logout({ returnTo: window.location.origin });
+    }
+  };
+
+  // Handle Requirement dropdown toggle
   const handleRequirementClick = (event) => {
     event.preventDefault();
     setShowExpand((prev) => !prev);
   };
 
-  const handleLogout = () => {
-    // Handle logout based on the authentication method
-    if (loggedInUser) {
-      customLogout(); // Custom logout for JWT
-    } else if (isAuthenticated) {
-      auth0Logout({ returnTo: window.location.origin }); // Auth0 logout
-    }
-  };
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowAboutUser(false);
+      }
 
-  // Determine which user to show (JWT or Auth0)
-  const currentUser = loggedInUser || (isAuthenticated && user);
+      if (dropdownExpandRef.current && !dropdownExpandRef.current.contains(event.target)) {
+        setShowExpand(false);
+      }
 
-  // Check if we're on a "requirement" page
-  const isRequirementActive = location.pathname.includes("requirement");
+      if (isSmallScreen && headerRef.current && !headerRef.current.contains(event.target)) {
+        setIsNavListOpen(false); 
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isSmallScreen]);
+
+  // Render navigation items
+  const navList = nav.map((item, index) => (
+    <li key={index} className="nav-item">
+      <NavLink
+        to={item.path}
+        className={({ isActive }) =>
+          clsx("reqli text-slate-500", {
+            active: isActive && !location.pathname.includes("requirement"),
+          })
+        }
+        onClick={(event) =>
+          item.text === "Requirement" && handleRequirementClick(event)
+        }
+      >
+        {item.text}
+      </NavLink>
+      {item.text === "Requirement" && showExpand && (
+        <div ref={dropdownExpandRef} className="dropdown-expand">
+          <ul className={clsx({ dropdown: !isSmallScreen })}>
+            {navExpand.map((subItem, subIndex) => (
+              <li key={subIndex}>
+                <NavLink
+                  to={subItem.path}
+                  className={({ isActive }) => (isActive ? "active" : "")}
+                >
+                  {subItem.text}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </li>
+  ));
 
   return (
     <header>
@@ -59,61 +129,14 @@ const Header = () => {
         </div>
 
         {/* Navigation */}
-        <nav className="nav">
-          <ul className={isNavListOpen ? "small overflow-scroll" : "flex"}>
-            {nav.map((item, index) => (
-              <li key={index} className="nav-item">
-                <NavLink
-                  to={item.path}
-                  className={({ isActive }) =>
-                    `reqli text-slate-500 ${
-                      isActive && !isRequirementActive ? "active" : ""
-                    }`
-                  }
-                  onClick={(event) =>
-                    item.text === "Requirement" && handleRequirementClick(event)
-                  }
-                >
-                  {item.text}
-                </NavLink>
-
-                {/* Dropdown for "Requirement" */}
-                {item.text === "Requirement" && (
-                  <>
-                    <i
-                      className={`exp-icon fa-solid ${
-                        showExpand ? "fa-chevron-up" : "fa-chevron-down"
-                      }`}
-                      onClick={handleRequirementClick}
-                      aria-expanded={showExpand}
-                    />
-                    {showExpand && (
-                      <div className="dropdown-expand">
-                        <ul className={isSmallScreen ? "" : "dropdown"}>
-                          {navExpand.map((subItem, subIndex) => (
-                            <li key={subIndex}>
-                              <NavLink
-                                to={subItem.path}
-                                className={({ isActive }) =>
-                                  isActive ? "active" : ""
-                                }
-                              >
-                                {subItem.text}
-                              </NavLink>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-                  </>
-                )}
-              </li>
-            ))}
+        <nav ref={headerRef} className="nav">
+          <ul className={clsx(isNavListOpen ? "small overflow-scroll" : "flex")}>
+            {navList}
           </ul>
         </nav>
 
         {/* User Section */}
-        <div className="button">
+        <div ref={dropdownRef} className="button">
           {currentUser ? (
             <>
               {/* User Avatar */}
@@ -128,7 +151,10 @@ const Header = () => {
 
               {/* Dropdown Menu */}
               {showAboutUser && (
-                <div className="absolute top-16 right-0 bg-white border border-gray-300 shadow-md p-4 min-w-[200px] z-10 rounded-lg transition-all duration-300 ease-in-out">
+                <div className="flex flex-col absolute top-16 right-0 bg-white border border-gray-300 shadow-md p-4 min-w-[200px] z-10 rounded-lg transition-all duration-300 ease-in-out">
+                  <Link to="/profile/userProfile" className="text-center text-2xl">
+                    <i className="fa-solid fa-user"></i>
+                  </Link>
                   <p className="text-sm text-gray-700 mb-2">
                     <strong>Name:</strong> {currentUser?.name || "User"}
                   </p>
@@ -142,7 +168,8 @@ const Header = () => {
                     >
                       <i className="fa fa-sign-out mr-2"></i> Logout
                     </button>
-                    <Link to="profile/settings" className="text-center">
+
+                    <Link to="/profile/settings" className="text-center">
                       Settings
                     </Link>
                   </div>

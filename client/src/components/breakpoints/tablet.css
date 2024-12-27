@@ -101,7 +101,7 @@
 @media screen and (max-width: 768px) {
   .dropdown-expand {
     display: block;
-    position: static;
+    position: relative;
     height: auto;
   }
 
@@ -196,7 +196,6 @@
   }
    .dropdown-expand ul{
     flex-direction: column;
-    position: relative;
   }
   .log-sign{
     bottom: 0px !important;

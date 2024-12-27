@@ -36,7 +36,6 @@ export const filterData = [
   { city: "Ahmedabad", expert: "QA Engineer", expected_salary: "40000-45000" },
 ];
 
-
 export const navExpand = [
   {
     text: "Talent Search",
@@ -62,6 +61,48 @@ export const navExpand = [
     text: "Market Trends",
     path: "requirements/market-trends",
   },
+ 
+];
+
+export const navExpandRecruiter = [
+
+  {
+    text: "Add Opportunity",
+    path: "requirements/add-opportunity",
+  },
+  {
+    text: "Listed Opportunities",
+    path: "requirements/listed-opportunity",
+  },
+  {
+    text: "Market Trends",
+    path: "requirements/market-trends",
+  },
+ 
+];
+
+export const navExpandCAndidate = [
+  {
+    text: "Talent Search",
+    path: "requirements/hire-talent",
+  },
+  {
+    text: "Saved Searches",
+    path: "requirements/saved-searches",
+  },
+  {
+    text: "Find Opportunities",
+    path: "requirements/saved-opportunities",
+  },
+  {
+    text: "Bookmark Talent",
+    path: "requirements/bookmark-talent",
+  },
+  {
+    text: "Market Trends",
+    path: "requirements/market-trends",
+  },
+ 
 ];
 
 
@@ -189,7 +230,7 @@ export const location = [
   {
     id: 1,
     name: "Microsoft, India",
-    Villas: "12 Experts",
+    Experts: "12 Experts",
     Apartments: "React Js",
     Offices: "07 Months",
     cover: "./images/location/company-1.jpeg",
@@ -197,7 +238,7 @@ export const location = [
   {
     id: 2,
     name: "Goggle, United State",
-    Villas: "20 Experts",
+    Experts: "20 Experts",
     Apartments: "Angular",
     Offices: "02 Months",
     cover: "./images/location/company-2.jpeg",
@@ -205,7 +246,7 @@ export const location = [
   {
     id: 3,
     name: "Facebook, London",
-    Villas: "12 Experts",
+    Experts: "12 Experts",
     Apartments: "React Js",
     Offices: "07 Months",
     cover: "./images/location/company-3.jpeg",
@@ -213,7 +254,7 @@ export const location = [
   {
     id: 4,
     name: "IBM, United States",
-    Villas: "12 Experts",
+    Experts: "12 Experts",
     Apartments: "React Js",
     Offices: "07 Months",
     cover: "./images/location/company-4.jpeg",
@@ -221,7 +262,7 @@ export const location = [
   {
     id: 5,
     name: "Zoom, India",
-    Villas: "12 Experts",
+    Experts: "12 Experts",
     Apartments: "Cyber Secrity ",
     Offices: "06 Months",
     cover: "./images/location/company-5.jpeg",
@@ -229,7 +270,7 @@ export const location = [
   {
     id: 6,
     name: "Atlasian, USA",
-    Villas: "03 Experts",
+    Experts: "03 Experts",
     Apartments: "React Js",
     Offices: "07 Months",
     cover: "./images/location/company-6.jpeg",
@@ -237,7 +278,7 @@ export const location = [
   {
     id: 7,
     name: "Sony, USA",
-    Villas: "03 Experts",
+    Experts: "03 Experts",
     Apartments: "React Js",
     Offices: "07 Months",
     cover: "./images/location/company-7.jpeg",
@@ -245,7 +286,7 @@ export const location = [
   {
     id: 8,
     name: "Atlasian, USA",
-    Villas: "03 Experts",
+    Experts: "03 Experts",
     Apartments: "React Js",
     Offices: "07 Months",
     cover: "./images/location/company-8.jpeg",
@@ -358,7 +399,7 @@ export const price = [
     ],
   },
   {
-    best: "Best Value",
+    best: <i class="fa-solid fa-crown"></i>,
     plan: "Standard",
     id: 2,
     price: "49",

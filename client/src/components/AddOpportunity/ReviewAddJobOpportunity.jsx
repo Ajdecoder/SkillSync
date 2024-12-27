@@ -36,16 +36,16 @@ const ReviewJobOpportunity = ({ prevStep, handleFinalSubmit }) => {
   const handleSubmit = async (e) => {
     if (e) e.preventDefault(); // Prevent form submission reload
     updateForm(localFormData); // Update global form context
-  
+
     try {
       setIsSubmitting(true);
       console.log("Submitting Form Data:", localFormData); // Log current form data
-  
+
       await axios.post(
         `${PORT_CLIENT}/api/requirements/addOpportunity`,
         localFormData
       );
-  
+
       toast.success("Form Submitted Successfully", { autoClose: 1200 });
     } catch (error) {
       console.error("Error Submitting Form:", error);
@@ -54,7 +54,6 @@ const ReviewJobOpportunity = ({ prevStep, handleFinalSubmit }) => {
       setIsSubmitting(false); // Ensure the submit state resets
     }
   };
-  
 
   const toggleEditMode = () => {
     setEditMode(!editMode);
@@ -219,46 +218,44 @@ const ReviewJobOpportunity = ({ prevStep, handleFinalSubmit }) => {
           )}
         </div>
         {/* Action Buttons */}
-
         <div className="flex justify-between mt-8">
-  {/* Back Button */}
-  <button
-    type="button" // Prevent form submission
-    className="bg-gray-500 text-white px-6 py-3 rounded-md shadow-md hover:bg-gray-600 transition duration-300"
-    onClick={(e) => {
-      prevStep(); // Call the previous step functionx`
-    }}
-  >
-    Back
-  </button>
+          {/* Back Button */}
+          <button
+            type="button" // Prevent form submission
+            className="bg-gray-500 text-white px-6 py-3 rounded-md shadow-md hover:bg-gray-600 transition duration-300"
+            onClick={(e) => {
+              prevStep(); // Call the previous step functionx`
+            }}
+          >
+            Back
+          </button>
 
-  {/* Submit/Save Changes Button */}
-  <button
-    type="button" // Prevent form submission
-    className={`${
-      editMode
-        ? "bg-blue-500 hover:bg-blue-600"
-        : "bg-green-500 hover:bg-green-600"
-    } text-white px-6 py-3 rounded-md shadow-md transition duration-300`}
-    onClick={editMode ? handleSaveChanges : handleSubmit} // Call respective functions
-  >
-    {editMode ? "Save Changes" : "Submit"}
-  </button>
+          {/* Submit/Save Changes Button */}
+          <button
+            type="button" // Prevent form submission
+            className={`${
+              editMode
+                ? "bg-blue-500 hover:bg-blue-600"
+                : "bg-green-500 hover:bg-green-600"
+            } text-white px-6 py-3 rounded-md shadow-md transition duration-300`}
+            onClick={editMode ? handleSaveChanges : handleSubmit} // Call respective functions
+          >
+            {editMode ? "Save Changes" : "Submit"}
+          </button>
 
-  {/* Edit Button */}
-  {!editMode && (
-    <button
-      type="button" // Prevent form submission
-      className="bg-yellow-500 text-white px-6 py-3 rounded-md shadow-md hover:bg-yellow-600 transition duration-300"
-      onClick={(e) => {
-        toggleEditMode(); // Toggle edit mode
-      }}
-    >
-      Edit
-    </button>
-  )}
-</div>
-
+          {/* Edit Button */}
+          {!editMode && (
+            <button
+              type="button" // Prevent form submission
+              className="bg-yellow-500 text-white px-6 py-3 rounded-md shadow-md hover:bg-yellow-600 transition duration-300"
+              onClick={(e) => {
+                toggleEditMode(); // Toggle edit mode
+              }}
+            >
+              Edit
+            </button>
+          )}
+        </div>
       </form>
       <ToastContainer position="bottom-left" />
     </div>
