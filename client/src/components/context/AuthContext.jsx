@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
             const auth0UserData = {
                 name: auth0User.name,
                 email: auth0User.email,
-                role: auth0User.role || "user", // Default role if not provided
+                role: auth0User?.role || "user", // Default role if not provided
             };
 
             localStorage.setItem("Auth0User", JSON.stringify(auth0UserData));

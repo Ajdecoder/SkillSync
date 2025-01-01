@@ -21,12 +21,15 @@ export const connectDB = async () => {
 const connect = await connectDB();
 
 export const AddOpportunityCollection = connect.model(
-  "AddOpportunityCollection",
-  AddOpportunitySchema
+  "AddOpportunity",
+  AddOpportunitySchema,
+  "AddOpportunityCollection"
 );
+
 export const HireTalentCollection = connect.model(
-  "TalentSearchCollection",
-  HireTalentSchema
+  "TalentSearch",
+  HireTalentSchema,
+  "TalentSearchCollection"
 );
 
 export const Candidate = connect.model("Candidate", userSchema, "CandidateCollection");

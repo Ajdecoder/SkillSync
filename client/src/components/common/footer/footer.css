@@ -16,7 +16,7 @@ footer {
   cursor: pointer;
 }
 footer .container {
-  margin-top: 33px;
+  margin-top: 0px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 }

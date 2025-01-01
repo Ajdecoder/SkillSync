@@ -9,7 +9,7 @@ import clsx from "clsx";
 
 const Header = () => {
   const { loggedInUser, logout: customLogout } = useAuth();
-  const { user, isAuthenticated, logout: auth0Logout } = useAuth0();
+  const { user, isAuthenticated, logout: auth0Logout} = useAuth0();
   
   // State management
   const [isNavListOpen, setIsNavListOpen] = useState(false);
@@ -17,7 +17,6 @@ const Header = () => {
   const [showExpand, setShowExpand] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
   const [navExpand, setExpandNav] = useState([]);
-  
   const location = useLocation();
   const dropdownRef = useRef(null); // Ref for user dropdown
   const dropdownExpandRef = useRef(null); // Ref for Requirement dropdown
@@ -26,9 +25,9 @@ const Header = () => {
   // Determine current user
   const currentUser = loggedInUser || (isAuthenticated && user);
 
-  console.log("currentUser",user)
+  console.log("Auth0currentUser",user)
+  console.log("CustomAuth",loggedInUser)
 
-  localStorage.setItem("currentUser",user)
 
   // Set navigation based on user role
   useEffect(() => {
@@ -136,7 +135,7 @@ const Header = () => {
         </nav>
 
         {/* User Section */}
-        <div ref={dropdownRef} className="button">
+        <div ref={dropdownRef} className="button mb-[1rem]">
           {currentUser ? (
             <>
               {/* User Avatar */}

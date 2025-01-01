@@ -45,8 +45,8 @@ const OpportunityConnectPage = () => {
   };
 
   return (
-    <div className="p-8 md:p-20 bg-gray-50 min-h-screen flex items-center justify-center">
-      <div className="p-6 max-w-4xl mx-auto bg-white shadow-lg rounded-lg border-2 border-gray-300 hover:scale-105 transition-all duration-300">
+    <div className="p-8 md:p-20 bg-black min-h-screen flex items-center justify-center">
+      <div className="p-6 w-[66rem] max-w-4xl mx-auto bg-black shadow-lg rounded-lg border-2 border-gray-300 hover:scale-105 transition-all duration-300">
         <h2 className="text-4xl font-semibold text-gray-800 mb-4">
           {company_name}
         </h2>
@@ -90,7 +90,7 @@ const OpportunityConnectPage = () => {
 
         <div className="mt-6 bg-gray-50 p-4 rounded-lg shadow-sm">
           <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-            Timestamps
+            Opportunity Posting Date
           </h3>
           <p>
             <strong>Created At:</strong> {new Date(createdAt).toLocaleString()}

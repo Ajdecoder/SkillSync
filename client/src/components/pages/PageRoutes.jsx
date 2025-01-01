@@ -6,7 +6,7 @@ import Pricing from "../pricing/Pricing";
 import Services from "../services/Services";
 import Contact from "../contact/Contact";
 import { LoginCandidate } from "../Login/LoginCandidate.jsx";
-import { Register } from "../Register/Register";
+import { Register } from "../Register/ChooseRegisterMode.jsx";
 import HireResources from "../Resources/HireResources";
 import AddOpportunity from "../Resources/AddOpportunity.jsx";
 import { Resources } from "../Resources/Resources.jsx";

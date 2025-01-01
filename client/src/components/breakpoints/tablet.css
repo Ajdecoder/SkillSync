@@ -29,9 +29,7 @@
     flex-direction: column;
   }
 
-  .hero-notloggedin{
-    height: 40vh;
-  }
+
 
   .hero-form .inpbox{
     display: block;
@@ -123,6 +121,9 @@
   }
   .logo img {
     margin-top: 10px;
+  }
+  .logo{
+    position: static;
   }
   header nav .flex {
     display: none;
