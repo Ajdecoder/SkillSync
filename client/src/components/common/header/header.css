@@ -133,6 +133,7 @@ header .toggle {
 
 .logo {
   position: relative;
+  bottom: 18px;
 }
 .top-header {
   justify-content: space-around;

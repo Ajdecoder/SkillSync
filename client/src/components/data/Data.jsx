@@ -132,6 +132,11 @@ export const featured = [
     name: " Seamless Communication",
     total: "Stay connected with your partners.",
   },
+  {
+    cover: "../images/hero/h6.png",
+    name: " Seamless Communication",
+    total: "Stay connected with your partners.",
+  },
 ];
 
 export const services = [
@@ -371,7 +376,7 @@ export const price = [
   {
     plan: "Basic",
     id: 1,
-    price: "29",
+    package_price: "29",
     ptext: "per user, per month",
     list: [
       {
@@ -399,10 +404,10 @@ export const price = [
     ],
   },
   {
-    best: <i class="fa-solid fa-crown"></i>,
+    best: <i className="fa-solid fa-crown"></i>,
     plan: "Standard",
     id: 2,
-    price: "49",
+    package_price: "49",
     ptext: "per user, per month",
     list: [
       {
@@ -431,7 +436,7 @@ export const price = [
   {
     plan: "Platinum",
     id: 3,
-    price: "99",
+    package_price: "99",
     ptext: "per 3 users, per month",
     list: [
       {

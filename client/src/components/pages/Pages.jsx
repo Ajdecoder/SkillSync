@@ -18,6 +18,7 @@ import { AddOpportunityFormProvider } from "../context/AddOpportunityFromContext
 import { PassRecoveryProvider } from "../context/PassRecoveryContext.jsx";
 import { RoutesConfig } from "./PageRoutes.jsx";
 import GoToTopButton from "../utils/ScrolltoTop.jsx";
+import ScrollProgress from "../utils/ScrollProgress.jsx";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -67,6 +68,7 @@ const Pages = () => {
             <PassRecoveryProvider>
               <Router>
                 <ScrollToTop />
+                <ScrollProgress/>
                 <Header />
                 <Routes>
                   {RoutesConfig({ spin, setSpin })}

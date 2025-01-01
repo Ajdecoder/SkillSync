@@ -1,11 +1,14 @@
 import React from 'react';
 
-const HireTalentCard = ({ name, position, location, skills, profilePic }) => {
+const TalentSearchCard = ({ talent }) => {
+  // Destructure the properties from the talent object
+  const { name, position, location, skills, profilePic } = talent;
+
   return (
     <div className="max-w-sm w-full bg-white border border-gray-200 rounded-lg shadow-lg overflow-hidden">
       <img className="w-full h-48 object-cover" src={profilePic} alt="Profile" />
       <div className="p-4">
-        <h3 className="text-xl font-semibold text-gray-800">{name}</h3>
+        <h3 className="text-xl font-semibold text-[#d55d19]">{name}</h3>
         <p className="text-md text-gray-600">{position}</p>
         <p className="text-sm text-gray-500">{location}</p>
         <div className="mt-4">
@@ -29,4 +32,4 @@ const HireTalentCard = ({ name, position, location, skills, profilePic }) => {
   );
 };
 
-export default HireTalentCard;
+export default TalentSearchCard;

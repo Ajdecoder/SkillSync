@@ -26,11 +26,8 @@ const Contact = () => {
         </h1>
         <form
           onSubmit={handleSubmit}
-          className="shadow-lg p-8 rounded-lg bg-[#111827]"
+          className="shadow-lg p-8 rounded-lg bg-[#111827] flex content-center"
         >
-          <h2 className="text-xl font-semibold text-blue-600 text-center mb-6">
-            Fill out the form
-          </h2>
           <div className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <input

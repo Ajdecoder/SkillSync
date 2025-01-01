@@ -1,4 +1,3 @@
-import "../Resources/Resources.css";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../context/AuthContext";
 import { ChooseLoginMode } from "../Login/ChooseLoginMode";
@@ -10,7 +9,7 @@ const   HireResources = () => {
   console.log("loggedin user intalentsearch", loggedInUser)
 
 
-  return loggedInUser.role==='candidate' ? <TalentSearch /> : <ChooseLoginMode />;
+  return loggedInUser?.role==='candidate' ? <TalentSearch /> : <ChooseLoginMode />;
 };
 
 export default HireResources;

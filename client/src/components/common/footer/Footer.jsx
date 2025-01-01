@@ -30,7 +30,7 @@ const Footer = () => {
         </div>
 
         {/* Links Section */}
-        <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mt-12 px-4 md:px-8">
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 mt-12 px-4 md:px-8 text-center">
           {footer.map((val, index) => (
             <div className="box" key={index}>
               <h3 className="text-lg font-semibold mb-4">{val.title}</h3>

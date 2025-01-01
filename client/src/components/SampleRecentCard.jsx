@@ -1,7 +1,7 @@
 import React from "react";
 import { dummyRecentCards } from "./data/Data";
-import "../components/home/recent/RecentCard.css"; 
-import '../tailwind.css';
+import "../components/home/recent/RecentCard.css";
+import "../tailwind.css";
 
 export const SampleRecentCard = () => {
   return (
@@ -24,13 +24,19 @@ export const SampleRecentCard = () => {
             key={index}
             className="shadow-lg rounded-lg overflow-hidden bg-white p-10"
           >
-            <img src={cover_Img} alt={company_name} className="w-full h-52 object-cover" />
+            <img
+              src={cover_Img}
+              alt={company_name}
+              className="w-full h-52 object-cover rounded-lg"
+            />
 
             <div className="p-4 space-y-2">
               <div className="flex items-center space-x-2">
                 <span
                   className={`text-sm font-semibold px-2 py-1 rounded ${
-                    Status === "required" ? "bg-green-100 text-green-700" : "bg-orange-100 text-orange-700"
+                    Status === "required"
+                      ? "bg-green-100 text-green-700"
+                      : "bg-orange-100 text-orange-700"
                   }`}
                 >
                   {Status === "required" ? "Hiring" : "Required"}
@@ -44,8 +50,12 @@ export const SampleRecentCard = () => {
               </p>
               <p className="text-sm text-gray-500">{address}</p>
               <p className="text-sm text-gray-500">{desc_requirement}</p>
-              <p className="text-xs text-gray-400">From: {new Date(from).toLocaleDateString()}</p>
-              <p className="text-xs text-gray-400">To: {new Date(to).toLocaleDateString()}</p>
+              <p className="text-xs text-gray-400">
+                From: {new Date(from).toLocaleDateString()}
+              </p>
+              <p className="text-xs text-gray-400">
+                To: {new Date(to).toLocaleDateString()}
+              </p>
               <p className="text-sm text-blue-500">
                 Website:{" "}
                 <a

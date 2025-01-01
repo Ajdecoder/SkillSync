@@ -4,18 +4,18 @@ import { featured } from "../../data/Data";
 const FeaturedCard = () => {
   return (
     <>
-      <div className="content featured-container grid5 mtop p-5" style={{padding:'20px'}} >
+      <div className="content featured-container grid3 justify-items-center mtop p-5" style={{padding:'20px'}} >
         {featured.map((items, index) => (
           <div
-            className="box"
+            className="box w-[15rem] "
             key={index}
             data-aos={index % 2 === 0 ? "flip-left" : "flip-right"}
             data-aos-duraton="3000"
             data-aos-delay='7000'
           >
             <img src={items.cover} alt="" />
-            <h4>{items.name}</h4>
-            <label>{items.total}</label>
+            <h4 className="pt-2 text-[#00ffb3]" >{items.name}</h4>
+            <label className="pt-2 text-[azure]" >{items.total}</label>
           </div>
         ))}
       </div>

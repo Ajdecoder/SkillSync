@@ -11,21 +11,18 @@ function App() {
 
   useEffect(() => {
     showLoading();
+    hideLoading();
     const timer = setTimeout(() => {
-      hideLoading();
     }, 2000);
-  
+
     return () => clearTimeout(timer);
   }, []);
-  
 
   return (
     <>
-      {isLoading ? (
-        <LoginLoading />
-      ) : (
-        <Pages />
-      )}
+      {/* Scroll Progress Bar */}
+      {/* Loading Screen or Main Pages */}
+      {isLoading ? <LoginLoading /> : <Pages />}
     </>
   );
 }

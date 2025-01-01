@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { blogPosts } from "../data/blogsData";
 import "../blog/Blog.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Spinner } from "../common/loadingSpinner/spinner";
 
 const Blog = ({ spin, setSpin }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const postsPerPage = 6;
-
+  const navigate = useNavigate();
   const startIndex = currentPage * postsPerPage;
   const endIndex = startIndex + postsPerPage;
   const currentPosts = blogPosts.slice(startIndex, endIndex);
 
   useEffect(() => {
-    setSpin(true);
+    setSpin();
     const timeout = setTimeout(() => {
       setSpin(false);
     }, 500);
@@ -24,41 +24,44 @@ const Blog = ({ spin, setSpin }) => {
   const handlePrev = () => {
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
+      window.scrollTo(0, 0); 
     }
   };
 
   const handleNext = () => {
     if (endIndex < blogPosts.length) {
       setCurrentPage(currentPage + 1);
+      window.scrollTo(0, 0); 
     }
   };
-  
+
+  const handleBlogClick = (id) => {
+    navigate(`/blog/${id}`);
+  };
+
   return (
     <>
       {spin ? (
-        <Spinner/>
+        <Spinner />
       ) : (
-        <div className="blog-out">
+        <div className="blog-out bg-black">
           {currentPosts.map((data) => (
-            <div key={data.id} className="blog-post">
-              <h1 className="blog-title">{data.title}</h1>
+            <div onClick={()=> handleBlogClick(data.id)} key={data.id} className="blog-post cursor-pointer">
+              <img className="rounded-md" src={data.image} alt={data.title} />
+              <h1 className="blog-title font-bold text-white">{data.title}</h1>
               <div className="">
                 {" "}
-                <h3>By {data.author}</h3>
+                <h3 className="pt-1 pb-2 text-green-600">By {data.author}</h3>
                 <p>{data.date}</p>
               </div>
-              <img src={data.image} alt={data.title} />
-              <p>{data.excerpt.slice(0, 100)}...</p>
+              <p className="pt-2 pb-2 text-violet-600">
+                {data.excerpt.slice(0, 100)}...
+              </p>
               <div className="blog-content">
                 <p>{data.content.slice(0, 200)}...</p>
               </div>
               <div className="read-more-button text-white bg-gradient-to-r">
-                <Link
-                  to={`/blog/${data.id}`}
-                  className="inline-block px-6 py-3 bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 text-white font-semibold rounded-lg hover:bg-gradient-to-br transition-all"
-                >
-                  Read More
-                </Link>
+              
               </div>
             </div>
           ))}
@@ -67,7 +70,7 @@ const Blog = ({ spin, setSpin }) => {
 
       {/* Pagination buttons */}
       {!spin && (
-        <div className="navigation-btn flex p-7">
+        <div className="navigation-btn flex p-7 bg-black">
           <button
             onClick={handlePrev}
             className={`${

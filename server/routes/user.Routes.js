@@ -21,7 +21,7 @@ Userrouter.post("/register/candidate", SignupValidation, CandidateRegister);
 Userrouter.post("/register/recruiter", SignupValidation, RecruiterRegister);
 Userrouter.post("/account/Forgotpassword", CandidateForgotPassword);
 // Userrouter.patch("/account/user/changeAccPassword", changeAccPassword)
-// Userrouter.post("/DeleteAccount", DeleteAcc);
+// Userrouter.post("/account/DeleteAccount", DeleteAcc);
 // Userrouter.post("/account/ResetPassword", ResetPassword);
 
 export default Userrouter;
