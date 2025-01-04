@@ -1,10 +1,9 @@
+import React from "react";
 import Heading from "../../common/Heading";
 import { location } from "../../data/Data";
 import "./style.css";
 
-
 const Location = () => {
-
   return (
     <>
       <section className="location padding">
@@ -22,7 +21,12 @@ const Location = () => {
                 data-aos={index % 2 === 0 ? "fade-right" : "fade-left"}
                 data-aos-duration="1500"
               >
-                <img src={item.cover} alt={item.name} width={"33rem"} height={"4rem"}/>
+                <img
+                  src={item.cover}
+                  alt={item.name}
+                  width="100%" // Make image width responsive
+                  height="auto" // Maintain image aspect ratio
+                />
                 <div className="overlay">
                   <h5>{item.name}</h5>
                   <p>
