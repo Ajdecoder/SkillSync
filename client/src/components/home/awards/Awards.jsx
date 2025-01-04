@@ -6,7 +6,7 @@ import "./awards.css"
 const Awards = () => {
   return (
     <>
-      <section className='awards padding'>
+      <section className='awards'>
         <div className='container'>
           <Heading title='Over 1,24,000+ Happy User Bieng With Us Still They Love Our Services' subtitle='Our Awards' />
 

@@ -55,10 +55,10 @@ const FAQ = () => {
       ];
       
 
-  const [activeIndex, setActiveIndex] = useState(null); // Track the currently open FAQ
+  const [activeIndex, setActiveIndex] = useState(null); 
 
   const toggleFAQ = (index) => {
-    setActiveIndex(index === activeIndex ? null : index); // Close if already open
+    setActiveIndex(index === activeIndex ? null : index); 
   };
 
   return (

@@ -32,7 +32,6 @@
   }
 }
 
-
 @media screen and (max-width: 480px) {
   header img {
     width: 8.8rem !important;
@@ -56,5 +55,28 @@
   }
   .log-sign {
     bottom: -8px !important;
-}
+  }
+
+  .chatbot-toogle-btn,
+  .scroll-to-top {
+    position: fixed;
+    right: 1.2rem !important;
+  }
+
+  .scroll-to-top {
+    width: 3rem !important;
+    height: 3rem !important;
+  }
+  .chatbot-toogle-btn {
+    width: 2rem !important;
+    height: 2rem !important;
+    bottom: 2rem !important;
+    right: 1.5rem !important;
+  }
+  .chatbot-window {
+    max-width: 20rem;
+  }
+  .location{
+    display: none;
+  }
 }

@@ -87,7 +87,7 @@ export const ChatBot = () => {
           boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
           cursor: "pointer",
         }}
-        className="animate-bounce flex items-center justify-center hover:scale-110 transition-ease-in-out duration-200 hover:text-[1rem] bg-[#007bff] hover:bg-black "
+        className=" chatbot-toogle-btn animate-bounce flex items-center justify-center hover:scale-10 transition-ease-in-out duration-200 hover:text-[1rem] bg-[#007bff] hover:bg-black "
       >
         {isOpen ? <i className="fa-solid fa-angle-down "></i> : "💬"}
       </button>
@@ -95,7 +95,7 @@ export const ChatBot = () => {
       {/* Chatbot UI */}
       {isOpen && (
         <div
-          className={`fixed bottom-20 right-4 w-[25rem] bg-white rounded-lg shadow-lg z-[999] p-2
+          className={`chatbot-window fixed bottom-20 right-4 w-[25rem] bg-white rounded-lg shadow-lg z-[999] p-2
       transition-all duration-500 transform ${
         isOpen ? "chatbot-reveal" : "hidden"
       }`}

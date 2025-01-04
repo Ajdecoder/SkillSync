@@ -1,4 +1,3 @@
-// Pages.jsx
 import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
@@ -19,6 +18,7 @@ import { PassRecoveryProvider } from "../context/PassRecoveryContext.jsx";
 import { RoutesConfig } from "./PageRoutes.jsx";
 import GoToTopButton from "../utils/ScrolltoTop.jsx";
 import ScrollProgress from "../utils/ScrollProgress.jsx";
+import { LoginLoading } from "../Login/LoginLoading.jsx";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -35,6 +35,7 @@ const ScrollToTop = () => {
 
 const Pages = () => {
   const [spin, setSpin] = useState(false);
+  const [loading, setLoading] = useState(true);  // Track loading state
 
   useEffect(() => {
     Aos.init({
@@ -48,7 +49,16 @@ const Pages = () => {
     const handleScroll = () => Aos.refresh();
     window.addEventListener("scroll", handleScroll);
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    // Detect page load or login
+    const timer = setTimeout(() => {
+      setLoading(false); // Stop loading after a set time or page refresh
+    }, 2000); // You can adjust this time depending on your preference
+
+    // Return clean-up function to remove scroll event listener
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      clearTimeout(timer);
+    };
   }, []);
 
   return (
@@ -68,14 +78,24 @@ const Pages = () => {
             <PassRecoveryProvider>
               <Router>
                 <ScrollToTop />
-                <ScrollProgress/>
-                <Header />
-                <Routes>
-                  {RoutesConfig({ spin, setSpin })}
-                </Routes>
-                <GoToTopButton/>
-                <ChatBot />
-                <Footer />
+                <ScrollProgress />
+                {loading ? (
+                  // Render loading screen while loading
+                  <div className="loading-screen">
+                  <LoginLoading />
+                  </div>
+                ) : (
+                  <>
+                    {/* Only show Header and Footer after loading */}
+                    <Header />
+                    <Routes>
+                      {RoutesConfig({ spin, setSpin })}
+                    </Routes>
+                    <GoToTopButton />
+                    <ChatBot />
+                    <Footer />
+                  </>
+                )}
               </Router>
             </PassRecoveryProvider>
           </AddOpportunityFormProvider>

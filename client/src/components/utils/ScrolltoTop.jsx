@@ -52,7 +52,7 @@ const GoToTopButton = () => {
     <button
       onClick={scrollToTop}
       style={scaleStyle}
-      className={`${isVisible ? "block" : "hidden"} text-white text-xl flex justify-center items-center bg-[purple] hover:bg-black`}
+      className={`${isVisible ? "block" : "hidden"} scroll-to-top text-white text-xl flex justify-center items-center bg-[purple] hover:bg-black`}
     >
       <i className="fas fa-hand-point-up"></i>
     </button>
