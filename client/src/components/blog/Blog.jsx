@@ -52,13 +52,13 @@ const Blog = ({ spin, setSpin }) => {
               <div className="">
                 {" "}
                 <h3 className="pt-1 pb-2 text-green-600">By {data.author}</h3>
-                <p>{data.date}</p>
+                <p className="text-[aliceblue]" >{data.date}</p>
               </div>
-              <p className="pt-2 pb-2 text-violet-600">
+              <p className="pt-2 pb-2 text-violet-600 ">
                 {data.excerpt.slice(0, 100)}...
               </p>
               <div className="blog-content">
-                <p>{data.content.slice(0, 200)}...</p>
+                <p className="text-[#2fa1ce]" >{data.content.slice(0, 200)}...</p>
               </div>
               <div className="read-more-button text-white bg-gradient-to-r">
               

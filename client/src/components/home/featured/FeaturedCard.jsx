@@ -9,9 +9,6 @@ const FeaturedCard = () => {
           <div
             className="box w-[15rem] "
             key={index}
-            data-aos={index % 2 === 0 ? "flip-left" : "flip-right"}
-            data-aos-duraton="3000"
-            data-aos-delay='7000'
           >
             <img src={items.cover} alt="" />
             <h4 className="pt-2 text-[#00ffb3]" >{items.name}</h4>

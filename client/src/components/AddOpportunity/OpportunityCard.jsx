@@ -19,7 +19,6 @@ const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
   return (
     <div
       className="shadow-lg rounded-lg overflow-hidden bg-black p-6 hover:shadow-2xl transition-all duration-300"
-      data-aos="zoom-in-up"
     >
       <div className="p-4 space-y-2">
         {/* Job Title */}

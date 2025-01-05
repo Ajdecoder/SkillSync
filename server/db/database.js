@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import { HireTalentSchema } from "../model/HireTalentModal.js";
-import { AddOpportunitySchema } from "../model/AddOpportunityModal.js";
+import { HireTalentSchema } from "../model/RecruiterModals/HireTalentModal.js";
+import { AddOpportunitySchema } from "../model/RecruiterModals/AddOpportunityModal.js";
 import { candidateProfileSchema, recruiterProfileSchema } from "../model/UserProfileModal.js";
 import { userSchema } from "../model/userModal.js";
 
