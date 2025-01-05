@@ -1,6 +1,6 @@
 import React from "react";
 
-const ProfileHeader = ({ user, profileCompletion, profileRole }) => {
+const ProfileHeader = ({ user, profileCompletion, userRole }) => {
   return (
     <div className="profile-header flex items-center gap-6 p-4 bg-white rounded-lg shadow-md h-[10rem]">
       <img
@@ -14,9 +14,10 @@ const ProfileHeader = ({ user, profileCompletion, profileRole }) => {
       <div>
         <h1 className="text-2xl font-bold">{user?.name || "John Doe"}</h1>
         <p className="text-gray-600">
-          {profileRole === "candidate"
+          
+          {userRole === "candidate"
             ? "Job Seeker"
-            : profileRole === "recruiter"
+            : userRole === "recruiter"
             ? "Recruiter"
             : "Unknown"}
         </p>

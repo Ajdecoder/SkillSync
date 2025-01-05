@@ -51,7 +51,7 @@ const Pages = () => {
 
     // Detect page load or login
     const timer = setTimeout(() => {
-      setLoading(true); // Stop loading after a set time or page refresh
+      setLoading(false); // Stop loading after a set time or page refresh
     }, 2000); // You can adjust this time depending on your preference
 
     // Return clean-up function to remove scroll event listener
