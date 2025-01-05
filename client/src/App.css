@@ -5,10 +5,17 @@
   box-sizing: border-box;
 }
 
-html,
-body {
-  scroll-behavior: smooth;
+/* Ensure your container has the correct height */
+html, body {
+  height: 100%;
+  /* overflow: hidden; Prevent default scroll */
 }
+
+div#smooth-scroll {
+  height: 100%;
+  /* overflow: hidden; */
+}
+
 
 html::-webkit-scrollbar {
   background-color: #000;

@@ -18,8 +18,6 @@ const Location = () => {
               <div
                 className="box"
                 key={index}
-                data-aos={index % 2 === 0 ? "fade-right" : "fade-left"}
-                data-aos-duration="1500"
               >
                 <img
                   src={item.cover}

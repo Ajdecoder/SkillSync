@@ -18,8 +18,6 @@ const Team = () => {
             <div
               className="box shadow-lg rounded-lg overflow-hidden bg-white transition-transform transform hover:scale-105"
               key={index}
-              data-aos={index % 2 === 0 ? "flip-right" : "flip-left"}
-              data-aos-duration="600"
             >
               <div className="details space-y-4 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 p-10">
                 <div className="img relative">

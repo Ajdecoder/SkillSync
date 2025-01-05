@@ -62,7 +62,7 @@ export const SavedOpportunity = () => {
             <div
               key={_id}
               className="shadow-lg rounded-lg overflow-hidden bg-white p-6 hover:shadow-2xl transition-all duration-300"
-              data-aos={index % 2 === 0 ? "zoom-in-up" : "zoom-in-down"}
+            
             >
               <div className="p-4 space-y-2">
                 {/* Title */}

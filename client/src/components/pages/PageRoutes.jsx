@@ -7,7 +7,7 @@ import Services from "../services/Services";
 import Contact from "../contact/Contact";
 import { LoginCandidate } from "../Login/LoginCandidate.jsx";
 import { Register } from "../Register/ChooseRegisterMode.jsx";
-import HireResources from "../Resources/HireResources";
+import HireResources from "../Resources/HireTalent.jsx";
 import AddOpportunity from "../Resources/AddOpportunity.jsx";
 import { Resources } from "../Resources/Resources.jsx";
 import { RegCandidate } from "../Register/RegCandidate.jsx";
@@ -24,6 +24,7 @@ import OpportunityConnectPage from "../ConnectPage/OpportunityConnectPage.jsx";
 import { UserProfile } from "../Userprofile/UserProfile.jsx";
 import { LoginRecruiter } from "../Login/LoginRecruiter.jsx";
 import { ChooseLoginMode } from "../Login/ChooseLoginMode.jsx";
+import DeleteAccount from "../account/settings/DeleteAccount.jsx";
 
 // This is just a helper function to return route elements.
 export const RoutesConfig = ({ spin, setSpin }) => [
@@ -50,6 +51,7 @@ export const RoutesConfig = ({ spin, setSpin }) => [
   <Route key="/profile/settings" path="/profile/settings" element={<Settings />} />,
   <Route key="/profile/settings" path="/profile/userProfile" element={<UserProfile />} />,
   <Route key="/login/recruiter" path="/login/recruiter" element={<LoginRecruiter />} />,
-  <Route key="/login/candidate" path="/login/candidate" element={<LoginCandidate />} />
+  <Route key="/login/candidate" path="/login/candidate" element={<LoginCandidate />} />,
+  <Route key="/settings/delete-account" path="/settings/delete-account" element={<DeleteAccount />} />
   
 ];

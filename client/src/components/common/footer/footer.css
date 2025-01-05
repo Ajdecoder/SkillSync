@@ -1,60 +1,41 @@
-.footerContact {
-  background-color: #216eb9;
-  padding: 40px 19px;
-  color: #fff;
-} 
-.footerContact h1 {
-  font-size: 40px;
-}
+/* General Footer Styling */
 footer {
-  background-color: #1d2636;
-  padding: 50px 0;
-  color: #fff;
+  position: relative;
+  background-color: #1a1a1a;
+  color: white;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  overflow: hidden;
 }
 
-.box li{
-  cursor: pointer;
-}
-footer .container {
-  margin-top: 0px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-}
-.footerContact .container{
-  height: 88px !important;
-}
-footer img {
-  width: 150px;
-}
 footer h2 {
   font-weight: 500;
 }
+
 footer p {
   color: grey;
   margin: 20px 0;
 }
-footer input {
-  background-color: #fff;
-  padding: 17px;
-  width: 100%;
-  border-radius: 5px;
-}
 
-.foot-btn{
-  margin-left: 15px;
+footer img {
+  width: 150px;
 }
 
 footer h3 {
   font-weight: 500;
   margin-bottom: 30px;
 }
+
 footer ul {
   display: block;
 }
+
 footer ul li {
   display: block;
   color: grey;
 }
+
+/* Legal Section Styling */
 .legal {
   text-align: center;
   margin-top: 1rem;
@@ -62,5 +43,122 @@ footer ul li {
   background: #1d2636;
   color: rgba(255, 255, 255, 0.5);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.875rem;
+}
+
+/* Newsletter Section Styling */
+.newsletter {
+  animation: slideInLeft 1s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes slideInLeft {
+  0% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.input input {
+  padding: 0.5rem;
+  border-radius: 0.375rem;
+  width: 66%;
+  max-width: 400px;
+}
+
+.input button {
+  padding: 0.5rem 1rem;
+  background-color: #38b2ac;
+  color: white;
+  border-radius: 0.375rem;
+  transition: background-color 0.3s ease;
+}
+
+.input button:hover {
+  background-color: #319795;
+}
+
+/* Footer Links Section */
+.container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 2rem;
+  opacity: 0;
+  animation: slideInLeft 2.5s ease-out forwards;
+}
+
+/* Footer Box Styling */
+.box {
+  padding: 1rem;
+  text-align: center;
+  opacity: 0;
+  transform: translateX(-100%);
+  animation: slideInLeft 2s ease-out forwards;
+  animation-delay: 0.3s;
+}
+
+.box h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.box ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.box li {
+  margin-bottom: 0.5rem;
+  transition: color 0.3s;
+}
+
+.box li:hover {
+  color: #38b2ac;
+  cursor: pointer;
+}
+
+/* Footer Contact Section */
+.footerContact {
+  background-color: #216eb9;
+  padding: 40px 19px;
+  color: #fff;
+}
+
+.footerContact h1 {
+  font-size: 40px;
+}
+
+.footerContact .container {
+  height: 88px !important;
+}
+
+/* Footer Container Grid Layout */
+footer .container {
+  margin-top: 0px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+footer input {
+  background-color: #fff;
+  padding: 17px;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.foot-btn {
+  margin-left: 15px;
 }
 

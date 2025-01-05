@@ -9,7 +9,7 @@ const useFetchData = (url) => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(url, { withCredentials: true });
+      const response = await axios.get(url);
       setData(response.data || {});
       setError(null);
     } catch (error) {

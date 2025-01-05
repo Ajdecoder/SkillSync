@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { communication_privacy } from "./SettingsCat";
+import { useAuth } from "../../context/AuthContext";
 
 export const Settings = () => {
-    
-
   const toggleCheckbox = (setter, value) => setter(!value);
 
   const [settings, setSettings] = useState(communication_privacy);
-
+  const loggedInUser = useAuth();
 
   const handleToggle = (index) => {
     const updatedSettings = [...settings];
@@ -86,6 +85,22 @@ export const Settings = () => {
               Change Email Address
             </Link>
             <p className="text-gray-700">Update your email address.</p>
+          </div>
+
+          <div>
+            <Link
+              to="/settings/delete-account"
+              className="block text-xl font-semibold text-red-600 hover:underline"
+            >
+              Delete My Account
+            </Link>
+            <p className="text-gray-700">
+              Permanently delete your{" "}
+              {console.log(loggedInUser.loggedInUser.role)}
+              {loggedInUser.loggedInUser.role.charAt(0).toUpperCase() +
+               loggedInUser.loggedInUser.role.slice(1).toLowerCase()}{" "}
+              Account
+            </p>
           </div>
         </div>
       </section>

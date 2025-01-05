@@ -1,35 +1,89 @@
 import bcrypt from "bcrypt";
 import { Candidate } from "../db/database.js";
+import { CandidateUserProfile } from "../db/database.js";
 
-// Candidate Login
 export const CandidateLogin = async (req, res) => {
   const { email, password } = req.body;
 
   try {
+    // Check if candidate exists in the user table
     const candidate = await Candidate.findOne({ email });
     if (!candidate) {
       return res.status(404).json({ message: "User not found" });
     }
 
+    // Compare provided password with stored password hash
     const passwordMatch = await bcrypt.compare(password, candidate.password);
     if (!passwordMatch) {
-      return res.status(401).json({ success: false, message: "Incorrect password" });
+      return res
+        .status(401)
+        .json({ success: false, message: "Incorrect password" });
     }
 
+    // Check if candidate profile exists
+    let candidateProfile = await CandidateUserProfile.findOne({ email });
+    if (!candidateProfile) {
+      // If no profile exists, create a new candidate profile with default values
+      candidateProfile = new CandidateUserProfile({
+        email,
+        name: candidate.name,
+        role: candidate.role,
+        skills: [],
+        experience: [],
+        education: [],
+        location: {
+          city: "",
+          state: "",
+          country: "",
+        },
+        preferences: {
+          jobType: "",
+          industry: "",
+          salaryRange: { min: 0, max: 0 },
+        },
+        about: "",
+        socialLinks: {
+          linkedin: "",
+          github: "",
+          portfolio: "",
+        },
+        portfolio: [],
+        certifications: [],
+        languages: [],
+        awards: [],
+        availabilityStatus: true,
+        resume: "",
+        volunteerExperience: [],
+        workEnvironment: "", // default work environment
+      });
+
+      await candidateProfile.save();
+    }
+
+    // Generate token for user
     const token = await candidate.generateToken();
 
+    // Set JWT token in cookies
     res.cookie("jwttoken", token, { httpOnly: true });
 
+    // Send response with profile data and token
     return res.status(200).json({
       success: true,
       message: "Login successful",
       id: candidate._id,
-      accountInfo: { name: candidate.name, email: candidate.email, role: candidate.role },
+      accountInfo: {
+        name: candidate.name,
+        email: candidate.email,
+        role: candidate.role,
+      },
       token,
+      profile: candidateProfile, // Send the profile data back
     });
   } catch (err) {
     console.error("Login error:", err);
-    return res.status(500).json({ message: "Login failed. Please try again later." });
+    return res
+      .status(500)
+      .json({ message: "Login failed. Please try again later." });
   }
 };
 
@@ -62,7 +116,9 @@ export const CandidateRegister = async (req, res) => {
     });
   } catch (err) {
     console.error("Registration error:", err);
-    res.status(500).json({ message: "Registration failed. Please try again later." });
+    res
+      .status(500)
+      .json({ message: "Registration failed. Please try again later." });
   }
 };
 
@@ -78,4 +134,3 @@ export const CandidateForgotPassword = async (req, res) => {
     res.status(500).json({ message: "Error processing request." });
   }
 };
-

@@ -3,13 +3,11 @@ import { price } from "../../data/Data";
 
 const PriceCard = () => {
   return (
-    <div className="content flex mtop">
+    <div className="content flex justify-center mtop">
       {price.map((item, index) => (
         <div
           className="box shadow bg-black text-white opacity-25"
           key={item.id}
-          data-aos={index % 2 === 0 ? "zoom-in-down" : "zoom-in-up"}
-          data-aos-duration="1000"
         >
           <div className="topbtn">
             <button className="btn3 p-2">{item.best}</button>
