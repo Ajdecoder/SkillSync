@@ -120,6 +120,12 @@ export const recruiterProfileSchema = new mongoose.Schema(
         description: String,
         applicationDeadline: Date,
         salaryRange: { min: Number, max: Number }, // Added salary range
+        jobCategory: { type: String }, // New field for job categories
+        jobStatus: {
+          type: String,
+          enum: ["Open", "Closed", "On Hold", "Filled"],
+          default: "Open",
+        }, // New field to track job status
       },
     ],
     teamMembers: [
@@ -135,10 +141,17 @@ export const recruiterProfileSchema = new mongoose.Schema(
       timeline: String,
       interviewStages: [String], // Added stages
       assessmentTypes: [String], // Added assessment types
+      applicationReview: {
+        type: String,
+        enum: ["Pending", "Reviewed", "Interviewing", "Hired", "Rejected"],
+        default: "Pending", // Track application review status
+      },
     },
 
-    companyLogo: {type : String , default : 'https://app-skillsync.vercel.app/images/logo.png' },
-    
+    companyLogo: {
+      type: String,
+      default: 'https://app-skillsync.vercel.app/images/logo.png',
+    },
     companyLocation: { city: String, state: String, country: String },
     companyBenefits: [
       {
@@ -156,9 +169,14 @@ export const recruiterProfileSchema = new mongoose.Schema(
         position: String,
         hireDate: Date,
         testimonial: String,
-        status: { type: String }, // Added status
+        status: { 
+          type: String, 
+          enum: ["Hired", "Interviewed", "Not Selected"], // Added status
+          default: "Hired"
+        },
       },
     ],
   },
   { timestamps: true }
 );
+

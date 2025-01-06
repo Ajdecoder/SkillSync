@@ -46,7 +46,7 @@ footer {
   grid-template-columns: repeat(1, 1fr);
   gap: 2rem;
   opacity: 0;
-  animation: slideInLeft 2.5s ease-out forwards;
+  animation: slideInLeft 1s ease-out forwards;
 }
 
 /* Each column styling */
@@ -55,7 +55,7 @@ footer {
   text-align: center;
   opacity: 0;
   transform: translateX(-100%);
-  animation: slideInLeft 2s ease-out forwards;
+  animation: slideInLeft 1s ease-out forwards;
   animation-delay: 0.3s;
 }
 
