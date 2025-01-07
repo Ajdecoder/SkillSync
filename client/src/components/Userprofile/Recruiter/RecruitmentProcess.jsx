@@ -1,5 +1,4 @@
-// RecruitmentProcess.js
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const RecruitmentProcess = ({
   userRole,
@@ -7,12 +6,80 @@ const RecruitmentProcess = ({
   isEditing,
   profileData,
   updatedData,
-  handleInputChange,
   handleSubmit,
   handleEditClick,
-  handleRemoveItem,
-  handleAddItem,
+  setUpdatedData, // Set updated data in parent component
 }) => {
+  // Function to add new interview stage or assessment type
+  const handleAddItem = (field) => {
+    const updatedDataCopy = { ...updatedData };
+
+    // Check which field to update (either 'interviewStages' or 'assessmentTypes')
+    if (field === "interviewStages") {
+      updatedDataCopy.recruitmentProcess.interviewStages.push(""); // Add an empty input for a new stage
+    } else if (field === "assessmentTypes") {
+      updatedDataCopy.recruitmentProcess.assessmentTypes.push(""); // Add an empty input for a new assessment type
+    }
+
+    setUpdatedData(updatedDataCopy); // Update state with new data
+  };
+
+  // Custom input change handler for interview stages
+  const handleInterviewStageChange = (e, idx) => {
+    const { value } = e.target;
+    const updatedDataCopy = { ...updatedData };
+    updatedDataCopy.recruitmentProcess.interviewStages[idx] = value; // Update specific interview stage
+    setUpdatedData(updatedDataCopy); // Update state with new value
+  };
+
+  // Custom input change handler for assessment types
+  const handleAssessmentTypeChange = (e, idx) => {
+    const { value } = e.target;
+    const updatedDataCopy = { ...updatedData };
+    updatedDataCopy.recruitmentProcess.assessmentTypes[idx] = value; // Update specific assessment type
+    setUpdatedData(updatedDataCopy); // Update state with new value
+  };
+
+  // Function to handle the removal of an item
+  const handleRemoveItem = (field, idx) => {
+    const updatedDataCopy = { ...updatedData };
+
+    // Remove item from the correct array (either 'interviewStages' or 'assessmentTypes')
+    if (field === "interviewStages") {
+      updatedDataCopy.recruitmentProcess.interviewStages = updatedDataCopy.recruitmentProcess.interviewStages.filter(
+        (_, index) => index !== idx
+      );
+    } else if (field === "assessmentTypes") {
+      updatedDataCopy.recruitmentProcess.assessmentTypes = updatedDataCopy.recruitmentProcess.assessmentTypes.filter(
+        (_, index) => index !== idx
+      );
+    }
+
+    setUpdatedData(updatedDataCopy); // Update state with the modified data
+  };
+
+    // Custom input change handler for dynamic fields
+    const customHandleInputChange = (e, section, idx) => {
+      const { name, value } = e.target;
+      const updatedDataCopy = { ...updatedData };
+  
+      // Handle field values for non-array fields like description, timeline
+      if (section === "recruitmentProcess" && name !== "interviewStages" && name !== "assessmentTypes") {
+        updatedDataCopy.recruitmentProcess[name] = value;
+        setUpdatedData(updatedDataCopy);
+        return;
+      }
+  
+      // Handle array fields (e.g., interviewStages, assessmentTypes)
+      if (name.startsWith("interviewStages")) {
+        updatedDataCopy.recruitmentProcess.interviewStages[idx] = value; // Update specific interview stage
+      } else if (name.startsWith("assessmentTypes")) {
+        updatedDataCopy.recruitmentProcess.assessmentTypes[idx] = value; // Update specific assessment type
+      }
+  
+      setUpdatedData(updatedDataCopy); // Update state with new value
+    };
+
   return (
     <div>
       {userRole === "recruiter" && activeTab === "recruitmentProcess" && (
@@ -28,10 +95,8 @@ const RecruitmentProcess = ({
                   <input
                     type="text"
                     name="applicationReview"
-                    value={
-                      updatedData?.recruitmentProcess?.applicationReview || ""
-                    }
-                    onChange={(e) => handleInputChange(e, "recruitmentProcess")}
+                    value={updatedData?.recruitmentProcess?.applicationReview || ""}
+                    onChange={(e) => customHandleInputChange(e, "recruitmentProcess")}
                     className="border border-gray-300 p-2 rounded-lg w-full"
                     placeholder="Application Review Status"
                   />
@@ -42,7 +107,7 @@ const RecruitmentProcess = ({
                   <textarea
                     name="description"
                     value={updatedData?.recruitmentProcess?.description || ""}
-                    onChange={(e) => handleInputChange(e, "recruitmentProcess")}
+                    onChange={(e) => customHandleInputChange(e, "recruitmentProcess")}
                     className="border-2 border-black p-2 rounded-lg w-full mt-2"
                     placeholder="Recruitment Process Description"
                     style={{ border: "1px solid" }}
@@ -55,7 +120,7 @@ const RecruitmentProcess = ({
                     type="text"
                     name="timeline"
                     value={updatedData?.recruitmentProcess?.timeline || ""}
-                    onChange={(e) => handleInputChange(e, "recruitmentProcess")}
+                    onChange={(e) => customHandleInputChange(e, "recruitmentProcess")}
                     className="border border-gray-300 p-2 rounded-lg w-full mt-2"
                     placeholder="Timeline"
                   />
@@ -70,19 +135,14 @@ const RecruitmentProcess = ({
                         <li key={idx} className="flex items-center space-x-2">
                           <input
                             type="text"
-                            name={`interviewStages.${idx}`}
                             value={stage}
-                            onChange={(e) =>
-                              handleInputChange(e, "recruitmentProcess")
-                            }
+                            onChange={(e) => handleInterviewStageChange(e, idx)} // Use separate handler
                             className="border border-gray-300 p-2 rounded-lg w-full"
                             placeholder="Interview Stage"
                           />
                           <button
                             type="button"
-                            onClick={() =>
-                              handleRemoveItem("interviewStages", idx)
-                            }
+                            onClick={() => handleRemoveItem("interviewStages", idx)}
                             className="text-red-500"
                           >
                             Remove
@@ -109,19 +169,14 @@ const RecruitmentProcess = ({
                         <li key={idx} className="flex items-center space-x-2">
                           <input
                             type="text"
-                            name={`assessmentTypes.${idx}`}
                             value={assessment}
-                            onChange={(e) =>
-                              handleInputChange(e, "recruitmentProcess")
-                            }
+                            onChange={(e) => handleAssessmentTypeChange(e, idx)} // Use separate handler
                             className="border border-gray-300 p-2 rounded-lg w-full"
                             placeholder="Assessment Type"
                           />
                           <button
                             type="button"
-                            onClick={() =>
-                              handleRemoveItem("assessmentTypes", idx)
-                            }
+                            onClick={() => handleRemoveItem("assessmentTypes", idx)}
                             className="text-red-500"
                           >
                             Remove

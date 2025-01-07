@@ -35,7 +35,7 @@ const ScrollToTop = () => {
 
 const Pages = () => {
   const [spin, setSpin] = useState(false);
-  const [loading, setLoading] = useState(true);  // Track loading state
+  const [loading, setLoading] = useState(false);  // Track loading state
 
   useEffect(() => {
     Aos.init({

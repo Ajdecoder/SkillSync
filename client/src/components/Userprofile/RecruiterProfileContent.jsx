@@ -26,27 +26,37 @@ const RecruiterProfileContent = ({ profileData, userRole, activeTab }) => {
 
   // Handle input changes for nested fields
 
-  const handleInputChange = (e, section, index = null) => {
-    const { name, value } = e.target;
+ // Handle input changes for nested fields
+ const handleInputChange = (e, section) => {
+  const { name, value } = e.target;
+  const updatedSectionData = { ...updatedData };
 
-    setUpdatedData((prevState) => {
-      const updatedSection = { ...prevState[section] };
+  // Check for nested fields (like companyBenefits or jobListings)
+  if (
+    section === "companyBenefits" ||
+    section === "jobListings" ||
+    section === "teamMembers" ||
+    section === "recruitmentProcess"
+  ) {
+    const nameParts = name.split("."); // Split the name by dots to handle nested properties
+    const [fieldName, arrayIndex, subField] = nameParts;
+    console.log(nameParts);
 
-      if (index !== null) {
-        // Update specific array element
-        const updatedArray = [...prevState[section]];
-        updatedArray[index] = {
-          ...updatedArray[index],
-          [name]: value,
-        };
-        return { ...prevState, [section]: updatedArray };
-      } else {
-        // Update top-level or flat section properties
-        updatedSection[name] = value;
-        return { ...prevState, [section]: updatedSection };
-      }
-    });
-  };
+    if (arrayIndex !== undefined && updatedSectionData[section][arrayIndex]) {
+      updatedSectionData[section][arrayIndex][subField] = value;
+    } else {
+      updatedSectionData[section][nameParts[1]] = value;
+    }
+  } else if (section === "companyOverview") {
+    // For companyOverview, directly update the object's properties
+    updatedSectionData[section][name] = value;
+  } else {
+    updatedSectionData[section][name] = value;
+  }
+
+  setUpdatedData(updatedSectionData);
+
+};
 
   // Submit Edited Profile
   const handleSubmit = async (e, section) => {
@@ -107,6 +117,7 @@ const RecruiterProfileContent = ({ profileData, userRole, activeTab }) => {
           handleRemoveItem={handleRemoveItem}
           activeTab={activeTab}
           handleEditClick={handleEditClick}
+          setUpdatedData={setUpdatedData}
         />
       )}
 
@@ -133,6 +144,7 @@ const RecruiterProfileContent = ({ profileData, userRole, activeTab }) => {
           isEditing={isEditing}
           handleInputChange={handleInputChange}
           handleSubmit={handleSubmit}
+          setUpdatedData={setUpdatedData}
           handleAddItem={handleAddItem}
           handleRemoveItem={handleRemoveItem}
           activeTab={activeTab}
@@ -146,12 +158,10 @@ const RecruiterProfileContent = ({ profileData, userRole, activeTab }) => {
           userRole={userRole}
           updatedData={updatedData}
           isEditing={isEditing}
-          handleInputChange={handleInputChange}
           handleSubmit={handleSubmit}
-          handleAddItem={handleAddItem}
-          handleRemoveItem={handleRemoveItem}
           activeTab={activeTab}
           handleEditClick={handleEditClick}
+          setUpdatedData={setUpdatedData}
         />
       )}
 
@@ -161,14 +171,10 @@ const RecruiterProfileContent = ({ profileData, userRole, activeTab }) => {
         <TeamMembers
           profileData={profileData}
           userRole={userRole}
+          setUpdatedData={setUpdatedData}
           updatedData={updatedData}
-          isEditing={isEditing}
-          handleInputChange={handleInputChange}
           handleSubmit={handleSubmit}
-          handleAddItem={handleAddItem}
-          handleRemoveItem={handleRemoveItem}
-          activeTab={activeTab}
-          handleEditClick={handleEditClick}
+          
         />
       )}
     </>

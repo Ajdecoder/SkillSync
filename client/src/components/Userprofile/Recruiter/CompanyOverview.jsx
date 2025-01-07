@@ -9,7 +9,21 @@ const CompanyOverview = ({
   handleInputChange,
   handleSubmit,
   handleEditClick,
+  setUpdatedData
 }) => {
+  const handleSocialLinkChange = (e) => {
+    const { name, value } = e.target;
+    
+    // Ensure socialLinks is initialized
+    updatedData.companyOverview.socialLinks = updatedData.companyOverview.socialLinks || {};
+
+    // Update the corresponding social link
+    updatedData.companyOverview.socialLinks[name] = value;
+
+    // Trigger re-render if needed
+    setUpdatedData({ ...updatedData });
+  };
+
   return (
     <div>
       {userRole === "recruiter" && activeTab === "companyOverview" && (
@@ -103,8 +117,8 @@ const CompanyOverview = ({
                     <input
                       type="url"
                       name="linkedin"
-                      value={updatedData?.companyOverview.socialLinks?.linkedin || ""}
-                      onChange={(e) => handleInputChange(e, "companyOverview")}
+                      value={updatedData?.companyOverview?.socialLinks?.linkedin || ""}
+                      onChange={handleSocialLinkChange}
                       className="border border-gray-300 p-2 rounded-lg w-full"
                       placeholder="LinkedIn URL"
                     />
@@ -113,8 +127,8 @@ const CompanyOverview = ({
                     <input
                       type="url"
                       name="twitter"
-                      value={updatedData?.companyOverview.socialLinks?.twitter || ""}
-                      onChange={(e) => handleInputChange(e, "companyOverview")}
+                      value={updatedData?.companyOverview?.socialLinks?.twitter || ""}
+                      onChange={handleSocialLinkChange}
                       className="border border-gray-300 p-2 rounded-lg w-full mt-2"
                       placeholder="Twitter URL"
                     />
@@ -123,8 +137,8 @@ const CompanyOverview = ({
                     <input
                       type="url"
                       name="facebook"
-                      value={updatedData?.companyOverview.socialLinks?.facebook || ""}
-                      onChange={(e) => handleInputChange(e, "companyOverview")}
+                      value={updatedData?.companyOverview?.socialLinks?.facebook || ""}
+                      onChange={handleSocialLinkChange}
                       className="border border-gray-300 p-2 rounded-lg w-full mt-2"
                       placeholder="Facebook URL"
                     />
@@ -140,26 +154,26 @@ const CompanyOverview = ({
                 <div>
                   <p>
                     <strong>LinkedIn:</strong>{" "}
-                    {profileData?.companyOverview.socialLinks?.linkedin}
-                    .companyOverview
+                    {profileData?.companyOverview?.socialLinks?.linkedin ||
+                      "Not Provided"}
                   </p>
                   <p>
                     <strong>Twitter:</strong>{" "}
-                    {profileData?.companyOverview.socialLinks?.twitter}
+                    {profileData?.companyOverview?.socialLinks?.twitter ||
+                      "Not Provided"}
                   </p>
                   <p>
                     <strong>Facebook:</strong>{" "}
-                    {profileData?.companyOverview.socialLinks?.facebook}
+                    {profileData?.companyOverview?.socialLinks?.facebook ||
+                      "Not Provided"}
                   </p>
+                  <button
+                    onClick={() => handleEditClick("socialLinks")}
+                    className="px-4 py-2 bg-yellow-600 text-white rounded-lg mt-4"
+                  >
+                    Edit
+                  </button>
                 </div>
-              )}
-              {!isEditing.socialLinks && (
-                <button
-                  onClick={() => handleEditClick("socialLinks")}
-                  className="px-4 py-2 bg-yellow-600 text-white rounded-lg mt-4"
-                >
-                  Edit
-                </button>
               )}
             </div>
           </section>
