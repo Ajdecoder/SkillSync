@@ -35,10 +35,6 @@ export const updateUserProfile = async (req, res) => {
     const { email } = req.params;
     const updateData = req.body;
 
-    // Validate Email Format
-    if (!validateEmail(email)) {
-      return res.status(400).json({ message: "Invalid email format" });
-    }
 
     // Check if the body contains data to update
     if (!Object.keys(updateData).length) {
@@ -78,4 +74,3 @@ export const updateUserProfile = async (req, res) => {
       .json({ message: "Error updating user profile", error: error.message });
   }
 };
-

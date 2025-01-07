@@ -20,7 +20,7 @@ const CandidateProfileContent = ({profileData, activeTab, userRole }) => {
               <ul>
                 {profileData?.experience?.map((exp, idx) => (
                   <li key={idx}>
-                    {exp.role} at {exp.company} ({exp.duration})
+                    {exp.JobRole} at {exp.company} ({exp.duration})
                   </li>
                 )) || "No experience listed"}
               </ul>

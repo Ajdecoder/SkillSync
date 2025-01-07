@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { Recruiter, RecruiterUserProfile } from "../db/database.js";
 
+// Recruiter Login
 export const RecruiterLogin = async (req, res) => {
   const { email, password } = req.body;
 
@@ -14,9 +15,7 @@ export const RecruiterLogin = async (req, res) => {
     // Compare provided password with stored password hash
     const passwordMatch = await bcrypt.compare(password, recruiter.password);
     if (!passwordMatch) {
-      return res
-        .status(401)
-        .json({ success: false, message: "Incorrect password" });
+      return res.status(401).json({ success: false, message: "Incorrect password" });
     }
 
     // Check if recruiter profile exists
@@ -37,17 +36,17 @@ export const RecruiterLogin = async (req, res) => {
             facebook: "",
           },
         },
-        jobListings: [],
-        teamMembers: [],
+        jobListings: [],  // Default empty list of job listings
+        teamMembers: [],  // Default empty list of team members
         recruitmentProcess: {
           description: "",
           timeline: "",
-          interviewStages: [],
-          assessmentTypes: [],
+          interviewStages: [], // Default empty stages
+          assessmentTypes: [], // Default empty assessment types
         },
         companyLocation: { city: "", state: "", country: "" },
-        companyBenefits: [],
-        pastHires: [],
+        companyBenefits: [],  // Default empty list of benefits
+        pastHires: [],  // Default empty past hires list
       });
 
       await recruiterProfile.save();
@@ -74,9 +73,7 @@ export const RecruiterLogin = async (req, res) => {
     });
   } catch (err) {
     console.error("Login error:", err);
-    return res
-      .status(500)
-      .json({ message: "Login failed. Please try again later." });
+    return res.status(500).json({ message: "Login failed. Please try again later." });
   }
 };
 
@@ -85,12 +82,16 @@ export const RecruiterRegister = async (req, res) => {
   const { name, email, password, role } = req.body;
 
   try {
+    // Check if recruiter already exists
     const existingRecruiter = await Recruiter.findOne({ email });
     if (existingRecruiter) {
       return res.status(400).json({ message: "Email already registered" });
     }
 
+    // Hash the password before saving it
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new recruiter account
     const newRecruiter = new Recruiter({
       name,
       email,
@@ -99,18 +100,50 @@ export const RecruiterRegister = async (req, res) => {
     });
     await newRecruiter.save();
 
+    // Automatically create the recruiter's profile with default values
+    const recruiterProfile = new RecruiterUserProfile({
+      email,
+      name,  // Using the name from the recruiter account
+      role,  // Using the role from the recruiter account
+      companyOverview: {
+        name: "",
+        description: "",
+        website: "",
+        socialLinks: {
+          linkedin: "",
+          twitter: "",
+          facebook: "",
+        },
+      },
+      jobListings: [],  // Default empty job listings
+      teamMembers: [],  // Default empty team members
+      recruitmentProcess: {
+        description: "",
+        timeline: "",
+        interviewStages: [],  // Default empty interview stages
+        assessmentTypes: [],  // Default empty assessment types
+      },
+      companyLocation: { city: "", state: "", country: "" },
+      companyBenefits: [],  // Default empty benefits
+      pastHires: [],  // Default empty past hires list
+    });
+
+    // Save the recruiter profile to the database
+    await recruiterProfile.save();
+
+    // Generate a JWT token for the recruiter
     const token = await newRecruiter.generateToken();
 
+    // Send the token as a cookie
     res.cookie("jwttoken", token, { httpOnly: true });
 
+    // Respond with success message and the token
     res.status(201).json({
       message: "Recruiter registered successfully",
       token,
     });
   } catch (err) {
     console.error("Registration error:", err);
-    res
-      .status(500)
-      .json({ message: "Registration failed. Please try again later." });
+    res.status(500).json({ message: "Registration failed. Please try again later." });
   }
 };
