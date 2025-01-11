@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 
 const TeamMembers = ({ userRole, profileData, handleSubmit, setUpdatedData }) => {
-  const [teamMembers, setTeamMembers] = useState(profileData.teamMembers);
+  const [teamMembers, setTeamMembers] = useState(profileData.teamMembers || []);
   const [editingIndex, setEditingIndex] = useState(null); // Track the index of the member being edited
 
   useEffect(() => {
     // Whenever profileData.teamMembers changes, update local state
-    setTeamMembers(profileData.teamMembers);
+    setTeamMembers(profileData.teamMembers || []);
   }, [profileData.teamMembers]);
 
   // Handle changes for inputs directly within the component
@@ -36,6 +36,7 @@ const TeamMembers = ({ userRole, profileData, handleSubmit, setUpdatedData }) =>
 
   // Handle form submission (save changes)
   const handleFormSubmit = (e) => {
+    e.preventDefault();
     // Pass updated team members back to parent via setUpdatedData
     setUpdatedData((prevData) => ({
       ...prevData,
@@ -43,6 +44,7 @@ const TeamMembers = ({ userRole, profileData, handleSubmit, setUpdatedData }) =>
     }));
     // Call handleSubmit for any additional logic (e.g., API calls)
     handleSubmit();
+    setEditingIndex(null); // Close edit mode after submission
   };
 
   return (
@@ -138,7 +140,7 @@ const TeamMembers = ({ userRole, profileData, handleSubmit, setUpdatedData }) =>
                   <button
                     type="button"
                     onClick={() => handleRemoveMember(idx)}
-                    className="mt-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                    className="mt-2 ml-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
                   >
                     Remove
                   </button>
@@ -155,13 +157,7 @@ const TeamMembers = ({ userRole, profileData, handleSubmit, setUpdatedData }) =>
           >
             Add New Member
           </button>
-          <button
-            type="submit"
-            className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-          >
-            Save All Changes
-          </button>
-        </div>
+        </div>  
       </form>
     </div>
   );

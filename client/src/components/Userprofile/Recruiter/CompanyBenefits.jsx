@@ -35,7 +35,7 @@ const CompanyBenefits = ({
                           onChange={(e) =>
                             handleInputChange(e, "companyBenefits", idx)
                           }
-                          className="border border-gray-300 p-2 rounded-lg"
+                          className="border border-gray-300 p-1 rounded-lg"
                           placeholder="Benefit Type"
                         />
                       </div>
@@ -46,7 +46,7 @@ const CompanyBenefits = ({
                           onChange={(e) =>
                             handleInputChange(e, "companyBenefits", idx)
                           }
-                          className="border border-gray-300 p-2 rounded-lg w-full mt-2"
+                          className="border border-gray-300 p-1 rounded-lg w-full mt-2"
                           placeholder="Description"
                         />
                       </div>
@@ -68,7 +68,7 @@ const CompanyBenefits = ({
                     className="bg-gray-100 p-4 rounded-lg shadow-sm"
                   >
                     <p>
-                      {benefit.benefitType}: {benefit.description}
+                      {benefit.benefitType} : {benefit.description}
                     </p>
                   </li>
                 )) || "No benefits listed"}

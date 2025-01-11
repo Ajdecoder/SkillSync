@@ -165,7 +165,14 @@ const RecruiterProfileContent = ({ profileData, userRole, activeTab }) => {
         />
       )}
 
-      {activeTab === "pastHires" && <PastHires />}
+      {activeTab === "pastHires" && <PastHires profileData={profileData}
+          userRole={userRole}
+          updatedData={updatedData}
+          isEditing={isEditing}
+          handleSubmit={handleSubmit}
+          activeTab={activeTab}
+          handleEditClick={handleEditClick}
+          setUpdatedData={setUpdatedData} />}
 
       {activeTab === "teamMembers" && (
         <TeamMembers

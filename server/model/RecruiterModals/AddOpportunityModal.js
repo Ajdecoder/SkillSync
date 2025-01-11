@@ -13,10 +13,10 @@ export const AddOpportunitySchema = new mongoose.Schema(
         mandatory: { type: Boolean, default: false },
       },
     ],
-    company_name: { type: String, required: true }, // Adjusted to match request data
-    company_website: { type: String, required: false }, // Adjusted to match request data
+    company_name: { type: String, required: true }, 
+    company_website: { type: String, required: false }, 
     email: { type: String, required: true },
-    ph_no: { type: String, required: true }, // Changed from 'phoneNumber' to 'ph_no'
+    ph_no: { type: String, required: true }, 
     type: {
       type: String,
       enum: ["Full-Time", "Part-Time", "Contract", "Internship"],

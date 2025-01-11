@@ -13,16 +13,13 @@ const TalentSearchForm = () => {
   const { handleFormDataChange } = useHireFormContext();
   const [step, setStep] = useState(1);
 
-  // Track the previous step using useRef
   const prevStepRef = useRef(step);
 
   const nextStep = () => setStep((prev) => prev + 1);
   const prevStep = () => setStep((prev) => prev - 1);
 
   useEffect(() => {
-    // Log steps only when step changes
     if (step !== prevStepRef.current) {
-      
       prevStepRef.current = step;
     }
   }, [step]);
@@ -73,7 +70,10 @@ const TalentSearchForm = () => {
         />
       )}
       {step === 8 && (
-        <ReviewSubmit handleFormDataChange={handleFormDataChange} prevStep={prevStep} />
+        <ReviewSubmit
+          handleFormDataChange={handleFormDataChange}
+          prevStep={prevStep}
+        />
       )}
     </div>
   );
