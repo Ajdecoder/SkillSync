@@ -53,7 +53,7 @@ const Blog = ({ spin, setSpin }) => {
                 {" "}
                 <h3 className="pt-1 pb-2 text-green-600">By {data.author}</h3>
                 <p className="text-[aliceblue]" >{data.date}</p>
-              </div>
+              </div>  
               <p className="pt-2 pb-2 text-violet-600 ">
                 {data.excerpt.slice(0, 100)}...
               </p>
@@ -97,7 +97,7 @@ const Blog = ({ spin, setSpin }) => {
             </svg>
           </button>
 
-          <span style={{ margin: "auto" }}>
+          <span style={{ margin: "auto" , color: "white" }}>
             {currentPage + 1} of {Math.ceil(blogPosts.length / postsPerPage)}
           </span>
 

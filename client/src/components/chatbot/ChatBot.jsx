@@ -95,7 +95,7 @@ export const ChatBot = () => {
       {/* Chatbot UI */}
       {isOpen && (
         <div
-          className={`chatbot-window fixed bottom-20 right-4 w-[25rem] bg-white rounded-lg shadow-lg z-[999] p-2
+          className={`chatbot-window fixed bottom-20 right-4 w-[25rem] bg-white rounded-lg shadow-lg z-[1000] p-2
       transition-all duration-500 transform ${
         isOpen ? "chatbot-reveal" : "hidden"
       }`}

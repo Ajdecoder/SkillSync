@@ -204,7 +204,7 @@ const ManageJobs = ({
                           </>
                         ) : (
                           <p>
-                            ${job?.salaryRange?.min || "No min salary"} - $
+                            ${job?.salaryRange?.min || "No min salary"} - $ 
                             {job?.salaryRange?.max || "No max salary"}
                           </p>
                         )}
@@ -221,15 +221,19 @@ const ManageJobs = ({
                         Edit
                       </button>
                     )}
+
+                    {/* Save Button (Visible only when editing) */}
+                    {isEditingJob(idx) && (
+                      <button
+                        type="submit"
+                        className="px-4 py-2 bg-blue-600 text-white rounded-lg mt-4"
+                      >
+                        Save Changes
+                      </button>
+                    )}
                   </li>
                 ))}
               </ul>
-              <button
-                type="submit"
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg mt-4"
-              >
-                Save Changes
-              </button>
             </form>
           </div>
         </section>

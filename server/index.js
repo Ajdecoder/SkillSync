@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import userRoutes from "./routes/user.Routes.js";
 import companyRoutes from "./routes/company.Routes.js";
 import cookieParser from "cookie-parser";
-import chatBotRoutes from "./routes/chat.Routes.js"
+import chatBotRoutes from "./routes/chat.Routes.js";
 import UserProfileRoutes from "./routes/userProfile.Routes.js";
 
 dotenv.config();
@@ -13,9 +13,9 @@ app.use(express.static("public"));
 const PORT = process.env.PORT || 9002;
 
 const corsOptions = {
-    origin: process.env.CORS_ORIGIN, 
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true,
+  origin: process.env.CORS_ORIGIN || "http://localhost:5173",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
@@ -24,13 +24,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/api/users", userRoutes  );
+app.use("/api/users", userRoutes);
 
-app.use("/api/users/profile", UserProfileRoutes)
+app.use("/api/users/profile", UserProfileRoutes);
 
 app.use("/api/requirements", companyRoutes);
 
-app.use("/api/chatbot/",chatBotRoutes)
+app.use("/api/chatbot/", chatBotRoutes);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the homepage");

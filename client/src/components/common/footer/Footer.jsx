@@ -34,7 +34,7 @@ const Footer = () => {
       className={`bg-gray-900 text-white py-8 mt-12 ${isVisible ? "footer-visible" : ""}`}
     >
       {/* Newsletter Section */}
-      <div className={`footer-section ${isVisible ? "animate-slideInLeft" : ""}`}>
+      <div className={`footer-section ${isVisible ? "animate-slideInLeft relative top-[30px]" : ""}`}>
         <div className="newsletter text-center px-4 md:px-8">
           <h2 className="text-2xl font-bold mb-4">Do You Need Help With Anything?</h2>
           <p className="text-gray-400 mb-6">

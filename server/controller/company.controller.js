@@ -3,7 +3,6 @@ import {
   HireTalentCollection,
 } from "../db/database.js";
 
-
 export const addOpportunity = async (req, res) => {
   const {
     title,
@@ -18,7 +17,6 @@ export const addOpportunity = async (req, res) => {
     address,
     skills,
   } = req.body;
-
 
   try {
     const newOpportunity = new AddOpportunityCollection({
@@ -39,14 +37,13 @@ export const addOpportunity = async (req, res) => {
     res.status(201).json({ message: "Opportunity added successfully." });
   } catch (err) {
     console.error("Error:", err);
-    res.status(500).json({ message: "Failed to add opportunity. Please try again later." });
+    res
+      .status(500)
+      .json({ message: "Failed to add opportunity. Please try again later." });
   }
 };
 
-
-
 export const hireTalent = async (req, res) => {
-
   const {
     jobType,
     skills,
@@ -127,10 +124,14 @@ export const getRequirementById = async (req, res) => {
   try {
     const RequirementId = req.params.id;
 
-    const getRequirementFromHireTalent = await HireTalentCollection.findById(RequirementId);
-    const getRequirementFromAddOpportunity = await AddOpportunityCollection.findById(RequirementId);
+    const getRequirementFromHireTalent = await HireTalentCollection.findById(
+      RequirementId
+    );
+    const getRequirementFromAddOpportunity =
+      await AddOpportunityCollection.findById(RequirementId);
 
-    const getRequirement = getRequirementFromHireTalent || getRequirementFromAddOpportunity;
+    const getRequirement =
+      getRequirementFromHireTalent || getRequirementFromAddOpportunity;
 
     if (!getRequirement) {
       return res.status(404).json({ message: "Requirement not found" });
@@ -144,4 +145,3 @@ export const getRequirementById = async (req, res) => {
     });
   }
 };
-

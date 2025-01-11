@@ -31,27 +31,90 @@ export const RoutesConfig = ({ spin, setSpin }) => [
   <Route key="/" path="/" element={<Home />} />,
   <Route key="/about" path="/about" element={<About />} />,
   <Route key="/services" path="/services" element={<Services />} />,
-  <Route key="/blog" path="/blog" element={<Blog spin={spin} setSpin={setSpin} />} />,
+  <Route
+    key="/blog"
+    path="/blog"
+    element={<Blog spin={spin} setSpin={setSpin} />}
+  />,
   <Route key="/pricing" path="/pricing" element={<Pricing />} />,
   <Route key="/contact" path="/contact" element={<Contact />} />,
   <Route key="/login" path="/login" element={<ChooseLoginMode />} />,
   <Route key="/requirements" path="/requirements" element={<Resources />} />,
-  <Route key="/requirements/hire-talent" path="/requirements/hire-talent" element={<HireResources />} />,
-  <Route key="/requirements/add-opportunity" path="/requirements/add-opportunity" element={<AddOpportunity />} />,
-  <Route key="/requirements/saved-searches" path="/requirements/saved-searches" element={<SavedSearches />} />,
-  <Route key="/requirements/saved-opportunities" path="/requirements/saved-opportunities" element={<SavedOpportunity />} />,
-  <Route key="/requirements/bookmark-talent" path="/requirements/bookmark-talent" element={<BookmarkTalent />} />,
-  <Route key="/requirements/market-trends" path="/requirements/market-trends" element={<MarketTrends />} />,
-  <Route key="talent/connect/:post_id" path="talent/connect/:post_id" element={<TalentConnectPage />} />,
-  <Route key="opportunity/connect/:post_id" path="opportunity/connect/:post_id" element={<OpportunityConnectPage />} />,
+  <Route
+    key="/requirements/hire-talent"
+    path="/requirements/hire-talent"
+    element={<HireResources />}
+  />,
+  <Route
+    key="/requirements/add-opportunity"
+    path="/requirements/add-opportunity"
+    element={<AddOpportunity />}
+  />,
+  <Route
+    key="/requirements/saved-searches"
+    path="/requirements/saved-searches"
+    element={<SavedSearches />}
+  />,
+  <Route
+    key="/requirements/saved-opportunities"
+    path="/requirements/saved-opportunities"
+    element={<SavedOpportunity />}
+  />,
+  <Route
+    key="/requirements/bookmark-talent"
+    path="/requirements/bookmark-talent"
+    element={<BookmarkTalent />}
+  />,
+  <Route
+    key="/requirements/market-trends"
+    path="/requirements/market-trends"
+    element={<MarketTrends />}
+  />,
+  <Route
+    key="talent/connect/:post_id"
+    path="talent/connect/:post_id"
+    element={<TalentConnectPage />}
+  />,
+  <Route
+    key="opportunity/connect/:post_id"
+    path="opportunity/connect/:post_id"
+    element={<OpportunityConnectPage />}
+  />,
   <Route key="/signup" path="/signup" element={<Register />} />,
-  <Route key="/signup/recruiter" path="/signup/recruiter" element={<RegRecruiter />} />,
-  <Route key="/signup/candidate" path="/signup/candidate" element={<RegCandidate />} />,
+  <Route
+    key="/signup/recruiter"
+    path="/signup/recruiter"
+    element={<RegRecruiter />}
+  />,
+  <Route
+    key="/signup/candidate"
+    path="/signup/candidate"
+    element={<RegCandidate />}
+  />,
   <Route key="/blog/:Blogid" path="/blog/:Blogid" element={<BlogPage />} />,
-  <Route key="/profile/settings" path="/profile/settings" element={<Settings />} />,
-  <Route key="/profile/settings" path="/profile/userProfile" element={<UserProfile />} />,
-  <Route key="/login/recruiter" path="/login/recruiter" element={<LoginRecruiter />} />,
-  <Route key="/login/candidate" path="/login/candidate" element={<LoginCandidate />} />,
-  <Route key="/settings/delete-account" path="/settings/delete-account" element={<DeleteAccount />} />
-  
+  <Route
+    key="/profile/settings"
+    path="/profile/settings"
+    element={<Settings />}
+  />,
+  <Route
+    key="/profile/settings"
+    path="/profile/userProfile"
+    element={<UserProfile />}
+  />,
+  <Route
+    key="/login/recruiter"
+    path="/login/recruiter"
+    element={<LoginRecruiter />}
+  />,
+  <Route
+    key="/login/candidate"
+    path="/login/candidate"
+    element={<LoginCandidate />}
+  />,
+  <Route
+    key="/settings/delete-account"
+    path="/settings/delete-account"
+    element={<DeleteAccount />}
+  />,
 ];
