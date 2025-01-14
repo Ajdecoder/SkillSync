@@ -72,7 +72,7 @@ const Footer = () => {
       </div>
 
       {/* Legal Section */}
-      <div className="footer-section legal text-center text-gray-500 text-sm">
+      <div className="footer-section legal text-center text-gray-500 relative bottom-[-30px] text-sm">
         <span>© 2024. Designed By Ajdecoder.</span>
       </div>
     </footer>

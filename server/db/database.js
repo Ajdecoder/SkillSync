@@ -4,6 +4,7 @@ import { HireTalentSchema } from "../model/RecruiterModals/HireTalentModal.js";
 import { AddOpportunitySchema } from "../model/RecruiterModals/AddOpportunityModal.js";
 import { candidateProfileSchema, recruiterProfileSchema } from "../model/UserProfileModal.js";
 import { userSchema } from "../model/userModal.js";
+import { jobPreferencesSchema } from "../model/CandidateModals/JobPreferencesModal.js";
 
 dotenv.config();
 
@@ -36,3 +37,4 @@ export const Candidate = connect.model("Candidate", userSchema, "CandidateCollec
 export const Recruiter = connect.model("Recruiter", userSchema, "RecruiterCollection");
 export const CandidateUserProfile = connect.model("CandidateUserProfile", candidateProfileSchema, "CandidateProfileCollection");
 export const RecruiterUserProfile = connect.model("RecruiterUserProfile", recruiterProfileSchema, "RecruiterProfileCollection");
+export const JobPreferences = mongoose.model("JobPreferences", jobPreferencesSchema, "jobPreferencesCollection")

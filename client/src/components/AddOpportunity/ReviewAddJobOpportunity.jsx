@@ -3,6 +3,7 @@ import { useForm } from "../context/AddOpportunityFromContext";
 import axios from "axios";
 import { PORT_CLIENT } from "../../commonClient";
 import { toast, ToastContainer } from "react-toastify";
+import { addOpportunity } from "../../services/api";
 
 const ReviewJobOpportunity = ({ prevStep, handleFinalSubmit }) => {
   const { formData, updateForm } = useForm();
@@ -41,10 +42,7 @@ const ReviewJobOpportunity = ({ prevStep, handleFinalSubmit }) => {
       setIsSubmitting(true);
       console.log("Submitting Form Data:", localFormData); // Log current form data
 
-      await axios.post(
-        `${PORT_CLIENT}/api/requirements/addOpportunity`,
-        localFormData
-      );
+      addOpportunity(localFormData)
 
       toast.success("Form Submitted Successfully", { autoClose: 1200 });
     } catch (error) {

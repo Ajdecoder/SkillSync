@@ -6,24 +6,20 @@ export const CandidateLogin = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Check if candidate exists in the user table
     const candidate = await Candidate.findOne({ email });
     if (!candidate) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Compare provided password with stored password hash
     const passwordMatch = await bcrypt.compare(password, candidate.password);
     if (!passwordMatch) {
       return res
         .status(401)
-        .json({ success: false, message: "Incorrect password" });
+        .json({ success: false, message: "email or password is incorrect" });
     }
 
-    // Check if candidate profile exists
     let candidateProfile = await CandidateUserProfile.findOne({ email });
     if (!candidateProfile) {
-      // If no profile exists, create a new candidate profile with default values
       candidateProfile = new CandidateUserProfile({
         email,
         name: candidate.name,
@@ -54,19 +50,16 @@ export const CandidateLogin = async (req, res) => {
         availabilityStatus: true,
         resume: "",
         volunteerExperience: [],
-        workEnvironment: "", // default work environment
+        workEnvironment: "",
       });
 
       await candidateProfile.save();
     }
 
-    // Generate token for user
     const token = await candidate.generateToken();
 
-    // Set JWT token in cookies
     res.cookie("jwttoken", token, { httpOnly: true });
 
-    // Send response with profile data and token
     return res.status(200).json({
       success: true,
       message: "Login successful",
@@ -77,7 +70,7 @@ export const CandidateLogin = async (req, res) => {
         role: candidate.role,
       },
       token,
-      profile: candidateProfile, // Send the profile data back
+      profile: candidateProfile,
     });
   } catch (err) {
     console.error("Login error:", err);
@@ -86,22 +79,17 @@ export const CandidateLogin = async (req, res) => {
       .json({ message: "Login failed. Please try again later." });
   }
 };
-
-// Candidate Registration
 export const CandidateRegister = async (req, res) => {
   const { name, email, password, role } = req.body;
 
   try {
-    // Check if candidate already exists
     const existingCandidate = await Candidate.findOne({ email });
     if (existingCandidate) {
       return res.status(400).json({ message: "Email already registered" });
     }
 
-    // Hash password before saving
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create new candidate in the Candidate table
     const newCandidate = new Candidate({
       name,
       email,
@@ -110,12 +98,11 @@ export const CandidateRegister = async (req, res) => {
     });
     await newCandidate.save();
 
-    // Check if candidate profile already exists in the CandidateUserProfile table
     let candidateProfile = await CandidateUserProfile.findOne({ email });
 
     if (!candidateProfile) {
-      // If no profile exists, create a new candidate profile with default values
       candidateProfile = new CandidateUserProfile({
+        candidateInfo: newCandidate,
         email,
         name,
         role,
@@ -145,32 +132,28 @@ export const CandidateRegister = async (req, res) => {
         availabilityStatus: true,
         resume: "",
         volunteerExperience: [],
-        workEnvironment: "", // default work environment
+        workEnvironment: "",
       });
 
-      // Save the new profile
       await candidateProfile.save();
     }
 
-    // Generate JWT token for the newly registered candidate
     const token = await newCandidate.generateToken();
 
-    // Set JWT token in cookies
     res.cookie("jwttoken", token, { httpOnly: true });
 
-    // Send response with the newly created profile data and token
     res.status(201).json({
       message: "Candidate registered successfully",
       token,
-      profile: candidateProfile, // Send the profile data back
+      profile: candidateProfile,
     });
   } catch (err) {
     console.error("Registration error:", err);
-    res.status(500).json({ message: "Registration failed. Please try again later." });
+    res
+      .status(500)
+      .json({ message: "Registration failed. Please try again later." });
   }
 };
-
-// Additional Candidate operations (e.g., Forgot Password, Reset Password, etc.)
 export const CandidateForgotPassword = async (req, res) => {
   try {
     const candidate = await Candidate.findOne({ email: req.body.email });

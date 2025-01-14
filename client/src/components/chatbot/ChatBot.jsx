@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./chatbot.css";
 import { PORT_CLIENT } from "../../commonClient";
+import { getChatResponse } from "../../services/api";
 
 export const ChatBot = () => {
   const [messages, setMessages] = useState([
@@ -33,15 +34,7 @@ export const ChatBot = () => {
     setInputText("");
 
     try {
-      const response = await axios.post(
-        `${PORT_CLIENT}/api/chatbot/chat-response`,
-        { message: inputText },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response =getChatResponse(userMessage)
 
       const botMessage = {
         id: messages.length + 2,

@@ -19,9 +19,8 @@ export const SavedOpportunity = () => {
       setOpportunities(data.Addedopportunities);
     }
   }, [data]);
-  
-  
-  console.log('opportunities loaded',opportunities)
+
+  console.log("opportunities loaded", opportunities);
 
   // if (loading) {
   //   return <div className="text-center text-gray-500">Loading...</div>;
@@ -62,24 +61,37 @@ export const SavedOpportunity = () => {
             <div
               key={_id}
               className="shadow-lg rounded-lg overflow-hidden bg-white p-6 hover:shadow-2xl transition-all duration-300"
-            
             >
               <div className="p-4 space-y-2">
                 {/* Title */}
-                <h4 className="text-xl font-semibold text-gray-800">{title || "Untitled Opportunity"}</h4>
+                <h4 className="text-xl font-semibold text-gray-800">
+                  {title || "Untitled Opportunity"}
+                </h4>
 
                 {/* Company Info */}
                 <p className="text-sm text-gray-600">
                   <i className="fa fa-building mr-2"></i>
-                  {company_name} - <a href={`https://${company_website}`} target="_blank" rel="noopener noreferrer" className="text-blue-500">{company_website}</a>
+                  {company_name} -{" "}
+                  <a
+                    href={`http://${company_website}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline hover:text-blue-700"
+                    style={{ textTransform: "none" }}
+                  >
+                    {company_website}
+                  </a>
                 </p>
 
                 {/* Description */}
-                <p className="text-sm text-gray-500">{desc_requirement || "No description provided"}</p>
+                <p className="text-sm text-gray-500">
+                  {desc_requirement || "No description provided"}
+                </p>
 
                 {/* Skills */}
                 <p className="text-sm text-gray-500">
-                  <strong>Skills:</strong> {skills.length > 0 ? skills.join(", ") : "N/A"}
+                  <strong>Skills:</strong>{" "}
+                  {skills.length > 0 ? skills.join(", ") : "N/A"}
                 </p>
 
                 {/* Job Type */}

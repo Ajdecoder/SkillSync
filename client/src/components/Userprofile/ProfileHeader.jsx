@@ -12,7 +12,7 @@ const ProfileHeader = ({ user, profileCompletion, userRole }) => {
         className="w-14 h-14 rounded-full"
       />
       <div>
-        <h1 className="text-2xl font-bold">{user?.name || "John Doe"}</h1>
+        <h1 className="text-2xl font-bold">{user?.recruiterInfo?.name || "John Doe"}</h1>
         <p className="text-gray-600">
           
           {userRole === "candidate"

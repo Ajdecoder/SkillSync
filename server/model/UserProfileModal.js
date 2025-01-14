@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 export const candidateProfileSchema = new mongoose.Schema(
   {
+    candidateInfo: { type: mongoose.Schema.ObjectId, ref: "Candidate" },
     name: { type: String },
     email: { type: String, unique: true },
     profilePicture: {
@@ -9,7 +10,7 @@ export const candidateProfileSchema = new mongoose.Schema(
       default:
         "https://i.pinimg.com/1200x/d9/04/bb/d904bbc138e6cba76e5470df5054b106.jpg",
     },
-    role: { type: String },
+    role: { type: String }, 
     skills: [{ type: String }],
     experience: [
       {
@@ -47,7 +48,6 @@ export const candidateProfileSchema = new mongoose.Schema(
         title: String,
         description: String,
         link: String,
-        dateCompleted: Date,
       },
     ],
     certifications: [
@@ -94,6 +94,7 @@ export const candidateProfileSchema = new mongoose.Schema(
 
 export const recruiterProfileSchema = new mongoose.Schema(
   {
+    recruiterInfo: { type: mongoose.Schema.ObjectId, ref: "Recruiter" },
     name: { type: String },
     email: { type: String, unique: true },
     profilePicture: {

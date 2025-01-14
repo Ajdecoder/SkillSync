@@ -24,14 +24,10 @@ export const AddOpportunitySchema = new mongoose.Schema(
     },
     location: { type: String, required: true },
     salaryRange: { type: String, required: false },
-    postedBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
     candidatesApplied: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
+        ref: "CandidateUserProfile",
       },
     ],
   },
