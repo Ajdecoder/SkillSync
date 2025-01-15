@@ -14,7 +14,6 @@ export const Candidatepreferences = ({
     profileData?.preferences || {}
   );
 
-  // Update local state whenever profileData changes
   useEffect(() => {
     setEditedPreferences(profileData?.preferences || {});
   }, [profileData]);
@@ -48,20 +47,26 @@ export const Candidatepreferences = ({
 
   return (
     <div>
-      <UserPreferenceForm />
+      <UserPreferenceForm
+        profileData={profileData}
+        isEditing={isEditing}
+        handleSubmit={handleSubmit}
+        setUpdatedData={setUpdatedData}
+        updatedData={updatedData}
+      />
       {!isEditing ? (
         <section className="profile-content mt-6 bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold">Job Preferences</h2>
           <div className="mt-4 space-y-4">
             <div>
               <p className="font-bold">Looking For:</p>
-              <p>{profileData?.preferences?.jobType || "Not specified"}</p>
+              <p>{updatedData?.preferences?.jobType || "Not specified"}</p>
             </div>
             <div>
               <p className="font-bold">Salary Range:</p>
               <p>
-                {profileData?.preferences?.salaryRange
-                  ? `${profileData.preferences.salaryRange.min} - ${profileData.preferences.salaryRange.max}`
+                {updatedData?.preferences?.salaryRange
+                  ? `${updatedData.preferences.salaryRange.min} - ${updatedData.preferences.salaryRange.max}`
                   : "Not specified"}
               </p>
             </div>
