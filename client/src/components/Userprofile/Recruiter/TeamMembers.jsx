@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 
-const TeamMembers = ({ userRole, profileData, handleSubmit, setUpdatedData }) => {
-  const [teamMembers, setTeamMembers] = useState(profileData.teamMembers || []);
+const TeamMembers = ({ userRole, handleSubmit, setUpdatedData ,updatedData }) => {
+  const [teamMembers, setTeamMembers] = useState(updatedData.teamMembers || []);
   const [editingIndex, setEditingIndex] = useState(null); // Track the index of the member being edited
 
   useEffect(() => {
     // Whenever profileData.teamMembers changes, update local state
-    setTeamMembers(profileData.teamMembers || []);
-  }, [profileData.teamMembers]);
+    setTeamMembers(updatedData.teamMembers || []);
+  }, [updatedData.teamMembers]);
 
   // Handle changes for inputs directly within the component
   const handleChange = (e, index) => {
@@ -36,14 +36,13 @@ const TeamMembers = ({ userRole, profileData, handleSubmit, setUpdatedData }) =>
 
   // Handle form submission (save changes)
   const handleFormSubmit = (e) => {
-    e.preventDefault();
     // Pass updated team members back to parent via setUpdatedData
     setUpdatedData((prevData) => ({
       ...prevData,
       teamMembers: teamMembers,
     }));
     // Call handleSubmit for any additional logic (e.g., API calls)
-    handleSubmit();
+    handleSubmit(e);
     setEditingIndex(null); // Close edit mode after submission
   };
 
@@ -69,6 +68,17 @@ const TeamMembers = ({ userRole, profileData, handleSubmit, setUpdatedData }) =>
                     />
                   </label>
                   <label className="block">
+                    Role:
+                    <input
+                      type="text"
+                      name="teamMemberRole"
+                      value={member.teamMemberRole}
+                      onChange={(e) => handleChange(e, idx)}
+                      className="mt-1 p-2 w-full border border-gray-300 rounded-lg"
+                      placeholder="Member Role"
+                    />
+                  </label>
+                  <label className="block">
                     LinkedIn:
                     <input
                       type="text"
@@ -90,10 +100,12 @@ const TeamMembers = ({ userRole, profileData, handleSubmit, setUpdatedData }) =>
                       placeholder="GitHub Profile"
                     />
                   </label>
+                  
                   <div className="space-x-4 mt-2">
                     <button
                       type="submit"
                       className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+
                     >
                       Save Changes
                     </button>

@@ -10,7 +10,7 @@ export const candidateProfileSchema = new mongoose.Schema(
       default:
         "https://i.pinimg.com/1200x/d9/04/bb/d904bbc138e6cba76e5470df5054b106.jpg",
     },
-    role: { type: String }, 
+    role: { type: String },
     skills: [{ type: String }],
     experience: [
       {
@@ -151,7 +151,7 @@ export const recruiterProfileSchema = new mongoose.Schema(
 
     companyLogo: {
       type: String,
-      default: 'https://app-skillsync.vercel.app/images/logo.png',
+      default: "https://app-skillsync.vercel.app/images/logo.png",
     },
     companyLocation: { city: String, state: String, country: String },
     companyBenefits: [
@@ -170,14 +170,13 @@ export const recruiterProfileSchema = new mongoose.Schema(
         position: String,
         hireDate: Date,
         testimonial: String,
-        status: { 
-          type: String, 
+        status: {
+          type: String,
           enum: ["Hired", "Interviewed", "Not Selected"], // Added status
-          default: "Hired"
+          default: "Hired",
         },
       },
     ],
   },
   { timestamps: true }
 );
-

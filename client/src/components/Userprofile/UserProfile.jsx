@@ -31,6 +31,7 @@ export const UserProfile = () => {
   );
 
   const calculateProfileCompletion = (user, role) => {
+    console.log(user)
     let filledFields = 0;
     const totalFields = role === "candidate" ? 22 : 16;
 

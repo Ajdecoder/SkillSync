@@ -173,6 +173,7 @@ const RecruiterProfileContent = ({ profileData, userRole, activeTab }) => {
           setUpdatedData={setUpdatedData}
           updatedData={updatedData}
           handleSubmit={handleSubmit}
+          
         />
       )}
     </>

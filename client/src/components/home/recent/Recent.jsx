@@ -25,10 +25,7 @@ const Recent = () => {
   
   const addedOpportunities = data?.Addedopportunities || [];
   const talents = talentData?.talents || [];
-  
-  useEffect(() => {
-    console.log(talents);
-  }, []);
+
 
 
   const handleConnectClick = (item, index, type) => {
