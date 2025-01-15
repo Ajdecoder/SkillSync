@@ -27,6 +27,7 @@ export const WelcomeTalentPage = ({nextStep}) => {
             whileHover={{ scale: 1.05, backgroundColor: '#4CAF50' }}
             whileTap={{ scale: 0.95 }}
             className="px-6 py-3 bg-blue-600 text-white rounded-lg text-xl"
+            onClick={nextStep}
           >
             Explore Talent Opportunities
           </motion.button>

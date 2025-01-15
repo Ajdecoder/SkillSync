@@ -8,7 +8,7 @@ export const WelcomeAddOpportunityPage = ({ nextStep }) => {
       animate={{ scale: 1 }}
       exit={{ opacity: 0, y: 20 }}
       transition={{ duration: 0.5 }}
-      className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6"
+      className="flex flex-col items-center justify-center h-screen w-full bg-gray-100 p-6 "
     >
       <h1 className="text-3xl font-bold mb-4">
         Welcome to Add Opportunity Page

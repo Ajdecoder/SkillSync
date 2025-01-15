@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import "../Userprofile/Userpreference.css";
 
-const UserPreferenceForm = () => {
+const UserPreferenceForm = ({
+  profileData,
+  isEditing,
+  handleSubmit,
+  setUpdatedData,
+  updatedData,
+}) => {
   const [selectedInterests, setSelectedInterests] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [areasOfInterest] = useState([
@@ -32,21 +38,33 @@ const UserPreferenceForm = () => {
   ]);
 
   const [dropdownElements] = useState([
-    "Architecture",
-    "Interior Design",
-    "Business/MBA",
-    "Client Servicing",
-    "Consultant",
+    "Web Development",
+    "Programming",
+    "Javascript Development",
+    "Sales",
     "Data Entry",
     "Digital Marketing",
-    "Finance",
-    "General Management",
-    "Human Resources (HR)",
-    "Market/Business Research",
+    "Graphic Design",
     "Marketing",
+    "Human Resources (HR)",
+    "General Management",
+    "Software Development",
+    "Finance",
+    "Content Writing",
     "Operations",
     "Project Management",
-    "Sales",
+    "Software Testing",
+    "Data Science",
+    "Teaching",
+    "Client Servicing",
+    "Video Making/Editing",
+    "Interior Design",
+    "Python/Django Development",
+    "UI/UX Design",
+    "Architecture",
+    "Business/MBA",
+    "Consultant",
+    "Market/Business Research",
     "Search Engine Optimization (SEO)",
     "Social Media Marketing",
     "Strategy",
@@ -55,13 +73,10 @@ const UserPreferenceForm = () => {
     "Accounts",
     "Chartered Accountancy (CA)",
     "Company Secretary (CS)",
-    "Content Writing",
     "Proofreading",
     "Design",
     "Fashion Design",
-    "Graphic Design",
     "Merchandise Design",
-    "UI/UX Design",
     "Engineering",
     "Aerospace Engineering",
     "Android App Development",
@@ -87,8 +102,6 @@ const UserPreferenceForm = () => {
     "Network Engineering",
     "Petroleum Engineering",
     "Quality Analyst",
-    "Software Development",
-    "Software Testing",
     "Hospitality",
     "Culinary Arts",
     "Hotel Management",
@@ -105,7 +118,6 @@ const UserPreferenceForm = () => {
     "Public Relations (PR)",
     "Transcription",
     "Translation",
-    "Video Making/Editing",
     "Videography",
     "Science",
     "Biology",
@@ -123,7 +135,6 @@ const UserPreferenceForm = () => {
     "Agriculture & Food Engineering",
     "Bank",
     "Campus Ambassador",
-    "Data Science",
     "Electric Vehicle",
     "Event Management",
     "Game Design",
@@ -134,10 +145,8 @@ const UserPreferenceForm = () => {
     "Psychology",
     "Sports",
     "Subject Matter Expert (SME)",
-    "Teaching",
   ]);
 
-  // Filter areas based on search query
   const filteredAreas = areasOfInterest.filter((interest) =>
     interest.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -206,20 +215,22 @@ const UserPreferenceForm = () => {
       {/* List of Areas of Interest */}
       <div className="areas-list mt-4">
         {/* Conditional rendering based on search query */}
-        {(searchQuery ? filteredDropdowns : filteredAreas).map((interest, idx) => (
-          <motion.div
-            key={idx}
-            className={`area-item ${
-              selectedInterests.includes(interest) ? "selected" : ""
-            }`}
-            onClick={() => handleToggleInterest(interest)}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            {interest}
-            <span className="add-chip">+</span>
-          </motion.div>
-        ))}
+        {(searchQuery ? filteredDropdowns : filteredAreas).map(
+          (interest, idx) => (
+            <motion.div
+              key={idx}
+              className={`area-item ${
+                selectedInterests.includes(interest) ? "selected" : ""
+              }`}
+              onClick={() => handleToggleInterest(interest)}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              {interest}
+              <span className="add-chip">+</span>
+            </motion.div>
+          )
+        )}
       </div>
 
       {/* Save Button */}

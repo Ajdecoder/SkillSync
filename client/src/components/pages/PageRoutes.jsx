@@ -17,7 +17,7 @@ import { BlogPage } from "../blog/BlogPage.jsx";
 import { Settings } from "../account/settings/Setting.jsx";
 import { SavedSearches } from "../Resources/SavedSearch.jsx";
 import { SavedOpportunity } from "../Resources/SavedOpportunity.jsx";
-import { MarketTrends } from "../Resources/MarketTrends.jsx";
+import MarketTrends from "../Resources/MarketTrends.jsx";
 import { BookmarkTalent } from "../Resources/BookMarkTalent.jsx";
 import TalentConnectPage from "../ConnectPage/HiringConnectPage.jsx";
 import OpportunityConnectPage from "../ConnectPage/OpportunityConnectPage.jsx";
@@ -27,8 +27,6 @@ import { ChooseLoginMode } from "../Login/ChooseLoginMode.jsx";
 import DeleteAccount from "../account/settings/DeleteAccount.jsx";
 
 // This is just a helper function to return route elements.
-
-
 
 export const RoutesConfig = ({ spin, setSpin }) => [
   <Route key="/" path="/" element={<Home />} />,
