@@ -8,10 +8,11 @@ import ContactInformation from "./ContactInformation";
 import ReviewSubmit from "./ReviewSubmit";
 import CompensationBenefits from "./CompensationBenefits";
 import { useHireFormContext } from "../context/HireFormContext";
+import { WelcomeTalentPage } from "./WelcomeTalentSearch";
 
 const TalentSearchForm = () => {
   const { handleFormDataChange } = useHireFormContext();
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
 
   const prevStepRef = useRef(step);
 
@@ -26,6 +27,7 @@ const TalentSearchForm = () => {
 
   return (
     <div>
+      {step === 0 && <WelcomeTalentPage nextStep={nextStep} />}
       {step === 1 && <JobTypeCategory nextStep={nextStep} />}
       {step === 2 && (
         <DefineSkills

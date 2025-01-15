@@ -8,12 +8,12 @@ export const getUserProfile = async (req, res) => {
     const { email } = req.params;
 
     // Check both candidate and recruiter profiles
-    const candidateProfile = await CandidateUserProfile.findOne({ email });
+    const candidateProfile = await CandidateUserProfile.findOne({ email }).populate('candidateInfo');
     if (candidateProfile) {
       return res.status(200).json({ candidateProfile });
     }
 
-    const recruiterProfile = await RecruiterUserProfile.findOne({ email });
+    const recruiterProfile = await RecruiterUserProfile.findOne({ email }).populate('recruiterInfo');
     if (recruiterProfile) {
       return res.status(200).json({ recruiterProfile });
     }

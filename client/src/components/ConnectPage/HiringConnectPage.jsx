@@ -3,9 +3,10 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { PORT_CLIENT } from "../../commonClient";
 import useFetchData from "../hooks/useGetDataFetch.jsx";
+import { Spinner } from "../common/loadingSpinner/spinner.jsx";
+import { motion } from "framer-motion";
 
 const TalentConnectPage = () => {
-  
   const [error, setError] = useState(null);
 
   const { post_id } = useParams();
@@ -20,7 +21,7 @@ const TalentConnectPage = () => {
   }
 
   if (!companyData) {
-    return <div className="text-gray-600">Loading...</div>;
+    return <Spinner />;
   }
 
   const {
@@ -43,7 +44,11 @@ const TalentConnectPage = () => {
 
   return (
     <div className="p-8 md:p-20 bg-black min-h-screen flex items-center justify-center">
-      <div className="p-6 max-w-4xl mx-auto bg-black shadow-lg rounded-lg border-2 border-gray-300 hover:scale-105 transition-all duration-300 opacity-95">
+      <motion.div
+        initial={{ scale: 0.4 }}
+        animate={{ scale: 1 }}
+        className="p-6 max-w-4xl mx-auto bg-black shadow-lg rounded-lg border-2 border-gray-300 hover:scale-105 transition-all duration-300 opacity-95"
+      >
         {/* Company Name */}
         <h2 className="text-4xl font-semibold text-gray-[#25a756] mb-4">
           {company_name}
@@ -104,7 +109,6 @@ const TalentConnectPage = () => {
                     : "bg-green-100 text-green-700"
                 }`}
               >
-               
                 {status === "Open" ? "Pending" : "Approved"}
               </strong>
             </p>
@@ -142,11 +146,12 @@ const TalentConnectPage = () => {
             target="_blank"
             rel="noopener noreferrer"
             className="underline hover:text-blue-700"
+            style={{ textTransform: "none" }}
           >
             {company_website}
           </a>
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 };

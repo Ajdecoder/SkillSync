@@ -3,6 +3,10 @@ import mongoose from "mongoose";
 // Define the HireTalent Schema
 export const HireTalentSchema = new mongoose.Schema(
   {
+    recruiterInfo: {
+      type: mongoose.Schema.ObjectId,
+      ref: "RecruiterUserProfile",
+    },
     requirementType: {
       type: String,
     },

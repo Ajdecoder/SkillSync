@@ -9,7 +9,7 @@ export const Register = () => {
   return (
     <div className="w-full h-1/2 ">
       <div className="flex flex-col items-center justify-center h-screen bg-black">
-        <h1 className="text-2xl font-bold mb-6">Sign Up</h1>
+        <h1 className="text-2xl font-bold mb-6 text-white">Choose Your Sign Up Mode</h1>
         <div className="flex gap-6">
           <button
             className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"

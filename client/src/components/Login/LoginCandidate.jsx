@@ -7,6 +7,7 @@ import { useAuth } from "../context/AuthContext";
 import { PORT_CLIENT } from "../../commonClient";
 import { GoogleAuth } from "../Oauth/Oauth";
 import bgImage from '/images/logingPage/bg.png'
+import { loginCandidate } from "../../services/api";
 
 
 export const LoginCandidate = () => {
@@ -36,9 +37,7 @@ export const LoginCandidate = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post(`${PORT_CLIENT}/api/users/login/candidate`, user, {
-        withCredentials: true,
-      });
+      const res = await loginCandidate(user)
       console.log("Logging in", res.data);
 
       loginWithJWT(res.data);

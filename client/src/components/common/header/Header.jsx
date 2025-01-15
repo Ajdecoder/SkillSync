@@ -25,8 +25,8 @@ const Header = () => {
   // Determine current user
   const currentUser = loggedInUser || (isAuthenticated && user);
 
-  console.log("Auth0currentUser",user)
-  console.log("CustomAuth",loggedInUser)
+  // console.log("Auth0currentUser",user)
+  // console.log("CustomAuth",loggedInUser)
 
 
   // Set navigation based on user role
@@ -84,7 +84,7 @@ const Header = () => {
 
   // Render navigation items
   const navList = nav.map((item, index) => (
-    <li key={index} className="nav-item">
+    <li ref={dropdownExpandRef} key={index} className="nav-item">
       <NavLink
         to={item.path}
         className={({ isActive }) =>
@@ -93,7 +93,7 @@ const Header = () => {
           })
         }
         onClick={(event) =>
-          item.text === "Requirement" && handleRequirementClick(event)
+          item.text === "Requirement" && handleRequirementClick(event) 
         }
       >
         {item.text}

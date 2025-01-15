@@ -3,6 +3,7 @@ import { useHireFormContext } from '../context/HireFormContext';
 import axios from 'axios';
 import { PORT_CLIENT } from '../../commonClient';
 import { toast, ToastContainer } from 'react-toastify';
+import { hireTalent } from '../../services/api';
 
 const ReviewSubmit = ({ prevStep }) => {
   
@@ -21,7 +22,7 @@ const ReviewSubmit = ({ prevStep }) => {
     try {
       handleFormDataChange(localFormData);
       console.log('Form submitted:', localFormData);
-      axios.post(`${PORT_CLIENT}/api/requirements/hireTalent`,localFormData)  
+      hireTalent(localFormData) 
       toast.success("Form Submitted SuccessFully", {autoClose:1200})
     } catch (error){
       toast.error("Error Submitting Form")

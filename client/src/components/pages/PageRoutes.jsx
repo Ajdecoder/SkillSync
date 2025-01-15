@@ -27,13 +27,16 @@ import { ChooseLoginMode } from "../Login/ChooseLoginMode.jsx";
 import DeleteAccount from "../account/settings/DeleteAccount.jsx";
 
 // This is just a helper function to return route elements.
+
+
+
 export const RoutesConfig = ({ spin, setSpin }) => [
   <Route key="/" path="/" element={<Home />} />,
   <Route key="/about" path="/about" element={<About />} />,
   <Route key="/services" path="/services" element={<Services />} />,
   <Route
-    key="/blog"
-    path="/blog"
+    key="/blogs"
+    path="/blogs"
     element={<Blog spin={spin} setSpin={setSpin} />}
   />,
   <Route key="/pricing" path="/pricing" element={<Pricing />} />,
