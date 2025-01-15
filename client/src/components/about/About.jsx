@@ -11,7 +11,6 @@ const About = () => {
           <div className="left row md:w-1/2">
             <Heading
               title="Our Agency Story"
-              subtitle="Check out our company story and work process"
             />
             <main className="mt-4 text-lg leading-relaxed">
               Founded on the belief that innovation and dedication drive

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TalentSearchCard = ({ talent }) => {
+const TalentSearchCard = ({ talent, onConnectClick }) => {
   // Destructure the properties from the talent object
   const { name, position, location, skills, profilePic } = talent;
 
@@ -20,7 +20,10 @@ const TalentSearchCard = ({ talent }) => {
           </ul>
         </div>
         <div className="mt-4 flex justify-between items-center">
-          <button className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-all">
+          <button
+            className="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-all"
+            onClick={onConnectClick}
+          >
             View Profile
           </button>
           <button className="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition-all">

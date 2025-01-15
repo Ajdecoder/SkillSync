@@ -17,8 +17,8 @@ export const nav = [
     path: "/contact",
   },
   {
-    text: "blog",
-    path: "/blog",
+    text: "blogs",
+    path: "/blogs",
   },
 ];
 

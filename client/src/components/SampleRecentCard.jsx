@@ -63,6 +63,7 @@ export const SampleRecentCard = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="underline hover:text-blue-700"
+                  style={{ textTransform: "none" }}
                 >
                   {company_website}
                 </a>

@@ -3,6 +3,8 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { PORT_CLIENT } from "../../commonClient";
 import useFetchData from "../hooks/useGetDataFetch.jsx";
+import { Spinner } from "../common/loadingSpinner/spinner.jsx";
+import { motion } from "framer-motion";
 
 const OpportunityConnectPage = () => {
   const [error, setError] = useState(null);
@@ -19,7 +21,7 @@ const OpportunityConnectPage = () => {
   }
 
   if (!companyData) {
-    return <div className="text-gray-600">Loading...</div>;
+    return <Spinner />;
   }
 
   const {
@@ -46,7 +48,11 @@ const OpportunityConnectPage = () => {
 
   return (
     <div className="p-8 md:p-20 bg-black min-h-screen flex items-center justify-center">
-      <div className="p-6 w-[66rem] max-w-4xl mx-auto bg-black shadow-lg rounded-lg border-2 border-gray-300 hover:scale-105 transition-all duration-300">
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        className="p-6 w-[66rem] max-w-4xl mx-auto bg-black shadow-lg rounded-lg border-2 border-gray-300 hover:scale-105 transition-all duration-300"
+      >
         <h2 className="text-4xl font-semibold text-gray-800 mb-4">
           {company_name}
         </h2>
@@ -93,7 +99,8 @@ const OpportunityConnectPage = () => {
             Opportunity Posting Date
           </h3>
           <p>
-            <strong>Created At:</strong> {new Date(createdAt).toLocaleString()}
+            <strong>Created At:</strong>{" "}
+            {new Date(createdAt).toLocaleDateString()}
           </p>
         </div>
 
@@ -104,11 +111,12 @@ const OpportunityConnectPage = () => {
             target="_blank"
             rel="noopener noreferrer"
             className="underline hover:text-blue-700"
+            style={{ textTransform: "none" }}
           >
             {company_website}
           </a>
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 };

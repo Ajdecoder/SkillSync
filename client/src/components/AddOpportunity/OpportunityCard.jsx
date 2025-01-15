@@ -17,9 +17,7 @@ const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
   } = opportunity;
 
   return (
-    <div
-      className="shadow-lg rounded-lg overflow-hidden bg-black p-6 hover:shadow-2xl transition-all duration-300"
-    >
+    <div className="shadow-lg rounded-lg overflow-hidden bg-black p-6 hover:shadow-2xl transition-all duration-300">
       <div className="p-4 space-y-2">
         {/* Job Title */}
         <h4 className="text-xl font-semibold text-gray-800">{title}</h4>
@@ -31,9 +29,11 @@ const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
         <p className="text-sm text-blue-500">
           <strong>Website:</strong>{" "}
           <a
-            href={`https://${company_website}`}
+            href={`http://${company_website}`}
             target="_blank"
             rel="noopener noreferrer"
+            className="underline hover:text-blue-700"
+            style={{ textTransform: "none" }}
           >
             {company_website}
           </a>
@@ -63,7 +63,10 @@ const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
         {/* Skills */}
         {skills && skills.length > 0 && (
           <p className="text-sm text-gray-500">
-            <strong>Skills:</strong> {skills.join(", ")}
+            <strong>Skills:</strong>{" "}
+            {skills.map((sk, i) => {
+              return sk.skillName + " ";
+            })}
           </p>
         )}
 

@@ -1,16 +1,16 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const ManageJobs = ({
   userRole,
   activeTab,
-  profileData,
   updatedData,
   setUpdatedData,
-  isEditing,
   handleSubmit, // Receive handleSubmit from the parent
 }) => {
   const [localUpdatedData, setLocalUpdatedData] = useState(updatedData || {});
   const [editingJobIdx, setEditingJobIdx] = useState(null);
+  const navigate = useNavigate();
 
   const isEditingJob = (idx) => editingJobIdx === idx;
 
@@ -21,27 +21,32 @@ const ManageJobs = ({
   // Handle changes for job listings (job title, location, etc.)
   const handleJobListingChange = (e, idx, field, subfield) => {
     const { value } = e.target;
-    const updatedJobListings = localUpdatedData.jobListings.map((job, index) => {
-      if (index === idx) {
-        if (field === "salaryRange" && subfield) {
-          return {
-            ...job,
-            salaryRange: {
-              ...job.salaryRange,
-              [subfield]: value,
-            },
-          };
-        } else {
-          return {
-            ...job,
-            [field]: subfield ? { ...job[field], [subfield]: value } : value,
-          };
+    const updatedJobListings = localUpdatedData.jobListings.map(
+      (job, index) => {
+        if (index === idx) {
+          if (field === "salaryRange" && subfield) {
+            return {
+              ...job,
+              salaryRange: {
+                ...job.salaryRange,
+                [subfield]: value,
+              },
+            };
+          } else {
+            return {
+              ...job,
+              [field]: subfield ? { ...job[field], [subfield]: value } : value,
+            };
+          }
         }
+        return job;
       }
-      return job;
-    });
+    );
 
-    const updatedDataWithJobListings = { ...localUpdatedData, jobListings: updatedJobListings };
+    const updatedDataWithJobListings = {
+      ...localUpdatedData,
+      jobListings: updatedJobListings,
+    };
     setLocalUpdatedData(updatedDataWithJobListings);
     setUpdatedData(updatedDataWithJobListings); // Update the parent state
   };
@@ -49,40 +54,56 @@ const ManageJobs = ({
   // Handle changes for skills within job listings
   const handleSkillsChange = (e, idx, skillIdx) => {
     const { value } = e.target;
-    const updatedJobListings = localUpdatedData.jobListings.map((job, index) => {
-      if (index === idx) {
-        const updatedSkills = [...job.skillsRequired];
-        updatedSkills[skillIdx] = value;
-        return { ...job, skillsRequired: updatedSkills };
+    const updatedJobListings = localUpdatedData.jobListings.map(
+      (job, index) => {
+        if (index === idx) {
+          const updatedSkills = [...job.skillsRequired];
+          updatedSkills[skillIdx] = value;
+          return { ...job, skillsRequired: updatedSkills };
+        }
+        return job;
       }
-      return job;
-    });
+    );
 
-    const updatedDataWithJobListings = { ...localUpdatedData, jobListings: updatedJobListings };
+    const updatedDataWithJobListings = {
+      ...localUpdatedData,
+      jobListings: updatedJobListings,
+    };
     setLocalUpdatedData(updatedDataWithJobListings);
     setUpdatedData(updatedDataWithJobListings); // Update the parent state
   };
 
   // Handle adding/removing skills
   const handleSkillArrayChange = (idx, skillIdx, action) => {
-    const updatedJobListings = localUpdatedData.jobListings.map((job, index) => {
-      if (index === idx) {
-        if (action === "add") {
-          return {
-            ...job,
-            skillsRequired: [...job.skillsRequired, ""],
-          };
-        } else if (action === "remove") {
-          const updatedSkills = job.skillsRequired.filter((_, i) => i !== skillIdx);
-          return { ...job, skillsRequired: updatedSkills };
+    const updatedJobListings = localUpdatedData.jobListings.map(
+      (job, index) => {
+        if (index === idx) {
+          if (action === "add") {
+            return {
+              ...job,
+              skillsRequired: [...job.skillsRequired, ""],
+            };
+          } else if (action === "remove") {
+            const updatedSkills = job.skillsRequired.filter(
+              (_, i) => i !== skillIdx
+            );
+            return { ...job, skillsRequired: updatedSkills };
+          }
         }
+        return job;
       }
-      return job;
-    });
+    );
 
-    const updatedDataWithJobListings = { ...localUpdatedData, jobListings: updatedJobListings };
+    const updatedDataWithJobListings = {
+      ...localUpdatedData,
+      jobListings: updatedJobListings,
+    };
     setLocalUpdatedData(updatedDataWithJobListings);
     setUpdatedData(updatedDataWithJobListings); // Update the parent state
+  };
+
+  const handleSaveChanges = () => {
+    setEditingJobIdx(false);
   };
 
   return (
@@ -96,7 +117,10 @@ const ManageJobs = ({
             <form onSubmit={(e) => handleSubmit(e, "jobListings")}>
               <ul className="space-y-4">
                 {localUpdatedData?.jobListings?.map((job, idx) => (
-                  <li key={idx} className="bg-gray-100 p-4 rounded-lg shadow-sm">
+                  <li
+                    key={idx}
+                    className="bg-gray-100 p-4 rounded-lg shadow-sm"
+                  >
                     {/* Job Title */}
                     <div>
                       <strong>Job Title:</strong>
@@ -138,7 +162,10 @@ const ManageJobs = ({
                       <strong>Skills Required:</strong>
                       {isEditingJob(idx) ? (
                         job?.skillsRequired?.map((skill, skillIdx) => (
-                          <div key={skillIdx} className="flex items-center mt-2">
+                          <div
+                            key={skillIdx}
+                            className="flex items-center mt-2"
+                          >
                             <input
                               type="text"
                               value={skill}
@@ -161,7 +188,8 @@ const ManageJobs = ({
                         ))
                       ) : (
                         <p>
-                          {job?.skillsRequired?.join(", ") || "No skills listed"}
+                          {job?.skillsRequired?.join(", ") ||
+                            "No skills listed"}
                         </p>
                       )}
                       {isEditingJob(idx) && (
@@ -187,7 +215,12 @@ const ManageJobs = ({
                               type="number"
                               value={job?.salaryRange?.min || ""}
                               onChange={(e) =>
-                                handleJobListingChange(e, idx, "salaryRange", "min")
+                                handleJobListingChange(
+                                  e,
+                                  idx,
+                                  "salaryRange",
+                                  "min"
+                                )
                               }
                               className="border border-gray-300 p-2 rounded-lg w-full"
                               placeholder="Min Salary"
@@ -196,7 +229,12 @@ const ManageJobs = ({
                               type="number"
                               value={job?.salaryRange?.max || ""}
                               onChange={(e) =>
-                                handleJobListingChange(e, idx, "salaryRange", "max")
+                                handleJobListingChange(
+                                  e,
+                                  idx,
+                                  "salaryRange",
+                                  "max"
+                                )
                               }
                               className="border border-gray-300 p-2 rounded-lg w-full"
                               placeholder="Max Salary"
@@ -204,7 +242,7 @@ const ManageJobs = ({
                           </>
                         ) : (
                           <p>
-                            ${job?.salaryRange?.min || "No min salary"} - $ 
+                            ${job?.salaryRange?.min || "No min salary"} - $
                             {job?.salaryRange?.max || "No max salary"}
                           </p>
                         )}
@@ -227,6 +265,7 @@ const ManageJobs = ({
                       <button
                         type="submit"
                         className="px-4 py-2 bg-blue-600 text-white rounded-lg mt-4"
+                        onClick={handleSaveChanges}
                       >
                         Save Changes
                       </button>
@@ -234,6 +273,15 @@ const ManageJobs = ({
                   </li>
                 ))}
               </ul>
+              <div className="flex flex-col items-end animate-bounce">
+                <p className="font-bold ">Post New Opportunity:</p>
+                <button
+                  onClick={() => navigate("/requirements/add-opportunity")}
+                  className="px-4 py-2 bg-slate-800 text-white rounded-md"
+                >
+                  Post New Opening
+                </button>
+              </div>
             </form>
           </div>
         </section>

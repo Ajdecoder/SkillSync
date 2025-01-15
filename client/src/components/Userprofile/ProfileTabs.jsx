@@ -28,15 +28,15 @@ const ProfileTabs = ({ activeTab, onTabChange, userRole }) => {
           </button>
 
           <button
-            onClick={() => onTabChange("jobOpportunities")}
+            onClick={() => onTabChange("preferences")}
             className={`px-4 py-2 ${
-              activeTab === "jobOpportunities"
+              activeTab === "preferences"
                 ? "bg-green-600 text-white"
                 : "bg-white"
             } shadow rounded hover:bg-green-500 hover:text-white transition-all`}
-            aria-label="Opportunities and Jobs Section"
+            aria-label="Certifications Section"
           >
-            Opportunities/Jobs
+            Preferences
           </button>
 
           <button
@@ -60,6 +60,9 @@ const ProfileTabs = ({ activeTab, onTabChange, userRole }) => {
           >
             Certifications
           </button>
+
+
+      
         </>
       )}
 

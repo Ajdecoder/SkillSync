@@ -3,9 +3,10 @@ import StepOne from './StepOne';  // Basic Info
 import StepTwo from './StepTwo';  // Details
 import StepThree from './StepThree';  // Job Details
 import ReviewJobOpportunity from './ReviewAddJobOpportunity'; // Review Opportunity
+import { WelcomeAddOpportunityPage } from './WelcomeAddOpportunityPage';
 
 const AddOpportunityForm = () => {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({});
 
   // Move to the next step
@@ -23,6 +24,12 @@ const AddOpportunityForm = () => {
   return (
     <div className="max-w-4xl mx-auto p-4">
       <form onSubmit={handleFinalSubmit}>
+        {step === 0 && (
+          <WelcomeAddOpportunityPage
+            nextStep={nextStep}
+            setFormData={setFormData}
+          />
+        )}
         {step === 1 && (
           <StepOne
             nextStep={nextStep}

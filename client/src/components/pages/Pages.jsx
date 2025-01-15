@@ -35,7 +35,7 @@ const ScrollToTop = () => {
 
 const Pages = () => {
   const [spin, setSpin] = useState(false);
-  const [loading, setLoading] = useState(false);  // Track loading state
+  const [loading, setLoading] = useState(false);  
 
   useEffect(() => {
     Aos.init({
@@ -49,12 +49,12 @@ const Pages = () => {
     const handleScroll = () => Aos.refresh();
     window.addEventListener("scroll", handleScroll);
 
-    // Detect page load or login
+    
     const timer = setTimeout(() => {
-      setLoading(false); // Stop loading after a set time or page refresh
-    }, 2000); // You can adjust this time depending on your preference
+      setLoading(false); 
+    }, 2000); 
 
-    // Return clean-up function to remove scroll event listener
+    
     return () => {
       window.removeEventListener("scroll", handleScroll);
       clearTimeout(timer);
@@ -76,11 +76,16 @@ const Pages = () => {
         <HireFormProvider>
           <AddOpportunityFormProvider>
             <PassRecoveryProvider>
-              <Router>
+              <Router
+              future={{
+                v7_startTransition: true, 
+                v7_relativeSplatPath: true, 
+              }}
+              >
                 <ScrollToTop />
                 <ScrollProgress />
                 {loading ? (
-                  // Render loading screen while loading
+                  
                   <div className="loading-screen">
                   <LoginLoading />
                   </div>

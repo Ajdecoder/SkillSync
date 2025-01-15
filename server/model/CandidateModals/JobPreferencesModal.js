@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 // Schema for Job Preferences
-const jobPreferencesSchema = new mongoose.Schema({
+export const jobPreferencesSchema = new mongoose.Schema({
   jobTitle: {
     type: [String], // Array of job titles that the candidate is interested in
     required: true,
@@ -62,4 +62,3 @@ const jobPreferencesSchema = new mongoose.Schema({
   },
 });
 
-const JobPreferences = mongoose.model("JobPreferences", jobPreferencesSchema, "jobPreferencesCollection");

@@ -7,6 +7,7 @@ import CompanyOverview from "./Recruiter/CompanyOverview";
 import RecruitmentProcess from "./Recruiter/RecruitmentProcess";
 import PastHires from "./Recruiter/PastHires";
 import TeamMembers from "./Recruiter/TeamMembers";
+import { updateUserProfile } from "../../services/api";
 
 const RecruiterProfileContent = ({ profileData, userRole, activeTab }) => {
   const [isEditing, setIsEditing] = useState({
@@ -26,46 +27,41 @@ const RecruiterProfileContent = ({ profileData, userRole, activeTab }) => {
 
   // Handle input changes for nested fields
 
- // Handle input changes for nested fields
- const handleInputChange = (e, section) => {
-  const { name, value } = e.target;
-  const updatedSectionData = { ...updatedData };
+  // Handle input changes for nested fields
+  const handleInputChange = (e, section) => {
+    const { name, value } = e.target;
+    const updatedSectionData = { ...updatedData };
 
-  // Check for nested fields (like companyBenefits or jobListings)
-  if (
-    section === "companyBenefits" ||
-    section === "jobListings" ||
-    section === "teamMembers" ||
-    section === "recruitmentProcess"
-  ) {
-    const nameParts = name.split("."); // Split the name by dots to handle nested properties
-    const [fieldName, arrayIndex, subField] = nameParts;
-    console.log(nameParts);
+    // Check for nested fields (like companyBenefits or jobListings)
+    if (
+      section === "companyBenefits" ||
+      section === "jobListings" ||
+      section === "teamMembers"
+    ) {
+      const nameParts = name.split("."); // Split the name by dots to handle nested properties
+      const [fieldName, arrayIndex, subField] = nameParts;
+      console.log(nameParts);
 
-    if (arrayIndex !== undefined && updatedSectionData[section][arrayIndex]) {
-      updatedSectionData[section][arrayIndex][subField] = value;
+      if (arrayIndex !== undefined && updatedSectionData[section][arrayIndex]) {
+        updatedSectionData[section][arrayIndex][subField] = value;
+      } else {
+        updatedSectionData[section][nameParts[1]] = value;
+      }
+    } else if (section === "companyOverview") {
+      // For companyOverview, directly update the object's properties
+      updatedSectionData[section][name] = value;
     } else {
-      updatedSectionData[section][nameParts[1]] = value;
+      updatedSectionData[section][name] = value;
     }
-  } else if (section === "companyOverview") {
-    // For companyOverview, directly update the object's properties
-    updatedSectionData[section][name] = value;
-  } else {
-    updatedSectionData[section][name] = value;
-  }
 
-  setUpdatedData(updatedSectionData);
-
-};
+    setUpdatedData(updatedSectionData);
+  };
 
   // Submit Edited Profile
   const handleSubmit = async (e, section) => {
     e.preventDefault();
     try {
-      const response = await axios.put(
-        `${PORT_CLIENT}/api/users/profile/account/user/profile/update/${profileData.email}`,
-        updatedData
-      );
+      const response = await updateUserProfile(profileData.email, updatedData);
 
       if (response.status === 200) {
         setIsEditing((prev) => ({ ...prev, [section]: false }));
@@ -129,8 +125,6 @@ const RecruiterProfileContent = ({ profileData, userRole, activeTab }) => {
           isEditing={isEditing}
           handleInputChange={handleInputChange}
           handleSubmit={handleSubmit}
-          handleAddItem={handleAddItem}
-          handleRemoveItem={handleRemoveItem}
           activeTab={activeTab}
           handleEditClick={handleEditClick}
         />
@@ -138,17 +132,11 @@ const RecruiterProfileContent = ({ profileData, userRole, activeTab }) => {
 
       {activeTab === "manage-jobs" && (
         <ManageJobs
-          profileData={profileData}
           userRole={userRole}
           updatedData={updatedData}
-          isEditing={isEditing}
-          handleInputChange={handleInputChange}
           handleSubmit={handleSubmit}
           setUpdatedData={setUpdatedData}
-          handleAddItem={handleAddItem}
-          handleRemoveItem={handleRemoveItem}
           activeTab={activeTab}
-          handleEditClick={handleEditClick}
         />
       )}
 
@@ -165,14 +153,18 @@ const RecruiterProfileContent = ({ profileData, userRole, activeTab }) => {
         />
       )}
 
-      {activeTab === "pastHires" && <PastHires profileData={profileData}
+      {activeTab === "pastHires" && (
+        <PastHires
+          profileData={profileData}
           userRole={userRole}
           updatedData={updatedData}
           isEditing={isEditing}
           handleSubmit={handleSubmit}
           activeTab={activeTab}
           handleEditClick={handleEditClick}
-          setUpdatedData={setUpdatedData} />}
+          setUpdatedData={setUpdatedData}
+        />
+      )}
 
       {activeTab === "teamMembers" && (
         <TeamMembers
@@ -181,7 +173,6 @@ const RecruiterProfileContent = ({ profileData, userRole, activeTab }) => {
           setUpdatedData={setUpdatedData}
           updatedData={updatedData}
           handleSubmit={handleSubmit}
-          
         />
       )}
     </>

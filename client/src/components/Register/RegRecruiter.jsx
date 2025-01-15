@@ -7,6 +7,7 @@ import "./Register.css";
 import { PORT_CLIENT } from "../../commonClient";
 import { useAuth } from "../context/AuthContext";
 import { GoogleAuth } from "../Oauth/Oauth";
+import { registerRecruiter } from "../../services/api";
 
 export const RegRecruiter = () => {
   const navigate = useNavigate();
@@ -63,13 +64,7 @@ export const RegRecruiter = () => {
     }
 
     try {
-      const response = await axios.post(
-        `${PORT_CLIENT}/api/users/register/recruiter`,
-        recruiter,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await registerRecruiter(recruiter)
       
       loginWithJWT(response.data)
 
