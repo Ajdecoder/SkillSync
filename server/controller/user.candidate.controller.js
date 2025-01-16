@@ -19,7 +19,9 @@ export const CandidateLogin = async (req, res) => {
         .json({ success: false, message: "Email or password is incorrect" });
     }
 
-    let candidateProfile = await CandidateUserProfile.findOne({ candidateInfo: candidate._id });
+    let candidateProfile = await CandidateUserProfile.findOne({
+      candidateInfo: candidate._id,
+    });
     if (!candidateProfile) {
       candidateProfile = new CandidateUserProfile({
         candidateInfo: candidate._id,
@@ -30,12 +32,20 @@ export const CandidateLogin = async (req, res) => {
         experience: [],
         education: [],
         location: { city: "", state: "", country: "" },
-        preferences: { jobType: "", industry: "", salaryRange: { min: 0, max: 0 } },
+        preferences: {
+          jobType: "",
+          industry: "",
+          salaryRange: { min: 0, max: 0 },
+        },
         about: "",
         socialLinks: { linkedin: "", github: "", portfolio: "" },
         portfolio: [],
         certifications: [],
-        languages: [],
+        languages: [
+          {
+            language: "English",
+          },
+        ],
         awards: [],
         availabilityStatus: true,
         resume: "",
@@ -64,7 +74,9 @@ export const CandidateLogin = async (req, res) => {
     });
   } catch (err) {
     console.error("Login error:", err);
-    return res.status(500).json({ message: "Login failed. Please try again later." });
+    return res
+      .status(500)
+      .json({ message: "Login failed. Please try again later." });
   }
 };
 
@@ -88,7 +100,9 @@ export const CandidateRegister = async (req, res) => {
     });
     await newCandidate.save();
 
-    let candidateProfile = await CandidateUserProfile.findOne({ candidateInfo: newCandidate._id });
+    let candidateProfile = await CandidateUserProfile.findOne({
+      candidateInfo: newCandidate._id,
+    });
 
     if (!candidateProfile) {
       candidateProfile = new CandidateUserProfile({
@@ -100,7 +114,11 @@ export const CandidateRegister = async (req, res) => {
         experience: [],
         education: [],
         location: { city: "", state: "", country: "" },
-        preferences: { jobType: "", industry: "", salaryRange: { min: 0, max: 0 } },
+        preferences: {
+          jobType: "",
+          industry: "",
+          salaryRange: { min: 0, max: 0 },
+        },
         about: "",
         socialLinks: { linkedin: "", github: "", portfolio: "" },
         portfolio: [],
@@ -127,7 +145,9 @@ export const CandidateRegister = async (req, res) => {
     });
   } catch (err) {
     console.error("Registration error:", err);
-    return res.status(500).json({ message: "Registration failed. Please try again later." });
+    return res
+      .status(500)
+      .json({ message: "Registration failed. Please try again later." });
   }
 };
 

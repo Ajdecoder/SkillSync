@@ -22,11 +22,8 @@ const Recent = () => {
     loading: talentLoading,
   } = useFetchData(`${PORT_CLIENT}/api/requirements/allTalents`);
 
-  
   const addedOpportunities = data?.Addedopportunities || [];
   const talents = talentData?.talents || [];
-
-
 
   const handleConnectClick = (item, index, type) => {
     const post_id =
@@ -37,7 +34,7 @@ const Recent = () => {
   };
 
   if (loading || talentLoading) {
-    return <Spinner/>;
+    return <Spinner />;
   }
 
   if (error || talentError) {
@@ -51,42 +48,49 @@ const Recent = () => {
       {loggedInUser ? (
         <>
           {/* Recent Opportunities Section */}
-          <section className="recent padding">
-            <div className="container">
-              <Heading
-                title="Newly Listed Companies"
-                subtitle="Explore the latest companies seeking talent. Stay updated with fresh opportunities and potential career moves."
-              />
-              <RecentOpportunity
-                handleConnectClick={handleConnectClick}
-                addedOpportunities={addedOpportunities}
-              />
-            </div>
-          </section>
+          {loggedInUser.role === "candidate" && (
+            <section className="recent padding">
+              <div className="container">
+                <Heading
+                  title="Newly Listed Companies"
+                  subtitle="Explore the latest companies seeking talent. Stay updated with fresh opportunities and potential career moves."
+                />
+                <RecentOpportunity
+                  handleConnectClick={handleConnectClick}
+                  addedOpportunities={addedOpportunities}
+                />
+              </div>
+            </section>
+          )}
 
           {/* Newly Listed Talents Section */}
-          { loggedInUser.role === 'recruiter' && <section className="recent padding">
-            <div className="container">
-              <Heading
-                title="Newly Listed Talents"
-                subtitle="Explore the latest talents looking for opportunities. Stay updated with fresh talent profiles and career options."
-              />
-              <div style={{
-                display:'grid',
-                justifyItems:'center',
-              }} className="grid grid-cols-1 justify-center sm:grid-cols-2  lg:grid-cols-3 gap-6">
-                {talents.map((talent, index) => (
-                  <TalentSearchCard
-                    key={talent._id}
-                    talent={talent}
-                    onConnectClick={() =>
-                      handleConnectClick(talent, index, "talent")
-                    }
-                  />
-                ))}
+          {loggedInUser.role === "recruiter" && (
+            <section className="recent padding">
+              <div className="container">
+                <Heading
+                  title="Newly Listed Talents"
+                  subtitle="Explore the latest talents looking for opportunities. Stay updated with fresh talent profiles and career options."
+                />
+                <div
+                  style={{
+                    display: "grid",
+                    justifyItems: "center",
+                  }}
+                  className="grid grid-cols-1 justify-center sm:grid-cols-2  lg:grid-cols-3 gap-6"
+                >
+                  {talents.map((talent, index) => (
+                    <TalentSearchCard
+                      key={talent._id}
+                      talent={talent}
+                      onConnectClick={() =>
+                        handleConnectClick(talent, index, "talent")
+                      }
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-          </section>}
+            </section>
+          )}
         </>
       ) : (
         <SampleRecentCard />

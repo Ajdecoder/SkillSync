@@ -19,6 +19,26 @@ export const SkillsAndExperience = ({
     }
   };
 
+  const handleAddEntry = (section) => {
+    const newEntry =
+      section === "experience"
+        ? { JobRole: "", company: "", duration: "", description: "" }
+        : section === "education"
+        ? { degree: "", institution: "", year: "" }
+        : ""; // No default entry for skills as it's a string array.
+
+    setEditedData({
+      ...editedData,
+      [section]: [...editedData[section], newEntry],
+    });
+  };
+
+  const handleRemoveEntry = (section, idx) => {
+    const updatedSection = [...editedData[section]];
+    updatedSection.splice(idx, 1);
+    setEditedData({ ...editedData, [section]: updatedSection });
+  };
+
   return (
     <div className="max-w-4xl mx-auto">
       {!isEditing ? (
@@ -94,6 +114,7 @@ export const SkillsAndExperience = ({
               <textarea
                 className="mt-2 w-full p-3 border rounded-md focus:ring focus:ring-blue-300"
                 value={editedData.skills.join(", ")}
+                placeholder="Enter skills separated by commas"
                 onChange={(e) =>
                   handleInputChange("skills", null, e.target.value.split(", "))
                 }
@@ -107,10 +128,7 @@ export const SkillsAndExperience = ({
               {editedData.experience.map((exp, idx) => (
                 <div key={idx} className="mt-4 space-y-2 p-4 border rounded-lg">
                   <input
-                    style={{
-                      border: "0.5px solid",
-                    }}
-                    className="w-full p-3 rounded-md focus:ring focus:ring-blue-300"
+                    className="w-full p-3 border rounded-md focus:ring focus:ring-blue-300"
                     value={exp.JobRole}
                     placeholder="Job Role"
                     onChange={(e) =>
@@ -123,10 +141,7 @@ export const SkillsAndExperience = ({
                     }
                   />
                   <input
-                    style={{
-                      border: "0.5px solid",
-                    }}
-                    className="w-full p-3 rounded-md focus:ring focus:ring-blue-300"
+                    className="w-full p-3 border rounded-md focus:ring focus:ring-blue-300"
                     value={exp.company}
                     placeholder="Company"
                     onChange={(e) =>
@@ -139,10 +154,7 @@ export const SkillsAndExperience = ({
                     }
                   />
                   <input
-                    style={{
-                      border: "0.5px solid",
-                    }}
-                    className="w-full p-3 rounded-md focus:ring focus:ring-blue-300"
+                    className="w-full p-3 border rounded-md focus:ring focus:ring-blue-300"
                     value={exp.duration}
                     placeholder="Duration"
                     onChange={(e) =>
@@ -155,9 +167,6 @@ export const SkillsAndExperience = ({
                     }
                   />
                   <textarea
-                    style={{
-                      border: "0.2px solid",
-                    }}
                     className="w-full p-3 border rounded-md focus:ring focus:ring-blue-300"
                     value={exp.description}
                     placeholder="Description"
@@ -170,8 +179,20 @@ export const SkillsAndExperience = ({
                       )
                     }
                   />
+                  <button
+                    className="text-red-500 mt-2"
+                    onClick={() => handleRemoveEntry("experience", idx)}
+                  >
+                    Remove
+                  </button>
                 </div>
               ))}
+              <button
+                className="mt-4 text-blue-500"
+                onClick={() => handleAddEntry("experience")}
+              >
+                + Add Experience
+              </button>
             </div>
             {/* Edit Education */}
             <div>
@@ -179,10 +200,7 @@ export const SkillsAndExperience = ({
               {editedData.education.map((edu, idx) => (
                 <div key={idx} className="mt-4 space-y-2">
                   <input
-                    style={{
-                      border: "0.5px solid",
-                    }}
-                    className="w-full p-3 rounded-md focus:ring focus:ring-blue-300"
+                    className="w-full p-3 border rounded-md focus:ring focus:ring-blue-300"
                     value={edu.degree}
                     placeholder="Degree"
                     onChange={(e) =>
@@ -195,10 +213,7 @@ export const SkillsAndExperience = ({
                     }
                   />
                   <input
-                    style={{
-                      border: "0.5px solid",
-                    }}
-                    className="w-full p-3 rounded-md focus:ring focus:ring-blue-300"
+                    className="w-full p-3 border rounded-md focus:ring focus:ring-blue-300"
                     value={edu.institution}
                     placeholder="Institution"
                     onChange={(e) =>
@@ -211,10 +226,7 @@ export const SkillsAndExperience = ({
                     }
                   />
                   <input
-                    style={{
-                      border: "0.5px solid",
-                    }}
-                    className="w-full p-3 rounded-md focus:ring focus:ring-blue-300"
+                    className="w-full p-3 border rounded-md focus:ring focus:ring-blue-300"
                     value={edu.year}
                     placeholder="Year"
                     onChange={(e) =>
@@ -226,8 +238,20 @@ export const SkillsAndExperience = ({
                       )
                     }
                   />
+                  <button
+                    className="text-red-500 mt-2"
+                    onClick={() => handleRemoveEntry("education", idx)}
+                  >
+                    Remove
+                  </button>
                 </div>
               ))}
+              <button
+                className="mt-4 text-blue-500"
+                onClick={() => handleAddEntry("education")}
+              >
+                + Add Education
+              </button>
             </div>
           </div>
           <div className="flex justify-end mt-6 space-x-4">
@@ -235,15 +259,13 @@ export const SkillsAndExperience = ({
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               className="px-4 py-2 bg-green-600 text-white font-semibold rounded hover:bg-green-700"
-              onClick={(e) =>
-                handleSubmit(e.target.value, "SkillsAndExperience")
-              }
+              onClick={() => handleSubmit(editedData, "SkillsAndExperience")}
             >
               Save
             </motion.button>
             <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               className="px-4 py-2 bg-gray-600 text-white font-semibold rounded hover:bg-gray-700"
               onClick={() => setIsEditing(false)}
             >

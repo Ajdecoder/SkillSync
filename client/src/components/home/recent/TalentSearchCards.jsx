@@ -2,6 +2,7 @@ import React from 'react';
 
 const TalentSearchCard = ({ talent, onConnectClick }) => {
   // Destructure the properties from the talent object
+  console.log(talent)
   const { name, position, location, skills, profilePic } = talent;
 
   return (

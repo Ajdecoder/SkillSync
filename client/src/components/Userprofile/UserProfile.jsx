@@ -8,6 +8,8 @@ import CandidateProfileContent from "./CandidateProfileContent";
 import RecruiterProfileContent from "./RecruiterProfileContent";
 import { PORT_CLIENT } from "../../commonClient";
 import { Spinner } from "../common/loadingSpinner/spinner";
+import { CandidateAboutSection } from "./Candidate/AboutSection";
+import { RecruiterAboutSection } from "./Recruiter/AboutSection";
 
 export const UserProfile = () => {
   const [activeTab, setActiveTab] = useState("about");
@@ -31,7 +33,6 @@ export const UserProfile = () => {
   );
 
   const calculateProfileCompletion = (user, role) => {
-    console.log(user)
     let filledFields = 0;
     const totalFields = role === "candidate" ? 22 : 16;
 
@@ -118,11 +119,14 @@ export const UserProfile = () => {
     }
 
     // Save settings
-    localStorage.setItem("emailNotifications", JSON.stringify(emailNotifications));
+    localStorage.setItem(
+      "emailNotifications",
+      JSON.stringify(emailNotifications)
+    );
     localStorage.setItem("darkMode", JSON.stringify(darkMode));
   }, [emailNotifications, darkMode]);
 
-  if (loading) return <Spinner/>;
+  if (loading) return <Spinner />;
   if (error) return <div className="error-message">Error: {error.message}</div>;
   if (!profileData) return <div>No profile data available</div>;
 
@@ -145,61 +149,14 @@ export const UserProfile = () => {
           <section className="profile-about-section p-6 bg-white rounded-lg shadow-md">
             <h2 className="text-xl font-semibold">About</h2>
             <div className="mt-4 space-y-4">
-              {userRole === "recruiter" && (
-                <>
-                  <div>
-                    <p className="font-bold">Company Description:</p>
-                    <p>
-                      {profileData?.companyOverview?.description ||
-                        "No description available"}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="font-bold">Company Website:</p>
-                    <a
-                      href={profileData?.companyOverview?.website || "#"}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600"
-                    >
-                      {profileData?.companyOverview?.website ||
-                        "No website provided"}
-                    </a>
-                  </div>
-                </>
-              )}
-
-              {userRole === "candidate" && (
-                <>
-                  <div>
-                    <p className="font-bold">Name:</p>
-                    <p>{profileData?.name || "Name not provided"}</p>
-                  </div>
-                  <div>
-                    <p className="font-bold">Email:</p>
-                    <p>{profileData?.email || "Email not provided"}</p>
-                  </div>
-                  <div>
-                    <p className="font-bold">Bio:</p>
-                    <p>{profileData?.about || "No bio available"}</p>
-                  </div>
-                  <div>
-                    <p className="font-bold">Languages</p>
-                    {profileData?.languages?.map((lang, idx) => (
-                      <div key={idx} className="flex">
-                        <p>{lang.language || "No language"}</p>
-                        <p>({lang.proficiency || "No proficiency"})</p>
-                      </div>
-                    )) || "No languages to show"}
-                  </div>
-                  <div>
-                    <p className="font-bold">Location:</p>
-                    <p>{`${profileData?.location?.city || "Unknown City"}, ${
-                      profileData?.location?.state || "Unknown State"
-                    }`}</p>
-                  </div>
-                </>
-              )}
+              <RecruiterAboutSection
+                profileData={profileData}
+                userRole={userRole}
+              />
+              <CandidateAboutSection
+                profileData={profileData}
+                userRole={userRole}
+              />
             </div>
           </section>
         )}

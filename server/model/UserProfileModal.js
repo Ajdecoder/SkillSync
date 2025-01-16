@@ -37,7 +37,12 @@ export const candidateProfileSchema = new mongoose.Schema(
       industry: String,
       salaryRange: { min: Number, max: Number },
     },
-    about: { type: String, maxLength: 500 },
+    about: {
+      type: String,
+      maxLength: 500,
+      default:
+        "An enthusiastic software developer with a passion for problem-solving and continuous learning",
+    },
     socialLinks: {
       linkedin: { type: String },
       github: String,
@@ -63,7 +68,6 @@ export const candidateProfileSchema = new mongoose.Schema(
         language: String,
         proficiency: {
           type: String,
-          enum: ["Basic", "Intermediate", "Fluent", "Native"],
           default: "Basic",
         },
       },
