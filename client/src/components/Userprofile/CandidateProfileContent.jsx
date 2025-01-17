@@ -4,7 +4,7 @@ import { SkillsAndExperience } from "./Candidate/SkillsAndExperience";
 import { Candidatepreferences } from "./Candidate/CandidatePreference";
 import { Portfolio } from "./Candidate/Portfolio";
 import { Certification } from "./Candidate/Certification";
-import { updateUserProfile } from "../../services/api";
+import { updateUserProfileByEmail } from "../../services/api";
 
 const CandidateProfileContent = ({ profileData, activeTab, userRole }) => {
   const [updatedData, setUpdatedData] = useState(profileData);
@@ -12,7 +12,7 @@ const CandidateProfileContent = ({ profileData, activeTab, userRole }) => {
 
   const handleSubmit = async (section) => {
     try {
-      const response = await updateUserProfile(profileData.email, updatedData);
+      const response = await updateUserProfileByEmail(profileData.email, updatedData);
 
       if (response.status === 200) {
         setIsEditing(false);

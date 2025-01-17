@@ -7,53 +7,6 @@ const createRecruiterProfile = async (recruiter) => {
     recruiterInfo: recruiter._id,
     email: recruiter.email,
     role: recruiter.role,
-    companyOverview: {
-      name: "",
-      description: "",
-      website: "",
-      socialLinks: {
-        linkedin: "",
-        twitter: "",
-        facebook: "",
-      },
-    },
-    jobListings: [
-      {
-        jobTitle: "",
-        location: "",
-        jobType: "",
-        skillsRequired: [],
-        description: "",
-        applicationDeadline: null, // You can default it to null or a valid date
-        salaryRange: { min: 0, max: 0 },
-        jobCategory: "", // You can specify a default category here
-        jobStatus: "Open",
-      },
-    ], // Initialize as an array of job objects
-    teamMembers: [
-      {
-        name: "",
-        teamMemberRole: "",
-        linkedIn: "",
-        github: "",
-      },
-    ],
-    recruitmentProcess: {
-      description: "",
-      timeline: "",
-      interviewStages: [],
-      assessmentTypes: [],
-      applicationReview: "Pending",
-    },
-    companyLogo: "https://app-skillsync.vercel.app/images/logo.png",
-    companyLocation: { city: "", state: "", country: "" },
-    companyBenefits: [
-      {
-        benefitType: "Health Insurance",
-        description: "",
-      },
-    ],
-    pastHires: [],
   });
 
   await recruiterProfile.save();

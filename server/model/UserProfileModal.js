@@ -1,105 +1,112 @@
 import mongoose from "mongoose";
 
+// Candidate Profile Schema
 export const candidateProfileSchema = new mongoose.Schema(
   {
     candidateInfo: { type: mongoose.Schema.ObjectId, ref: "Candidate" },
-    name: { type: String },
+    name: { type: String, default: "Anonymous Candidate" },
     email: { type: String, unique: true },
     profilePicture: {
       type: String,
       default:
         "https://i.pinimg.com/1200x/d9/04/bb/d904bbc138e6cba76e5470df5054b106.jpg",
     },
-    role: { type: String },
-    skills: [{ type: String }],
+    role: { type: String, default: "Job Seeker" },
+    skills: [{ type: String, default: "No skills provided yet" }],
     experience: [
       {
-        company: String,
-        JobRole: String,
-        duration: String,
-        description: String,
+        company: { type: String, default: "No company listed" },
+        JobRole: { type: String, default: "No role specified" },
+        duration: { type: String, default: "No duration mentioned" },
+        description: { type: String, default: "No description provided" },
       },
     ],
     education: [
       {
-        institution: String,
-        degree: String,
-        year: String,
+        institution: { type: String, default: "Unknown Institution" },
+        degree: { type: String, default: "No degree specified" },
+        year: { type: String, default: "N/A" },
       },
     ],
     location: {
-      city: String,
-      state: String,
-      country: String,
+      city: { type: String, default: "Unknown City" },
+      state: { type: String, default: "Unknown State" },
+      country: { type: String, default: "Unknown Country" },
     },
     preferences: {
-      jobType: { type: String },
-      industry: String,
-      salaryRange: { min: Number, max: Number },
+      jobType: { type: String, default: "Full-Time" },
+      industry: { type: String, default: "General" },
+      salaryRange: {
+        min: { type: Number, default: 30000 },
+        max: { type: Number, default: 100000 },
+      },
     },
     about: {
       type: String,
       maxLength: 500,
       default:
-        "An enthusiastic software developer with a passion for problem-solving and continuous learning",
+        "An enthusiastic professional eager to contribute skills and knowledge in a dynamic work environment.",
     },
     socialLinks: {
-      linkedin: { type: String },
-      github: String,
-      portfolio: String,
+      linkedin: { type: String, default: "" },
+      github: { type: String, default: "" },
+      portfolio: { type: String, default: "" },
     },
     portfolio: [
       {
-        title: String,
-        description: String,
-        link: String,
+        title: { type: String, default: "Untitled Project" },
+        description: { type: String, default: "No description provided" },
+        link: { type: String, default: "" },
       },
     ],
     certifications: [
       {
-        name: String,
-        issuingOrganization: String,
-        dateIssued: Date,
-        expiryDate: Date,
+        name: { type: String, default: "Certification Name" },
+        issuingOrganization: { type: String, default: "Organization Name" },
+        dateIssued: { type: Date, default: Date.now },
+        expiryDate: { type: Date, default: null },
       },
     ],
     languages: [
       {
-        language: String,
-        proficiency: {
-          type: String,
-          default: "Basic",
-        },
+        language: { type: String, default: "English" },
+        proficiency: { type: String, default: "Basic" },
       },
     ],
     awards: [
       {
-        awardName: String,
-        issuingOrganization: String,
-        date: Date,
+        awardName: { type: String, default: "Award Title" },
+        issuingOrganization: { type: String, default: "Organization Name" },
+        date: { type: Date, default: Date.now },
       },
     ],
-    availabilityStatus: { type: Boolean, default: true },
-    resume: String,
+    availabilityStatus: {
+      type: String,
+      default: "Closed",
+      enum: ["Closed", "Open"],
+    },
+    resume: { type: String, default: "" },
     volunteerExperience: [
       {
-        organization: String,
-        volunteerRole: String,
-        duration: String,
-        description: String,
+        organization: { type: String, default: "Unknown Organization" },
+        volunteerRole: { type: String, default: "No role specified" },
+        duration: { type: String, default: "No duration mentioned" },
+        description: { type: String, default: "No description provided" },
       },
     ],
     workEnvironment: {
       type: String,
+      default: "Remote",
     },
   },
   { timestamps: true }
 );
 
+// Recruiter Profile Schema
 export const recruiterProfileSchema = new mongoose.Schema(
   {
     recruiterInfo: { type: mongoose.Schema.ObjectId, ref: "Recruiter" },
-    name: { type: String },
+    name: { type: String, default: "Anonymous Recruiter" },
     email: { type: String, unique: true },
     profilePicture: {
       type: String,
@@ -107,57 +114,63 @@ export const recruiterProfileSchema = new mongoose.Schema(
         "https://i.pinimg.com/1200x/d9/04/bb/d904bbc138e6cba76e5470df5054b106.jpg",
     },
     companyOverview: {
-      name: String,
-      description: String,
-      website: String,
+      name: { type: String, default: "Company Name" },
+      description: { type: String, default: "No description available" },
+      website: { type: String, default: "" },
       socialLinks: {
-        linkedin: String,
-        twitter: String,
-        facebook: String,
+        linkedin: { type: String, default: "" },
+        twitter: { type: String, default: "" },
+        facebook: { type: String, default: "" },
       },
     },
     jobListings: [
       {
-        jobTitle: String,
-        location: String,
-        jobType: String,
-        skillsRequired: [String],
-        description: String,
-        applicationDeadline: Date,
-        salaryRange: { min: Number, max: Number }, // Added salary range
-        jobCategory: { type: String }, // New field for job categories
+        jobTitle: { type: String, default: "Untitled Job" },
+        location: { type: String, default: "Location not specified" },
+        jobType: { type: String, default: "Full-Time" },
+        skillsRequired: [{ type: String, default: "Not specified" }],
+        description: { type: String, default: "No description provided" },
+        applicationDeadline: { type: Date, default: Date.now },
+        salaryRange: {
+          min: { type: Number, default: 30000 },
+          max: { type: Number, default: 100000 },
+        },
+        jobCategory: { type: String, default: "General" },
         jobStatus: {
           type: String,
           enum: ["Open", "Closed", "On Hold", "Filled"],
           default: "Open",
-        }, // New field to track job status
+        },
       },
     ],
     teamMembers: [
       {
-        name: String,
-        teamMemberRole: String,
-        linkedIn: String,
-        github: String,
+        name: { type: String, default: "Team Member" },
+        teamMemberRole: { type: String, default: "Member" },
+        linkedIn: { type: String, default: "" },
+        github: { type: String, default: "" },
       },
     ],
     recruitmentProcess: {
-      description: String,
-      timeline: String,
-      interviewStages: [String], // Added stages
-      assessmentTypes: [String], // Added assessment types
+      description: { type: String, default: "No process defined" },
+      timeline: { type: String, default: "No timeline specified" },
+      interviewStages: [{ type: String, default: "Not specified" }],
+      assessmentTypes: [{ type: String, default: "Not specified" }],
       applicationReview: {
         type: String,
         enum: ["Pending", "Reviewed", "Interviewing", "Hired", "Rejected"],
-        default: "Pending", // Track application review status
+        default: "Pending",
       },
     },
-
     companyLogo: {
       type: String,
       default: "https://app-skillsync.vercel.app/images/logo.png",
     },
-    companyLocation: { city: String, state: String, country: String },
+    companyLocation: {
+      city: { type: String, default: "Unknown City" },
+      state: { type: String, default: "Unknown State" },
+      country: { type: String, default: "Unknown Country" },
+    },
     companyBenefits: [
       {
         benefitType: {
@@ -165,18 +178,18 @@ export const recruiterProfileSchema = new mongoose.Schema(
           enum: ["Health Insurance", "Paid Time Off", "Retirement Plan"],
           default: "Health Insurance",
         },
-        description: String,
+        description: { type: String, default: "No details provided" },
       },
     ],
     pastHires: [
       {
-        candidateName: String,
-        position: String,
-        hireDate: Date,
-        testimonial: String,
+        candidateName: { type: String, default: "Unknown Candidate" },
+        position: { type: String, default: "Position not specified" },
+        hireDate: { type: Date, default: Date.now },
+        testimonial: { type: String, default: "" },
         status: {
           type: String,
-          enum: ["Hired", "Interviewed", "Not Selected"], // Added status
+          enum: ["Hired", "Interviewed", "Not Selected"],
           default: "Hired",
         },
       },

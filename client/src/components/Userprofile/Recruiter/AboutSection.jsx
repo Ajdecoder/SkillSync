@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { updateUserProfile } from "../../../services/api";
+import { updateUserProfileByEmail } from "../../../services/api";
 
 export const RecruiterAboutSection = ({ userRole, profileData }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -11,7 +11,7 @@ export const RecruiterAboutSection = ({ userRole, profileData }) => {
 
   const handleSubmit = async (section) => {
     try {
-      const response = await updateUserProfile(profileData.email, updatedData);
+      const response = await updateUserProfileByEmail(profileData.email, updatedData);
       if (response.status === 200) {
         setIsEditing(false);
       }

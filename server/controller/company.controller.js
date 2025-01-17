@@ -96,7 +96,10 @@ export const allTalentsData = async (req, res) => {
 
 export const allOpportunitiesData = async (req, res) => {
   try {
-    const Addedopportunities = await AddOpportunityCollection.find();
+    const Addedopportunities = await AddOpportunityCollection.find().populate(
+      "candidatesApplied"
+    );
+    console.log('after populate',Addedopportunities)
     res.json({ Addedopportunities });
   } catch (error) {
     console.error("Error fetching data:", error.message);

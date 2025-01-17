@@ -28,29 +28,6 @@ export const CandidateLogin = async (req, res) => {
         email: candidate.email,
         name: candidate.name,
         role: candidate.role,
-        skills: [],
-        experience: [],
-        education: [],
-        location: { city: "", state: "", country: "" },
-        preferences: {
-          jobType: "",
-          industry: "",
-          salaryRange: { min: 0, max: 0 },
-        },
-        about: "",
-        socialLinks: { linkedin: "", github: "", portfolio: "" },
-        portfolio: [],
-        certifications: [],
-        languages: [
-          {
-            language: "English",
-          },
-        ],
-        awards: [],
-        availabilityStatus: true,
-        resume: "",
-        volunteerExperience: [],
-        workEnvironment: "",
       });
 
       await candidateProfile.save();
@@ -110,25 +87,6 @@ export const CandidateRegister = async (req, res) => {
         email,
         name,
         role,
-        skills: [],
-        experience: [],
-        education: [],
-        location: { city: "", state: "", country: "" },
-        preferences: {
-          jobType: "",
-          industry: "",
-          salaryRange: { min: 0, max: 0 },
-        },
-        about: "",
-        socialLinks: { linkedin: "", github: "", portfolio: "" },
-        portfolio: [],
-        certifications: [],
-        languages: [],
-        awards: [],
-        availabilityStatus: true,
-        resume: "",
-        volunteerExperience: [],
-        workEnvironment: "",
       });
 
       await candidateProfile.save();

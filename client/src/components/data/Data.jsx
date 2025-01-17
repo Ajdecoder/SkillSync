@@ -97,11 +97,11 @@ export const navExpandRecruiter = [
     path: "requirements/hire-talent",
   },
   {
-    text: "Add Opportunity",
+    text: "Add Job Opportunity",
     path: "requirements/add-opportunity",
   },
   {
-    text: "Listed Opportunities",
+    text: "My Job Listings",
     path: "requirements/listed-opportunity",
   },
   {
@@ -116,19 +116,19 @@ export const navExpandRecruiter = [
 
 export const navExpandCAndidate = [
   {
-    text: "Saved Searches",
+    text: "Saved Job Searches",
     path: "requirements/saved-searches",
   },
   {
-    text: "Find Opportunities",
+    text: "Browse Opportunities",
     path: "requirements/saved-opportunities",
   },
   {
-    text: "Bookmark Talent",
+    text: "Bookmarked Jobs",
     path: "requirements/bookmark-talent",
   },
   {
-    text: "Job Preferences",
+    text: "Manage Job Preferences",
     path: "requirements/job-preferences",
   },
   {

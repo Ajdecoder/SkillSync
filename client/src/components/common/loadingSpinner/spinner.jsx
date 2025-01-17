@@ -1,7 +1,12 @@
-import React from 'react'
+import React from 'react';
+import './Spinner.css'
 
 export const Spinner = () => {
   return (
-    <div className="loading-div"></div>
-  )
-}
+    <div className="typing-dots">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  );
+};

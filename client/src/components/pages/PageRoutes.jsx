@@ -25,6 +25,7 @@ import { UserProfile } from "../Userprofile/UserProfile.jsx";
 import { LoginRecruiter } from "../Login/LoginRecruiter.jsx";
 import { ChooseLoginMode } from "../Login/ChooseLoginMode.jsx";
 import DeleteAccount from "../account/settings/DeleteAccount.jsx";
+import { ListedOpportunities } from "../Resources/ListedOpportunities.jsx";
 
 // This is just a helper function to return route elements.
 
@@ -45,6 +46,11 @@ export const RoutesConfig = ({ spin, setSpin }) => [
     key="/requirements/hire-talent"
     path="/requirements/hire-talent"
     element={<HireResources />}
+  />,
+  <Route
+    key="/requirements/listed-opportunity"
+    path="/requirements/listed-opportunity"
+    element={<ListedOpportunities />}
   />,
   <Route
     key="/requirements/add-opportunity"

@@ -3,7 +3,7 @@ import { useAuth } from "../../context/AuthContext.jsx";
 import { PORT_CLIENT } from "../../../commonClient.js";
 import { useNavigate } from "react-router-dom";
 import useFetchData from "../../hooks/useGetDataFetch.jsx";
-import TalentSearchCard from "./TalentSearchCards.jsx";
+import TalentsCard from "./TalentsCards.jsx";
 import AddOpportunityCard from "../../AddOpportunity/OpportunityCard.jsx";
 
 const RecentOpportunity = ({handleConnectClick,addedOpportunities}) => {
@@ -14,16 +14,17 @@ const RecentOpportunity = ({handleConnectClick,addedOpportunities}) => {
   const renderOpportunityCard = (opportunity) => {
     return (
       <AddOpportunityCard
-        key={opportunity._id} // Use unique identifier instead of index
-        opportunity={opportunity}
-        onConnectClick={() =>
-          handleConnectClick(
-            opportunity,
-            addedOpportunities.findIndex((o) => o._id === opportunity._id),
-            "opportunity"
-          )
-        }
+      key={opportunity._id} // Use unique identifier instead of index
+      opportunity={opportunity}
+      onConnectClick={() =>
+        handleConnectClick(
+          opportunity,
+          addedOpportunities.findIndex((o) => o._id === opportunity._id),
+          "opportunity"
+        )
+      }
       />
+      
     );
   };
 
