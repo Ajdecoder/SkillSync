@@ -37,7 +37,7 @@ const TalentsCard = ({ bgColor, onConnectClick }) => {
 
           return (
             <div
-              key={_id.$oid}
+              key={_id}
               style={{ backgroundColor: bgColor }}
               className=" border-gray-200 rounded-lg shadow-lg overflow-hidden flex flex-col border-2 p-4 "
             >
@@ -68,8 +68,8 @@ const TalentsCard = ({ bgColor, onConnectClick }) => {
                     Experience:
                   </h4>
                   <ul className="list-disc list-inside text-gray-600">
-                    {experience.slice(0, 2).map((exp) => (
-                      <li key={exp._id.$oid}>
+                    {experience.slice(0, 2).map((exp,index) => (
+                      <li key={index}>
                         <strong>{exp.JobRole}</strong> at {exp.company}
                         <p className="text-xs text-gray-500">{exp.duration}</p>
                       </li>
@@ -81,8 +81,8 @@ const TalentsCard = ({ bgColor, onConnectClick }) => {
                     Certifications:
                   </h4>
                   <ul className="list-disc list-inside text-gray-600">
-                    {certifications.slice(0, 2).map((cert) => (
-                      <li key={cert._id.$oid}>
+                    {certifications.slice(0, 2).map((cert,i) => (
+                      <li key={cert._id}>
                         {cert.name} (
                         {new Date(cert.dateIssued.$date).getFullYear()} )
                       </li>

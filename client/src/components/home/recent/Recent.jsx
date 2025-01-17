@@ -14,9 +14,6 @@ const Recent = () => {
   const { loggedInUser } = useAuth();
   const navigate = useNavigate();
 
-  // const { data, error, loading } = useFetchData(
-  //   `${PORT_CLIENT}/api/requirements/allRequirements`
-  // );
 
   const { data, error, loading } = useFetchData(
     `${PORT_CLIENT}/api/requirements/addedOpportunites`
@@ -28,7 +25,7 @@ const Recent = () => {
   } = useFetchData(`${PORT_CLIENT}/api/requirements/allTalents`);
 
   const addedOpportunities = data?.Addedopportunities || [];
-  console.log(addedOpportunities);
+  
   const talents = talentData?.talents || [];
 
   const handleConnectClick = (item, index, type) => {

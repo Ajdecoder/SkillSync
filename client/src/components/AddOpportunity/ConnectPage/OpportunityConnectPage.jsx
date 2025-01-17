@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { PORT_CLIENT } from "../../commonClient";
-import useFetchData from "../hooks/useGetDataFetch.jsx";
-import { Spinner } from "../common/loadingSpinner/spinner.jsx";
+import { PORT_CLIENT } from "../../../commonClient.js";
+import useFetchData from "../../hooks/useGetDataFetch.jsx";
+import { Spinner } from "../../common/loadingSpinner/spinner.jsx";
 import { motion } from "framer-motion";
 
 const OpportunityConnectPage = () => {

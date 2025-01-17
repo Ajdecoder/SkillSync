@@ -68,8 +68,8 @@ html, body {
 }
 
 .location .box:hover .overlay {
-  opacity: 0.9; /* Show the overlay on hover */
-  background-position: top; /* Transition background position to top */
+  opacity: 0.9; 
+  background-position: top;
 }
 
 .location .overlay h5 {

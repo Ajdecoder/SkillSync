@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import "../Resources/MarketTrends.css";
+import "./MarketTrends.css";
 import {
   LineChart,
   Line,
