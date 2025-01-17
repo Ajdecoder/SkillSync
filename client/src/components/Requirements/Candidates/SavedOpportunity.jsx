@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { PORT_CLIENT } from "../../commonClient";
+import { PORT_CLIENT } from "../../../commonClient";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useAuth } from "../context/AuthContext";
-import useFetchData from "../hooks/useGetDataFetch";
+import { useAuth } from "../../context/AuthContext";
+import useFetchData from "../../hooks/useGetDataFetch";
 
 export const SavedOpportunity = () => {
   const { loggedInUser } = useAuth();
@@ -20,7 +20,6 @@ export const SavedOpportunity = () => {
     }
   }, [data]);
 
-  console.log("opportunities loaded", opportunities);
 
   // if (loading) {
   //   return <div className="text-center text-gray-500">Loading...</div>;

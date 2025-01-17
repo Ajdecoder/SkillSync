@@ -7,7 +7,7 @@ import CompanyOverview from "./Recruiter/CompanyOverview";
 import RecruitmentProcess from "./Recruiter/RecruitmentProcess";
 import PastHires from "./Recruiter/PastHires";
 import TeamMembers from "./Recruiter/TeamMembers";
-import { updateUserProfile } from "../../services/api";
+import { updateUserProfileByEmail } from "../../services/api";
 
 const RecruiterProfileContent = ({ profileData, userRole, activeTab }) => {
   const [isEditing, setIsEditing] = useState({
@@ -61,7 +61,7 @@ const RecruiterProfileContent = ({ profileData, userRole, activeTab }) => {
   const handleSubmit = async (e, section) => {
     e.preventDefault();
     try {
-      const response = await updateUserProfile(profileData.email, updatedData);
+      const response = await updateUserProfileByEmail(profileData.email, updatedData);
 
       if (response.status === 200) {
         setIsEditing((prev) => ({ ...prev, [section]: false }));
@@ -173,6 +173,7 @@ const RecruiterProfileContent = ({ profileData, userRole, activeTab }) => {
           setUpdatedData={setUpdatedData}
           updatedData={updatedData}
           handleSubmit={handleSubmit}
+          
         />
       )}
     </>

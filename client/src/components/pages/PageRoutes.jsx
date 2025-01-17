@@ -7,24 +7,24 @@ import Services from "../services/Services";
 import Contact from "../contact/Contact";
 import { LoginCandidate } from "../Login/LoginCandidate.jsx";
 import { Register } from "../Register/ChooseRegisterMode.jsx";
-import HireResources from "../Resources/HireTalent.jsx";
-import AddOpportunity from "../Resources/AddOpportunity.jsx";
-import { Resources } from "../Resources/Resources.jsx";
+import HireResources from "../Requirements/Recruiters/HireTalent.jsx";
+import AddOpportunity from "../Requirements/Recruiters/AddOpportunity.jsx";
+import { Resources } from "../Requirements/Resources.jsx";
 import { RegCandidate } from "../Register/RegCandidate.jsx";
 import { RegRecruiter } from "../Register/RegRecruiter.jsx";
 import Blog from "../blog/Blog.jsx";
 import { BlogPage } from "../blog/BlogPage.jsx";
 import { Settings } from "../account/settings/Setting.jsx";
-import { SavedSearches } from "../Resources/SavedSearch.jsx";
-import { SavedOpportunity } from "../Resources/SavedOpportunity.jsx";
-import MarketTrends from "../Resources/MarketTrends.jsx";
-import { BookmarkTalent } from "../Resources/BookMarkTalent.jsx";
-import TalentConnectPage from "../ConnectPage/HiringConnectPage.jsx";
-import OpportunityConnectPage from "../ConnectPage/OpportunityConnectPage.jsx";
+import { SavedOpportunity } from "../Requirements/Candidates/SavedOpportunity.jsx";
+import MarketTrends from "../Requirements/MarketTrends.jsx";
+import { BookmarkTalent } from "../Requirements/Recruiters/BookMarkTalent.jsx";
+import TalentConnectPage from "../AddOpportunity/ConnectPage/HiringConnectPage.jsx";
+import OpportunityConnectPage from "../AddOpportunity/ConnectPage/OpportunityConnectPage.jsx";
 import { UserProfile } from "../Userprofile/UserProfile.jsx";
 import { LoginRecruiter } from "../Login/LoginRecruiter.jsx";
 import { ChooseLoginMode } from "../Login/ChooseLoginMode.jsx";
 import DeleteAccount from "../account/settings/DeleteAccount.jsx";
+import { MyJobListnings } from "../Requirements/Recruiters/MyJobListnings.jsx";
 
 // This is just a helper function to return route elements.
 
@@ -47,18 +47,19 @@ export const RoutesConfig = ({ spin, setSpin }) => [
     element={<HireResources />}
   />,
   <Route
+    key="/requirements/listed-opportunity"
+    path="/requirements/listed-opportunity"
+    element={<MyJobListnings />}
+  />,
+  <Route
     key="/requirements/add-opportunity"
     path="/requirements/add-opportunity"
     element={<AddOpportunity />}
   />,
+ 
   <Route
-    key="/requirements/saved-searches"
-    path="/requirements/saved-searches"
-    element={<SavedSearches />}
-  />,
-  <Route
-    key="/requirements/saved-opportunities"
-    path="/requirements/saved-opportunities"
+    key="/requirements/browse-opportunities"
+    path="/requirements/browse-opportunities"
     element={<SavedOpportunity />}
   />,
   <Route

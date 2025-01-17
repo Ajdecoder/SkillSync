@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import { Candidate } from "../db/database.js";
 import { CandidateUserProfile } from "../db/database.js";
 
+// Candidate Login
 export const CandidateLogin = async (req, res) => {
   const { email, password } = req.body;
 
@@ -15,42 +16,18 @@ export const CandidateLogin = async (req, res) => {
     if (!passwordMatch) {
       return res
         .status(401)
-        .json({ success: false, message: "email or password is incorrect" });
+        .json({ success: false, message: "Email or password is incorrect" });
     }
 
-    let candidateProfile = await CandidateUserProfile.findOne({ email });
+    let candidateProfile = await CandidateUserProfile.findOne({
+      candidateInfo: candidate._id,
+    });
     if (!candidateProfile) {
       candidateProfile = new CandidateUserProfile({
-        email,
+        candidateInfo: candidate._id,
+        email: candidate.email,
         name: candidate.name,
         role: candidate.role,
-        skills: [],
-        experience: [],
-        education: [],
-        location: {
-          city: "",
-          state: "",
-          country: "",
-        },
-        preferences: {
-          jobType: "",
-          industry: "",
-          salaryRange: { min: 0, max: 0 },
-        },
-        about: "",
-        socialLinks: {
-          linkedin: "",
-          github: "",
-          portfolio: "",
-        },
-        portfolio: [],
-        certifications: [],
-        languages: [],
-        awards: [],
-        availabilityStatus: true,
-        resume: "",
-        volunteerExperience: [],
-        workEnvironment: "",
       });
 
       await candidateProfile.save();
@@ -79,6 +56,8 @@ export const CandidateLogin = async (req, res) => {
       .json({ message: "Login failed. Please try again later." });
   }
 };
+
+// Candidate Register
 export const CandidateRegister = async (req, res) => {
   const { name, email, password, role } = req.body;
 
@@ -98,41 +77,16 @@ export const CandidateRegister = async (req, res) => {
     });
     await newCandidate.save();
 
-    let candidateProfile = await CandidateUserProfile.findOne({ email });
+    let candidateProfile = await CandidateUserProfile.findOne({
+      candidateInfo: newCandidate._id,
+    });
 
     if (!candidateProfile) {
       candidateProfile = new CandidateUserProfile({
-        candidateInfo: newCandidate,
+        candidateInfo: newCandidate._id,
         email,
         name,
         role,
-        skills: [],
-        experience: [],
-        education: [],
-        location: {
-          city: "",
-          state: "",
-          country: "",
-        },
-        preferences: {
-          jobType: "",
-          industry: "",
-          salaryRange: { min: 0, max: 0 },
-        },
-        about: "",
-        socialLinks: {
-          linkedin: "",
-          github: "",
-          portfolio: "",
-        },
-        portfolio: [],
-        certifications: [],
-        languages: [],
-        awards: [],
-        availabilityStatus: true,
-        resume: "",
-        volunteerExperience: [],
-        workEnvironment: "",
       });
 
       await candidateProfile.save();
@@ -142,21 +96,27 @@ export const CandidateRegister = async (req, res) => {
 
     res.cookie("jwttoken", token, { httpOnly: true });
 
-    res.status(201).json({
+    return res.status(201).json({
       message: "Candidate registered successfully",
       token,
       profile: candidateProfile,
     });
   } catch (err) {
     console.error("Registration error:", err);
-    res
+    return res
       .status(500)
       .json({ message: "Registration failed. Please try again later." });
   }
 };
+
+// Candidate Forgot Password
 export const CandidateForgotPassword = async (req, res) => {
   try {
     const candidate = await Candidate.findOne({ email: req.body.email });
+    if (!candidate) {
+      return res.status(404).json({ message: "Email not found" });
+    }
+
     const resetToken = await candidate.generateForgetPassToken();
 
     res.status(200).json({ success: true, resetToken });

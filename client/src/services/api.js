@@ -14,35 +14,44 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-
 // Authentication Api Methods
-export const loginCandidate = (data) => API.post('/api/users/login/candidate', data);
-export const loginRecruiter = (data) => API.post('/api/users/login/recruiter', data);
-export const registerCandidate = (data) => API.post('/api/users/register/candidate', data);
-export const registerRecruiter = (data) => API.post('/api/users/register/recruiter', data);
-export const forgotPassword = (data) => API.post('/api/users/account/Forgotpassword', data);
-
-
+export const loginCandidate = (data) =>
+  API.post("/api/users/login/candidate", data);
+export const loginRecruiter = (data) =>
+  API.post("/api/users/login/recruiter", data);
+export const registerCandidate = (data) =>
+  API.post("/api/users/register/candidate", data);
+export const registerRecruiter = (data) =>
+  API.post("/api/users/register/recruiter", data);
+export const forgotPassword = (data) =>
+  API.post("/api/users/account/Forgotpassword", data);
 
 // Profile Api Methods
-export const getUserProfile = (email) => API.get(`/api/users/profile/account/user/profile/${email}`);
-export const updateUserProfile = (email, data) => API.put(`/api/users/profile/account/user/profile/update/${email}`, data);
-
-
+export const getUserProfileByEmail = (email) =>
+  API.get(`/api/users/profile/account/user/profile/${email}`);
+export const updateUserProfileByEmail = (email, data) =>
+  API.put(`/api/users/profile/account/user/profile/update/${email}`, data);
+export const getAllCandidateProfiles = () =>
+  API.get("/api/users/profile/account/users/profile/user/candidates");
+export const getAllRecruitersProfiles = () =>
+  API.get("/api/users/profile/account/users/profile/user/recruiters");
 
 //Opportunity Api Methods
-export const addOpportunity = (data) => API.post('/api/requirements/addOpportunity', data);
-export const getOpportunities = () => API.get('/api/requirements/addedOpportunites');
-export const getRequirements = () => API.get('/api/requirements/allRequirements');
+export const addOpportunity = (data) =>
+  API.post("/api/requirements/addOpportunity", data);
+export const getOpportunities = () =>
+  API.get("/api/requirements/addedOpportunites");
+export const getRequirements = () =>
+  API.get("/api/requirements/allRequirements");
 
 // Requirement By id Api Method
-export const getRequirementById = (id) => API.get(`/api/requirements/Companyrequirements/${id}`);
+export const getRequirementById = (id) =>
+  API.get(`/api/requirements/Companyrequirements/${id}`);
 
 // Talents Api Methods
-export const getTalents = () => API.get('/api/requirements/allTalents');
-export const hireTalent = (data) => API.post('/api/requirements/hireTalent', data);
-
+export const getTalents = () => API.get("/api/requirements/allTalents");
+export const hireTalent = (data) =>
+  API.post("/api/requirements/hireTalent", data);
 
 // Chat Api Methods
-export const getChatResponse = (data) => API.post('/chat-response', data);
-
+export const getChatResponse = (data) => API.post("/chat-response", data);

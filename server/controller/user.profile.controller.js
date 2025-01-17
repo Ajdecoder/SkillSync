@@ -1,19 +1,48 @@
 import { CandidateUserProfile, RecruiterUserProfile } from "../db/database.js";
+/**
+ * Get All Candidates
+ */
+
+export const getAllCandidateProfiles = async (req, res) => {
+  try {
+    const users = await CandidateUserProfile.find();
+    res.status(200).json({ candidates: users });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+/**
+ * Get All Recruiters
+ */
+
+export const getAllRecruitersProfiles = async (req, res) => {
+  try {
+    const users = await RecruiterUserProfile.find();
+    res.status(200).json({ recruiters: users });
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 /**
  * Get User Profile by Email
  */
-export const getUserProfile = async (req, res) => {
+export const getUserProfileByEmail = async (req, res) => {
   try {
     const { email } = req.params;
 
     // Check both candidate and recruiter profiles
-    const candidateProfile = await CandidateUserProfile.findOne({ email }).populate('candidateInfo');
+    const candidateProfile = await CandidateUserProfile.findOne({
+      email,
+    }).populate("candidateInfo");
     if (candidateProfile) {
       return res.status(200).json({ candidateProfile });
     }
 
-    const recruiterProfile = await RecruiterUserProfile.findOne({ email }).populate('recruiterInfo');
+    const recruiterProfile = await RecruiterUserProfile.findOne({
+      email,
+    }).populate("recruiterInfo");
     if (recruiterProfile) {
       return res.status(200).json({ recruiterProfile });
     }
@@ -30,11 +59,10 @@ export const getUserProfile = async (req, res) => {
 /**
  * Update User Profile by Email
  */
-export const updateUserProfile = async (req, res) => {
+export const updateUserProfileByEmail = async (req, res) => {
   try {
     const { email } = req.params;
     const updateData = req.body;
-
 
     // Check if the body contains data to update
     if (!Object.keys(updateData).length) {
