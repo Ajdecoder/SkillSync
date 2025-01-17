@@ -25,6 +25,7 @@ const Recent = () => {
   } = useFetchData(`${PORT_CLIENT}/api/requirements/allTalents`);
 
   const addedOpportunities = data?.Addedopportunities || [];
+  console.log(addedOpportunities);
   
   const talents = talentData?.talents || [];
 

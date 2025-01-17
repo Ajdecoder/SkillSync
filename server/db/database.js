@@ -20,10 +20,10 @@ export const connectDB = async () => {
 
 const connect = await connectDB();
 
-export const AddOpportunityCollection = connect.model(
+export const OpportunityCollection = connect.model(
   "AddOpportunity",
   AddOpportunitySchema,
-  "AddOpportunityCollection"
+  "OpportunityCollection"
 );
 
 export const HireTalentCollection = connect.model(

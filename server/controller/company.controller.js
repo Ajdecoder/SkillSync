@@ -1,5 +1,5 @@
 import {
-  AddOpportunityCollection,
+  OpportunityCollection,
   HireTalentCollection,
 } from "../db/database.js";
 
@@ -19,7 +19,7 @@ export const addOpportunity = async (req, res) => {
   } = req.body;
 
   try {
-    const newOpportunity = new AddOpportunityCollection({
+    const newOpportunity = new OpportunityCollection({
       title,
       company_name,
       company_website,
@@ -96,10 +96,9 @@ export const allTalentsData = async (req, res) => {
 
 export const allOpportunitiesData = async (req, res) => {
   try {
-    const Addedopportunities = await AddOpportunityCollection.find().populate(
+    const Addedopportunities = await OpportunityCollection.find().populate(
       "candidatesApplied"
     );
-    console.log('after populate',Addedopportunities)
     res.json({ Addedopportunities });
   } catch (error) {
     console.error("Error fetching data:", error.message);
@@ -111,7 +110,7 @@ export const allOpportunitiesData = async (req, res) => {
 
 export const allRequirementsData = async (req, res) => {
   try {
-    const Addedopportunities = await AddOpportunityCollection.find();
+    const Addedopportunities = await OpportunityCollection.find();
     const talents = await HireTalentCollection.find();
 
     res.status(200).json({
@@ -131,7 +130,7 @@ export const getRequirementById = async (req, res) => {
       RequirementId
     );
     const getRequirementFromAddOpportunity =
-      await AddOpportunityCollection.findById(RequirementId);
+      await OpportunityCollection.findById(RequirementId);
 
     const getRequirement =
       getRequirementFromHireTalent || getRequirementFromAddOpportunity;
