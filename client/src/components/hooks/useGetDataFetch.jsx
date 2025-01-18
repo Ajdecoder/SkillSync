@@ -3,7 +3,7 @@ import axios from "axios";
 
 const useFetchData = (url) => {
   const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
@@ -11,20 +11,22 @@ const useFetchData = (url) => {
     try {
       const response = await axios.get(url);
       setData(response.data || {});
-      setError(null);
+      setError(false);
     } catch (error) {
       console.error("API Error:", error.message);
-      setError("Failed to fetch data");
+      setError(true);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchData();
+    if (url) {
+      fetchData();
+    }
   }, [url]);
 
-  return { data, error, loading, fetchData };
+  return { data, error, loading , setError };
 };
 
 export default useFetchData;
