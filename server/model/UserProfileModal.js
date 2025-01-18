@@ -7,7 +7,7 @@ export const candidateProfileSchema = new mongoose.Schema(
     name: { type: String, default: "Anonymous Candidate" },
     email: { type: String, unique: true },
     profilePicture: {
-      type: String,
+      type: String, 
       default:
         "https://i.pinimg.com/1200x/d9/04/bb/d904bbc138e6cba76e5470df5054b106.jpg",
     },

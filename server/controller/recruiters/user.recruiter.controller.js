@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { Recruiter, RecruiterUserProfile } from "../db/database.js";
+import { Recruiter, RecruiterUserProfile } from "../../db/database.js";
 
 // Helper function to create a new recruiter profile
 const createRecruiterProfile = async (recruiter) => {

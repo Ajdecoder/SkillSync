@@ -75,7 +75,6 @@ const Recent = () => {
                 <TalentsCard
                   key={talents._id}
                   handleConnectClick={handleConnectClick}
-                  onConnectClick={handleConnectClick}
                 />
               </div>
             </section>

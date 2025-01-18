@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
-import { Candidate } from "../db/database.js";
-import { CandidateUserProfile } from "../db/database.js";
+import { Candidate, OpportunityCollection } from "../../db/database.js";
+import { CandidateUserProfile } from "../../db/database.js";
 
 // Candidate Login
 export const CandidateLogin = async (req, res) => {
@@ -123,5 +123,33 @@ export const CandidateForgotPassword = async (req, res) => {
   } catch (error) {
     console.error("Forgot Password error:", error);
     res.status(500).json({ message: "Error processing request." });
+  }
+};
+
+export const JobApply = async (req, res) => {
+  const { userId, opportunityId } = req.body;
+
+  if (!userId || !opportunityId) {
+    return res.status(400).json({ message: "User ID and Opportunity ID are required." });
+  }
+
+  try {
+    const opportunity = await OpportunityCollection.findById(opportunityId); 
+    
+    if (!opportunity) {
+      return res.status(404).json({ message: "Opportunity not found." });
+    }
+
+    if (opportunity.candidatesApplied.includes(userId)) {
+      return res.status(400).json({ message: "User has already applied for this opportunity." });
+    }
+
+    opportunity.candidatesApplied.push(userId);
+    await opportunity.save();
+
+    res.status(200).json({ message: "Application submitted successfully." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error. Please try again later." });
   }
 };

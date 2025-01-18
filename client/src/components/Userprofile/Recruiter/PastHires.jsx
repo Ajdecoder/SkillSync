@@ -71,7 +71,6 @@ const PastHires = ({
                   >
                     <div>
                       <label className="font-semibold">Candidate Name:</label>
-                      <label className="font-semibold">Candidate {idx }:</label>
                       <input
                         type="text"
                         name={`pastHires.${idx}.candidateName`}
@@ -158,7 +157,7 @@ const PastHires = ({
                 {profileData.pastHires?.length ? (
                   profileData.pastHires.map((hire, idx) => (
                     <div key={hire._id?.$oid || idx} className="mt-4">
-                      <li className="list-none text-green-800" >CAndidate {idx+1}</li>
+                      <li className="list-none text-green-800">Candidate {idx + 1}</li>
                       <p>
                         <strong>Candidate Name:</strong> {hire.candidateName}
                       </p>
