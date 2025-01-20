@@ -11,7 +11,7 @@ export const SavedOpportunity = () => {
   const navigate = useNavigate();
 
   const { data, error, loading } = useFetchData(
-    `${PORT_CLIENT}/api/requirements/addedOpportunites`
+    `${PORT_CLIENT}/api/requirements/addedOpportunities`
   );
 
   useEffect(() => {

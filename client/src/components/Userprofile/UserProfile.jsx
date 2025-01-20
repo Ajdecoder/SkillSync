@@ -107,6 +107,9 @@ export const UserProfile = () => {
 
   // Consolidated localStorage management
   useEffect(() => {
+    if (!loggedInUser) {
+      navigate("/");
+    }
     // Load settings
     const savedEmailNotifications = localStorage.getItem("emailNotifications");
     const savedDarkMode = localStorage.getItem("darkMode");
@@ -131,68 +134,70 @@ export const UserProfile = () => {
   if (!profileData) return <div>No profile data available</div>;
 
   return (
-    <div className="profile-page-container p-6 bg-gray-100 min-h-screen">
-      <ProfileHeader
-        user={profileData}
-        profileCompletion={profileCompletion}
-        userRole={userRole}
-      />
+    <div>
+      <div className="profile-page-container p-6 bg-gray-100 min-h-screen">
+        <ProfileHeader
+          user={profileData}
+          profileCompletion={profileCompletion}
+          userRole={userRole}
+        />
 
-      <ProfileTabs
-        activeTab={activeTab}
-        onTabChange={onTabChange}
-        userRole={userRole}
-      />
+        <ProfileTabs
+          activeTab={activeTab}
+          onTabChange={onTabChange}
+          userRole={userRole}
+        />
 
-      <div className="profile-content-container mt-6">
-        {activeTab === "about" && (
-          <section className="profile-about-section p-6 bg-white rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold">About</h2>
-            <div className="mt-4 space-y-4">
-              <RecruiterAboutSection
-                profileData={profileData}
-                userRole={userRole}
-              />
-              <CandidateAboutSection
-                profileData={profileData}
-                userRole={userRole}
-              />
-            </div>
-          </section>
-        )}
-
-        {(userRole === "recruiter" || userRole === "candidate") &&
-          activeTab === "settings" && (
-            <section className="profile-settings-section p-6 bg-white rounded-lg shadow-md">
-              <h2 className="text-xl font-semibold">Settings</h2>
+        <div className="profile-content-container mt-6">
+          {activeTab === "about" && (
+            <section className="profile-about-section p-6 bg-white rounded-lg shadow-md">
+              <h2 className="text-xl font-semibold">About</h2>
               <div className="mt-4 space-y-4">
-                <div>
-                  <p className="font-bold">Email Notifications:</p>
-                  <p>Enabled</p>
-                </div>
-                <div>
-                  <p className="font-bold">Dark Mode:</p>
-                  <p>Enabled</p>
-                </div>
+                <RecruiterAboutSection
+                  profileData={profileData}
+                  userRole={userRole}
+                />
+                <CandidateAboutSection
+                  profileData={profileData}
+                  userRole={userRole}
+                />
               </div>
             </section>
           )}
 
-        {userRole === "candidate" && activeTab !== "about" && (
-          <CandidateProfileContent
-            userRole={userRole}
-            activeTab={activeTab}
-            profileData={profileData}
-          />
-        )}
+          {(userRole === "recruiter" || userRole === "candidate") &&
+            activeTab === "settings" && (
+              <section className="profile-settings-section p-6 bg-white rounded-lg shadow-md">
+                <h2 className="text-xl font-semibold">Settings</h2>
+                <div className="mt-4 space-y-4">
+                  <div>
+                    <p className="font-bold">Email Notifications:</p>
+                    <p>Enabled</p>
+                  </div>
+                  <div>
+                    <p className="font-bold">Dark Mode:</p>
+                    <p>Enabled</p>
+                  </div>
+                </div>
+              </section>
+            )}
 
-        {userRole === "recruiter" && activeTab !== "about" && (
-          <RecruiterProfileContent
-            userRole={userRole}
-            activeTab={activeTab}
-            profileData={profileData}
-          />
-        )}
+          {userRole === "candidate" && activeTab !== "about" && (
+            <CandidateProfileContent
+              userRole={userRole}
+              activeTab={activeTab}
+              profileData={profileData}
+            />
+          )}
+
+          {userRole === "recruiter" && activeTab !== "about" && (
+            <RecruiterProfileContent
+              userRole={userRole}
+              activeTab={activeTab}
+              profileData={profileData}
+            />
+          )}
+        </div>
       </div>
     </div>
   );

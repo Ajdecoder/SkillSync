@@ -50,7 +50,7 @@ companyRouter.post(
 );
 
 companyRouter.post("/addOpportunity", addOpportunity);
-companyRouter.get("/addedOpportunites", allOpportunitiesData);
+companyRouter.get("/addedOpportunities", allOpportunitiesData);
 companyRouter.get("/allTalents", allTalentsData);
 companyRouter.get("/allRequirements", allRequirementsData);
 companyRouter.get("/Companyrequirements/:id", getRequirementById);

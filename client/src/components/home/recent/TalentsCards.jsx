@@ -130,7 +130,7 @@ const TalentsCard = ({ bgColor, onConnectClick }) => {
             setFilters((prev) => ({ ...prev, location: e.target.value }))
           }
           placeholder="Filter by location"
-          className="border-2 bg-slate-400 text-black px-4 py-2 rounded-md"
+          className="border-4 border-sky-500 text-black px-4 py-2 rounded-md"
         />
         <input
           type="text"
@@ -139,7 +139,7 @@ const TalentsCard = ({ bgColor, onConnectClick }) => {
             setFilters((prev) => ({ ...prev, skills: e.target.value }))
           }
           placeholder="Filter by skills"
-          className="border-2 bg-slate-400 text-black px-4 py-2 rounded-md"
+          className="border-4 border-sky-500 text-black px-4 py-2 rounded-md"
         />
         <input
           type="text"
@@ -148,7 +148,7 @@ const TalentsCard = ({ bgColor, onConnectClick }) => {
             setFilters((prev) => ({ ...prev, experience: e.target.value }))
           }
           placeholder="Filter by experience"
-          className="border-2 bg-slate-400 text-black px-4 py-2 rounded-md"
+          className="border-4 border-sky-500 text-black px-4 py-2 rounded-md"
         />
         <input
           type="number"
@@ -160,7 +160,7 @@ const TalentsCard = ({ bgColor, onConnectClick }) => {
             }))
           }
           placeholder="Min salary"
-          className="border-2 bg-slate-400 text-black px-4 py-2 rounded-md"
+          className="border-4 border-sky-500 text-black px-4 py-2 rounded-md"
         />
         <input
           type="number"
@@ -172,7 +172,7 @@ const TalentsCard = ({ bgColor, onConnectClick }) => {
             }))
           }
           placeholder="Max salary"
-          className="border-2 bg-slate-400 text-black px-4 py-2 rounded-md"
+          className="border-4 border-sky-500 text-black px-4 py-2 rounded-md"
         />
         <input
           type="text"
@@ -181,7 +181,7 @@ const TalentsCard = ({ bgColor, onConnectClick }) => {
             setFilters((prev) => ({ ...prev, jobType: e.target.value }))
           }
           placeholder="Filter by job type"
-          className="border-2 bg-slate-400 text-black px-4 py-2 rounded-md"
+          className="border-4 border-sky-500 text-black px-4 py-2 rounded-md"
         />
         <input
           type="text"
@@ -190,7 +190,7 @@ const TalentsCard = ({ bgColor, onConnectClick }) => {
             setFilters((prev) => ({ ...prev, industry: e.target.value }))
           }
           placeholder="Filter by industry"
-          className="border-2 bg-slate-400 text-black px-4 py-2 rounded-md"
+          className="border-4 border-sky-500 text-black px-4 py-2 rounded-md"
         />
         <input
           type="text"
@@ -199,7 +199,7 @@ const TalentsCard = ({ bgColor, onConnectClick }) => {
             setFilters((prev) => ({ ...prev, language: e.target.value }))
           }
           placeholder="Filter by language"
-          className="border-2 bg-slate-400 text-black px-4 py-2 rounded-md"
+          className="border-4 border-sky-500 text-black px-4 py-2 rounded-md"
         />
         <input
           type="text"
@@ -208,7 +208,7 @@ const TalentsCard = ({ bgColor, onConnectClick }) => {
             setFilters((prev) => ({ ...prev, workEnvironment: e.target.value }))
           }
           placeholder="Filter by work environment"
-          className="border-2 bg-slate-400 text-black px-4 py-2 rounded-md"
+          className="border-4 border-sky-500 text-black px-4 py-2 rounded-md"
         />
       </div>
 
@@ -229,7 +229,7 @@ const TalentsCard = ({ bgColor, onConnectClick }) => {
             <p className="text-center text-sm">{candidate.about}</p>
             <button
               className="mt-auto bg-blue-500 text-white py-2 px-4 rounded-md"
-              onClick={() => onConnectClick(candidate._id.$oid)}
+              onClick={() => onConnectClick(candidate._id)}
             >
               Connect
             </button>

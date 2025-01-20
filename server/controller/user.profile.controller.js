@@ -16,7 +16,7 @@ export const getAllCandidateProfiles = async (req, res) => {
  * Get All Recruiters
  */
 
-export const getAllRecruitersProfiles = async (req, res) => {
+export const getAllRecruiterProfiles = async (req, res) => {
   try {
     const users = await RecruiterUserProfile.find();
     res.status(200).json({ recruiters: users });

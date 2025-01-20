@@ -6,32 +6,27 @@ import useFetchData from "../../hooks/useGetDataFetch.jsx";
 import TalentsCard from "./TalentsCards.jsx";
 import AddOpportunityCard from "../../AddOpportunity/OpportunityCard.jsx";
 
-const RecentOpportunity = ({handleConnectClick,addedOpportunities}) => {
+const RecentOpportunity = ({ handleConnectClick, addedOpportunities }) => {
   const { loggedInUser } = useAuth();
-
-
 
   const renderOpportunityCard = (opportunity) => {
     return (
       <AddOpportunityCard
-      key={opportunity._id} // Use unique identifier instead of index
-      opportunity={opportunity}
-      onConnectClick={() =>
-        handleConnectClick(
-          opportunity,
-          addedOpportunities.findIndex((o) => o._id === opportunity._id),
-          "opportunity"
-        )
-      }
+        key={opportunity._id} // Use unique identifier instead of index
+        opportunity={opportunity}
+        onConnectClick={() =>
+          handleConnectClick(
+            opportunity,
+            addedOpportunities.findIndex((o) => o._id === opportunity._id),
+            "opportunity"
+          )
+        }
       />
-      
     );
   };
 
   return (
     <div className="space-y-8">
-   
-
       {/* Added Opportunities Section */}
       {addedOpportunities.length > 0 && (
         <div>
@@ -44,7 +39,7 @@ const RecentOpportunity = ({handleConnectClick,addedOpportunities}) => {
       )}
 
       {/* No Data Fallback */}
-      { addedOpportunities.length === 0 && (
+      {addedOpportunities.length === 0 && (
         <div className="text-center text-gray-500">
           No recent posts or opportunities available.
         </div>

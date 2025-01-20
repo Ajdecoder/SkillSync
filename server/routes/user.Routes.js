@@ -10,6 +10,7 @@ import {
   CandidateLogin,
   CandidateRegister,
   JobApply,
+  RevertApplication,
 } from "../controller/candidates/user.candidate.controller.js";
 import {
   RecruiterLogin,
@@ -23,7 +24,8 @@ Userrouter.post("/login/recruiter", LoginValidation, RecruiterLogin);
 Userrouter.post("/register/candidate", SignupValidation, CandidateRegister);
 Userrouter.post("/register/recruiter", SignupValidation, RecruiterRegister);
 Userrouter.post("/account/Forgotpassword", CandidateForgotPassword);
-Userrouter.post("/candidate/opportunity/apply-to-job", JobApply);
+Userrouter.put("/candidate/opportunity/apply-to-job", JobApply);
+Userrouter.put("/candidate/revert-application", RevertApplication);
 // Userrouter.patch("/account/user/changeAccPassword", changeAccPassword)
 // Userrouter.post("/account/DeleteAccount", DeleteAcc);
 // Userrouter.post("/account/ResetPassword", ResetPassword);

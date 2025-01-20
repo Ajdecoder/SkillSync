@@ -192,7 +192,7 @@ export const RegRecruiter = () => {
               <div className="mt-4 text-center text-gray-500">
                 Already have an account?{" "}
                 <button
-                  onClick={() => navigate("/login")}
+                  onClick={() => navigate("/login/recruiter")}
                   className="text-blue-600 hover:underline focus:outline-none"
                 >
                   Login Now

@@ -153,3 +153,29 @@ export const JobApply = async (req, res) => {
     res.status(500).json({ message: "Server error. Please try again later." });
   }
 };
+
+export const RevertApplication = async (req, res) => {
+  const { userId, opportunityId } = req.body;
+
+  if (!userId || !opportunityId) {
+    return res.status(400).json({ message: "User ID and Opportunity ID are required." });
+  }
+
+  try {
+    const opportunity = await OpportunityCollection.findById(opportunityId); 
+    
+    if (!opportunity) {
+      return res.status(404).json({ message: "Opportunity not found." });
+    }
+
+    const getIndexofId =  opportunity.candidatesApplied.indexOf(userId);
+    console.log(getIndexofId,userId)
+    opportunity.candidatesApplied.splice(getIndexofId);
+    await opportunity.save();
+
+    res.status(200).json({ message: "Application cancelled successfully." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error. Please try again later." });
+  }
+};

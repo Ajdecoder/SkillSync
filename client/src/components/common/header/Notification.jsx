@@ -1,0 +1,78 @@
+import React, { useState, useRef, useEffect } from "react";
+
+const NotificationButton = () => {
+  // State to track the dropdown visibility and notifications
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [notifications, setNotifications] = useState([
+    "New message from recruiter",
+    "Your profile has been updated",
+    "You have an interview scheduled",
+    "Job application status updated",
+    "Feedback received from employer",
+  ]);
+
+  const dropdownRef = useRef(null);
+
+  const handleNotificationClick = () => {
+    setShowNotifications((prev) => !prev); // Toggle the dropdown visibility
+  };
+
+  // Close the dropdown if clicked outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+        console.log(event)
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setShowNotifications(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  return (
+    <div className="relative">
+      {/* Notification Button */}
+      <button
+        className="notification-button relative lg:bottom-3"
+        onClick={handleNotificationClick}
+      >
+        <i className="fa-solid fa-bell text-3xl"></i>
+        {/* Notification Badge */}
+        <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
+          {notifications.length}
+        </span>
+      </button>
+
+      {/* Notification Dropdown */}
+      {showNotifications && (
+        <div
+          ref={dropdownRef}
+          className="absolute bg-white shadow-lg rounded-md w-64 top-12 right-[-7rem] p-4 max-h-64 overflow-auto z-10 border border-gray-300"
+        >
+          {notifications.length > 0 ? (
+            <ul>
+              {notifications.map((notification, index) => (
+                <li
+                  key={index}
+                  className="text-sm py-2 border-b last:border-none hover:bg-gray-100 cursor-pointer"
+                >
+                  {notification}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-sm text-gray-500 text-center">
+              No new notifications
+            </p>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default NotificationButton;
