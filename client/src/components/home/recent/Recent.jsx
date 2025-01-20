@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Heading from "../../common/Heading";
 import RecentOpportunity from "./RecentOpportunityCard";
 import { useAuth } from "../../context/AuthContext";
@@ -14,33 +14,40 @@ const Recent = () => {
   const { loggedInUser } = useAuth();
   const navigate = useNavigate();
 
+  const [opportunities, setOpportunities] = useState([]);
+  const [talents, setTalents] = useState([]);
 
-  const { data, error, loading } = useFetchData(
-    `${PORT_CLIENT}/api/requirements/addedOpportunites`
-  );
-  const {
-    data: talentData,
-    error: talentError,
-    loading: talentLoading,
-  } = useFetchData(`${PORT_CLIENT}/api/requirements/allTalents`);
+  const { data: opportunitiesData, error: opportunitiesError, loading: opportunitiesLoading } =
+    useFetchData(`${PORT_CLIENT}/api/requirements/addedOpportunities`);
+    
 
-  const addedOpportunities = data?.Addedopportunities || [];
-  console.log(addedOpportunities);
-  
-  const talents = talentData?.talents || [];
+  const { data: talentsData, error: talentsError, loading: talentsLoading } =
+    useFetchData(`${PORT_CLIENT}/api/requirements/allTalents`);
+
+  useEffect(() => {
+    if (opportunitiesData?.Addedopportunities) {
+      setOpportunities(opportunitiesData.Addedopportunities);
+    }
+  }, [opportunitiesData]);
+
+  useEffect(() => {
+    if (talentsData?.talents) {
+      setTalents(talentsData.talents);
+    }
+  }, [talentsData]);
 
   const handleConnectClick = (item, index, type) => {
-    const post_id = addedOpportunities[index]._id;
+    const post_id = opportunities[index]?._id;
     navigate(`${type}/connect/${post_id}`, { state: { item } });
   };
 
-  if (loading || talentLoading) {
-    return <Spinner />;
-  }
+  if (opportunitiesLoading || talentsLoading) return <Spinner />;
 
-  if (error || talentError) {
+  if (opportunitiesError || talentsError) {
     return (
-      <div className="text-center text-red-500">{error || talentError}</div>
+      <div className="text-center text-red-500">
+        {opportunitiesError || talentsError}
+      </div>
     );
   }
 
@@ -48,7 +55,6 @@ const Recent = () => {
     <>
       {loggedInUser ? (
         <>
-          {/* Recent Opportunities Section */}
           {loggedInUser.role === "candidate" && (
             <section className="recent padding">
               <div className="container">
@@ -58,13 +64,12 @@ const Recent = () => {
                 />
                 <RecentOpportunity
                   handleConnectClick={handleConnectClick}
-                  addedOpportunities={addedOpportunities}
+                  addedOpportunities={opportunities}
                 />
               </div>
             </section>
           )}
 
-          {/* Newly Listed Talents Section */}
           {loggedInUser.role === "recruiter" && (
             <section className="recent padding">
               <div className="container">
@@ -72,10 +77,7 @@ const Recent = () => {
                   title="Newly Listed Talents"
                   subtitle="Explore the latest talents looking for opportunities. Stay updated with fresh talent profiles and career options."
                 />
-                <TalentsCard
-                  key={talents._id}
-                  handleConnectClick={handleConnectClick}
-                />
+                <TalentsCard talents={talents} />
               </div>
             </section>
           )}

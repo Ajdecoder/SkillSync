@@ -40,7 +40,7 @@ const RecruiterProfileContent = ({ profileData, userRole, activeTab }) => {
     ) {
       const nameParts = name.split("."); // Split the name by dots to handle nested properties
       const [fieldName, arrayIndex, subField] = nameParts;
-      console.log(nameParts);
+      
 
       if (arrayIndex !== undefined && updatedSectionData[section][arrayIndex]) {
         updatedSectionData[section][arrayIndex][subField] = value;
@@ -122,7 +122,9 @@ const RecruiterProfileContent = ({ profileData, userRole, activeTab }) => {
           profileData={profileData}
           userRole={userRole}
           updatedData={updatedData}
+          setUpdatedData={setUpdatedData}
           isEditing={isEditing}
+          setIsEditing={setIsEditing}
           handleInputChange={handleInputChange}
           handleSubmit={handleSubmit}
           activeTab={activeTab}

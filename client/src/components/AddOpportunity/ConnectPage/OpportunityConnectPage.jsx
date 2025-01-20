@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { PORT_CLIENT } from "../../../commonClient.js";
 import useFetchData from "../../hooks/useGetDataFetch.jsx";
@@ -7,71 +7,87 @@ import { motion } from "framer-motion";
 import {
   ApplyToOpportunity,
   getUserProfileByEmail,
+  RevertBackApplication,
 } from "../../../services/api.js";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { toast, ToastContainer } from "react-toastify";
 
 const OpportunityConnectPage = () => {
   const [error, setError] = useState(null);
-  const [loadingApply, setLoadingApply] = useState(false); // Loading state for application
-  const [userHasApplied, setUserHasApplied] = useState(false); // Track if user has applied locally
+  const [loadingApply, setLoadingApply] = useState(false);
+  const [userHasApplied, setUserHasApplied] = useState(false);
+  const [showRevertModal, setShowRevertModal] = useState(false);
   const { loggedInUser } = useAuth();
   const [userId, setUserId] = useState(null);
-  const [opportunityId, setOpportunityId] = useState(null);
-
-  const userEmail = loggedInUser.email;
-
   const { post_id } = useParams();
+  const ModalRef = useRef();
 
   const { data: companyData, loading } = useFetchData(
     `${PORT_CLIENT}/api/requirements/Companyrequirements/${post_id}`
   );
 
   useEffect(() => {
-    if (companyData) {
-      if (userId) {
-        setOpportunityId(companyData._id);
+    const fetchUserProfile = async () => {
+      try {
+        const user = await getUserProfileByEmail(loggedInUser.email);
+        setUserId(user.data.candidateProfile._id);
+      } catch (err) {
+        console.error("Error fetching user profile:", err);
+        setError("Unable to fetch user profile.");
       }
-    }
-  }, [companyData, userId]);
-
-  useEffect(() => {
-    const UserProfile = async () => {
-      const user = await getUserProfileByEmail(userEmail);
-      setUserId(user.data.candidateProfile._id);
     };
-    UserProfile();
-  }, [userEmail]);
 
-  const JobApply = async () => {
+    if (loggedInUser.email) {
+      fetchUserProfile();
+    }
+  }, [loggedInUser.email]);
+
+  const handleJobApply = async () => {
+    if (!userId || !companyData?._id) return;
+
     try {
-      setLoadingApply(true); // Start loading state
-      setUserHasApplied(true); // Optimistic update: assume the user applied immediately
-      const data = await ApplyToOpportunity(userId, opportunityId);
-      console.log(data.data.message);
-      toast.success("Applied successfully");
+      setLoadingApply(true);
+      await ApplyToOpportunity(userId, companyData._id);
+      setUserHasApplied(true);
+      toast.success("Applied successfully", { autoClose: 1200 });
     } catch (err) {
       console.error("Error applying to the job:", err);
       setError("There was an error applying to the opportunity.");
-      setLoadingApply(false); // End loading state
-      setUserHasApplied(false); // Reset if error occurs
+    } finally {
+      setLoadingApply(false);
     }
   };
 
-  // Check if post_id is valid
-  if (!post_id) return setError("Invalid post ID.");
+  const handleRevertApplication = async () => {
+    if (!userId || !companyData?._id) return;
 
-  // Prevent rendering if there is an error
+    try {
+      await RevertBackApplication(userId, companyData._id);
+      setUserHasApplied(false);
+      toast.info("Application reverted successfully", { autoClose: 1200 });
+
+      const updatedCandidates = companyData.candidatesApplied.filter(
+        (candidateId) => candidateId !== userId
+      );
+      companyData.candidatesApplied = updatedCandidates;
+    } catch (err) {
+      console.error("Error reverting application:", err);
+      setError("There was an error reverting the application.");
+    }
+  };
+
+  if (!post_id) {
+    return <div className="text-red-500">Invalid post ID.</div>;
+  }
+
   if (error) {
     return <div className="text-red-500">{error}</div>;
   }
 
-  // Show loading spinner if companyData is not available yet
   if (loading || !companyData) {
     return <Spinner />;
   }
 
-  // Ensure companyData and its properties are safe to access
   const {
     company_name,
     skills = [],
@@ -87,14 +103,12 @@ const OpportunityConnectPage = () => {
     candidatesApplied,
   } = companyData;
 
-  // Check if the user has already applied
-  const userHasAlreadyApplied =
-    candidatesApplied && candidatesApplied.includes(userId);
+  const userHasAlreadyApplied = candidatesApplied?.includes(userId);
 
-  // Helper function to render skills properly
   const renderSkills = () => {
-    if (!skills || skills.length === 0) return "No skills available";
-    return skills.map((skill) => skill.skillName || "Unnamed Skill").join(", ");
+    return skills.length > 0
+      ? skills.map((skill) => skill.skillName || "Unnamed Skill").join(", ")
+      : "No skills available";
   };
 
   return (
@@ -147,7 +161,7 @@ const OpportunityConnectPage = () => {
 
         <div className="mt-6 bg-gray-50 p-4 rounded-lg shadow-sm">
           <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-            Opportunity Posting Date
+            Posting Date
           </h3>
           <p>
             <strong>Created At:</strong>{" "}
@@ -169,24 +183,69 @@ const OpportunityConnectPage = () => {
         </p>
 
         <motion.button
-          onClick={JobApply}
+          onClick={handleJobApply}
           className={`text-white p-3 mt-2 m-auto flex bg-orange-600 border-2 border-gray-500`}
           style={{
-            cursor: userHasAlreadyApplied ||userHasApplied || loadingApply ? "not-allowed" : "pointer",
-            opacity:userHasAlreadyApplied || userHasApplied || loadingApply ? 0.5 : 1,
+            cursor:
+              userHasAlreadyApplied || userHasApplied || loadingApply
+                ? "not-allowed"
+                : "pointer",
+            opacity:
+              userHasAlreadyApplied || userHasApplied || loadingApply ? 0.5 : 1,
           }}
           disabled={userHasApplied || loadingApply || userHasAlreadyApplied}
         >
           {loadingApply ? (
-           <i className="fa-solid fa-check"></i>
+            <i className="fa-solid fa-spinner fa-spin"></i>
           ) : userHasApplied || userHasAlreadyApplied ? (
             "Already Applied"
           ) : (
             "Apply"
           )}
         </motion.button>
+
+        {(userHasApplied || userHasAlreadyApplied) && (
+          <motion.h1 className="text-white p-3 mt-2 text-center table m-auto">
+            Want To Revert Application Your Application?{" "}
+            <motion.a
+              className="ml-1 cursor-pointer hover:underline"
+              onClick={() => setShowRevertModal(true)}
+            >
+              Revert
+            </motion.a>
+          </motion.h1>
+        )}
+
+        {showRevertModal && (
+          <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+              <h2 className="text-xl font-bold mb-4">Confirm Revert</h2>
+              <p className="mb-6">
+                Are you sure you want to revert your application?{" "}
+              </p>
+              <div className="flex justify-center gap-4">
+                <button
+                  onClick={() => {
+                    handleRevertApplication();
+                    setShowRevertModal(false);
+                  }}
+                  className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                >
+                  Yes, Revert
+                </button>
+                <button
+                  onClick={() => setShowRevertModal(false)}
+                  className="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <ToastContainer position="bottom-left" />
       </motion.div>
-      <ToastContainer position="bottom-left" />
     </div>
   );
 };

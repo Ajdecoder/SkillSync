@@ -10,6 +10,7 @@ const useFetchData = (url) => {
     setLoading(true);
     try {
       const response = await axios.get(url);
+      console.log("url",url)
       setData(response.data || {});
       setError(false);
     } catch (error) {

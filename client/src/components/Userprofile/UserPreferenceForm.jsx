@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import "../Userprofile/Userpreference.css";
 
 const UserPreferenceForm = ({
-  profileData,
-  isEditing,
   handleSubmit,
   setUpdatedData,
   updatedData,
@@ -147,6 +145,8 @@ const UserPreferenceForm = ({
     "Subject Matter Expert (SME)",
   ]);
 
+  console.log(updatedData.preferences.careerInterests);
+
   const filteredAreas = areasOfInterest.filter((interest) =>
     interest.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -155,6 +155,11 @@ const UserPreferenceForm = ({
   const filteredDropdowns = dropdownElements.filter((dEle) =>
     dEle.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  useEffect(() => {
+    const preferencesfromDb = updatedData.preferences.careerInterests;
+    return setSelectedInterests(preferencesfromDb);
+  }, []);
 
   const handleToggleInterest = (interest) => {
     setSelectedInterests((prevInterests) =>

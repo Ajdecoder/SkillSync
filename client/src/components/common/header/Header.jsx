@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./header.css";
 import { nav, navExpandCAndidate, navExpandRecruiter } from "../../data/Data";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useAuth0 } from "@auth0/auth0-react";
 import logo from "/images/logo.png?url";
 import clsx from "clsx";
+import "./notifications.css";
+import NotificationButton from "./Notification";
 
 const Header = () => {
   const { loggedInUser, logout: customLogout } = useAuth();
-  const { user, isAuthenticated, logout: auth0Logout} = useAuth0();
-  
+  const { user, isAuthenticated, logout: auth0Logout } = useAuth0();
+  const navigate = useNavigate();
   // State management
   const [isNavListOpen, setIsNavListOpen] = useState(false);
   const [showAboutUser, setShowAboutUser] = useState(false);
@@ -21,6 +23,12 @@ const Header = () => {
   const dropdownRef = useRef(null); // Ref for user dropdown
   const dropdownExpandRef = useRef(null); // Ref for Requirement dropdown
   const headerRef = useRef(null); // Ref for header
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [notifications, setNotifications] = useState([
+    "New message from recruiter",
+    "Your profile has been updated",
+    "You have an interview scheduled",
+  ]);
 
   // Determine current user
   const currentUser = loggedInUser || (isAuthenticated && user);
@@ -28,11 +36,17 @@ const Header = () => {
   // console.log("Auth0currentUser",user)
   // console.log("CustomAuth",loggedInUser)
 
+  // Handle notification toggle
+  const handleNotificationClick = () => {
+    setShowNotifications((prev) => !prev);
+  };
 
   // Set navigation based on user role
   useEffect(() => {
     setExpandNav(
-      loggedInUser?.role === "candidate" ? navExpandCAndidate : navExpandRecruiter
+      loggedInUser?.role === "candidate"
+        ? navExpandCAndidate
+        : navExpandRecruiter
     );
   }, [loggedInUser]);
 
@@ -42,7 +56,7 @@ const Header = () => {
       setIsSmallScreen(window.innerWidth <= 768);
       if (window.innerWidth > 768) setIsNavListOpen(false);
     };
-    
+
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -51,6 +65,7 @@ const Header = () => {
   const handleLogout = () => {
     if (loggedInUser) {
       customLogout();
+      navigate("/");
     } else if (isAuthenticated) {
       auth0Logout({ returnTo: window.location.origin });
     }
@@ -69,12 +84,19 @@ const Header = () => {
         setShowAboutUser(false);
       }
 
-      if (dropdownExpandRef.current && !dropdownExpandRef.current.contains(event.target)) {
+      if (
+        dropdownExpandRef.current &&
+        !dropdownExpandRef.current.contains(event.target)
+      ) {
         setShowExpand(false);
       }
 
-      if (isSmallScreen && headerRef.current && !headerRef.current.contains(event.target)) {
-        setIsNavListOpen(false); 
+      if (
+        isSmallScreen &&
+        headerRef.current &&
+        !headerRef.current.contains(event.target)
+      ) {
+        setIsNavListOpen(false);
       }
     };
 
@@ -93,7 +115,7 @@ const Header = () => {
           })
         }
         onClick={(event) =>
-          item.text === "Requirement" && handleRequirementClick(event) 
+          item.text === "Requirement" && handleRequirementClick(event)
         }
       >
         {item.text}
@@ -119,7 +141,7 @@ const Header = () => {
 
   return (
     <header>
-      <div className="flex top-header">
+      <div className="flex top-header relative top-0">
         {/* Logo */}
         <div className="logo">
           <NavLink to="/">
@@ -129,10 +151,14 @@ const Header = () => {
 
         {/* Navigation */}
         <nav ref={headerRef} className="nav">
-          <ul className={clsx(isNavListOpen ? "small overflow-scroll" : "flex")}>
+          <ul
+            className={clsx(isNavListOpen ? "small overflow-scroll" : "flex")}
+          >
             {navList}
           </ul>
         </nav>
+
+        <NotificationButton />
 
         {/* User Section */}
         <div ref={dropdownRef} className="button mb-[1rem]">
@@ -151,7 +177,10 @@ const Header = () => {
               {/* Dropdown Menu */}
               {showAboutUser && (
                 <div className="flex flex-col absolute top-16 right-0 bg-white border border-gray-300 shadow-md p-4 min-w-[200px] z-10 rounded-lg transition-all duration-300 ease-in-out">
-                  <Link to="/profile/userProfile" className="text-center text-2xl">
+                  <Link
+                    to="/profile/userProfile"
+                    className="text-center text-2xl"
+                  >
                     <i className="fa-solid fa-user"></i>
                   </Link>
                   <p className="text-sm text-gray-700 mb-2">

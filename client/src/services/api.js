@@ -40,15 +40,21 @@ export const getAllRecruitersProfiles = () =>
 export const addOpportunity = (data) =>
   API.post("/api/requirements/addOpportunity", data);
 export const getOpportunities = () =>
-  API.get("/api/requirements/addedOpportunites");
+  API.get("/api/requirements/addedOpportunities");
 export const getRequirements = () =>
   API.get("/api/requirements/allRequirements");
 export const ApplyToOpportunity = (userId, opportunityId) => {
-  return API.post(`/api/users/candidate/opportunity/apply-to-job`, {
+  return API.put(`/api/users/candidate/opportunity/apply-to-job`, {
     userId,
     opportunityId
   });
 };
+export const RevertBackApplication = (userId, opportunityId) => {
+  return API.put(`/api/users/candidate/revert-application`, {
+    userId,
+    opportunityId
+  });
+}
 
 
 // Requirement By id Api Method

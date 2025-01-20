@@ -193,7 +193,7 @@ export const RegCandidate = () => {
           <div className="mt-4 text-center text-gray-600">
             Already have an account?{" "}
             <button
-              onClick={() => navigate("/login")}
+              onClick={() => navigate("/login/candidate")}
               className="text-blue-600 hover:underline"
             >
               Login Now

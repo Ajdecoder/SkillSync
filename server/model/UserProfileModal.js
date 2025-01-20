@@ -7,7 +7,7 @@ export const candidateProfileSchema = new mongoose.Schema(
     name: { type: String, default: "Anonymous Candidate" },
     email: { type: String, unique: true },
     profilePicture: {
-      type: String, 
+      type: String,
       default:
         "https://i.pinimg.com/1200x/d9/04/bb/d904bbc138e6cba76e5470df5054b106.jpg",
     },
@@ -16,7 +16,7 @@ export const candidateProfileSchema = new mongoose.Schema(
     experience: [
       {
         company: { type: String, default: "No company listed" },
-        JobRole: { type: String, default: "No role specified" },
+        jobRole: { type: String, default: "No role specified" },
         duration: { type: String, default: "No duration mentioned" },
         description: { type: String, default: "No description provided" },
       },
@@ -34,6 +34,10 @@ export const candidateProfileSchema = new mongoose.Schema(
       country: { type: String, default: "Unknown Country" },
     },
     preferences: {
+      careerInterests: {
+        type: [String],
+        default: ["Web Development", "Programming"],
+      },
       jobType: { type: String, default: "Full-Time" },
       industry: { type: String, default: "General" },
       salaryRange: {
@@ -102,7 +106,6 @@ export const candidateProfileSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-// Recruiter Profile Schema
 export const recruiterProfileSchema = new mongoose.Schema(
   {
     recruiterInfo: { type: mongoose.Schema.ObjectId, ref: "Recruiter" },
@@ -123,39 +126,70 @@ export const recruiterProfileSchema = new mongoose.Schema(
         facebook: { type: String, default: "" },
       },
     },
-    jobListings: [
-      {
-        jobTitle: { type: String, default: "Untitled Job" },
-        location: { type: String, default: "Location not specified" },
-        jobType: { type: String, default: "Full-Time" },
-        skillsRequired: [{ type: String, default: "Not specified" }],
-        description: { type: String, default: "No description provided" },
-        applicationDeadline: { type: Date, default: Date.now },
-        salaryRange: {
-          min: { type: Number, default: 30000 },
-          max: { type: Number, default: 100000 },
+    jobListings: {
+      type: [
+        {
+          jobTitle: { type: String, default: "Untitled Job" },
+          location: { type: String, default: "Location not specified" },
+          jobType: { type: String, default: "Full-Time" },
+          skillsRequired: [{ type: String, default: "Not specified" }],
+          description: { type: String, default: "No description provided" },
+          applicationDeadline: { type: Date, default: Date.now },
+          salaryRange: {
+            min: { type: Number, default: 30000 },
+            max: { type: Number, default: 100000 },
+          },
+          jobCategory: { type: String, default: "General" },
+          jobStatus: {
+            type: String,
+            enum: ["Open", "Closed", "On Hold", "Filled"],
+            default: "Open",
+          },
         },
-        jobCategory: { type: String, default: "General" },
-        jobStatus: {
-          type: String,
-          enum: ["Open", "Closed", "On Hold", "Filled"],
-          default: "Open",
+      ],
+      default: [
+        {
+          jobTitle: "Untitled Job",
+          location: "Location not specified",
+          jobType: "Full-Time",
+          skillsRequired: ["Not specified"],
+          description: "No description provided",
+          applicationDeadline: new Date(),
+          salaryRange: {
+            min: 30000,
+            max: 100000,
+          },
+          jobCategory: "General",
+          jobStatus: "Open",
         },
-      },
-    ],
-    teamMembers: [
-      {
-        name: { type: String, default: "Team Member" },
-        teamMemberRole: { type: String, default: "Member" },
-        linkedIn: { type: String, default: "" },
-        github: { type: String, default: "" },
-      },
-    ],
+      ],
+    },
+    teamMembers: {
+      type: [
+        {
+          name: { type: String, default: "Team Member" },
+          teamMemberRole: { type: String, default: "Member" },
+          linkedIn: { type: String, default: "" },
+          github: { type: String, default: "" },
+        },
+      ],
+      default: [
+        {
+          name: "Team Member",
+          teamMemberRole: "Member",
+          linkedIn: "",
+          github: "",
+        },
+      ],
+    },
     recruitmentProcess: {
       description: { type: String, default: "No process defined" },
       timeline: { type: String, default: "No timeline specified" },
-      interviewStages: [{ type: String, default: "Not specified" }],
-      assessmentTypes: [{ type: String, default: "Not specified" }],
+      interviewStages: { type: [String], default: ["Stage1", "Stage2"] },
+      assessmentTypes: {
+        type: [String],
+        default: ["AssessmentType1", "AssessmentType2"],
+      },
       applicationReview: {
         type: String,
         enum: ["Pending", "Reviewed", "Interviewing", "Hired", "Rejected"],
@@ -171,29 +205,55 @@ export const recruiterProfileSchema = new mongoose.Schema(
       state: { type: String, default: "Unknown State" },
       country: { type: String, default: "Unknown Country" },
     },
-    companyBenefits: [
-      {
-        benefitType: {
-          type: String,
-          enum: ["Health Insurance", "Paid Time Off", "Retirement Plan"],
-          default: "Health Insurance",
+    companyBenefits: {
+      type: [
+        {
+          benefitType: {
+            type: String,
+            enum: ["Health Insurance", "Paid Time Off", "Retirement Plan"],
+            default: "Health Insurance",
+          },
+          description: { type: String, default: "No details provided" },
         },
-        description: { type: String, default: "No details provided" },
-      },
-    ],
-    pastHires: [
-      {
-        candidateName: { type: String, default: "Unknown Candidate" },
-        position: { type: String, default: "Position not specified" },
-        hireDate: { type: Date, default: Date.now },
-        testimonial: { type: String, default: "" },
-        status: {
-          type: String,
-          enum: ["Hired", "Interviewed", "Not Selected"],
-          default: "Hired",
+      ],
+      default: [
+        {
+          benefitType: "Health Insurance",
+          description: "No details provided",
         },
-      },
-    ],
+      ],
+    },
+    pastHires: {
+      type: [
+        {
+          candidateName: { type: String, default: "Unknown Candidate" },
+          position: { type: String, default: "Position not specified" },
+          hireDate: { type: Date, default: Date.now },
+          testimonial: { type: String, default: "" },
+          status: {
+            type: String,
+            enum: ["Hired", "Interviewed", "Not Selected"],
+            default: "Hired",
+          },
+        },
+      ],
+      default: [
+        {
+          candidateName: "Unknown Candidate",
+          position: "Position not specified",
+          hireDate: new Date(),
+          testimonial: "",
+          status: "Hired",
+        },
+        {
+          candidateName: "Unknown Candidate",
+          position: "Position not specified",
+          hireDate: new Date(),
+          testimonial: "",
+          status: "Hired",
+        },
+      ],
+    },
   },
   { timestamps: true }
 );

@@ -121,7 +121,7 @@ export const LoginRecruiter = () => {
           <div className="mt-4 text-center text-gray-500">
             No account?{" "}
             <button
-              onClick={() => navigate("/signup")}
+              onClick={() => navigate("/signup/recruiter")}
               className="text-blue-600 hover:underline focus:outline-none"
             >
               Signup Now

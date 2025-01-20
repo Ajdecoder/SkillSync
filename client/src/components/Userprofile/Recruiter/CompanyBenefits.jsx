@@ -1,16 +1,37 @@
-// CompanyBenefits.js
 import React from "react";
 
 const CompanyBenefits = ({
   userRole,
   activeTab,
   isEditing,
+  setIsEditing,
   profileData,
   updatedData,
   handleInputChange,
   handleSubmit,
   handleEditClick,
+  setUpdatedData
 }) => {
+  const handleAddBenefit = () => {
+    setUpdatedData((prevState) => ({
+      ...prevState,
+      companyBenefits: [
+        ...prevState.companyBenefits,
+        { benefitType: "", description: "" },
+      ],
+    }));
+  };
+
+  const handleCancelEdit = () => {
+    // Reset updatedData to profileData
+    setUpdatedData(profileData);
+    // Set isEditing to false for companyBenefits
+    setIsEditing((prevState) => ({
+      ...prevState,
+      companyBenefits: false,
+    }));
+  };
+
   return (
     <div>
       {userRole === "recruiter" && activeTab === "companyBenefits" && (
@@ -30,7 +51,7 @@ const CompanyBenefits = ({
                       <div>
                         <input
                           type="text"
-                          name={`companyBenefits.${idx}.benefitType`} // Adjusting the input name to target the correct index
+                          name={`companyBenefits.${idx}.benefitType`}
                           value={benefit.benefitType}
                           onChange={(e) =>
                             handleInputChange(e, "companyBenefits", idx)
@@ -54,15 +75,29 @@ const CompanyBenefits = ({
                   ))}
                 </ul>
                 <button
+                  type="button"
+                  onClick={handleAddBenefit}
+                  className="px-4 py-2 bg-green-600 text-white rounded-lg mt-4"
+                >
+                  Add Benefit
+                </button>
+                <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg mt-4"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg mt-4 ml-4"
                 >
                   Save Changes
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCancelEdit}
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg mt-4 ml-4"
+                >
+                  Cancel
                 </button>
               </form>
             ) : (
               <ul className="space-y-4">
-                {profileData?.companyBenefits?.map((benefit, idx) => (
+                {updatedData?.companyBenefits?.map((benefit, idx) => (
                   <li
                     key={idx}
                     className="bg-gray-100 p-4 rounded-lg shadow-sm"
