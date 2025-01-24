@@ -1,9 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { getAllCandidateProfiles } from "../../../services/api";
 import { Spinner } from "../../common/loadingSpinner/spinner";
+import { useNavigate } from "react-router-dom";
 
-const TalentsCard = ({ bgColor, onConnectClick }) => {
-  const [talents, setTalents] = useState([]);
+// Define filter options as constants
+const locations = [
+  "New York",
+  "Los Angeles",
+  "Chicago",
+  "San Francisco",
+  "Miami",
+  "Philadelphia",
+];
+const skills = ["React", "JavaScript", "Node.js", "Python", "TypeScript"];
+const experiences = [
+  "Junior Developer",
+  "Mid-level Developer",
+  "Senior Developer",
+  "Lead Developer",
+];
+const jobTypes = ["Full-Time", "Part-Time", "Contract", "Internship"];
+const industries = ["Technology", "Finance", "Healthcare", "Education"];
+const languages = ["English", "Spanish", "French", "German"];
+const workEnvironments = ["Remote", "On-Site", "Hybrid"];
+
+const TalentsCard = ({ bgColor, talents }) => {
   const [filteredTalents, setFilteredTalents] = useState([]);
 
   // Filter states
@@ -22,7 +43,6 @@ const TalentsCard = ({ bgColor, onConnectClick }) => {
     const fetchCandidates = async () => {
       try {
         const { data } = await getAllCandidateProfiles();
-        setTalents(data.candidates);
         setFilteredTalents(data.candidates);
       } catch (error) {
         console.error("Error fetching candidates:", error);
@@ -59,9 +79,12 @@ const TalentsCard = ({ bgColor, onConnectClick }) => {
     // Filter by experience
     if (filters.experience) {
       filtered = filtered.filter((candidate) =>
-        candidate.experience.some((exp) =>
-          exp.JobRole.toLowerCase().includes(filters.experience.toLowerCase()) ||
-          exp.company.toLowerCase().includes(filters.experience.toLowerCase())
+        candidate.experience.some(
+          (exp) =>
+            exp.JobRole.toLowerCase().includes(
+              filters.experience.toLowerCase()
+            ) ||
+            exp.company.toLowerCase().includes(filters.experience.toLowerCase())
         )
       );
     }
@@ -81,14 +104,17 @@ const TalentsCard = ({ bgColor, onConnectClick }) => {
     if (filters.jobType) {
       filtered = filtered.filter(
         (candidate) =>
-          candidate.preferences.jobType.toLowerCase() === filters.jobType.toLowerCase()
+          candidate.preferences.jobType.toLowerCase() ===
+          filters.jobType.toLowerCase()
       );
     }
 
     // Filter by industry
     if (filters.industry) {
       filtered = filtered.filter((candidate) =>
-        candidate.preferences.industry.toLowerCase().includes(filters.industry.toLowerCase())
+        candidate.preferences.industry
+          .toLowerCase()
+          .includes(filters.industry.toLowerCase())
       );
     }
 
@@ -117,39 +143,58 @@ const TalentsCard = ({ bgColor, onConnectClick }) => {
     filterCandidates();
   }, [filters]);
 
+  const navigate = useNavigate()
   if (!filteredTalents.length) return <Spinner />;
+
 
   return (
     <div className="mx-auto p-4">
       {/* Filter Inputs */}
-      <div className="flex flex-wrap gap-4 mb-6">
-        <input
-          type="text"
+      <div className="flex flex-wrap gap-4 mb-6 justify-center">
+        {/* {console.log(filters)} */}
+        {/* {console.log(talents)} */}
+        <select
           value={filters.location}
           onChange={(e) =>
             setFilters((prev) => ({ ...prev, location: e.target.value }))
           }
-          placeholder="Filter by location"
-          className="border-4 border-sky-500 text-black px-4 py-2 rounded-md"
-        />
-        <input
-          type="text"
+          className="border-2 border-sky-500 text-black px-4 py-2 rounded-md"
+        >
+          <option value="">Select Location</option>
+          {locations.map((location) => (
+            <option key={location} value={location}>
+              {location}
+            </option>
+          ))}
+        </select>
+        <select
           value={filters.skills}
           onChange={(e) =>
             setFilters((prev) => ({ ...prev, skills: e.target.value }))
           }
-          placeholder="Filter by skills"
-          className="border-4 border-sky-500 text-black px-4 py-2 rounded-md"
-        />
-        <input
-          type="text"
+          className="border-2 border-sky-500 text-black px-4 py-2 rounded-md"
+        >
+          <option value="">Select Skills</option>
+          {skills.map((skill) => (
+            <option key={skill} value={skill}>
+              {skill}
+            </option>
+          ))}
+        </select>
+        <select
           value={filters.experience}
           onChange={(e) =>
             setFilters((prev) => ({ ...prev, experience: e.target.value }))
           }
-          placeholder="Filter by experience"
-          className="border-4 border-sky-500 text-black px-4 py-2 rounded-md"
-        />
+          className="border-2 border-sky-500 text-black px-4 py-2 rounded-md"
+        >
+          <option value="">Select Experience</option>
+          {experiences.map((experience) => (
+            <option key={experience} value={experience}>
+              {experience}
+            </option>
+          ))}
+        </select>
         <input
           type="number"
           value={filters.salary.min}
@@ -160,7 +205,7 @@ const TalentsCard = ({ bgColor, onConnectClick }) => {
             }))
           }
           placeholder="Min salary"
-          className="border-4 border-sky-500 text-black px-4 py-2 rounded-md"
+          className=" max-w-[20%] border-2 border-sky-500 text-black px-4 py-2 rounded-md"
         />
         <input
           type="number"
@@ -172,44 +217,64 @@ const TalentsCard = ({ bgColor, onConnectClick }) => {
             }))
           }
           placeholder="Max salary"
-          className="border-4 border-sky-500 text-black px-4 py-2 rounded-md"
+          className="max-w-[20%] border-2 border-sky-500 text-black px-4 py-2 rounded-md"
         />
-        <input
-          type="text"
+        <select
           value={filters.jobType}
           onChange={(e) =>
             setFilters((prev) => ({ ...prev, jobType: e.target.value }))
           }
-          placeholder="Filter by job type"
-          className="border-4 border-sky-500 text-black px-4 py-2 rounded-md"
-        />
-        <input
-          type="text"
+          className="border-2 border-sky-500 text-black px-4 py-2 rounded-md"
+        >
+          <option value="">Select Job Type</option>
+          {jobTypes.map((jobType) => (
+            <option key={jobType} value={jobType}>
+              {jobType}
+            </option>
+          ))}
+        </select>
+        <select
           value={filters.industry}
           onChange={(e) =>
             setFilters((prev) => ({ ...prev, industry: e.target.value }))
           }
-          placeholder="Filter by industry"
-          className="border-4 border-sky-500 text-black px-4 py-2 rounded-md"
-        />
-        <input
-          type="text"
+          className="border-2 border-sky-500 text-black px-4 py-2 rounded-md"
+        >
+          <option value="">Select Industry</option>
+          {industries.map((industry) => (
+            <option key={industry} value={industry}>
+              {industry}
+            </option>
+          ))}
+        </select>
+        <select
           value={filters.language}
           onChange={(e) =>
             setFilters((prev) => ({ ...prev, language: e.target.value }))
           }
-          placeholder="Filter by language"
-          className="border-4 border-sky-500 text-black px-4 py-2 rounded-md"
-        />
-        <input
-          type="text"
+          className="border-2 border-sky-500 text-black px-4 py-2 rounded-md"
+        >
+          <option value="">Select Language</option>
+          {languages.map((language) => (
+            <option key={language} value={language}>
+              {language}
+            </option>
+          ))}
+        </select>
+        <select
           value={filters.workEnvironment}
           onChange={(e) =>
             setFilters((prev) => ({ ...prev, workEnvironment: e.target.value }))
           }
-          placeholder="Filter by work environment"
-          className="border-4 border-sky-500 text-black px-4 py-2 rounded-md"
-        />
+          className="border-2 border-sky-500 text-black px-4 py-2 rounded-md"
+        >
+          <option value="">Select Work Environment</option>
+          {workEnvironments.map((workEnvironment) => (
+            <option key={workEnvironment} value={workEnvironment}>
+              {workEnvironment}
+            </option>
+          ))}
+        </select>
       </div>
 
       {/* Talent Cards */}
@@ -229,9 +294,9 @@ const TalentsCard = ({ bgColor, onConnectClick }) => {
             <p className="text-center text-sm">{candidate.about}</p>
             <button
               className="mt-auto bg-blue-500 text-white py-2 px-4 rounded-md"
-              onClick={() => onConnectClick(candidate._id)}
+              onClick={() => navigate(`/candidateinfo/${candidate._id}`)}
             >
-              Connect
+              View Profile
             </button>
           </div>
         ))}

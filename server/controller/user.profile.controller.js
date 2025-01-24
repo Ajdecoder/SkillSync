@@ -26,6 +26,33 @@ export const getAllRecruiterProfiles = async (req, res) => {
 };
 
 /**
+ * Get User Profile by Id
+ */
+export const getUserProfileById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Check candidate profile
+    const candidateProfile = await CandidateUserProfile.findById(id).populate("candidateInfo");
+    if (candidateProfile) {
+      return res.status(200).json({ profile: candidateProfile });
+    }
+
+    // Check recruiter profile
+    const recruiterProfile = await RecruiterUserProfile.findById(id).populate("recruiterInfo");
+    if (recruiterProfile) {
+      return res.status(200).json({ profile: recruiterProfile });
+    }
+
+    // User profile not found
+    return res.status(404).json({ message: "User profile not found" });
+  } catch (error) {
+    console.error("Error fetching user profile:", error);
+    return res.status(500).json({ message: "Error fetching user profile", error: error.message });
+  }
+};
+
+/**
  * Get User Profile by Email
  */
 export const getUserProfileByEmail = async (req, res) => {

@@ -26,11 +26,6 @@ export const OpportunityCollection = connect.model(
   "OpportunityCollection"
 );
 
-export const HireTalentCollection = connect.model(
-  "TalentSearch",
-  HireTalentSchema,
-  "TalentSearchCollection"
-);
 
 export const Candidate = connect.model("Candidate", userSchema, "CandidateCollection");
 export const Recruiter = connect.model("Recruiter", userSchema, "RecruiterCollection");

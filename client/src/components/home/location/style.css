@@ -112,3 +112,7 @@ html, body {
   margin-right: 20px;
   opacity: 0.8;
 }
+
+.awards h1 {
+  font-size: 20px !important;
+}

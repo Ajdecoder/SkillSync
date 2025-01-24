@@ -1,6 +1,6 @@
 import {
   OpportunityCollection,
-  HireTalentCollection,
+  
 } from "../db/database.js";
 
 export const addOpportunity = async (req, res) => {
@@ -57,7 +57,7 @@ export const hireTalent = async (req, res) => {
   } = req.body;
 
   try {
-    const newTalent = new HireTalentCollection({
+    const newTalent = new TalentCollection({
       jobType,
       skills,
       availableDate,
@@ -81,18 +81,7 @@ export const hireTalent = async (req, res) => {
   }
 };
 
-export const allTalentsData = async (req, res) => {
-  try {
-    const talents = await HireTalentCollection.find();
 
-    res.json({ talents });
-  } catch (error) {
-    console.error("Error fetching data:", error.message);
-    res
-      .status(500)
-      .json({ message: "Failed to fetch talents. Please try again later." });
-  }
-};
 
 export const allOpportunitiesData = async (req, res) => {
   try {
@@ -111,7 +100,6 @@ export const allOpportunitiesData = async (req, res) => {
 export const allRequirementsData = async (req, res) => {
   try {
     const Addedopportunities = await OpportunityCollection.find();
-    const talents = await HireTalentCollection.find();
 
     res.status(200).json({
       Addedopportunities,
@@ -126,20 +114,16 @@ export const getRequirementById = async (req, res) => {
   try {
     const RequirementId = req.params.id;
 
-    const getRequirementFromHireTalent = await HireTalentCollection.findById(
-      RequirementId
-    );
+    
     const getRequirementFromAddOpportunity =
       await OpportunityCollection.findById(RequirementId);
 
-    const getRequirement =
-      getRequirementFromHireTalent || getRequirementFromAddOpportunity;
 
-    if (!getRequirement) {
+    if (!getRequirementFromAddOpportunity) {
       return res.status(404).json({ message: "Requirement not found" });
     }
 
-    res.status(200).json(getRequirement);
+    res.status(200).json(getRequirementFromAddOpportunity);
   } catch (error) {
     console.error("Error fetching requirement:", error.message);
     res.status(500).json({

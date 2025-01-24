@@ -18,13 +18,13 @@ import { Settings } from "../account/settings/Setting.jsx";
 import { SavedOpportunity } from "../Requirements/Candidates/SavedOpportunity.jsx";
 import MarketTrends from "../Requirements/MarketTrends.jsx";
 import { BookmarkTalent } from "../Requirements/Recruiters/BookMarkTalent.jsx";
-import TalentConnectPage from "../AddOpportunity/ConnectPage/HiringConnectPage.jsx";
 import OpportunityConnectPage from "../AddOpportunity/ConnectPage/OpportunityConnectPage.jsx";
 import { UserProfile } from "../Userprofile/UserProfile.jsx";
 import { LoginRecruiter } from "../Login/LoginRecruiter.jsx";
 import { ChooseLoginMode } from "../Login/ChooseLoginMode.jsx";
 import DeleteAccount from "../account/settings/DeleteAccount.jsx";
 import { MyJobListnings } from "../Requirements/Recruiters/MyJobListnings.jsx";
+import { ViewCandidateInfo } from "../TalentSearch/ViewCandidateProfile/ViewCandidateInfo.jsx";
 
 // This is just a helper function to return route elements.
 
@@ -72,11 +72,7 @@ export const RoutesConfig = ({ spin, setSpin }) => [
     path="/requirements/market-trends"
     element={<MarketTrends />}
   />,
-  <Route
-    key="talent/connect/:post_id"
-    path="talent/connect/:post_id"
-    element={<TalentConnectPage />}
-  />,
+  
   <Route
     key="opportunity/connect/:post_id"
     path="opportunity/connect/:post_id"
@@ -94,6 +90,7 @@ export const RoutesConfig = ({ spin, setSpin }) => [
     element={<RegCandidate />}
   />,
   <Route key="/blog/:Blogid" path="/blog/:Blogid" element={<BlogPage />} />,
+  <Route key="/blog/candidateid:" path="/candidateinfo/:candidateid" element={<ViewCandidateInfo />} />,
   <Route
     key="/profile/settings"
     path="/profile/settings"

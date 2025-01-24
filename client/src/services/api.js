@@ -28,13 +28,15 @@ export const forgotPassword = (data) =>
 
 // Profile Api Methods
 export const getUserProfileByEmail = (email) =>
-  API.get(`/api/users/profile/account/user/profile/${email}`);
+  API.get(`/api/user/profile/account/user/email/${email}`);
+export const getUserProfileById = (id) =>
+  API.get(`/api/user/profile/account/user/id/${id}`);
 export const updateUserProfileByEmail = (email, data) =>
-  API.put(`/api/users/profile/account/user/profile/update/${email}`, data);
+  API.put(`/api/user/profile/account/user/update/email/${email}`, data);
 export const getAllCandidateProfiles = () =>
-  API.get("/api/users/profile/account/users/profile/user/candidates");
+  API.get("/api/user/profile/account/users/user/candidates");
 export const getAllRecruitersProfiles = () =>
-  API.get("/api/users/profile/account/users/profile/user/recruiters");
+  API.get("/api/user/profile/account/users/user/recruiters");
 
 //Opportunity Api Methods
 export const addOpportunity = (data) =>
@@ -61,10 +63,12 @@ export const RevertBackApplication = (userId, opportunityId) => {
 export const getRequirementById = (id) =>
   API.get(`/api/requirements/Companyrequirements/${id}`);
 
+
+
 // Talents Api Methods
 export const getTalents = () => API.get("/api/requirements/allTalents");
 export const hireTalent = (data) =>
   API.post("/api/requirements/hireTalent", data);
 
 // Chat Api Methods
-export const getChatResponse = (data) => API.post("/chat-response", data);
+export const getChatResponse = (data) => API.post("/api/chatbot/chat-response", data);

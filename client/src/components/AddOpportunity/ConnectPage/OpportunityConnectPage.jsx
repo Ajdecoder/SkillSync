@@ -20,7 +20,6 @@ const OpportunityConnectPage = () => {
   const { loggedInUser } = useAuth();
   const [userId, setUserId] = useState(null);
   const { post_id } = useParams();
-  const ModalRef = useRef();
 
   const { data: companyData, loading } = useFetchData(
     `${PORT_CLIENT}/api/requirements/Companyrequirements/${post_id}`
@@ -62,6 +61,7 @@ const OpportunityConnectPage = () => {
     if (!userId || !companyData?._id) return;
 
     try {
+      setLoadingApply(true);
       await RevertBackApplication(userId, companyData._id);
       setUserHasApplied(false);
       toast.info("Application reverted successfully", { autoClose: 1200 });
@@ -73,6 +73,8 @@ const OpportunityConnectPage = () => {
     } catch (err) {
       console.error("Error reverting application:", err);
       setError("There was an error reverting the application.");
+    } finally {
+      setLoadingApply(false);
     }
   };
 
@@ -101,7 +103,10 @@ const OpportunityConnectPage = () => {
     createdAt,
     company_website,
     candidatesApplied,
+    _id,
   } = companyData;
+
+  console.log(_id);
 
   const userHasAlreadyApplied = candidatesApplied?.includes(userId);
 
@@ -118,6 +123,9 @@ const OpportunityConnectPage = () => {
         animate={{ scale: 1 }}
         className="p-6 w-[66rem] max-w-4xl mx-auto bg-black shadow-lg rounded-lg border-2 border-gray-300 hover:scale-105 transition-all duration-300"
       >
+        <button className="float-end">
+          <i className="fa-regular fa-bookmark text-white text-2xl" />
+        </button>
         <h2 className="text-4xl font-semibold text-gray-800 mb-4">
           {company_name}
         </h2>
