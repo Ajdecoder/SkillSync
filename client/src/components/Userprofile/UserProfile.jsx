@@ -29,7 +29,7 @@ export const UserProfile = () => {
     loading,
     error,
   } = useFetchData(
-    `${PORT_CLIENT}/api/users/profile/account/user/profile/${loggedInUser?.email}`
+    `${PORT_CLIENT}/api/user/profile/account/user/email/${loggedInUser?.email}`
   );
 
   const calculateProfileCompletion = (user, role) => {

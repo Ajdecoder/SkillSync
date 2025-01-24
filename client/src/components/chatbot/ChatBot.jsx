@@ -18,24 +18,57 @@ export const ChatBot = () => {
   const [inputText, setInputText] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
-  const sendMessage = async () => {
-    if (inputText.trim() === "") return;
+  const predefinedResponses = {
+    "What is SkillSync?":
+      "SkillSync connects businesses with skilled professionals for flexible work opportunities.",
+    "How to post a job?":
+      "To post a job, go to the 'Add Opportunity' page and fill in the details.",
+    "How to update my profile?":
+      "Go to your dashboard, click on 'Edit Profile', and make changes.",
+  };
+
+  // Send predefined message
+  const handlePredefinedMessage = (message) => {
+    setInputText(message); // Set input field to predefined question
 
     const userMessage = {
       id: messages.length + 1,
       sender: "You ",
       time: new Date().toLocaleTimeString(),
-      text: inputText,
+      text: message,
       status: "Sent ✔",
       alignment: "right",
     };
 
     setMessages((prevMessages) => [...prevMessages, userMessage]);
-    setInputText("");
+
+    // Check for predefined answer
+    const predefinedAnswer = predefinedResponses[message];
+    if (predefinedAnswer) {
+      setTimeout(() => {
+        const botMessage = {
+          id: messages.length + 2,
+          sender: "ChatGuru",
+          time: new Date().toLocaleTimeString(),
+          text: predefinedAnswer,
+          status: "Delivered ✔",
+          alignment: "left",
+        };
+
+        setMessages((prevMessages) => [...prevMessages, botMessage]);
+      }, 1000); // Delay of 1 second
+    } else {
+      // Handle non-predefined messages
+      sendMessage(message);
+    }
+  };
+
+  // Send user input message
+  const sendMessage = async (message) => {
+    if (message.trim() === "") return;
 
     try {
-      const response =getChatResponse(userMessage)
-
+      const response = await getChatResponse({ text: message });
       const botMessage = {
         id: messages.length + 2,
         sender: "ChatGuru",
@@ -98,6 +131,28 @@ export const ChatBot = () => {
             <span className="font-bold">ChatGuru</span>
           </div>
 
+          {/* Predefined Buttons */}
+          <div className="text-black flex gap-3 p-3 text-[12px]">
+            <button
+              className="border-2 border-violet-600"
+              onClick={() => handlePredefinedMessage("What is SkillSync?")}
+            >
+              What is SkillSync?
+            </button>
+            <button
+              className="border-2 border-violet-600"
+              onClick={() => handlePredefinedMessage("How to post a job?")}
+            >
+              How to post a job?
+            </button>
+            <button
+              className="border-2 border-violet-600"
+              onClick={() => handlePredefinedMessage("How to update my profile?")}
+            >
+              How to update my profile?
+            </button>
+          </div>
+
           {/* Chat Messages */}
           <div className="chatbot-container p-4 max-h-[400px] overflow-y-auto">
             {messages.map(({ id, sender, time, text, status, alignment }) => (
@@ -144,10 +199,10 @@ export const ChatBot = () => {
               placeholder="Type a message..."
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+              onKeyDown={(e) => e.key === "Enter" && sendMessage(inputText)}
             />
             <button
-              onClick={sendMessage}
+              onClick={() => sendMessage(inputText)}
               className="px-4 py-2 text-white bg-blue-500 rounded-lg transform transition-transform duration-300
           hover:scale-105 hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800"
               disabled={inputText.trim() === ""}

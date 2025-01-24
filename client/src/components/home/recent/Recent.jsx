@@ -13,16 +13,31 @@ import { getAllCandidateProfiles } from "../../../services/api";
 const Recent = () => {
   const { loggedInUser } = useAuth();
   const navigate = useNavigate();
-
+  const [talentsError, setTalentsError] = useState(null);
+  const [talentsLoading, setTalentsLoading] = useState(true);
   const [opportunities, setOpportunities] = useState([]);
   const [talents, setTalents] = useState([]);
 
-  const { data: opportunitiesData, error: opportunitiesError, loading: opportunitiesLoading } =
-    useFetchData(`${PORT_CLIENT}/api/requirements/addedOpportunities`);
-    
+  const {
+    data: opportunitiesData,
+    error: opportunitiesError,
+    loading: opportunitiesLoading,
+  } = useFetchData(`${PORT_CLIENT}/api/requirements/addedOpportunities`);
 
-  const { data: talentsData, error: talentsError, loading: talentsLoading } =
-    useFetchData(`${PORT_CLIENT}/api/requirements/allTalents`);
+  useEffect(() => {
+    const fetchCandidates = async () => {
+      try {
+        const { data } = await getAllCandidateProfiles();
+        console.log(data);
+        setTalents(data.candidates || []);
+        setTalentsLoading(false)
+      } catch (error) {
+        console.error("Error fetching candidates:", error);
+      }
+    };
+
+    fetchCandidates();
+  }, []);
 
   useEffect(() => {
     if (opportunitiesData?.Addedopportunities) {
@@ -30,18 +45,14 @@ const Recent = () => {
     }
   }, [opportunitiesData]);
 
-  useEffect(() => {
-    if (talentsData?.talents) {
-      setTalents(talentsData.talents);
-    }
-  }, [talentsData]);
 
   const handleConnectClick = (item, index, type) => {
     const post_id = opportunities[index]?._id;
     navigate(`${type}/connect/${post_id}`, { state: { item } });
   };
 
-  if (opportunitiesLoading || talentsLoading) return <Spinner />;
+  if (loggedInUser && (opportunitiesLoading || talentsLoading))
+    return <Spinner />;
 
   if (opportunitiesError || talentsError) {
     return (

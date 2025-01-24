@@ -20,7 +20,7 @@
   border-radius: 50%;
   animation: typing-bounce 1.2s infinite ease-in-out;
 }
-
+  
 .typing-dots span:nth-child(1) {
   animation-delay: 0s;
 }

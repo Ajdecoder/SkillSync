@@ -3,7 +3,6 @@ import {
   addOpportunity,
   allOpportunitiesData,
   allRequirementsData,
-  allTalentsData,
   getRequirementById,
   hireTalent,
 } from "../controller/company.controller.js";
@@ -51,7 +50,6 @@ companyRouter.post(
 
 companyRouter.post("/addOpportunity", addOpportunity);
 companyRouter.get("/addedOpportunities", allOpportunitiesData);
-companyRouter.get("/allTalents", allTalentsData);
 companyRouter.get("/allRequirements", allRequirementsData);
 companyRouter.get("/Companyrequirements/:id", getRequirementById);
 

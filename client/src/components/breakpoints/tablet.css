@@ -17,39 +17,34 @@
 }
 
 @media screen and (max-width: 800px) {
-
   footer .container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .hero-form {
     display: flex;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
     flex-direction: column;
   }
 
-
-
-  .hero-form .inpbox{
+  .hero-form .inpbox {
     display: block;
     width: 80%;
     margin: auto;
   }
 
-  .hero-form select{
+  .hero-form select {
     width: 100%;
   }
 
-  .hero-form .btn1{
+  .hero-form .btn1 {
     margin: auto;
     padding: 12px;
     background: rebeccapurple;
-
   }
 
-
-  .hero-container h1{
+  .hero-container h1 {
     font-size: larger;
   }
 
@@ -122,7 +117,7 @@
   .logo img {
     margin-top: 10px;
   }
-  .logo{
+  .logo {
     position: static;
   }
   header nav .flex {
@@ -180,8 +175,8 @@
     display: flex;
     gap: 19px;
   }
-  .button >div{
-    margin-top: 1px ;
+  .button > div {
+    margin-top: 1px;
   }
   header,
   .toggle {
@@ -192,21 +187,26 @@
     grid-template-columns: 1fr !important;
     display: grid;
   }
-  .team-cards{
+  .team-cards {
     display: flex !important;
   }
-   .dropdown-expand ul{
+  .dropdown-expand ul {
     flex-direction: column;
   }
-  .log-sign{
+  .log-sign {
     bottom: 0px !important;
   }
+  .awards h1 {
+    font-size: 12px !important;
+  }
+  
 }
 
 @media screen and (max-width: 955px) {
   header img {
     width: 10.8rem;
   }
+  
 
   nav {
     font-size: 0.8rem;
@@ -219,7 +219,6 @@
   .small {
     position: fixed;
   }
-  
 }
 @media screen and (max-width: 750px) {
   .grid3 {
@@ -238,9 +237,9 @@
   .blog-out {
     grid-template-columns: 1fr 1fr;
   }
-  
+
   .log-sign {
     bottom: -5px !important;
-}
-
+  }
+  
 }

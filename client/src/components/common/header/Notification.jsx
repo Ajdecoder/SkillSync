@@ -3,6 +3,7 @@ import React, { useState, useRef, useEffect } from "react";
 const NotificationButton = () => {
   // State to track the dropdown visibility and notifications
   const [showNotifications, setShowNotifications] = useState(false);
+
   const [notifications, setNotifications] = useState([
     "New message from recruiter",
     "Your profile has been updated",
@@ -20,7 +21,6 @@ const NotificationButton = () => {
   // Close the dropdown if clicked outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-        console.log(event)
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target)
@@ -34,10 +34,10 @@ const NotificationButton = () => {
   }, []);
 
   return (
-    <div className="relative">
+    <div className="relative ">
       {/* Notification Button */}
       <button
-        className="notification-button relative lg:bottom-3"
+        className="notification-button relative bottom-4"
         onClick={handleNotificationClick}
       >
         <i className="fa-solid fa-bell text-3xl"></i>
@@ -51,7 +51,7 @@ const NotificationButton = () => {
       {showNotifications && (
         <div
           ref={dropdownRef}
-          className="absolute bg-white shadow-lg rounded-md w-64 top-12 right-[-7rem] p-4 max-h-64 overflow-auto z-10 border border-gray-300"
+          className="absolute bg-white shadow-lg rounded-md w-[18rem] top-12 right-[-7rem] p-4 max-h-[22rem] overflow-auto z-10 border border-gray-300"
         >
           {notifications.length > 0 ? (
             <ul>

@@ -29,7 +29,7 @@ app.use("/api/testings", testingRoutes)
 
 app.use("/api/users", userRoutes);
 
-app.use("/api/users/profile", UserProfileRoutes);
+app.use("/api/user/profile", UserProfileRoutes);
 
 app.use("/api/requirements", companyRoutes);
 
