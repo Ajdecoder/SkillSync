@@ -6,6 +6,7 @@ const UserPreferenceForm = ({
   handleSubmit,
   setUpdatedData,
   updatedData,
+  profileData,
 }) => {
   const [selectedInterests, setSelectedInterests] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -240,6 +241,7 @@ const UserPreferenceForm = ({
 
       {/* Save Button */}
       <motion.button
+        onClick={handleSubmit}
         className="p-3 w-36 m-3 bg-sky-600 text-white rounded-lg"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}

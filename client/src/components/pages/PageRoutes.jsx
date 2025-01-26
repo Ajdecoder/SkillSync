@@ -25,95 +25,97 @@ import { ChooseLoginMode } from "../Login/ChooseLoginMode.jsx";
 import DeleteAccount from "../account/settings/DeleteAccount.jsx";
 import { MyJobListnings } from "../Requirements/Recruiters/MyJobListnings.jsx";
 import { ViewCandidateInfo } from "../TalentSearch/ViewCandidateProfile/ViewCandidateInfo.jsx";
+import NotFoundPage from "../4NOT4/404.jsx";
+import TalentsCard from "../Requirements/Recruiters/TalentSearchPage.jsx";
 
 // This is just a helper function to return route elements.
 
 export const RoutesConfig = ({ spin, setSpin }) => [
-  <Route key="/" path="/" element={<Home />} />,
-  <Route key="/about" path="/about" element={<About />} />,
-  <Route key="/services" path="/services" element={<Services />} />,
+  <Route key="home" path="/" element={<Home />} />,
+  <Route key="about" path="/about" element={<About />} />,
+  <Route key="services" path="/services" element={<Services />} />,
   <Route
-    key="/blogs"
+    key="blogs"
     path="/blogs"
     element={<Blog spin={spin} setSpin={setSpin} />}
   />,
-  <Route key="/pricing" path="/pricing" element={<Pricing />} />,
-  <Route key="/contact" path="/contact" element={<Contact />} />,
-  <Route key="/login" path="/login" element={<ChooseLoginMode />} />,
-  <Route key="/requirements" path="/requirements" element={<Resources />} />,
+  <Route key="pricing" path="/pricing" element={<Pricing />} />,
+  <Route key="contact" path="/contact" element={<Contact />} />,
+  <Route key="login" path="/login" element={<ChooseLoginMode />} />,
+  <Route key="requirements" path="/requirements" element={<Resources />} />,
   <Route
-    key="/requirements/hire-talent"
+    key="hire-talent"
     path="/requirements/hire-talent"
-    element={<HireResources />}
+    element={<TalentsCard />}
   />,
   <Route
-    key="/requirements/listed-opportunity"
+    key="listed-opportunity"
     path="/requirements/listed-opportunity"
     element={<MyJobListnings />}
   />,
   <Route
-    key="/requirements/add-opportunity"
+    key="add-opportunity"
     path="/requirements/add-opportunity"
     element={<AddOpportunity />}
   />,
- 
   <Route
-    key="/requirements/browse-opportunities"
+    key="browse-opportunities"
     path="/requirements/browse-opportunities"
     element={<SavedOpportunity />}
   />,
   <Route
-    key="/requirements/bookmark-talent"
+    key="bookmark-talent"
     path="/requirements/bookmark-talent"
     element={<BookmarkTalent />}
   />,
   <Route
-    key="/requirements/market-trends"
+    key="market-trends"
     path="/requirements/market-trends"
     element={<MarketTrends />}
   />,
-  
   <Route
-    key="opportunity/connect/:post_id"
+    key="connect-opportunity"
     path="opportunity/connect/:post_id"
     element={<OpportunityConnectPage />}
   />,
-  <Route key="/signup" path="/signup" element={<Register />} />,
+  <Route key="signup" path="/signup" element={<Register />} />,
   <Route
-    key="/signup/recruiter"
+    key="signup-recruiter"
     path="/signup/recruiter"
     element={<RegRecruiter />}
   />,
   <Route
-    key="/signup/candidate"
+    key="signup-candidate"
     path="/signup/candidate"
     element={<RegCandidate />}
   />,
-  <Route key="/blog/:Blogid" path="/blog/:Blogid" element={<BlogPage />} />,
-  <Route key="/blog/candidateid:" path="/candidateinfo/:candidateid" element={<ViewCandidateInfo />} />,
+  <Route key="blog-page" path="/blog/:Blogid" element={<BlogPage />} />,
   <Route
-    key="/profile/settings"
+    key="candidate-info"
+    path="/candidateinfo/:candidateid"
+    element={<ViewCandidateInfo />}
+  />,
+  <Route
+    key="profile-settings"
     path="/profile/settings"
     element={<Settings />}
   />,
   <Route
-    key="/profile/settings"
+    key="user-profile"
     path="/profile/userProfile"
     element={<UserProfile />}
   />,
   <Route
-    key="/login/recruiter"
+    key="login-recruiter"
     path="/login/recruiter"
     element={<LoginRecruiter />}
   />,
   <Route
-    key="/login/candidate"
+    key="login-candidate"
     path="/login/candidate"
     element={<LoginCandidate />}
   />,
-  <Route
-    key="/settings/delete-account"
-    path="/settings/delete-account"
-    element={<DeleteAccount />}
-  />,
+  <Route key="delete-account" path="/settings/delete-account" element={<DeleteAccount />} />,
+  <Route key="not-found" path="*" element={<NotFoundPage />} />,
 ];
+

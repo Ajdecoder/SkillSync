@@ -11,14 +11,15 @@ export const AddOpportunityFormProvider = ({ children }) => {
   const [formData, setFormData] = useState({
     title: "",
     company_name: "",
+    maxSalary:0,
+    minSalary:0,
     company_website: "",
     email: "",
+    skills: [],
     ph_no: "",
     location: "",
-    type: "",
-    salaryRange: "",
+    requirement_type: "",
     desc_requirement: "",
-    address: "",
   });
 
   const updateForm = (newData) => {

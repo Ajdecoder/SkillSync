@@ -7,36 +7,38 @@ export const SkillsAndExperience = ({
   setIsEditing,
   handleSubmit,
 }) => {
-  const [editedData, setEditedData] = useState(profileData);
+  const [updatedData, setUpdatedData] = useState(profileData);
+  
+
 
   const handleInputChange = (section, field, value, idx = null) => {
     if (idx !== null) {
-      const updatedSection = [...editedData[section]];
+      const updatedSection = [...updatedData[section]];
       updatedSection[idx][field] = value;
-      setEditedData({ ...editedData, [section]: updatedSection });
+      setUpdatedData({ ...updatedData, [section]: updatedSection });
     } else {
-      setEditedData({ ...editedData, [section]: value });
+      setUpdatedData({ ...updatedData, [section]: value });
     }
   };
 
   const handleAddEntry = (section) => {
     const newEntry =
       section === "experience"
-        ? { JobRole: "", company: "", duration: "", description: "" }
+        ? { jobRole: "", company: "", duration: "", description: "" }
         : section === "education"
         ? { degree: "", institution: "", year: "" }
         : ""; // No default entry for skills as it's a string array.
 
-    setEditedData({
-      ...editedData,
-      [section]: [...editedData[section], newEntry],
+    setUpdatedData({
+      ...updatedData,
+      [section]: [...updatedData[section], newEntry],
     });
   };
 
   const handleRemoveEntry = (section, idx) => {
-    const updatedSection = [...editedData[section]];
+    const updatedSection = [...updatedData[section]];
     updatedSection.splice(idx, 1);
-    setEditedData({ ...editedData, [section]: updatedSection });
+    setUpdatedData({ ...updatedData, [section]: updatedSection });
   };
 
   return (
@@ -51,7 +53,7 @@ export const SkillsAndExperience = ({
             <div>
               <h3 className="text-lg font-semibold text-gray-700">Skills</h3>
               <p className="mt-2 text-gray-600">
-                {profileData?.skills?.join(", ") || "No skills listed"}
+                {updatedData?.skills?.join(", ") || "No skills listed"}
               </p>
             </div>
             {/* Experience */}
@@ -60,13 +62,14 @@ export const SkillsAndExperience = ({
                 Experience
               </h3>
               <ul className="mt-2 space-y-4">
-                {profileData?.experience?.map((exp, idx) => (
+                {updatedData?.experience?.map((exp, idx) => (
                   <li
                     key={idx}
                     className="p-4 border rounded-lg bg-gray-50 shadow-sm"
                   >
                     <h4 className="text-lg font-medium text-gray-800">
-                      {exp.JobRole} at{" "}
+                      {console.log(exp)}
+                      {exp.jobRole} at{" "}
                       <span className="italic text-blue-600">
                         {exp.company}
                       </span>
@@ -83,7 +86,9 @@ export const SkillsAndExperience = ({
             <div>
               <h3 className="text-lg font-semibold text-gray-700">Education</h3>
               <ul className="mt-2 space-y-2">
-                {profileData?.education?.map((edu, idx) => (
+                {console.log("profileData",profileData)}
+                {console.log("updatedData",updatedData)}
+                {updatedData?.education?.map((edu, idx) => (
                   <li key={idx} className="text-gray-600">
                     <span className="font-medium">{edu.degree}</span> from{" "}
                     <span className="italic">{edu.institution}</span> (
@@ -113,7 +118,7 @@ export const SkillsAndExperience = ({
               <h3 className="text-lg font-semibold text-gray-700">Skills</h3>
               <textarea
                 className="mt-2 w-full p-3 border rounded-md focus:ring focus:ring-blue-300"
-                value={editedData.skills.join(", ")}
+                value={updatedData.skills.join(", ")}
                 placeholder="Enter skills separated by commas"
                 onChange={(e) =>
                   handleInputChange("skills", null, e.target.value.split(", "))
@@ -125,16 +130,16 @@ export const SkillsAndExperience = ({
               <h3 className="text-lg font-semibold text-gray-700">
                 Experience
               </h3>
-              {editedData.experience.map((exp, idx) => (
+              {updatedData.experience.map((exp, idx) => (
                 <div key={idx} className="mt-4 space-y-2 p-4 border rounded-lg">
                   <input
                     className="w-full p-3 border rounded-md focus:ring focus:ring-blue-300"
-                    value={exp.JobRole}
+                    value={exp.jobRole}
                     placeholder="Job Role"
                     onChange={(e) =>
                       handleInputChange(
                         "experience",
-                        "JobRole",
+                        "jobRole",
                         e.target.value,
                         idx
                       )
@@ -197,7 +202,7 @@ export const SkillsAndExperience = ({
             {/* Edit Education */}
             <div>
               <h3 className="text-lg font-semibold text-gray-700">Education</h3>
-              {editedData.education.map((edu, idx) => (
+              {updatedData.education.map((edu, idx) => (
                 <div key={idx} className="mt-4 space-y-2">
                   <input
                     className="w-full p-3 border rounded-md focus:ring focus:ring-blue-300"
@@ -259,7 +264,7 @@ export const SkillsAndExperience = ({
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               className="px-4 py-2 bg-green-600 text-white font-semibold rounded hover:bg-green-700"
-              onClick={() => handleSubmit(editedData, "SkillsAndExperience")}
+              onClick={() => handleSubmit(updatedData, "SkillsAndExperience")}
             >
               Save
             </motion.button>

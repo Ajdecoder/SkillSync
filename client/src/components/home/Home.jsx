@@ -5,7 +5,6 @@ import Hero from "./hero/Hero";
 import Location from "./location/Location";
 import Price from "./price/Price";
 import Team from "./team/Team";
-import { LoginLoading } from "../Login/LoginLoading";
 import FAQ from "../FAQ/FAQ";
 
 const Home = () => {

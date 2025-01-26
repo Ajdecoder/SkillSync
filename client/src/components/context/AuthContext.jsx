@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { jwttokenDecode } from "../utils/decode"; // Ensure this utility function correctly decodes JWTs
-import { Spinner } from "../common/loadingSpinner/spinner";
+import { jwttokenDecode } from "../utils/decode";
+import { LoginLoading } from "../Login/LoginLoading";
 
 const AuthContext = createContext();
 
@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }) => {
 
     return (
         <AuthContext.Provider value={{ loggedInUser, loginWithJWT, loginWithAuth0, logout, loading: isAuth0Loading || loading }}>
-            {!loading ? children : <Spinner/>}
+            {!loading ? children : <LoginLoading/>}
         </AuthContext.Provider>
     );
 };

@@ -32,7 +32,7 @@ export const getUserProfileByEmail = (email) =>
 export const getUserProfileById = (id) =>
   API.get(`/api/user/profile/account/user/id/${id}`);
 export const updateUserProfileByEmail = (email, data) =>
-  API.put(`/api/user/profile/account/user/update/email/${email}`, data);
+  API.put(`/api/user/profile/account/users/update/email/${email}`, data);
 export const getAllCandidateProfiles = () =>
   API.get("/api/user/profile/account/users/user/candidates");
 export const getAllRecruitersProfiles = () =>
@@ -43,8 +43,6 @@ export const addOpportunity = (data) =>
   API.post("/api/requirements/addOpportunity", data);
 export const getOpportunities = () =>
   API.get("/api/requirements/addedOpportunities");
-export const getRequirements = () =>
-  API.get("/api/requirements/allRequirements");
 export const ApplyToOpportunity = (userId, opportunityId) => {
   return API.put(`/api/users/candidate/opportunity/apply-to-job`, {
     userId,

@@ -21,11 +21,13 @@ const ReviewJobOpportunity = ({ prevStep, handleFinalSubmit }) => {
       localFormData.ph_no &&
       localFormData.location &&
       localFormData.type &&
-      localFormData.salaryRange &&
+      localFormData.minSalary && localFormData.maxSalary &&
       localFormData.desc_requirement &&
       localFormData.address;
     setIsFormValid(isValid);
   }, [localFormData]);
+
+  console.log(localFormData)
 
   const handleInputChange = (field, value) => {
     setLocalFormData((prev) => ({
@@ -42,7 +44,7 @@ const ReviewJobOpportunity = ({ prevStep, handleFinalSubmit }) => {
       setIsSubmitting(true);
       console.log("Submitting Form Data:", localFormData); // Log current form data
 
-      addOpportunity(localFormData)
+      await addOpportunity(localFormData)
 
       toast.success("Form Submitted Successfully", { autoClose: 1200 });
     } catch (error) {
@@ -177,7 +179,9 @@ const ReviewJobOpportunity = ({ prevStep, handleFinalSubmit }) => {
             />
           ) : (
             <p className="text-gray-600">
-              {localFormData.salaryRange || "N/A"}
+              {localFormData.minSalary || "N/A"}
+              {" "}-
+              {localFormData.maxSalary || "N/A"}
             </p>
           )}
         </div>

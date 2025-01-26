@@ -95,7 +95,7 @@ const OpportunityConnectPage = () => {
     skills = [],
     location,
     desc_requirement,
-    type,
+    requirement_type,
     salaryRange,
     email,
     ph_no,
@@ -144,7 +144,7 @@ const OpportunityConnectPage = () => {
           </h3>
           <div className="space-y-4 text-gray-600">
             <p>
-              <strong>Job Type:</strong> {type}
+              <strong>Job Type:</strong> {requirement_type}
             </p>
             <p>
               <strong>Skills:</strong> {renderSkills()}

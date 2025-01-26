@@ -12,7 +12,7 @@ export const MyJobListnings = ({ jobId }) => {
     const fetchCandidates = async () => {
       try {
         const response = await getOpportunities();
-        console.log(response.data.Addedopportunities);
+        console.log("response->",response.data.Addedopportunities);
         setCandidates(response.data);
       } catch (err) {
         setError("Error fetching candidates.");

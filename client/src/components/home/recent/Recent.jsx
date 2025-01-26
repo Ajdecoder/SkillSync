@@ -88,6 +88,7 @@ const Recent = () => {
                   title="Newly Listed Talents"
                   subtitle="Explore the latest talents looking for opportunities. Stay updated with fresh talent profiles and career options."
                 />
+                {console.log(talents)}
                 <TalentsCard talents={talents} />
               </div>
             </section>
