@@ -129,3 +129,4 @@ export const updateUserProfileByEmail = async (req, res) => {
       .json({ message: "Error updating user profile", error: error.message });
   }
 };
+

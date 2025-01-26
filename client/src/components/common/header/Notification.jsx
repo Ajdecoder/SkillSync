@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const NotificationButton = () => {
   // State to track the dropdown visibility and notifications
@@ -21,10 +22,7 @@ const NotificationButton = () => {
   // Close the dropdown if clicked outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowNotifications(false);
       }
     };
@@ -32,6 +30,8 @@ const NotificationButton = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  const navigate = useNavigate()
 
   return (
     <div className="relative ">
@@ -54,16 +54,19 @@ const NotificationButton = () => {
           className="absolute bg-white shadow-lg rounded-md w-[18rem] top-12 right-[-7rem] p-4 max-h-[22rem] overflow-auto z-10 border border-gray-300"
         >
           {notifications.length > 0 ? (
-            <ul>
-              {notifications.map((notification, index) => (
-                <li
-                  key={index}
-                  className="text-sm py-2 border-b last:border-none hover:bg-gray-100 cursor-pointer"
-                >
-                  {notification}
-                </li>
-              ))}
-            </ul>
+            <>
+              <ul>
+                {notifications.map((notification, index) => (
+                  <li
+                    key={index}
+                    className="text-sm py-2 border-b last:border-none hover:bg-gray-100 cursor-pointer p-2 "
+                  >
+                    {notification}
+                  </li>
+                ))}
+              </ul>
+              <button className="block m-auto p-1" onClick={()=>navigate('/notifications')} >View All</button>
+            </>
           ) : (
             <p className="text-sm text-gray-500 text-center">
               No new notifications

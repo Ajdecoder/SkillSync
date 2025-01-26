@@ -129,6 +129,7 @@ export const UserProfile = () => {
     localStorage.setItem("darkMode", JSON.stringify(darkMode));
   }, [emailNotifications, darkMode]);
 
+  
   if (loading) return <Spinner />;
   if (error) return <div className="error-message">Error: {error.message}</div>;
   if (!profileData) return <div>No profile data available</div>;

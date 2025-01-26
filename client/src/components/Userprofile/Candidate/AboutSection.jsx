@@ -1,24 +1,37 @@
 import { motion } from "framer-motion";
 import React, { useState } from "react";
+import { updateUserProfileByEmail } from "../../../services/api";
 
 export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editedProfileData, setEditedProfileData] = useState(profileData || {});
+  const [updatedData, setUpdatedData] = useState(profileData);
 
   const handleEditToggle = () => {
     setIsEditing(!isEditing);
   };
 
   const handleInputChange = (field, value) => {
-    setEditedProfileData((prevData) => ({
+    setUpdatedData((prevData) => ({
       ...prevData,
       [field]: value,
     }));
   };
 
-  const handleSave = () => {
-    onUpdate(editedProfileData); // Pass updated data to the parent
-    setIsEditing(false);
+
+  const handleSubmit = async (section) => {
+    try {
+      const response = await updateUserProfileByEmail(
+        profileData.email,
+        updatedData
+      );
+
+      if (response.status === 200) {
+        setIsEditing(false);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert(`An error occurred while updating the ${section}.`);
+    }
   };
 
   return (
@@ -35,10 +48,10 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
                   border: "0.5px solid",
                 }}
                 className="w-[50%] p-3 rounded-md focus:ring focus:ring-blue-300"
-                value={editedProfileData?.candidateInfo?.name || ""}
+                value={updatedData?.candidateInfo?.name || ""}
                 onChange={(e) =>
                   handleInputChange("candidateInfo", {
-                    ...editedProfileData.candidateInfo,
+                    ...updatedData.candidateInfo,
                     name: e.target.value,
                   })
                 }
@@ -58,10 +71,10 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
                   border: "0.5px solid",
                 }}
                 className="w-[50%] p-3 rounded-md focus:ring focus:ring-blue-300"
-                value={editedProfileData?.candidateInfo?.email || ""}
+                value={updatedData?.candidateInfo?.email || ""}
                 onChange={(e) =>
                   handleInputChange("candidateInfo", {
-                    ...editedProfileData.candidateInfo,
+                    ...updatedData.candidateInfo,
                     email: e.target.value,
                   })
                 }
@@ -80,7 +93,7 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
                   border: "0.5px solid",
                 }}
                 className="w-[50%] p-3 rounded-md focus:ring focus:ring-blue-300"
-                value={editedProfileData?.about || ""}
+                value={updatedData?.about || ""}
                 onChange={(e) => handleInputChange("about", e.target.value)}
               />
             ) : (
@@ -92,7 +105,7 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
           <div className="mb-4">
             <p className="font-bold">Languages:</p>
             {isEditing
-              ? editedProfileData?.languages?.map((lang, idx) => (
+              ? updatedData?.languages?.map((lang, idx) => (
                   <div key={idx} className="flex gap-2 mb-2">
                     <input
                       type="text"
@@ -102,9 +115,7 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
                       className="w-[35%] p-3 rounded-md focus:ring focus:ring-blue-300"
                       value={lang.language || ""}
                       onChange={(e) => {
-                        const updatedLanguages = [
-                          ...editedProfileData.languages,
-                        ];
+                        const updatedLanguages = [...updatedData.languages];
                         updatedLanguages[idx].language = e.target.value;
                         handleInputChange("languages", updatedLanguages);
                       }}
@@ -118,9 +129,7 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
                       className="w-[35%] p-3 rounded-md focus:ring focus:ring-blue-300"
                       value={lang.proficiency || ""}
                       onChange={(e) => {
-                        const updatedLanguages = [
-                          ...editedProfileData.languages,
-                        ];
+                        const updatedLanguages = [...updatedData.languages];
                         updatedLanguages[idx].proficiency = e.target.value;
                         handleInputChange("languages", updatedLanguages);
                       }}
@@ -148,10 +157,10 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
                   className="w-[35%] p-3 rounded-md focus:ring focus:ring-blue-300"
                   type="text"
                   placeholder="City"
-                  value={editedProfileData?.location?.city || ""}
+                  value={updatedData?.location?.city || ""}
                   onChange={(e) =>
                     handleInputChange("location", {
-                      ...editedProfileData.location,
+                      ...updatedData.location,
                       city: e.target.value,
                     })
                   }
@@ -163,10 +172,10 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
                   className="w-[35%] p-3 rounded-md focus:ring focus:ring-blue-300"
                   type="text"
                   placeholder="State"
-                  value={editedProfileData?.location?.state || ""}
+                  value={updatedData?.location?.state || ""}
                   onChange={(e) =>
                     handleInputChange("location", {
-                      ...editedProfileData.location,
+                      ...updatedData.location,
                       state: e.target.value,
                     })
                   }
@@ -174,8 +183,8 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
               </div>
             ) : (
               <p>
-                {`${profileData?.location?.city || "Unknown City"}, ${
-                  profileData?.location?.state || "Unknown State"
+                {`${updatedData?.location?.city || "Unknown City"}, ${
+                  updatedData?.location?.state || "Unknown State"
                 }`}
               </p>
             )}
@@ -186,10 +195,12 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
             {isEditing ? (
               <>
                 <motion.button
-                  onClick={handleSave}
                   className="px-4 py-2 bg-green-500 text-white font-semibold rounded hover:bg-green-600"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={() =>
+                    handleSubmit(updatedData, "candidate about")
+                  }
                 >
                   Save
                 </motion.button>

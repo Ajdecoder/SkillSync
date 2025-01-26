@@ -1,29 +1,22 @@
-import React, { useState } from 'react';
-import StepOne from './StepOne';  // Basic Info
-import StepTwo from './StepTwo';  // Details
-import StepThree from './StepThree';  // Job Details
-import ReviewJobOpportunity from './ReviewAddJobOpportunity'; // Review Opportunity
-import { WelcomeAddOpportunityPage } from './WelcomeAddOpportunityPage';
+import React, { useState } from "react";
+import StepOne from "./StepOne"; // Basic Info
+import StepTwo from "./StepTwo"; // Details
+import StepThree from "./StepThree"; // Job Details
+import ReviewJobOpportunity from "./ReviewAddJobOpportunity"; // Review Opportunity
+import { WelcomeAddOpportunityPage } from "./WelcomeAddOpportunityPage";
+import { ChooseSkills } from "./ChooseSkills";
 
+// AddOpportunityForm.jsx
 const AddOpportunityForm = () => {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({});
 
-  // Move to the next step
   const nextStep = () => setStep((prevStep) => prevStep + 1);
-  
-  // Move to the previous step
   const prevStep = () => setStep((prevStep) => prevStep - 1);
-  
-  // Handle form submission
-  const handleFinalSubmit = () => {
-    console.log("Final submitted data:", formData);
-    // Your submission logic (API call)
-  };
+
 
   return (
     <div className="max-w-4xl mx-auto p-4">
-      <form onSubmit={handleFinalSubmit}>
         {step === 0 && (
           <WelcomeAddOpportunityPage
             nextStep={nextStep}
@@ -38,7 +31,7 @@ const AddOpportunityForm = () => {
           />
         )}
         {step === 2 && (
-          <StepTwo
+          <ChooseSkills
             nextStep={nextStep}
             prevStep={prevStep}
             setFormData={setFormData}
@@ -46,7 +39,7 @@ const AddOpportunityForm = () => {
           />
         )}
         {step === 3 && (
-          <StepThree
+          <StepTwo
             nextStep={nextStep}
             prevStep={prevStep}
             setFormData={setFormData}
@@ -54,13 +47,19 @@ const AddOpportunityForm = () => {
           />
         )}
         {step === 4 && (
-          <ReviewJobOpportunity
+          <StepThree
+            nextStep={nextStep}
             prevStep={prevStep}
-            handleFinalSubmit={handleFinalSubmit}
+            setFormData={setFormData}
             formData={formData}
           />
         )}
-      </form>
+        {step === 5 && (
+          <ReviewJobOpportunity
+            prevStep={prevStep}
+            formData={formData}
+          />
+        )}
     </div>
   );
 };

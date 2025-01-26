@@ -9,13 +9,14 @@ export const addOpportunity = async (req, res) => {
     company_name,
     company_website,
     email,
+    address,
     ph_no,
     location,
-    type,
-    salaryRange,
+    maxSalary,
+    minSalary,
     desc_requirement,
-    address,
     skills,
+    requirement_type
   } = req.body;
 
   try {
@@ -24,13 +25,15 @@ export const addOpportunity = async (req, res) => {
       company_name,
       company_website,
       email,
+      address,
       ph_no,
       location,
-      type,
-      salaryRange,
+      maxSalary,
+      minSalary,
       desc_requirement,
       address,
       skills,
+      requirement_type
     });
 
     await newOpportunity.save();
@@ -40,44 +43,6 @@ export const addOpportunity = async (req, res) => {
     res
       .status(500)
       .json({ message: "Failed to add opportunity. Please try again later." });
-  }
-};
-
-export const hireTalent = async (req, res) => {
-  const {
-    jobType,
-    skills,
-    availability,
-    availableDate,
-    requirements,
-    jobDescription,
-    compensation,
-    contactInfo,
-    status,
-  } = req.body;
-
-  try {
-    const newTalent = new TalentCollection({
-      jobType,
-      skills,
-      availableDate,
-      availability,
-      requirements,
-      jobDescription,
-      compensation,
-      contactInfo,
-      status,
-    });
-
-    await newTalent.save();
-    res
-      .status(201)
-      .json({ message: "Talent card created successfully", hiring: true });
-  } catch (err) {
-    console.error("Error:", err);
-    res.status(500).json({
-      message: "Failed to create talent card. Please try again later.",
-    });
   }
 };
 
@@ -97,18 +62,7 @@ export const allOpportunitiesData = async (req, res) => {
   }
 };
 
-export const allRequirementsData = async (req, res) => {
-  try {
-    const Addedopportunities = await OpportunityCollection.find();
 
-    res.status(200).json({
-      Addedopportunities,
-      talents,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 export const getRequirementById = async (req, res) => {
   try {

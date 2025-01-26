@@ -2,9 +2,7 @@ import express from "express";
 import {
   addOpportunity,
   allOpportunitiesData,
-  allRequirementsData,
   getRequirementById,
-  hireTalent,
 } from "../controller/company.controller.js";
 // import { multerUploader } from "../middleware/multer.js"; // Disabled multer for now
 
@@ -45,12 +43,10 @@ companyRouter.post(
   //     res.status(500).send("Failed to create talent profile");
   //   }
   // }
-  hireTalent
 );
 
 companyRouter.post("/addOpportunity", addOpportunity);
 companyRouter.get("/addedOpportunities", allOpportunitiesData);
-companyRouter.get("/allRequirements", allRequirementsData);
 companyRouter.get("/Companyrequirements/:id", getRequirementById);
 
 export default companyRouter;

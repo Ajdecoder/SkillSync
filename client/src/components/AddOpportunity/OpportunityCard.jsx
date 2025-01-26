@@ -16,9 +16,6 @@ const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
     createdAt,
   } = opportunity;
 
-  useEffect(()=> {
-    console.log("printing opportunity", opportunity);
-  },[])
 
   return (
     <div className="shadow-lg rounded-lg overflow-hidden bg-black p-6 hover:shadow-2xl transition-all duration-300">

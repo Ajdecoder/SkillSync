@@ -39,7 +39,7 @@ export const candidateProfileSchema = new mongoose.Schema(
         default: ["Web Development", "Programming"],
       },
       jobType: { type: String, default: "Full-Time" },
-      industry: { type: String, default: "General" },
+      industry: { type: String, default: "General", enum: ["Technology", "Finance", "Healthcare", "Education"] },
       salaryRange: {
         min: { type: Number, default: 30000 },
         max: { type: Number, default: 100000 },

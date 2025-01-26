@@ -25,6 +25,7 @@ const CandidateProfileContent = ({ profileData, activeTab, userRole }) => {
 
   return (
     <>
+     
       {activeTab === "skillsAndExperience" && (
         <SkillsAndExperience
           profileData={profileData}

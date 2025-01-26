@@ -49,7 +49,6 @@ export const Candidatepreferences = ({
     <div>
       <UserPreferenceForm
         profileData={profileData}
-        isEditing={isEditing}
         handleSubmit={handleSubmit}
         setUpdatedData={setUpdatedData}
         updatedData={updatedData}
