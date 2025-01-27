@@ -1,23 +1,38 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getNotifications } from "../../../services/api";
 
 const NotificationButton = () => {
-  // State to track the dropdown visibility and notifications
   const [showNotifications, setShowNotifications] = useState(false);
-
-  const [notifications, setNotifications] = useState([
-    "New message from recruiter",
-    "Your profile has been updated",
-    "You have an interview scheduled",
-    "Job application status updated",
-    "Feedback received from employer",
-  ]);
-
+  const [notifications, setNotifications] = useState([]);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
 
-  const handleNotificationClick = () => {
-    setShowNotifications((prev) => !prev); // Toggle the dropdown visibility
+  // Function to fetch notifications from the backend
+  const fetchNotifications = async () => {
+    try {
+      const response = await getNotifications();
+      const data = response.data; // Assuming the data is nested inside response.data
+
+      if (response.statusText === "OK" && Array.isArray(data.notifications)) {
+        setNotifications(data.notifications); // Set notifications only if it's an array
+      } else {
+        console.error(
+          "Failed to fetch notifications or notifications is not an array",
+          data
+        );
+        setNotifications([]); // In case it's not an array, set notifications to empty array
+      }
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+      setNotifications([]); // Fallback to empty array if error occurs
+    }
   };
+
+  // Fetch notifications when the component mounts
+  useEffect(() => {
+    fetchNotifications(); // Fetch notifications on load
+  }, []);
 
   // Close the dropdown if clicked outside
   useEffect(() => {
@@ -31,7 +46,9 @@ const NotificationButton = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const navigate = useNavigate()
+  const handleNotificationClick = () => {
+    setShowNotifications((prev) => !prev); // Toggle the dropdown visibility
+  };
 
   return (
     <div className="relative ">
@@ -41,7 +58,6 @@ const NotificationButton = () => {
         onClick={handleNotificationClick}
       >
         <i className="fa-solid fa-bell text-3xl"></i>
-        {/* Notification Badge */}
         <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
           {notifications.length}
         </span>
@@ -53,19 +69,25 @@ const NotificationButton = () => {
           ref={dropdownRef}
           className="absolute bg-white shadow-lg rounded-md w-[18rem] top-12 right-[-7rem] p-4 max-h-[22rem] overflow-auto z-10 border border-gray-300"
         >
-          {notifications.length > 0 ? (
+          {Array.isArray(notifications) && notifications.length > 0 ? (
             <>
               <ul>
                 {notifications.map((notification, index) => (
                   <li
                     key={index}
-                    className="text-sm py-2 border-b last:border-none hover:bg-gray-100 cursor-pointer p-2 "
+                    className="text-sm py-2 border-b last:border-none hover:bg-gray-100 cursor-pointer p-2"
                   >
-                    {notification}
+                    {notification.message}{" "}
+                    {/* Assuming each notification has a 'message' field */}
                   </li>
                 ))}
               </ul>
-              <button className="block m-auto p-1" onClick={()=>navigate('/notifications')} >View All</button>
+              <button
+                className="block m-auto p-1"
+                onClick={() => navigate("/notifications")}
+              >
+                View All
+              </button>
             </>
           ) : (
             <p className="text-sm text-gray-500 text-center">

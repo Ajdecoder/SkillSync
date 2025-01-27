@@ -70,3 +70,11 @@ export const hireTalent = (data) =>
 
 // Chat Api Methods
 export const getChatResponse = (data) => API.post("/api/chatbot/chat-response", data);
+
+// notifications Api Methods
+
+export const getNotifications = () => API.get("/api/users/job/user/job-notifications");
+export const markNotificationAsRead = (notificationId) =>
+  API.put(`/api/notifications/markAsRead`, { notificationId });
+
+// Search Api Methods

@@ -17,6 +17,7 @@ const OpportunityConnectPage = () => {
   const [loadingApply, setLoadingApply] = useState(false);
   const [userHasApplied, setUserHasApplied] = useState(false);
   const [showRevertModal, setShowRevertModal] = useState(false);
+  const [showMore, setShowMore] = useState(false);
   const { loggedInUser } = useAuth();
   const [userId, setUserId] = useState(null);
   const { post_id } = useParams();
@@ -48,7 +49,7 @@ const OpportunityConnectPage = () => {
       setLoadingApply(true);
       await ApplyToOpportunity(userId, companyData._id);
       setUserHasApplied(true);
-      toast.success("Applied successfully", { autoClose: 1200 });
+      toast.success("Application submitted successfully", { autoClose: 1200 });
     } catch (err) {
       console.error("Error applying to the job:", err);
       setError("There was an error applying to the opportunity.");
@@ -104,9 +105,10 @@ const OpportunityConnectPage = () => {
     company_website,
     candidatesApplied,
     _id,
+    recruiterDetails,
   } = companyData;
 
-  console.log(_id);
+  console.log(companyData);
 
   const userHasAlreadyApplied = candidatesApplied?.includes(userId);
 
@@ -144,7 +146,7 @@ const OpportunityConnectPage = () => {
           </h3>
           <div className="space-y-4 text-gray-600">
             <p>
-              <strong>Job Type:</strong> {requirement_type}
+              <strong>Job Type:</strong> {requirement_type || "NA"}
             </p>
             <p>
               <strong>Skills:</strong> {renderSkills()}
@@ -189,6 +191,142 @@ const OpportunityConnectPage = () => {
             {company_website}
           </a>
         </p>
+
+        {showMore && (
+          <div className="mt-6 bg-gray-50 p-4 rounded-lg shadow-sm">
+            <h3 className="text-2xl font-semibold text-gray-800 mb-4">
+              Company Overview
+            </h3>
+            <p>
+              <strong>Name:</strong> {recruiterDetails.companyOverview?.name || "NA" }
+            </p>
+            <p>
+              <strong>Description:</strong>
+              {recruiterDetails.companyOverview?.description ||
+                "No description available"}
+            </p>
+            <p>
+              <strong>Website:</strong>
+              <a
+                href={recruiterDetails.companyOverview?.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-blue-700"
+              >
+                {recruiterDetails.companyOverview?.website|| "NA"}
+              </a>
+            </p>
+
+            <h3 className="text-2xl font-semibold text-gray-800 mt-6 mb-4">
+              Company Location
+            </h3>
+            <p>
+              {recruiterDetails.companyLocation.city},{" "}
+              {recruiterDetails.companyLocation.state},{" "}
+              {recruiterDetails.companyLocation.country}
+            </p>
+
+            {/* <h3 className="text-2xl font-semibold text-gray-800 mt-6 mb-4">
+              Company Benefits
+            </h3>
+            <ul className="list-disc ml-6">
+              {recruiterDetails.companyBenefits &&
+              recruiterDetails.companyBenefits.length > 0
+                ? recruiterDetails.companyBenefits.map((benefit, index) => (
+                    <li key={index}>{benefit}</li>
+                  ))
+                : "No benefits available"}
+            </ul> */}
+
+            <h3 className="text-2xl font-semibold text-gray-800 mt-6 mb-4">
+              Recruitment Process
+            </h3>
+            <p>
+              <strong>Description:</strong>{" "}
+              {recruiterDetails.recruitmentProcess.description}
+            </p>
+            <p>
+              <strong>Timeline:</strong>{" "}
+              {recruiterDetails.recruitmentProcess.timeline}
+            </p>
+            <p>
+              <strong>Interview Stages:</strong>{" "}
+              {recruiterDetails.recruitmentProcess.interviewStages.join(", ")}
+            </p>
+            <p>
+              <strong>Assessment Types:</strong>{" "}
+              {recruiterDetails.recruitmentProcess.assessmentTypes.join(", ")}
+            </p>
+            <p>
+              <strong>Application Review:</strong>{" "}
+              {recruiterDetails.recruitmentProcess.applicationReview}
+            </p>
+
+            <h3 className="text-2xl font-semibold text-gray-800 mt-6 mb-4">
+              Past Hires
+            </h3>
+            <ul className="list-disc ml-6">
+              {recruiterDetails.pastHires &&
+              recruiterDetails.pastHires.length > 0
+                ? recruiterDetails.pastHires.map((hire, index) => (
+                    <li key={index}>
+                      {hire.name} - {hire.position}
+                    </li>
+                  ))
+                : "No past hires available"}
+            </ul>
+
+            <h3 className="text-2xl font-semibold text-gray-800 mt-6 mb-4">
+              Team Members
+            </h3>
+            {recruiterDetails.teamMembers &&
+            recruiterDetails.teamMembers.length > 0
+              ? recruiterDetails.teamMembers.map((member, index) => (
+                  <div key={index}>
+                    <p>
+                      <strong>Name:</strong> {member.name}
+                    </p>
+                    <p>
+                      <strong>Role:</strong> {member.teamMemberRole}
+                    </p>
+                    {member.github && (
+                      <p>
+                        <strong>GitHub:</strong>{" "}
+                        <a
+                          href={member.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {member.github}
+                        </a>
+                      </p>
+                    )}
+                    {member.linkedIn && (
+                      <p>
+                        <strong>LinkedIn:</strong>{" "}
+                        <a
+                          href={member.linkedIn}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {member.linkedIn}
+                        </a>
+                      </p>
+                    )}
+                  </div>
+                ))
+              : "No team members available"}
+          </div>
+        )}
+
+        {!showMore && (
+          <motion.button
+            onClick={() => setShowMore(!showMore)}
+            className="text-white p-1 mt-2 m-auto flex bg-blue-600 border-2 border-gray-500"
+          >
+            Show More
+          </motion.button>
+        )}
 
         <motion.button
           onClick={handleJobApply}

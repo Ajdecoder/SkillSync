@@ -55,6 +55,7 @@ export const ChatBot = () => {
           alignment: "left",
         };
 
+        setInputText("");
         setMessages((prevMessages) => [...prevMessages, botMessage]);
       }, 1000); // Delay of 1 second
     } else {
@@ -78,6 +79,7 @@ export const ChatBot = () => {
         alignment: "left",
       };
 
+      setInputText("");
       setMessages((prevMessages) => [...prevMessages, botMessage]);
     } catch (error) {
       console.error("Error fetching response from Gemini:", error);
@@ -121,14 +123,20 @@ export const ChatBot = () => {
       {/* Chatbot UI */}
       {isOpen && (
         <div
-          className={`chatbot-window fixed bottom-20 right-4 w-[25rem] bg-white rounded-lg shadow-lg z-[1000] p-2
+          className={`chatbot-window fixed bottom-[0.1rem] right-4 w-[25rem] bg-white rounded-lg shadow-lg z-[1000] p-2
       transition-all duration-500 transform ${
         isOpen ? "chatbot-reveal" : "hidden"
       }`}
         >
           {/* Navbar */}
-          <div className="flex items-center justify-between bg-blue-500 text-white p-2 rounded-t-lg">
+          <div className="flex items-center justify-between bg-blue-500 text-white p-4 rounded-t-lg">
             <span className="font-bold">ChatGuru</span>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="text-white hover:text-gray-300"
+            >
+              <i className="fa-solid fa-window-minimize"></i>
+            </button>
           </div>
 
           {/* Predefined Buttons */}
@@ -147,7 +155,9 @@ export const ChatBot = () => {
             </button>
             <button
               className="border-2 border-violet-600"
-              onClick={() => handlePredefinedMessage("How to update my profile?")}
+              onClick={() =>
+                handlePredefinedMessage("How to update my profile?")
+              }
             >
               How to update my profile?
             </button>

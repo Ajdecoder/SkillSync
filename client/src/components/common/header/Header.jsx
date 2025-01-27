@@ -158,7 +158,7 @@ const Header = () => {
           </ul>
         </nav>
 
-        <NotificationButton />
+        {loggedInUser&&<NotificationButton />}
 
         {/* User Section */}
         <div ref={dropdownRef} className="button mb-[1rem]">

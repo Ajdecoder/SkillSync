@@ -77,6 +77,7 @@ const Recent = () => {
                   handleConnectClick={handleConnectClick}
                   addedOpportunities={opportunities}
                 />
+                {console.log(opportunities)}
               </div>
             </section>
           )}

@@ -9,12 +9,12 @@ export const nav = [
     path: "/requirements",
   },
   {
-    text: "about",
-    path: "/about",
-  },
-  {
     text: "contact",
     path: "/contact",
+  },
+  {
+    text: "about",
+    path: "/about",
   },
   {
     text: "blogs",

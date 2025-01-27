@@ -16,9 +16,10 @@ import { ChatBot } from "../chatbot/ChatBot.jsx";
 import { AddOpportunityFormProvider } from "../context/AddOpportunityFromContext.jsx";
 import { PassRecoveryProvider } from "../context/PassRecoveryContext.jsx";
 import { RoutesConfig } from "./PageRoutes.jsx";
-import GoToTopButton from "../utils/ScrolltoTop.jsx";
+// import GoToTopButton from "../utils/ScrolltoTop.jsx";
 import ScrollProgress from "../utils/ScrollProgress.jsx";
 import { LoginLoading } from "../Login/LoginLoading.jsx";
+import ScrollButton from "../utils/Scrollto.jsx";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -35,7 +36,7 @@ const ScrollToTop = () => {
 
 const Pages = () => {
   const [spin, setSpin] = useState(false);
-  const [loading, setLoading] = useState(true);  
+  const [loading, setLoading] = useState(false);  
 
   useEffect(() => {
     Aos.init({
@@ -96,7 +97,7 @@ const Pages = () => {
                     <Routes>
                       {RoutesConfig({ spin, setSpin })}
                     </Routes>
-                    <GoToTopButton />
+                    <ScrollButton />
                     <ChatBot />
                     <Footer />
                   </>
