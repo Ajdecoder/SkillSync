@@ -17,6 +17,7 @@ import {
   RecruiterRegister,
 } from "../controller/recruiters/user.recruiter.controller.js";
 import CandidatesNotifications from "../controller/candidates/candidate.notification.js";
+import { NotificationAsRead } from "../controller/notification.controller.js";
 
 const Userrouter = express.Router();
 
@@ -28,7 +29,7 @@ Userrouter.post("/account/Forgotpassword", CandidateForgotPassword);
 Userrouter.put("/candidate/opportunity/apply-to-job", JobApply);
 Userrouter.put("/candidate/revert-application", RevertApplication); 
 Userrouter.get("/job/user/job-notifications", CandidatesNotifications );
-
+Userrouter.put("/notifications/markAsRead",NotificationAsRead)
 // Userrouter.patch("/account/user/changeAccPassword", changeAccPassword)
 // Userrouter.post("/account/DeleteAccount", DeleteAcc);
 // Userrouter.post("/account/ResetPassword", ResetPassword);

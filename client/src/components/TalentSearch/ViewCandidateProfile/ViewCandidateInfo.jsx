@@ -37,18 +37,18 @@ export const ViewCandidateInfo = () => {
         className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden"
       >
         <img
-          src={candidate.profilePicture}
-          alt={`${candidate.name}'s profile`}
+          src={candidate?.profilePicture}
+          alt={`${candidate?.name}'s profile`}
           className="w-full h-48 object-cover"
         />
         <div className="p-6">
-          <h2 className="text-2xl font-bold mb-2">{candidate.name}</h2>
-          <p className="text-gray-700 mb-4">{candidate.about}</p>
+          <h2 className="text-2xl font-bold mb-2">{candidate?.name}</h2>
+          <p className="text-gray-700 mb-4">{candidate?.about}</p>
 
           <div className="mb-4">
             <h3 className="text-xl font-semibold">Skills:</h3>
             <ul className="list-disc list-inside">
-              {candidate.skills.map((skill, index) => (
+              {candidate?.skills.map((skill, index) => (
                 <motion.li
                   key={index}
                   initial={{ opacity: 0, x: -20 }}
@@ -63,7 +63,7 @@ export const ViewCandidateInfo = () => {
 
           <div className="mb-4">
             <h3 className="text-xl font-semibold">Experience:</h3>
-            {candidate.experience.map((exp, idx) => (
+            {candidate?.experience.map((exp, idx) => (
               <motion.div
                 key={exp._id.$oid}
                 className="mb-2"
@@ -82,7 +82,7 @@ export const ViewCandidateInfo = () => {
 
           <div className="mb-4">
             <h3 className="text-xl font-semibold">Education:</h3>
-            {candidate.education.map((edu, idx) => (
+            {candidate?.education.map((edu, idx) => (
               <motion.div
                 key={edu._id.$oid}
                 className="mb-2"
@@ -101,24 +101,24 @@ export const ViewCandidateInfo = () => {
           <div className="mb-4">
             <h3 className="text-xl font-semibold">Location:</h3>
             <p>
-              {candidate.location.city}, {candidate.location.state},{" "}
-              {candidate.location.country}
+              {candidate?.location.city}, {candidate?.location.state},{" "}
+              {candidate?.location.country}
             </p>
           </div>
 
           <div className="mb-4">
             <h3 className="text-xl font-semibold">Preferences:</h3>
             <p>
-              Salary Range: ${candidate.preferences.salaryRange.min} - $
-              {candidate.preferences.salaryRange.max}
+              Salary Range: ${candidate?.preferences.salaryRange.min} - $
+              {candidate?.preferences.salaryRange.max}
             </p>
-            <p>Job Type: {candidate.preferences.jobType}</p>
-            <p>Industry: {candidate.preferences.industry}</p>
+            <p>Job Type: {candidate?.preferences.jobType}</p>
+            <p>Industry: {candidate?.preferences.industry}</p>
           </div>
 
           <div className="mb-4">
             <h3 className="text-xl font-semibold">Languages:</h3>
-            {candidate.languages.map((lang, idx) => (
+            {candidate?.languages.map((lang, idx) => (
               <motion.p
                 key={lang._id.$oid}
                 initial={{ opacity: 0, x: -20 }}
@@ -132,7 +132,7 @@ export const ViewCandidateInfo = () => {
 
           <div className="mb-4">
             <h3 className="text-xl font-semibold">Certifications:</h3>
-            {candidate.certifications.map((cert, idx) => (
+            {candidate?.certifications.map((cert, idx) => (
               <motion.div
                 key={cert._id.$oid}
                 className="mb-2"
@@ -152,7 +152,7 @@ export const ViewCandidateInfo = () => {
 
           <div className="mb-4">
             <h3 className="text-xl font-semibold">Portfolio:</h3>
-            {candidate.portfolio.map((project, idx) => (
+            {candidate?.portfolio.map((project, idx) => (
               <motion.div
                 key={project._id.$oid}
                 className="mb-2"
@@ -176,7 +176,7 @@ export const ViewCandidateInfo = () => {
 
           <div className="mb-4">
             <h3 className="text-xl font-semibold">Awards:</h3>
-            {candidate.awards.map((award, idx) => (
+            {candidate?.awards.map((award, idx) => (
               <motion.div
                 key={award._id.$oid}
                 className="mb-2"
@@ -193,7 +193,7 @@ export const ViewCandidateInfo = () => {
 
           <div className="mb-4">
             <h3 className="text-xl font-semibold">Volunteer Experience:</h3>
-            {candidate.volunteerExperience.map((volunteer, idx) => (
+            {candidate?.volunteerExperience.map((volunteer, idx) => (
               <motion.div
                 key={volunteer._id.$oid}
                 className="mb-2"
@@ -212,10 +212,10 @@ export const ViewCandidateInfo = () => {
 
           <div className="mb-4">
             <h3 className="text-xl font-semibold">Contact:</h3>
-            <p>Email: {candidate.email}</p>
+            <p>Email: {candidate?.email}</p>
             <div className="flex gap-4">
               <a
-                href={candidate.socialLinks.linkedin}
+                href={candidate?.socialLinks.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-500"
@@ -223,15 +223,15 @@ export const ViewCandidateInfo = () => {
                 LinkedIn
               </a>
               <a
-                href={candidate.socialLinks.github}
+                href={candidate?.socialLinks.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-500"
+                className="text-blue-500" 
               >
                 GitHub
               </a>
               <a
-                href={candidate.socialLinks.portfolio}
+                href={candidate?.socialLinks.portfolio}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-blue-500"
@@ -242,6 +242,9 @@ export const ViewCandidateInfo = () => {
           </div>
         </div>
       </motion.div>
+
+            <motion.button className="text-white p-3 mt-2 m-auto flex bg-sky-600 border-2 border-gray-500" >Hire Now</motion.button>
+
     </div>
   );
 };

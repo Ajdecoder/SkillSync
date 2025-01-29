@@ -1,40 +1,49 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getNotifications } from "../../../services/api";
+import { useAuth } from "../../context/AuthContext";
 
 const NotificationButton = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+  const { loggedInUser } = useAuth(); 
 
-  // Function to fetch notifications from the backend
   const fetchNotifications = async () => {
     try {
       const response = await getNotifications();
-      const data = response.data; // Assuming the data is nested inside response.data
+      const data = response.data;
+
+      console.log(data);
 
       if (response.statusText === "OK" && Array.isArray(data.notifications)) {
-        setNotifications(data.notifications); // Set notifications only if it's an array
+        
+        const filteredNotifications = data.notifications.filter((notification) => {
+          
+          if (loggedInUser?.role === "candidate" && notification.type === "job_posted") {
+            return true;
+          } else if (loggedInUser?.role === "recruiter" && notification.type === "application_received") {
+            return true;
+          }
+          return false;
+        });
+
+        setNotifications(filteredNotifications);
       } else {
-        console.error(
-          "Failed to fetch notifications or notifications is not an array",
-          data
-        );
-        setNotifications([]); // In case it's not an array, set notifications to empty array
+        console.error("Failed to fetch notifications:", data);
+        setNotifications([]);
       }
     } catch (error) {
       console.error("Error fetching notifications:", error);
-      setNotifications([]); // Fallback to empty array if error occurs
+      setNotifications([]);
     }
   };
 
-  // Fetch notifications when the component mounts
   useEffect(() => {
-    fetchNotifications(); // Fetch notifications on load
-  }, []);
+    fetchNotifications();
+  }, [loggedInUser]); 
 
-  // Close the dropdown if clicked outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -47,11 +56,14 @@ const NotificationButton = () => {
   }, []);
 
   const handleNotificationClick = () => {
-    setShowNotifications((prev) => !prev); // Toggle the dropdown visibility
+    setShowNotifications((prev) => !prev);
   };
 
+  
+  const unreadCount = notifications.filter((notification) => !notification.read).length;
+
   return (
-    <div className="relative ">
+    <div className="relative">
       {/* Notification Button */}
       <button
         className="notification-button relative bottom-4"
@@ -59,7 +71,7 @@ const NotificationButton = () => {
       >
         <i className="fa-solid fa-bell text-3xl"></i>
         <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
-          {notifications.length}
+          {unreadCount}
         </span>
       </button>
 
@@ -69,22 +81,28 @@ const NotificationButton = () => {
           ref={dropdownRef}
           className="absolute bg-white shadow-lg rounded-md w-[18rem] top-12 right-[-7rem] p-4 max-h-[22rem] overflow-auto z-10 border border-gray-300"
         >
-          {Array.isArray(notifications) && notifications.length > 0 ? (
+          {notifications.length > 0 ? (
             <>
               <ul>
                 {notifications.map((notification, index) => (
                   <li
                     key={index}
+                    style={{
+                      backgroundColor: notification.read ? "#f3f4f6" : "white",
+                      color: notification.read ? "#6b7280" : "black",
+                    }}
                     className="text-sm py-2 border-b last:border-none hover:bg-gray-100 cursor-pointer p-2"
                   >
-                    {notification.message}{" "}
-                    {/* Assuming each notification has a 'message' field */}
+                    {notification.message}
                   </li>
                 ))}
               </ul>
               <button
                 className="block m-auto p-1"
-                onClick={() => navigate("/notifications")}
+                onClick={() =>
+                  navigate("/notifications"
+                  )
+                }
               >
                 View All
               </button>

@@ -5,7 +5,7 @@ import { PORT_CLIENT } from "../../commonClient";
 import { toast, ToastContainer } from "react-toastify";
 import { addOpportunity } from "../../services/api";
 
-const ReviewJobOpportunity = ({ prevStep, handleFinalSubmit }) => {
+const ReviewJobOpportunity = ({ prevStep }) => {
   const { formData, updateForm } = useForm();
   const [editMode, setEditMode] = useState(false);
   const [localFormData, setLocalFormData] = useState({

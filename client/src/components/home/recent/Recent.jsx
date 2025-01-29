@@ -10,7 +10,9 @@ import { PORT_CLIENT } from "../../../commonClient";
 import { Spinner } from "../../common/loadingSpinner/spinner";
 import { getAllCandidateProfiles } from "../../../services/api";
 
-const Recent = () => {
+const Recent = ({filterCategory,filteredProgrammers,programmers}) => {
+
+    console.log(filterCategory, filteredProgrammers, programmers);
   const { loggedInUser } = useAuth();
   const navigate = useNavigate();
   const [talentsError, setTalentsError] = useState(null);
@@ -89,7 +91,6 @@ const Recent = () => {
                   title="Newly Listed Talents"
                   subtitle="Explore the latest talents looking for opportunities. Stay updated with fresh talent profiles and career options."
                 />
-                {console.log(talents)}
                 <TalentsCard talents={talents} />
               </div>
             </section>

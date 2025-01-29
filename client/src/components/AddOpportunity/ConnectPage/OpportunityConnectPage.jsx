@@ -198,22 +198,22 @@ const OpportunityConnectPage = () => {
               Company Overview
             </h3>
             <p>
-              <strong>Name:</strong> {recruiterDetails.companyOverview?.name || "NA" }
+              <strong>Name:</strong> {recruiterDetails?.companyOverview?.name || "NA" }
             </p>
             <p>
               <strong>Description:</strong>
-              {recruiterDetails.companyOverview?.description ||
+              {recruiterDetails?.companyOverview?.description ||
                 "No description available"}
             </p>
             <p>
               <strong>Website:</strong>
               <a
-                href={recruiterDetails.companyOverview?.website}
+                href={recruiterDetails?.companyOverview?.website}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline hover:text-blue-700"
               >
-                {recruiterDetails.companyOverview?.website|| "NA"}
+                {recruiterDetails?.companyOverview?.website|| "NA"}
               </a>
             </p>
 
@@ -221,18 +221,18 @@ const OpportunityConnectPage = () => {
               Company Location
             </h3>
             <p>
-              {recruiterDetails.companyLocation.city},{" "}
-              {recruiterDetails.companyLocation.state},{" "}
-              {recruiterDetails.companyLocation.country}
+              {recruiterDetails?.companyLocation.city},{" "}
+              {recruiterDetails?.companyLocation.state},{" "}
+              {recruiterDetails?.companyLocation.country}
             </p>
 
             {/* <h3 className="text-2xl font-semibold text-gray-800 mt-6 mb-4">
               Company Benefits
             </h3>
             <ul className="list-disc ml-6">
-              {recruiterDetails.companyBenefits &&
-              recruiterDetails.companyBenefits.length > 0
-                ? recruiterDetails.companyBenefits.map((benefit, index) => (
+              {recruiterDetails?.companyBenefits &&
+              recruiterDetails?.companyBenefits.length > 0
+                ? recruiterDetails?.companyBenefits.map((benefit, index) => (
                     <li key={index}>{benefit}</li>
                   ))
                 : "No benefits available"}
@@ -243,32 +243,32 @@ const OpportunityConnectPage = () => {
             </h3>
             <p>
               <strong>Description:</strong>{" "}
-              {recruiterDetails.recruitmentProcess.description}
+              {recruiterDetails?.recruitmentProcess.description}
             </p>
             <p>
               <strong>Timeline:</strong>{" "}
-              {recruiterDetails.recruitmentProcess.timeline}
+              {recruiterDetails?.recruitmentProcess.timeline}
             </p>
             <p>
               <strong>Interview Stages:</strong>{" "}
-              {recruiterDetails.recruitmentProcess.interviewStages.join(", ")}
+              {recruiterDetails?.recruitmentProcess.interviewStages.join(", ")}
             </p>
             <p>
               <strong>Assessment Types:</strong>{" "}
-              {recruiterDetails.recruitmentProcess.assessmentTypes.join(", ")}
+              {recruiterDetails?.recruitmentProcess.assessmentTypes.join(", ")}
             </p>
             <p>
               <strong>Application Review:</strong>{" "}
-              {recruiterDetails.recruitmentProcess.applicationReview}
+              {recruiterDetails?.recruitmentProcess.applicationReview}
             </p>
 
             <h3 className="text-2xl font-semibold text-gray-800 mt-6 mb-4">
               Past Hires
             </h3>
             <ul className="list-disc ml-6">
-              {recruiterDetails.pastHires &&
-              recruiterDetails.pastHires.length > 0
-                ? recruiterDetails.pastHires.map((hire, index) => (
+              {recruiterDetails?.pastHires &&
+              recruiterDetails?.pastHires.length > 0
+                ? recruiterDetails?.pastHires.map((hire, index) => (
                     <li key={index}>
                       {hire.name} - {hire.position}
                     </li>
@@ -279,9 +279,9 @@ const OpportunityConnectPage = () => {
             <h3 className="text-2xl font-semibold text-gray-800 mt-6 mb-4">
               Team Members
             </h3>
-            {recruiterDetails.teamMembers &&
-            recruiterDetails.teamMembers.length > 0
-              ? recruiterDetails.teamMembers.map((member, index) => (
+            {recruiterDetails?.teamMembers &&
+            recruiterDetails?.teamMembers.length > 0
+              ? recruiterDetails?.teamMembers.map((member, index) => (
                   <div key={index}>
                     <p>
                       <strong>Name:</strong> {member.name}

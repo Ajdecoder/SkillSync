@@ -27,6 +27,7 @@ import { MyJobListnings } from "../Requirements/Recruiters/MyJobListnings.jsx";
 import { ViewCandidateInfo } from "../TalentSearch/ViewCandidateProfile/ViewCandidateInfo.jsx";
 import NotFoundPage from "../4NOT4/404.jsx";
 import TalentsCard from "../Requirements/Recruiters/TalentSearchPage.jsx";
+import NotificationPage from "../Notificationpage/Notificationpage.jsx";
 
 // This is just a helper function to return route elements.
 
@@ -114,6 +115,11 @@ export const RoutesConfig = ({ spin, setSpin }) => [
     key="login-candidate"
     path="/login/candidate"
     element={<LoginCandidate />}
+  />,
+  <Route
+    key="notifications"
+    path="/notifications"
+    element={<NotificationPage />}
   />,
   <Route key="delete-account" path="/settings/delete-account" element={<DeleteAccount />} />,
   <Route key="not-found" path="*" element={<NotFoundPage />} />,
