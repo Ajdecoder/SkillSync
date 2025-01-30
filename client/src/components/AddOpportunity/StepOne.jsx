@@ -17,8 +17,7 @@ const StepOne = ({ nextStep }) => {
     if (
       !formData.requirement_type ||
       !formData.title ||
-      !formData.company_name ||
-      !formData.company_website
+      !formData.company_name
     ) {
       setError("Please fill all required fields."); // Set error message
       return false;

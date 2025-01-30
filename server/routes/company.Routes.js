@@ -11,6 +11,7 @@ const companyRouter = express.Router();
 // Route to hire talent (without multer)
 import { multerUploader } from "../middleware/multer.js"; // Ensure multerUploader is defined
 import { uploadFile } from "../middleware/cloudinary.js"; // Cloudinary upload function
+import notificationMiddleware from "../middleware/Notification.js";
 
 companyRouter.post(
   "/hireTalent",
@@ -45,7 +46,7 @@ companyRouter.post(
   // }
 );
 
-companyRouter.post("/addOpportunity", addOpportunity);
+companyRouter.post("/addOpportunity", notificationMiddleware, addOpportunity);
 companyRouter.get("/addedOpportunities", allOpportunitiesData);
 companyRouter.get("/Companyrequirements/:id", getRequirementById);
 

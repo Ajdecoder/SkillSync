@@ -38,6 +38,7 @@ export const AddOpportunitySchema = new mongoose.Schema(
       type: String,
       enum: ["Full-Time", "Part-Time", "Contract", "Internship"],
       required: true,
+
     },
     location: {
       type: String,
@@ -63,6 +64,10 @@ export const AddOpportunitySchema = new mongoose.Schema(
       type: String,
       required: false, // URL of company logo if needed
     },
+    recruiterDetails: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "RecruiterUserProfile",
+    }
   },
   { timestamps: true }
 );

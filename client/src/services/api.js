@@ -5,6 +5,7 @@ const API = axios.create({
   baseURL: import.meta.env.VITE_SERVER_PORT,
 });
 
+
 // Add Authorization token
 API.interceptors.request.use((req) => {
   const token = localStorage.getItem("jwttoken");
@@ -70,3 +71,10 @@ export const hireTalent = (data) =>
 
 // Chat Api Methods
 export const getChatResponse = (data) => API.post("/api/chatbot/chat-response", data);
+
+// notifications Api Methods
+
+export const getNotifications = () => API.get("/api/users/job/user/job-notifications");
+export const markNotificationAsRead = (notificationId) =>
+  API.put(`/api/users/notifications/markAsRead`, { notificationId });
+

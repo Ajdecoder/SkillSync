@@ -5,10 +5,13 @@ import { PORT_CLIENT } from "../../commonClient";
 import { toast, ToastContainer } from "react-toastify";
 import { addOpportunity } from "../../services/api";
 
-const ReviewJobOpportunity = ({ prevStep, handleFinalSubmit }) => {
+const ReviewJobOpportunity = ({ prevStep }) => {
   const { formData, updateForm } = useForm();
   const [editMode, setEditMode] = useState(false);
-  const [localFormData, setLocalFormData] = useState(formData);
+  const [localFormData, setLocalFormData] = useState({
+    skills: [{ skillName: "" }],
+    ...formData,
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
 
@@ -21,13 +24,13 @@ const ReviewJobOpportunity = ({ prevStep, handleFinalSubmit }) => {
       localFormData.ph_no &&
       localFormData.location &&
       localFormData.type &&
-      localFormData.minSalary && localFormData.maxSalary &&
-      localFormData.desc_requirement &&
-      localFormData.address;
-    setIsFormValid(isValid);
+      localFormData.minSalary &&
+      localFormData.maxSalary &&
+      localFormData.desc_requirement
+      setIsFormValid(isValid);
   }, [localFormData]);
 
-  console.log(localFormData)
+  console.log(localFormData);
 
   const handleInputChange = (field, value) => {
     setLocalFormData((prev) => ({
@@ -36,16 +39,68 @@ const ReviewJobOpportunity = ({ prevStep, handleFinalSubmit }) => {
     }));
   };
 
+  const handleSkillsInputChange = (field, value, index = null) => {
+    if (field === "skills") {
+      const updatedSkills = [...localFormData.skills];
+      updatedSkills[index].skillName = value; // Update the specific skill
+      setLocalFormData({ ...localFormData, skills: updatedSkills });
+    } else {
+      setLocalFormData({ ...localFormData, [field]: value });
+    }
+  };
+
   const handleSubmit = async (e) => {
     if (e) e.preventDefault(); // Prevent form submission reload
     updateForm(localFormData); // Update global form context
-
+  
+    // Check if all required fields are included in payload
+    const {
+      title,
+      company_name,
+      company_website,
+      email,
+      ph_no,
+      location,
+      maxSalary,
+      minSalary,
+      desc_requirement,
+      skills,
+      requirement_type,
+    } = localFormData;
+  
+    if (!title || !company_name || !company_website || !ph_no || !location || !requirement_type || !minSalary || !maxSalary || !desc_requirement || !skills.length) {
+      toast.error("Please fill in all required fields.");
+      return;
+    }
+  
     try {
       setIsSubmitting(true);
       console.log("Submitting Form Data:", localFormData); // Log current form data
-
-      await addOpportunity(localFormData)
-
+  
+      // Construct the payload
+      const payload = {
+        action: "job_posted",
+        payload: {
+          skills: localFormData.skills.map((skill) => ({ skillName: skill.skillName })),
+          title: localFormData.title,
+          company_name: localFormData.company_name,
+          company_website: localFormData.company_website,
+          ph_no: localFormData.ph_no,
+          email: localFormData.email,
+          location: localFormData.location,
+          requirement_type: localFormData.requirement_type,
+          minSalary: localFormData.minSalary,
+          maxSalary: localFormData.maxSalary,
+          desc_requirement: localFormData.desc_requirement,
+        },
+      };
+  
+      // Check if payload is properly formed
+      console.log("Payload:", payload);
+  
+      // Call your API to submit the data
+      await addOpportunity(payload);
+  
       toast.success("Form Submitted Successfully", { autoClose: 1200 });
     } catch (error) {
       console.error("Error Submitting Form:", error);
@@ -54,7 +109,7 @@ const ReviewJobOpportunity = ({ prevStep, handleFinalSubmit }) => {
       setIsSubmitting(false); // Ensure the submit state resets
     }
   };
-
+  
   const toggleEditMode = () => {
     setEditMode(!editMode);
   };
@@ -159,12 +214,14 @@ const ReviewJobOpportunity = ({ prevStep, handleFinalSubmit }) => {
           {editMode ? (
             <input
               type="text"
-              value={localFormData.type}
+              value={localFormData.requirement_type}
               onChange={(e) => handleInputChange("type", e.target.value)}
               className="w-full border rounded p-2 text-gray-600"
             />
           ) : (
-            <p className="text-gray-600">{localFormData.type || "N/A"}</p>
+            <p className="text-gray-600">
+              {localFormData.requirement_type || "N/A"}
+            </p>
           )}
         </div>
         {/* Salary Range */}
@@ -179,8 +236,7 @@ const ReviewJobOpportunity = ({ prevStep, handleFinalSubmit }) => {
             />
           ) : (
             <p className="text-gray-600">
-              {localFormData.minSalary || "N/A"}
-              {" "}-
+              {localFormData.minSalary || "N/A"} -
               {localFormData.maxSalary || "N/A"}
             </p>
           )}
@@ -205,18 +261,41 @@ const ReviewJobOpportunity = ({ prevStep, handleFinalSubmit }) => {
             </p>
           )}
         </div>
-        {/* Address */}
+        {/* Skills */}
         <div className="border-b p-4">
-          <h3 className="text-xl font-semibold text-gray-700">Address</h3>
+          <h3 className="text-xl font-semibold text-gray-700">Skills</h3>
           {editMode ? (
-            <input
-              type="text"
-              value={localFormData.address}
-              onChange={(e) => handleInputChange("address", e.target.value)}
-              className="w-full border rounded p-2 text-gray-600"
-            />
+            <div>
+              {localFormData.skills.map((skill, index) => (
+                <input
+                  key={index}
+                  type="text"
+                  value={skill.skillName || ""}
+                  onChange={(e) =>
+                    handleSkillsInputChange("skills", e.target.value, index)
+                  }
+                  className="w-full border rounded p-2 text-gray-600 mb-2"
+                />
+              ))}
+              <button
+                type="button"
+                onClick={() =>
+                  setLocalFormData({
+                    ...localFormData,
+                    skills: [...localFormData.skills, { skillName: "" }],
+                  })
+                }
+                className="bg-blue-500 text-white rounded px-4 py-2 mt-2"
+              >
+                Add Skill
+              </button>
+            </div>
           ) : (
-            <p className="text-gray-600">{localFormData.address || "N/A"}</p>
+            <p className="text-gray-600">
+              {localFormData.skills
+                ?.map((skill) => skill.skillName)
+                .join(", ") || "N/A"}
+            </p>
           )}
         </div>
         {/* Action Buttons */}
@@ -241,8 +320,13 @@ const ReviewJobOpportunity = ({ prevStep, handleFinalSubmit }) => {
                 : "bg-green-500 hover:bg-green-600"
             } text-white px-6 py-3 rounded-md shadow-md transition duration-300`}
             onClick={editMode ? handleSaveChanges : handleSubmit} // Call respective functions
+            disabled={isSubmitting}
           >
-            {editMode ? "Save Changes" : "Submit"}
+            {editMode
+              ? "Save Changes"
+              : isSubmitting
+              ? "Submitting..."
+              : "Submit"}
           </button>
 
           {/* Edit Button */}
@@ -259,7 +343,7 @@ const ReviewJobOpportunity = ({ prevStep, handleFinalSubmit }) => {
           )}
         </div>
       </form>
-      <ToastContainer position="bottom-left" />
+      <ToastContainer position="bottom-left" autoClose={1500} />
     </div>
   );
 };
