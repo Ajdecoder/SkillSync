@@ -4,6 +4,7 @@ import axios from "axios";
 import { PORT_CLIENT } from "../../commonClient";
 import { toast, ToastContainer } from "react-toastify";
 import { addOpportunity } from "../../services/api";
+import NotificationToasts from "../chatbot/Toast/Toast";
 
 const ReviewJobOpportunity = ({ prevStep }) => {
   const { formData, updateForm } = useForm();
@@ -14,6 +15,8 @@ const ReviewJobOpportunity = ({ prevStep }) => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
+  const [toastMessage, setToastMessage] = useState(null);
+  const [toastType, setToastType] = useState("success");
 
   // Check if the form is complete or needs more data
   useEffect(() => {
@@ -26,8 +29,8 @@ const ReviewJobOpportunity = ({ prevStep }) => {
       localFormData.type &&
       localFormData.minSalary &&
       localFormData.maxSalary &&
-      localFormData.desc_requirement
-      setIsFormValid(isValid);
+      localFormData.desc_requirement;
+    setIsFormValid(isValid);
   }, [localFormData]);
 
   console.log(localFormData);
@@ -52,7 +55,7 @@ const ReviewJobOpportunity = ({ prevStep }) => {
   const handleSubmit = async (e) => {
     if (e) e.preventDefault(); // Prevent form submission reload
     updateForm(localFormData); // Update global form context
-  
+
     // Check if all required fields are included in payload
     const {
       title,
@@ -67,21 +70,35 @@ const ReviewJobOpportunity = ({ prevStep }) => {
       skills,
       requirement_type,
     } = localFormData;
-  
-    if (!title || !company_name || !company_website || !ph_no || !location || !requirement_type || !minSalary || !maxSalary || !desc_requirement || !skills.length) {
-      toast.error("Please fill in all required fields.");
+
+    if (
+      !title ||
+      !company_name ||
+      !company_website ||
+      !ph_no ||
+      !location ||
+      !requirement_type ||
+      !minSalary ||
+      !maxSalary ||
+      !desc_requirement ||
+      !skills.length
+    ) {
+      setToastMessage("Please fill in all required fields.");
+      setToastType("info");
       return;
     }
-  
+
     try {
       setIsSubmitting(true);
       console.log("Submitting Form Data:", localFormData); // Log current form data
-  
+
       // Construct the payload
       const payload = {
         action: "job_posted",
         payload: {
-          skills: localFormData.skills.map((skill) => ({ skillName: skill.skillName })),
+          skills: localFormData.skills.map((skill) => ({
+            skillName: skill.skillName,
+          })),
           title: localFormData.title,
           company_name: localFormData.company_name,
           company_website: localFormData.company_website,
@@ -94,22 +111,24 @@ const ReviewJobOpportunity = ({ prevStep }) => {
           desc_requirement: localFormData.desc_requirement,
         },
       };
-  
+
       // Check if payload is properly formed
       console.log("Payload:", payload);
-  
+
       // Call your API to submit the data
       await addOpportunity(payload);
-  
-      toast.success("Form Submitted Successfully", { autoClose: 1200 });
+
+      setToastMessage("Form Submitted Successfully");
+      toastType("success");
     } catch (error) {
       console.error("Error Submitting Form:", error);
-      toast.error("Error Submitting Form");
+      toastMessage("Error Submitting Form");
+      toastType("error");
     } finally {
       setIsSubmitting(false); // Ensure the submit state resets
     }
   };
-  
+
   const toggleEditMode = () => {
     setEditMode(!editMode);
   };
@@ -343,7 +362,15 @@ const ReviewJobOpportunity = ({ prevStep }) => {
           )}
         </div>
       </form>
-      <ToastContainer position="bottom-left" autoClose={1500} />
+      {toastMessage && (
+        <NotificationToasts
+          message={toastMessage}
+          type={toastType}
+          autoClose={1500}
+          position="top-right"
+          theme="dark"
+        />
+      )}
     </div>
   );
 };

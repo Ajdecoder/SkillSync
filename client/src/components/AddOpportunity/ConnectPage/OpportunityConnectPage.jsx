@@ -10,7 +10,7 @@ import {
   RevertBackApplication,
 } from "../../../services/api.js";
 import { useAuth } from "../../context/AuthContext.jsx";
-import { toast, ToastContainer } from "react-toastify";
+import NotificationToasts from "../../chatbot/Toast/Toast.jsx";
 
 const OpportunityConnectPage = () => {
   const [error, setError] = useState(null);
@@ -21,6 +21,8 @@ const OpportunityConnectPage = () => {
   const { loggedInUser } = useAuth();
   const [userId, setUserId] = useState(null);
   const { post_id } = useParams();
+  const [toastMessage, setToastMessage] = useState(null);
+  const [toastType, setToastType] = useState("success");
 
   const { data: companyData, loading } = useFetchData(
     `${PORT_CLIENT}/api/requirements/Companyrequirements/${post_id}`
@@ -49,10 +51,17 @@ const OpportunityConnectPage = () => {
       setLoadingApply(true);
       await ApplyToOpportunity(userId, companyData._id);
       setUserHasApplied(true);
-      toast.success("Application submitted successfully", { autoClose: 1200 });
+
+      // Set toast message on successful application
+      setToastMessage("Application submitted successfully!");
+      setToastType("success"); 
     } catch (err) {
       console.error("Error applying to the job:", err);
       setError("There was an error applying to the opportunity.");
+
+      // Show error toast
+      setToastMessage("Failed to apply for the job.");
+      setToastType("error");
     } finally {
       setLoadingApply(false);
     }
@@ -65,7 +74,9 @@ const OpportunityConnectPage = () => {
       setLoadingApply(true);
       await RevertBackApplication(userId, companyData._id);
       setUserHasApplied(false);
-      toast.info("Application reverted successfully", { autoClose: 1200 });
+
+      setToastMessage("Application reverted successfully!");
+      setToastType("info"); 
 
       const updatedCandidates = companyData.candidatesApplied.filter(
         (candidateId) => candidateId !== userId
@@ -73,6 +84,8 @@ const OpportunityConnectPage = () => {
       companyData.candidatesApplied = updatedCandidates;
     } catch (err) {
       console.error("Error reverting application:", err);
+      setToastMessage("Failed to revert the application.");
+      setToastType("error");
       setError("There was an error reverting the application.");
     } finally {
       setLoadingApply(false);
@@ -109,6 +122,7 @@ const OpportunityConnectPage = () => {
   } = companyData;
 
   console.log(companyData);
+  console.log(recruiterDetails);
 
   const userHasAlreadyApplied = candidatesApplied?.includes(userId);
 
@@ -198,7 +212,8 @@ const OpportunityConnectPage = () => {
               Company Overview
             </h3>
             <p>
-              <strong>Name:</strong> {recruiterDetails?.companyOverview?.name || "NA" }
+              <strong>Name:</strong>{" "}
+              {recruiterDetails?.companyOverview?.name || "NA"}
             </p>
             <p>
               <strong>Description:</strong>
@@ -213,7 +228,7 @@ const OpportunityConnectPage = () => {
                 rel="noopener noreferrer"
                 className="underline hover:text-blue-700"
               >
-                {recruiterDetails?.companyOverview?.website|| "NA"}
+                {recruiterDetails?.companyOverview?.website || "NA"}
               </a>
             </p>
 
@@ -390,7 +405,16 @@ const OpportunityConnectPage = () => {
           </div>
         )}
 
-        <ToastContainer position="bottom-left" />
+        {/* <ToastContainer position="bottom-left" /> */}
+        {toastMessage && (
+          <NotificationToasts
+            message={toastMessage}
+            type={toastType}
+            autoClose={1500}
+            position="top-right"
+            theme="dark"
+          />
+        )}
       </motion.div>
     </div>
   );

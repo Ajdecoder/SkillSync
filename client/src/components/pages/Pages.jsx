@@ -14,7 +14,6 @@ import Header from "../common/header/Header.jsx";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { ChatBot } from "../chatbot/ChatBot.jsx";
 import { AddOpportunityFormProvider } from "../context/AddOpportunityFromContext.jsx";
-import { PassRecoveryProvider } from "../context/PassRecoveryContext.jsx";
 import { RoutesConfig } from "./PageRoutes.jsx";
 // import GoToTopButton from "../utils/ScrolltoTop.jsx";
 import ScrollProgress from "../utils/ScrollProgress.jsx";
@@ -76,7 +75,6 @@ const Pages = () => {
       >
         <HireFormProvider>
           <AddOpportunityFormProvider>
-            <PassRecoveryProvider>
               <Router
               future={{
                 v7_startTransition: true, 
@@ -103,7 +101,6 @@ const Pages = () => {
                   </>
                 )}
               </Router>
-            </PassRecoveryProvider>
           </AddOpportunityFormProvider>
         </HireFormProvider>
       </Auth0Provider>

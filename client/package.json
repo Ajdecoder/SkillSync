@@ -8,6 +8,8 @@
     "@auth0/auth0-react": "^2.2.4",
     "@formspree/react": "^2.5.1",
     "@shadcn/ui": "^0.0.4",
+    "@studio-freight/lenis": "^1.0.42",
+    "@studio-freight/react-lenis": "^0.0.47",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
