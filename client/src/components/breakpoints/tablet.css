@@ -95,11 +95,13 @@
   .dropdown-expand {
     display: block;
     position: relative;
+    left: 0;
+    transform: translateX(-3%);
     height: auto;
   }
 
   .exp-icon {
-    margin-left: 33px;
+    margin-left: 33px;  
   }
 
   .dropdown-expand,

@@ -119,11 +119,11 @@ const ReviewJobOpportunity = ({ prevStep }) => {
       await addOpportunity(payload);
 
       setToastMessage("Form Submitted Successfully");
-      toastType("success");
+      setToastType("success");
     } catch (error) {
       console.error("Error Submitting Form:", error);
-      toastMessage("Error Submitting Form");
-      toastType("error");
+      setToastMessage("Error Submitting Form");
+      setToastType("error");
     } finally {
       setIsSubmitting(false); // Ensure the submit state resets
     }

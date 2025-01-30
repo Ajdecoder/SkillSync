@@ -73,7 +73,7 @@ export const RegCandidate = () => {
         localStorage.setItem("jwttoken", token);
 
         toastMessage("Candidate successfully Register");
-        toastType("success");
+        setToastType("success");
 
         setTimeout(() => {
           navigate("/");
@@ -89,16 +89,16 @@ export const RegCandidate = () => {
         if (error.response.data && error.response.data.error) {
           const errorMessage = error.response.data.error[0].message;
           setToastMessage(errorMessage);
-          toastType("error");
+          setToastType("error");
         } else {
           setToastMessage(
             `${error.response.data.message || "Something went wrong"}`
           );
-          toastType("error");
+          setToastType("error");
         }
       } else {
         toastMessage("Network error. Please try again later.");
-        toastType("error");
+        setToastType("error");
       }
     }
   };

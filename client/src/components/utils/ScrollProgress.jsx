@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 const ScrollProgress = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const lenis = useLenis();
-  const location = useLocation(); // Used to detect page navigation
+  const location = useLocation();
 
   useEffect(() => {
     const updateProgress = () => {
@@ -13,31 +13,28 @@ const ScrollProgress = () => {
 
       const scrollTop = lenis.scroll;
       const docHeight = lenis.limit;
-
-      // Calculate progress
       const progress = (scrollTop / docHeight) * 100;
-
       setScrollProgress(progress);
     };
 
-    // Initial update progress when the component mounts
-    updateProgress();
-
-    lenis.on("scroll", updateProgress); // Listen for scroll event
-
-    // Handle page navigation by resetting scroll position
     const handlePageNavigation = () => {
-      // Scroll to top on page navigation
-      lenis.scrollTo(0); 
+      if (lenis) {
+        lenis.scrollTo(0);
+        setScrollProgress(0);
+        lenis.resize(); // Changed from update() to resize()
+      }
     };
 
-    // Trigger page navigation logic
+    updateProgress();
+
+    lenis?.on("scroll", updateProgress);
+
     handlePageNavigation();
 
     return () => {
-      lenis.off("scroll", updateProgress); // Clean up the scroll event listener
+      lenis?.off("scroll", updateProgress);
     };
-  }, [lenis, location]); // Re-run on page navigation
+  }, [lenis, location]);
 
   return (
     <div
