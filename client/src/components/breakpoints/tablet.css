@@ -109,6 +109,8 @@
 
   .top-header {
     justify-content: space-around;
+    position: relative;
+    top: 0;
   }
 
   header {
@@ -122,11 +124,7 @@
   }
   header nav .flex {
     display: none;
-  }
-  header .toggle {
-    display: block;
-    margin-top: 20px;
-  }
+  } 
   header .small {
     position: fixed;
     height: 100%;
@@ -180,7 +178,6 @@
   }
   header,
   .toggle {
-    margin-bottom: 13px;
     display: block !important;
   }
   .blog-out {
@@ -193,11 +190,12 @@
   .dropdown-expand ul {
     flex-direction: column;
   }
-  .log-sign {
-    bottom: 0px !important;
-  }
   .awards h1 {
     font-size: 12px !important;
+  }
+
+  .log-sign {
+    bottom: -0.6rem !important;
   }
   
 }
@@ -236,10 +234,6 @@
 
   .blog-out {
     grid-template-columns: 1fr 1fr;
-  }
-
-  .log-sign {
-    bottom: -5px !important;
   }
   
 }

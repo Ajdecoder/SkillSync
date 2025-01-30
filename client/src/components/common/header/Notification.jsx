@@ -66,7 +66,7 @@ const NotificationButton = () => {
     <div className="relative">
       {/* Notification Button */}
       <button
-        className="notification-button relative bottom-4"
+        className="notification-button"
         onClick={handleNotificationClick}
       >
         <i className="fa-solid fa-bell text-3xl"></i>

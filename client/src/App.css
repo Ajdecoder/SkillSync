@@ -58,11 +58,6 @@ body {
   display: flex;
 }
 
-nav {
-  margin-bottom: 35px !important;
-  position: relative;
-  right: 30px;
-}
 
 a {
   text-decoration: none;

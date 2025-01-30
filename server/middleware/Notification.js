@@ -6,7 +6,7 @@ const notificationMiddleware = async (req, res, next) => {
   console.log("Received request for notification middleware");
 
   try {
-    console.log("Printing req body =>", req.body);
+    // console.log("Printing req body =>", req.body);
     const { action, payload } = req.body;
 
     if (!payload || !payload.title) {
@@ -32,6 +32,7 @@ const notificationMiddleware = async (req, res, next) => {
 
 // ✅ Notify candidates when a new job is posted
 const notifyCandidatesForNewJob = async (payload) => {
+  console.log("printing notifyCandidatesForNewJob now payload===========>",payload);
   try {
     if (!Array.isArray(payload.skills)) {
       throw new Error("Invalid skills format in payload");
@@ -82,6 +83,7 @@ const sendNotificationToCandidate = async (candidateId, message, relatedJobId) =
 // ✅ Notify recruiter when a candidate applies for a job
 const notifyRecruiterForNewApplication = async (payload) => {
   try {
+    console.log("printing now notifyRecruiterForNewApplication===========>",payload);
     if (!payload.recruiterId) {
       console.log("Recruiter ID is missing in payload.");
       return;

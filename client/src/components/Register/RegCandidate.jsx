@@ -8,11 +8,12 @@ import { PORT_CLIENT } from "../../commonClient";
 import { useAuth } from "../context/AuthContext";
 import { GoogleAuth } from "../Oauth/Oauth";
 import { registerCandidate } from "../../services/api";
+import NotificationToasts from "../chatbot/Toast/Toast";
 
 export const RegCandidate = () => {
   const navigate = useNavigate();
 
-  const {loginWithJWT} = useAuth()
+  const { loginWithJWT } = useAuth();
 
   const [candidate, setCandidate] = useState({
     name: "",
@@ -25,6 +26,8 @@ export const RegCandidate = () => {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [isreEnterPasswordVisible, setIsreEnterPasswordVisible] =
     useState(false);
+  const [toastMessage, setToastMessage] = useState(null);
+  const [toastType, setToastType] = useState("success");
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!isPasswordVisible);
@@ -49,60 +52,53 @@ export const RegCandidate = () => {
       !candidate.password ||
       !candidate.reEnterPassword
     ) {
-      toast.error("Please fill in all fields.", {
-        autoClose: 1000,
-      });
+      setToastMessage("Please fill in all fields.");
+      setToastType("info");
       return;
     }
 
     if (candidate.password !== candidate.reEnterPassword) {
-      toast.error("Passwords do not match.", {
-        autoClose: 1000,
-      });
+      setToastMessage("Passwords do not match.");
+      setToastType("error");
       return;
     }
 
     try {
-      const response = await registerCandidate(candidate)
+      const response = await registerCandidate(candidate);
 
-      loginWithJWT(response.data)
+      loginWithJWT(response.data);
 
       if (response.status === 200) {
         const token = response.data.token;
         localStorage.setItem("jwttoken", token);
 
-        toast.success("Candidate successfully Register", { autoClose: 1200 });
+        toastMessage("Candidate successfully Register");
+        toastType("success");
 
         setTimeout(() => {
           navigate("/");
         }, 2000);
       }
 
-      console.log("printing token from regcandi",response.data); // Log the response here
+      console.log("printing token from regcandi", response.data); // Log the response here
       localStorage.setItem("jwttoken", response.data.token);
-      toast.success(response.data.message, {
-        autoClose: 1000,
-      });
+      toastMessage(response.data.message);
       navigate("/");
     } catch (error) {
       if (error.response) {
-        
         if (error.response.data && error.response.data.error) {
-
           const errorMessage = error.response.data.error[0].message;
-          toast.error(errorMessage, { autoClose: 1000 });
+          setToastMessage(errorMessage);
+          toastType("error");
         } else {
-          toast.error(
-            `${error.response.data.message || "Something went wrong"}`,
-            {
-              autoClose: 1000,
-            }
+          setToastMessage(
+            `${error.response.data.message || "Something went wrong"}`
           );
+          toastType("error");
         }
       } else {
-        toast.error("Network error. Please try again later.", {
-          autoClose: 1000,
-        });
+        toastMessage("Network error. Please try again later.");
+        toastType("error");
       }
     }
   };
@@ -210,7 +206,15 @@ export const RegCandidate = () => {
             <GoogleAuth />
           </div>
         </form>
-        <ToastContainer position="bottom-right" />
+        {toastMessage && (
+          <NotificationToasts
+            message={toastMessage}
+            type={toastType}
+            autoClose={1500}
+            position="top-right"
+            theme="dark"
+          />
+        )}
       </div>
     </div>
   );

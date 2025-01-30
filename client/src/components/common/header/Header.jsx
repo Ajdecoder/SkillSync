@@ -23,23 +23,12 @@ const Header = () => {
   const dropdownRef = useRef(null); // Ref for user dropdown
   const dropdownExpandRef = useRef(null); // Ref for Requirement dropdown
   const headerRef = useRef(null); // Ref for header
-  const [showNotifications, setShowNotifications] = useState(false);
-  const [notifications, setNotifications] = useState([
-    "New message from recruiter",
-    "Your profile has been updated",
-    "You have an interview scheduled",
-  ]);
 
   // Determine current user
   const currentUser = loggedInUser || (isAuthenticated && user);
 
   // console.log("Auth0currentUser",user)
   // console.log("CustomAuth",loggedInUser)
-
-  // Handle notification toggle
-  const handleNotificationClick = () => {
-    setShowNotifications((prev) => !prev);
-  };
 
   // Set navigation based on user role
   useEffect(() => {
@@ -106,7 +95,7 @@ const Header = () => {
 
   // Render navigation items
   const navList = nav.map((item, index) => (
-    <li ref={dropdownExpandRef} key={index} className="nav-item">
+    <li key={index} className="nav-item relative">
       <NavLink
         to={item.path}
         className={({ isActive }) =>
@@ -114,15 +103,13 @@ const Header = () => {
             active: isActive && !location.pathname.includes("requirement"),
           })
         }
-        onClick={(event) =>
-          item.text === "Requirement" && handleRequirementClick(event)
-        }
       >
         {item.text}
       </NavLink>
-      {item.text === "Requirement" && showExpand && (
+
+      {item.text === "Requirement" && (
         <div ref={dropdownExpandRef} className="dropdown-expand">
-          <ul className={clsx({ dropdown: !isSmallScreen })}>
+          <ul className="dropdown">
             {navExpand.map((subItem, subIndex) => (
               <li key={subIndex}>
                 <NavLink
@@ -141,7 +128,7 @@ const Header = () => {
 
   return (
     <header>
-      <div className="flex top-header relative top-0">
+      <div className="flex top-header relative top-[-22px]">
         {/* Logo */}
         <div className="logo">
           <NavLink to="/">
@@ -158,15 +145,15 @@ const Header = () => {
           </ul>
         </nav>
 
-        {loggedInUser&&<NotificationButton />}
+        {loggedInUser && <NotificationButton />}
 
         {/* User Section */}
-        <div ref={dropdownRef} className="button mb-[1rem]">
+        <div ref={dropdownRef} className="button">
           {currentUser ? (
             <>
               {/* User Avatar */}
               <div
-                className="flex items-center space-x-3 cursor-pointer hover:scale-[0.9] transition-ease-in duration-200 relative mt-[-20px]"
+                className="flex items-center space-x-3 cursor-pointer hover:scale-[0.9] transition-ease-in duration-200 "
                 onClick={() => setShowAboutUser((prev) => !prev)}
               >
                 <span className="inline-block bg-blue-500 text-white rounded-full p-3 text-lg font-bold">
@@ -205,7 +192,7 @@ const Header = () => {
               )}
             </>
           ) : (
-            <Link to="/login" className="log-sign relative bottom-4">
+            <Link to="/login" className="log-sign relative">
               <i className="fa fa-sign-in"></i> Sign in
             </Link>
           )}
@@ -213,7 +200,10 @@ const Header = () => {
 
         {/* Toggle Button */}
         <div className="toggle">
-          <button onClick={() => setIsNavListOpen(!isNavListOpen)}>
+          <button
+            onClick={() => setIsNavListOpen(!isNavListOpen)}
+            className="text-3xl"
+          >
             <i className={isNavListOpen ? "fa fa-times" : "fa fa-bars"}></i>
           </button>
         </div>

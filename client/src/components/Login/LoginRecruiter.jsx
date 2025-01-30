@@ -6,8 +6,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../context/AuthContext";
 import { PORT_CLIENT } from "../../commonClient";
 import { GoogleAuth } from "../Oauth/Oauth";
-import bgImage from '/images/logingPage/bg.png'
+import bgImage from "/images/logingPage/bg.png";
 import { loginRecruiter } from "../../services/api";
+import NotificationToasts from "../chatbot/Toast/Toast";
 
 export const LoginRecruiter = () => {
   const navigate = useNavigate();
@@ -19,6 +20,9 @@ export const LoginRecruiter = () => {
   });
 
   const [showPass, setShowPass] = useState(false);
+
+  const [toastMessage, setToastMessage] = useState(null);
+  const [toastType, setToastType] = useState("success");
 
   const togglePasswordVisibility = () => {
     setShowPass(!showPass);
@@ -36,7 +40,7 @@ export const LoginRecruiter = () => {
     e.preventDefault();
 
     try {
-      const res = await loginRecruiter(user)
+      const res = await loginRecruiter(user);
       console.log("Logging in", res.data);
 
       loginWithJWT(res.data);
@@ -45,7 +49,8 @@ export const LoginRecruiter = () => {
         const token = res.data.token;
         localStorage.setItem("jwttoken", token);
 
-        toast.success("Login successful", { autoClose: 1200 });
+        setToastMessage("Login successful");
+        setToastType("success");
 
         setTimeout(() => {
           navigate("/");
@@ -54,13 +59,11 @@ export const LoginRecruiter = () => {
     } catch (error) {
       if (error.response) {
         if (error.response.status === 404) {
-          toast.error("User not registered", {
-            autoClose: 1000,
-          });
+          setToastMessage("User not registered");
+          setToastType("error");
         } else {
-          toast.error(`${error.response.data.message}`, {
-            autoClose: 1000,
-          });
+          setToastMessage(`${error.response.data.message}`);
+          setToastType("error");
         }
       }
     }
@@ -136,7 +139,15 @@ export const LoginRecruiter = () => {
             <GoogleAuth />
           </div>
         </form>
-        <ToastContainer position="bottom-right" />
+        {toastMessage && (
+          <NotificationToasts
+            message={toastMessage}
+            type={toastType}
+            autoClose={1500}
+            position="bottom-right"
+            theme="dark"
+          />
+        )}
       </div>
     </div>
   );

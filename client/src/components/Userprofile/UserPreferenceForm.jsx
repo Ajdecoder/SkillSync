@@ -148,6 +148,11 @@ const UserPreferenceForm = ({
 
   console.log(updatedData.preferences.careerInterests);
 
+  const handleInterestSubmit = () => {
+    setUpdatedData(updatedData);
+    handleSubmit("Areas of interest");
+  };
+
   const filteredAreas = areasOfInterest.filter((interest) =>
     interest.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -159,6 +164,7 @@ const UserPreferenceForm = ({
 
   useEffect(() => {
     const preferencesfromDb = updatedData.preferences.careerInterests;
+    
     return setSelectedInterests(preferencesfromDb);
   }, []);
 
@@ -241,7 +247,7 @@ const UserPreferenceForm = ({
 
       {/* Save Button */}
       <motion.button
-        onClick={handleSubmit}
+        onClick={(e) => handleSubmit("career interests")}
         className="p-3 w-36 m-3 bg-sky-600 text-white rounded-lg"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}

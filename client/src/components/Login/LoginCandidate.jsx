@@ -8,6 +8,7 @@ import { PORT_CLIENT } from "../../commonClient";
 import { GoogleAuth } from "../Oauth/Oauth";
 import bgImage from '/images/logingPage/bg.png'
 import { loginCandidate } from "../../services/api";
+import NotificationToasts from "../chatbot/Toast/Toast";
 
 
 export const LoginCandidate = () => {
@@ -20,6 +21,9 @@ export const LoginCandidate = () => {
   });
 
   const [showPass, setShowPass] = useState(false);
+
+  const [toastMessage, setToastMessage] = useState(null);
+  const [toastType, setToastType] = useState("success");
 
   const togglePasswordVisibility = () => {
     setShowPass(!showPass);
@@ -46,7 +50,8 @@ export const LoginCandidate = () => {
         const token = res.data.token;
         localStorage.setItem("jwttoken", token);
 
-        toast.success("Login successful", { autoClose: 1200 });
+        setToastMessage("Login successful");
+        setToastType("success");
 
         setTimeout(() => {
           navigate("/");
@@ -55,13 +60,11 @@ export const LoginCandidate = () => {
     } catch (error) {
       if (error.response) {
         if (error.response.status === 404) {
-          toast.error("User not registered", {
-            autoClose: 1000,
-          });
+          setToastMessage("User not registered")
+          setToastType("error");
+          
         } else {
-          toast.error(`${error.response.data.message}`, {
-            autoClose: 1000,
-          });
+          setToastMessage(`${error.response.data.message}`)
         }
       }
     }
@@ -133,7 +136,15 @@ export const LoginCandidate = () => {
             <GoogleAuth />
           </div>
         </form>
-        <ToastContainer position="bottom-right" />
+        {toastMessage && (
+          <NotificationToasts
+            message={toastMessage}
+            type={toastType}
+            autoClose={1500}
+            position="top-right"
+            theme="dark"
+          />
+        )}
       </div>
 
       {/* Right Side - Image */}
