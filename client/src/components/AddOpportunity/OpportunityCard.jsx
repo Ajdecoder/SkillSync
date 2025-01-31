@@ -9,7 +9,7 @@ const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
     company_website,
     email,
     ph_no,
-    type: jobType,
+    requirement_type: jobType,
     location,
     salaryRange,
     candidatesApplied,

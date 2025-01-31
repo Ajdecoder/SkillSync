@@ -7,7 +7,7 @@ import { Lenis } from "@studio-freight/react-lenis";
 function App() {
   return (
     <>
-      <Lenis root >
+      <Lenis root  >
         <Pages />
       </Lenis>
     </>

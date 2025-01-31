@@ -35,7 +35,7 @@ export const addOpportunity = async (req, res) => {
       desc_requirement,
       skills,
       requirement_type,
-      recruiterDetails
+      // recruiterDetails
     });
 
     await newOpportunity.save();
