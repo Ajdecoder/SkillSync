@@ -7,6 +7,7 @@ import Location from "./location/Location";
 import Price from "./price/Price";
 import Team from "./team/Team";
 import FAQ from "../FAQ/FAQ";
+import HorizontalLogos from "../common/HorizontalLogos/HorizontalLogos";
 
 const Home = () => {
   useEffect(() => {
@@ -35,6 +36,7 @@ const Home = () => {
       <Location />
       <Team />
       <Price />
+      <HorizontalLogos/>
       <FAQ />
     </>
   );

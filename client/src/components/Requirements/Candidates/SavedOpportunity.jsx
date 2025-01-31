@@ -20,7 +20,6 @@ export const SavedOpportunity = () => {
     }
   }, [data]);
 
-
   // if (loading) {
   //   return <div className="text-center text-gray-500">Loading...</div>;
   // }
@@ -49,7 +48,7 @@ export const SavedOpportunity = () => {
           company_website,
           email,
           ph_no,
-          type,
+          requirement_type: jobType,
           location,
           salaryRange,
           createdAt,
@@ -88,14 +87,19 @@ export const SavedOpportunity = () => {
                 </p>
 
                 {/* Skills */}
-                <p className="text-sm text-gray-500">
-                  <strong>Skills:</strong>{" "}
-                  {skills.length > 0 ? skills.join(", ") : "N/A"}
-                </p>
+                {skills && skills.length > 0 && (
+                  <p className="text-sm text-gray-500">
+                    <strong>Skills:</strong>{" "}
+                    {skills.map((sk, i) => {
+                      return sk.skillName + " ";
+                    })}
+                  </p>
+                )}
 
                 {/* Job Type */}
                 <p className="text-sm text-gray-500">
-                  <strong>Type:</strong> {type}
+                  <strong>Type:</strong> {jobType}
+                  {console.log(opportunities)}{" "}
                 </p>
 
                 {/* Location */}
