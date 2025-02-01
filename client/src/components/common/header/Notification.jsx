@@ -2,25 +2,22 @@ import React, { useState, useRef, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { getNotifications } from "../../../services/api";
 import { useAuth } from "../../context/AuthContext";
-import { Spinner } from "../loadingSpinner/spinner";
 
 const NotificationButton = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications, setNotifications] = useState([]);
+  const [loading, setLoading] = useState(true);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
-  const { loggedInUser } = useAuth(); 
-  const [unreadNotificationCount, setUnreadNotificationCount] = useState(notifications.length);
+  const { loggedInUser } = useAuth();
 
   const fetchNotifications = async () => {
     try {
+      setLoading(true);
       const response = await getNotifications();
       const data = response.data;
 
-      console.log("Notification here:----", data);
-
       if (response.statusText === "OK" && Array.isArray(data.notifications)) {
-        
         const filteredNotifications = data.notifications.filter((notification) => {
           if (loggedInUser?.role === "candidate" && notification.type === "job_posted") {
             return true;
@@ -32,29 +29,25 @@ const NotificationButton = () => {
 
         setNotifications(filteredNotifications);
       } else {
-        console.error("Failed to fetch notifications:", data);
         setNotifications([]);
       }
     } catch (error) {
       console.error("Error fetching notifications:", error);
       setNotifications([]);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchNotifications();
-  }, [loggedInUser]); // Fetch notifications only when user changes
+  }, [loggedInUser]);
 
   // Memoized unread notification count
   const unreadCount = useMemo(() => 
     notifications.filter((notification) => !notification.read).length, 
     [notifications]
   );
-
-  // Immediately update the notification count whenever notifications change
-  useEffect(() => {
-    setUnreadNotificationCount(unreadCount);
-  }, [unreadCount]); // Depend on `unreadCount` only to avoid infinite re-renders
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -75,12 +68,18 @@ const NotificationButton = () => {
     <div className="relative">
       {/* Notification Button */}
       <button
-        className="notification-button"
+        className="notification-button relative p-2 hover:bg-gray-100 rounded-full"
         onClick={handleNotificationClick}
       >
-        {unreadCount?<i className="fa-solid fa-bell text-3xl"></i>:<Spinner/>}
-        <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
-          {unreadNotificationCount}
+        <i className="fa-solid fa-bell text-2xl text-gray-600"></i>
+        
+        {/* Notification Counter */}
+        <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center transform translate-x-1 -translate-y-1">
+          {loading ? (
+            <div className="w-2 h-2 bg-white/80 rounded-full animate-pulse"></div>
+          ) : (
+            unreadCount > 0 ? unreadCount : null
+          )}
         </span>
       </button>
 
@@ -90,7 +89,18 @@ const NotificationButton = () => {
           ref={dropdownRef}
           className="absolute bg-white shadow-lg rounded-md w-[18rem] top-12 right-[-7rem] p-4 max-h-[22rem] overflow-auto z-10 border border-gray-300"
         >
-          {notifications.length > 0 ? (
+          {loading ? (
+            <div className="space-y-2">
+              {[...Array(3)].map((_, i) => (
+                <div key={i} className="animate-pulse flex space-x-4">
+                  <div className="flex-1 space-y-2 py-1">
+                    <div className="h-3 bg-gray-200 rounded w-4/5"></div>
+                    <div className="h-3 bg-gray-200 rounded w-3/5"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : notifications.length > 0 ? (
             <>
               <ul>
                 {notifications.map((notification, index) => (
@@ -107,11 +117,10 @@ const NotificationButton = () => {
                 ))}
               </ul>
               <button
-                className="block m-auto p-1"
-                onClick={() => navigate("/notifications")}
+                className="block mx-auto mt-3 text-blue-600 hover:text-blue-800 text-sm"
                 onClick={() => navigate("/notifications")}
               >
-                View All
+                View All Notifications
               </button>
             </>
           ) : (

@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ loggedInUser, loginWithJWT, loginWithAuth0, logout, loading: isAuth0Loading || loading }}>
+        <AuthContext.Provider value={{ loggedInUser, loginWithJWT, loginWithAuth0, logout, loading: isAuth0Loading || loading, setLoading }}>
             {!loading ? children : <LoginLoading/>}
         </AuthContext.Provider>
     );
