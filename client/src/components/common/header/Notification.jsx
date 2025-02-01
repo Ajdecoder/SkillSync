@@ -109,6 +109,7 @@ const NotificationButton = () => {
               <button
                 className="block m-auto p-1"
                 onClick={() => navigate("/notifications")}
+                onClick={() => navigate("/notifications")}
               >
                 View All
               </button>
