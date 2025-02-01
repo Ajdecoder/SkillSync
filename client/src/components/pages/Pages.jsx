@@ -19,23 +19,26 @@ import { RoutesConfig } from "./PageRoutes.jsx";
 import ScrollProgress from "../utils/ScrollProgress.jsx";
 import { LoginLoading } from "../Login/LoginLoading.jsx";
 import ScrollButton from "../utils/Scrollto.jsx";
+import { useLenis } from "@studio-freight/react-lenis";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
+  const lenis = useLenis()
+
+  console.log(pathname);
 
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  }, [pathname]);
+    if (lenis) {
+      lenis.scrollTo(0);
+    }
+  }, [pathname, lenis]);
 
   return null;
 };
 
 const Pages = () => {
   const [spin, setSpin] = useState(false);
-  const [loading, setLoading] = useState(false);  
+  const [loading, setLoading] = useState(true);  
 
   useEffect(() => {
     Aos.init({

@@ -2,7 +2,7 @@ import express from "express";
 import {
   addOpportunity,
   allOpportunitiesData,
-  getRequirementById,
+  getOpportunitytById,
 } from "../controller/company.controller.js";
 // import { multerUploader } from "../middleware/multer.js"; // Disabled multer for now
 
@@ -48,6 +48,6 @@ companyRouter.post(
 
 companyRouter.post("/addOpportunity", notificationMiddleware, addOpportunity);
 companyRouter.get("/addedOpportunities", allOpportunitiesData);
-companyRouter.get("/Companyrequirements/:id", getRequirementById);
+companyRouter.get("/Companyrequirements/:id", getOpportunitytById);
 
 export default companyRouter;

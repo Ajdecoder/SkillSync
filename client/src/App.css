@@ -86,17 +86,15 @@ button i {
 }
 .heading {
   text-align: center;
-  width: 60%;
   margin: auto;
 }
 .heading h1 {
-  color: #2d3954;
   font-weight: 600;
   text-transform: capitalize;
   font-size: 35px;
 }
 .heading p {
-  color: #72809d;
+  color: #5783da;
 }
 textarea,
 input {

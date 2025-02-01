@@ -59,10 +59,11 @@ export const BlogPage = () => {
       {/* Back to Blog List Button */}
       <div className="mt-8 text-center">
         <Link
-          to="/blog"
+          to="/blogs"
           className="inline-block px-8 py-3 mt-6 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 text-white font-semibold rounded-lg hover:bg-gradient-to-br transition-all"
         >
           Back to Blog List
+          <i className="fa-solid fa-angles-right ml-4"/>
         </Link>
       </div>
     </div>

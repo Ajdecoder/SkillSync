@@ -14,6 +14,13 @@
   nav {
     font-size: 0.93em;
   }
+  
+  .price .content .box {
+    width: 100% !important;
+    padding: 30px;
+    border-radius: 10px;
+    margin-bottom: 50px;
+  }
 }
 
 @media screen and (max-width: 800px) {
@@ -80,7 +87,7 @@
   }
 
   .price .content .box {
-    width: 100%;
+    width: 100% !important;
     padding: 30px;
     border-radius: 10px;
     margin-bottom: 50px;

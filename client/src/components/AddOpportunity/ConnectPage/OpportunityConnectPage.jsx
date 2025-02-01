@@ -3,14 +3,26 @@ import { useParams } from "react-router-dom";
 import { PORT_CLIENT } from "../../../commonClient.js";
 import useFetchData from "../../hooks/useGetDataFetch.jsx";
 import { Spinner } from "../../common/loadingSpinner/spinner.jsx";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   ApplyToOpportunity,
+  BookmarkOpportunity,
   getUserProfileByEmail,
   RevertBackApplication,
 } from "../../../services/api.js";
 import { useAuth } from "../../context/AuthContext.jsx";
 import NotificationToasts from "../../chatbot/Toast/Toast.jsx";
+import {
+  FiBookmark,
+  FiCheckCircle,
+  FiChevronDown,
+  FiClock,
+  FiDollarSign,
+  FiGlobe,
+  FiMail,
+  FiPhone,
+  FiUsers,
+} from "react-icons/fi";
 
 const OpportunityConnectPage = () => {
   const [error, setError] = useState(null);
@@ -23,6 +35,7 @@ const OpportunityConnectPage = () => {
   const { post_id } = useParams();
   const [toastMessage, setToastMessage] = useState(null);
   const [toastType, setToastType] = useState("success");
+  const [bookmark, setBookmark] = useState(false);
 
   const { data: companyData, loading } = useFetchData(
     `${PORT_CLIENT}/api/requirements/Companyrequirements/${post_id}`
@@ -54,7 +67,7 @@ const OpportunityConnectPage = () => {
 
       // Set toast message on successful application
       setToastMessage("Application submitted successfully!");
-      setToastType("success"); 
+      setToastType("success");
     } catch (err) {
       console.error("Error applying to the job:", err);
       setError("There was an error applying to the opportunity.");
@@ -76,12 +89,13 @@ const OpportunityConnectPage = () => {
       setUserHasApplied(false);
 
       setToastMessage("Application reverted successfully!");
-      setToastType("info"); 
+      setToastType("info");
 
       const updatedCandidates = companyData.candidatesApplied.filter(
         (candidateId) => candidateId !== userId
       );
       companyData.candidatesApplied = updatedCandidates;
+      setShowRevertModal(false)
     } catch (err) {
       console.error("Error reverting application:", err);
       setToastMessage("Failed to revert the application.");
@@ -118,11 +132,11 @@ const OpportunityConnectPage = () => {
     company_website,
     candidatesApplied,
     _id,
-    recruiterDetails,
+    recruiterDetails ,
   } = companyData;
 
   console.log(companyData);
-  console.log(recruiterDetails);
+  // console.log(recruiterDetails);
 
   const userHasAlreadyApplied = candidatesApplied?.includes(userId);
 
@@ -132,244 +146,441 @@ const OpportunityConnectPage = () => {
       : "No skills available";
   };
 
+  const handleBookmarClick = async (_id, userId) => {
+    try {
+      await BookmarkOpportunity(_id, userId);
+      setToastMessage("Bookmark added successfully!");
+      setToastType("success");
+    } catch (error) {
+      console.error("Error adding bookmark:", error);
+      setToastMessage("Failed to add bookmark.");
+      setToastType("error");
+    }
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut",
+        when: "beforeChildren",
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 2, y: 10 },
+    visible: { opacity: 1, y: 0 },
+  };
+
+  const skillVariants = {
+    hidden: { scale: 0 },
+    visible: { scale: 1 },
+  };
+
   return (
-    <div className="p-8 md:p-20 bg-black min-h-screen flex items-center justify-center">
+    <div className="overflow-hidden min-h-screen bg-gradient-to-br from-gray-900 to-black p-8 md:p-12 flex items-center justify-center">
       <motion.div
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        className="p-6 w-[66rem] max-w-4xl mx-auto bg-black shadow-lg rounded-lg border-2 border-gray-300 hover:scale-105 transition-all duration-300"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="w-full max-w-4xl bg-gray-800/50 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-gray-700/30"
       >
-        <button className="float-end">
-          <i className="fa-regular fa-bookmark text-white text-2xl" />
-        </button>
-        <h2 className="text-4xl font-semibold text-gray-800 mb-4">
-          {company_name}
-        </h2>
-        <div className="text-lg text-gray-700 mb-4">
-          <strong>Position:</strong> {title}
-        </div>
-        <div className="flex items-center space-x-2 mb-4 text-sm text-gray-600">
-          <i className="fa fa-location-dot text-gray-500"></i>
-          <span>{location}</span>
-        </div>
-        <p className="text-sm text-gray-500 mb-4">{desc_requirement}</p>
+        {/* Header Section */}
+        <div className="flex justify-between items-start mb-8">
+          <motion.div variants={itemVariants}>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+              {company_name}
+            </h1>
+            <motion.p
+              className="text-xl text-gray-300 mt-2"
+              variants={itemVariants}
+            >
+              {title}
+            </motion.p>
+          </motion.div>
 
-        <div className="mt-6">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-            Job Details
-          </h3>
-          <div className="space-y-4 text-gray-600">
-            <p>
-              <strong>Job Type:</strong> {requirement_type || "NA"}
-            </p>
-            <p>
-              <strong>Skills:</strong> {renderSkills()}
-            </p>
-            <p>
-              <strong>Salary Range:</strong> {salaryRange}
-            </p>
-          </div>
-        </div>
-
-        <div className="mt-6 bg-gray-50 p-4 rounded-lg shadow-sm">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-            Contact Info
-          </h3>
-          <p>
-            <strong>Email:</strong> {email}
-          </p>
-          <p>
-            <strong>Phone:</strong> {ph_no}
-          </p>
-        </div>
-
-        <div className="mt-6 bg-gray-50 p-4 rounded-lg shadow-sm">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-            Posting Date
-          </h3>
-          <p>
-            <strong>Created At:</strong>{" "}
-            {new Date(createdAt).toLocaleDateString()}
-          </p>
-        </div>
-
-        <p className="text-sm text-blue-500 mt-6">
-          <strong>Website:</strong>{" "}
-          <a
-            href={`http://${company_website}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline hover:text-blue-700"
-            style={{ textTransform: "none" }}
+          <motion.button
+            onClick={() => handleBookmarClick(_id)}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="text-2xl p-2 rounded-full hover:bg-gray-700/30 transition-colors"
           >
-            {company_website}
-          </a>
-        </p>
+            <FiBookmark
+              className={`${
+                bookmark
+                  ? "fill-emerald-400 stroke-emerald-400"
+                  : "text-gray-400"
+              }`}
+            />
+          </motion.button>
+        </div>
 
-        {showMore && (
-          <div className="mt-6 bg-gray-50 p-4 rounded-lg shadow-sm">
-            <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-              Company Overview
-            </h3>
-            <p>
-              <strong>Name:</strong>{" "}
-              {recruiterDetails?.companyOverview?.name || "NA"}
-            </p>
-            <p>
-              <strong>Description:</strong>
-              {recruiterDetails?.companyOverview?.description ||
-                "No description available"}
-            </p>
-            <p>
-              <strong>Website:</strong>
+        {/* Main Content */}
+        <div className="space-y-8">
+          {/* Location & Type */}
+          <motion.div
+            className="flex items-center gap-4 text-gray-400"
+            variants={itemVariants}
+          >
+            <div className="flex items-center gap-2">
+              <FiGlobe className="text-emerald-400" />
               <a
-                href={recruiterDetails?.companyOverview?.website}
+                href={`http://${company_website}`}
                 target="_blank"
-                rel="noopener noreferrer"
-                className="underline hover:text-blue-700"
+                className="hover:text-emerald-400 transition-colors"
               >
-                {recruiterDetails?.companyOverview?.website || "NA"}
+                {company_website}
               </a>
-            </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <FiClock className="text-cyan-400" />
+              <span>{new Date(createdAt).toLocaleDateString()}</span>
+            </div>
+          </motion.div>
 
-            <h3 className="text-2xl font-semibold text-gray-800 mt-6 mb-4">
-              Company Location
-            </h3>
-            <p>
-              {recruiterDetails?.companyLocation.city},{" "}
-              {recruiterDetails?.companyLocation.state},{" "}
-              {recruiterDetails?.companyLocation.country}
-            </p>
+          {/* Description */}
+          <motion.div variants={itemVariants}>
+            <p className="text-gray-300 leading-relaxed">{desc_requirement}</p>
+          </motion.div>
 
-            {/* <h3 className="text-2xl font-semibold text-gray-800 mt-6 mb-4">
-              Company Benefits
-            </h3>
-            <ul className="list-disc ml-6">
-              {recruiterDetails?.companyBenefits &&
-              recruiterDetails?.companyBenefits.length > 0
-                ? recruiterDetails?.companyBenefits.map((benefit, index) => (
-                    <li key={index}>{benefit}</li>
-                  ))
-                : "No benefits available"}
-            </ul> */}
+          {/* Skills Grid */}
+          <motion.div
+            className="grid grid-cols-2 md:grid-cols-4 gap-3"
+            variants={itemVariants}
+          >
+            {skills.map((skill, index) => (
+              <motion.div
+                key={index}
+                variants={skillVariants}
+                className="p-2 bg-emerald-400/10 rounded-lg flex items-center justify-center gap-2"
+              >
+                <span className="text-emerald-400 text-sm">
+                  {skill.skillName}
+                </span>
+              </motion.div>
+            ))}
+          </motion.div>
 
-            <h3 className="text-2xl font-semibold text-gray-800 mt-6 mb-4">
-              Recruitment Process
-            </h3>
-            <p>
-              <strong>Description:</strong>{" "}
-              {recruiterDetails?.recruitmentProcess.description}
-            </p>
-            <p>
-              <strong>Timeline:</strong>{" "}
-              {recruiterDetails?.recruitmentProcess.timeline}
-            </p>
-            <p>
-              <strong>Interview Stages:</strong>{" "}
-              {recruiterDetails?.recruitmentProcess.interviewStages.join(", ")}
-            </p>
-            <p>
-              <strong>Assessment Types:</strong>{" "}
-              {recruiterDetails?.recruitmentProcess.assessmentTypes.join(", ")}
-            </p>
-            <p>
-              <strong>Application Review:</strong>{" "}
-              {recruiterDetails?.recruitmentProcess.applicationReview}
-            </p>
+          {/* Details Grid */}
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            variants={itemVariants}
+          >
+            <div className="p-6 bg-gray-700/20 rounded-xl">
+              <h3 className="text-xl font-semibold text-emerald-400 mb-4">
+                Job Details
+              </h3>
+              <div className="space-y-3 text-gray-300">
+                <div className="flex items-center gap-2">
+                  <FiUsers className="text-cyan-400" />
+                  <span>{requirement_type}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <FiDollarSign className="text-cyan-400" />
+                  <span>{salaryRange}</span>
+                </div>
+              </div>
+            </div>
 
-            <h3 className="text-2xl font-semibold text-gray-800 mt-6 mb-4">
-              Past Hires
-            </h3>
-            <ul className="list-disc ml-6">
-              {recruiterDetails?.pastHires &&
-              recruiterDetails?.pastHires.length > 0
-                ? recruiterDetails?.pastHires.map((hire, index) => (
-                    <li key={index}>
-                      {hire.name} - {hire.position}
-                    </li>
-                  ))
-                : "No past hires available"}
-            </ul>
+            <div className="p-6 bg-gray-700/20 rounded-xl">
+              <h3 className="text-xl font-semibold text-emerald-400 mb-4">
+                Contact Info
+              </h3>
+              <div className="space-y-3 text-gray-300">
+                <div className="flex items-center gap-2">
+                  <FiMail className="text-cyan-400" />
+                  <a href={`mailto:${email}`} className="hover:text-cyan-400">
+                    {email}
+                  </a>
+                </div>
+                <div className="flex items-center gap-2">
+                  <FiPhone className="text-cyan-400" />
+                  <span>{ph_no}</span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
 
-            <h3 className="text-2xl font-semibold text-gray-800 mt-6 mb-4">
-              Team Members
-            </h3>
-            {recruiterDetails?.teamMembers &&
-            recruiterDetails?.teamMembers.length > 0
-              ? recruiterDetails?.teamMembers.map((member, index) => (
-                  <div key={index}>
-                    <p>
-                      <strong>Name:</strong> {member.name}
-                    </p>
-                    <p>
-                      <strong>Role:</strong> {member.teamMemberRole}
-                    </p>
-                    {member.github && (
+          {/* Expandable Section */}
+          <AnimatePresence>
+            {showMore && (
+              <motion.div
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                className="overflow-hidden"
+              >
+                {/* ... (your existing expanded content) */}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+            {/* Show More Content */}
+            <motion.div>
+              {showMore && (
+                <motion.div
+                  animate={{
+                    height: "auto",
+                    transition: { duration: 0.4, ease: "easeInOut" },
+                  }}
+                  exit={{ opacity: 1, height: 0 }}
+                  className="overflow-hidden space-y-8 pt-6"
+                >
+                  {/* Company Overview */}
+                  <motion.div
+                    variants={itemVariants}
+                    className="p-6 bg-gray-700/20 rounded-xl"
+                  >
+                    <h3 className="text-xl font-semibold text-emerald-400 mb-4">
+                      Company Overview
+                    </h3>
+                    <div className="space-y-3 text-gray-300">
                       <p>
-                        <strong>GitHub:</strong>{" "}
-                        <a
-                          href={member.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {member.github}
-                        </a>
+                        <strong className="text-cyan-400">Name:</strong>{" "}
+                        {recruiterDetails?.companyOverview?.name || "N/A"}
                       </p>
-                    )}
-                    {member.linkedIn && (
                       <p>
-                        <strong>LinkedIn:</strong>{" "}
-                        <a
-                          href={member.linkedIn}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {member.linkedIn}
-                        </a>
+                        <strong className="text-cyan-400">Description:</strong>{" "}
+                        {recruiterDetails?.companyOverview?.description ||
+                          "No description available"}
                       </p>
-                    )}
-                  </div>
-                ))
-              : "No team members available"}
-          </div>
-        )}
+                      <div className="flex items-center gap-2">
+                        <FiGlobe className="text-cyan-400" />
+                        <a
+                          href={recruiterDetails?.companyOverview?.website}
+                          target="_blank"
+                          className="hover:text-emerald-400 transition-colors"
+                        >
+                          {recruiterDetails?.companyOverview?.website || "N/A"}
+                        </a>
+                      </div>
+                    </div>
+                  </motion.div>
 
-        {!showMore && (
+                  {/* Company Location */}
+                  <motion.div
+                    variants={itemVariants}
+                    className="p-6 bg-gray-700/20 rounded-xl"
+                  >
+                    <h3 className="text-xl font-semibold text-emerald-400 mb-4">
+                      Company Location
+                    </h3>
+                    <div className="flex items-center gap-2 text-gray-300">
+                      <FiGlobe className="text-cyan-400" />
+                      <p>
+                        {companyData?.location || "No location provided" }
+                      </p>
+                    </div>
+                  </motion.div>
+
+                  {/* Recruitment Process */}
+                  <motion.div
+                    variants={itemVariants}
+                    className="p-6 bg-gray-700/20 rounded-xl"
+                  >
+                    <h3 className="text-xl font-semibold text-emerald-400 mb-4">
+                      Recruitment Process
+                    </h3>
+                    <div className="space-y-4 text-gray-300">
+                      <motion.div
+                        className="space-y-2"
+                        initial="hidden"
+                        animate="visible"
+                        transition={{ staggerChildren: 0.1 }}
+                      >
+                        <motion.p variants={itemVariants}>
+                          <strong className="text-cyan-400">Description:</strong>{" "}
+                          {recruiterDetails?.recruitmentProcess?.description || "No description provided" }
+                        </motion.p>
+                        <motion.p variants={itemVariants}>
+                          <strong className="text-cyan-400">Timeline:</strong>{" "}
+                          {recruiterDetails?.recruitmentProcess?.timeline || "No timeline provided"}
+                        </motion.p>
+                        <motion.p variants={itemVariants}>
+                          <strong className="text-cyan-400">
+                            Interview Stages:
+                          </strong>{" "}
+                          {recruiterDetails?.recruitmentProcess?.interviewStages?.join(
+                            ", "
+                          ) || "No interview stages provided"}
+                        </motion.p>
+                        <motion.p variants={itemVariants}>
+                          <strong className="text-cyan-400">
+                            Assessment Types:
+                          </strong>{" "}
+                          {recruiterDetails?.recruitmentProcess?.assessmentTypes?.join(
+                            ", "
+                          ) || "No assessment types provided"}
+                        </motion.p>
+                        <motion.p variants={itemVariants}>
+                          <strong className="text-cyan-400">
+                            Application Review:
+                          </strong>{" "}
+                          {
+                            recruiterDetails?.recruitmentProcess
+                              ?.applicationReview
+                        || "No application review"}
+                        </motion.p>
+                      </motion.div>
+                    </div>
+                  </motion.div>
+
+                  {/* Past Hires */}
+                  <motion.div
+                    variants={itemVariants}
+                    className="p-6 bg-gray-700/20 rounded-xl"
+                  >
+                    <h3 className="text-xl font-semibold text-emerald-400 mb-4">
+                      Past Hires
+                    </h3>
+                    <motion.ul
+                      className="space-y-3 text-gray-300"
+                      initial="hidden"
+                      animate="visible"
+                      transition={{ staggerChildren: 0.1 }}
+                    >
+                      {recruiterDetails?.pastHires?.length > 0 ? (
+                        recruiterDetails.pastHires.map((hire, index) => (
+                          <motion.li
+                            key={index}
+                            variants={itemVariants}
+                            className="flex items-center gap-2"
+                          >
+                            <FiUsers className="text-cyan-400" />
+                            <span>
+                              {hire.name || "NA" } - {hire.position || "NA" }
+                            </span>
+                          </motion.li>
+                        ))
+                      ) : (
+                        <motion.p
+                          variants={itemVariants}
+                          className="text-gray-400"
+                        >
+                          No past hires available
+                        </motion.p>
+                      )}
+                    </motion.ul>
+                  </motion.div>
+
+                  {/* Team Members */}
+                  <motion.div
+                    variants={itemVariants}
+                    className="p-6 bg-gray-700/20 rounded-xl"
+                  >
+                    <h3 className="text-xl font-semibold text-emerald-400 mb-4">
+                      Team Members
+                    </h3>
+                    <motion.div
+                      className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                      transition={{ staggerChildren: 0.1 }}
+                    >
+                      {recruiterDetails?.teamMembers?.length > 0 ? (
+                        recruiterDetails.teamMembers.map((member, index) => (
+                          <motion.div
+                            key={index}
+                            variants={itemVariants}
+                            className="p-4 bg-gray-700/30 rounded-lg"
+                          >
+                            <p className="text-cyan-400 font-medium">
+                              {member.name }
+                            </p>
+                            <p className="text-gray-400 text-sm">
+                              {member.teamMemberRole}
+                            </p>
+                            <div className="mt-2 flex gap-3 text-sm">
+                              {member.github && (
+                                <a
+                                  href={member.github}
+                                  target="_blank"
+                                  className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300"
+                                >
+                                  <FiGlobe /> GitHub
+                                </a>
+                              )}
+                              {member.linkedIn && (
+                                <a
+                                  href={member.linkedIn}
+                                  target="_blank"
+                                  className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300"
+                                >
+                                  <FiGlobe /> LinkedIn
+                                </a>
+                              )}
+                            </div>
+                          </motion.div>
+                        ))
+                      ) : (
+                        <motion.p
+                          variants={itemVariants}
+                          className="text-gray-400"
+                        >
+                          No team members available
+                        </motion.p>
+                      )}
+                    </motion.div>
+                  </motion.div>
+                </motion.div>
+              )}
+            </motion.div>
+
+          {/* Show More Button */}
           <motion.button
             onClick={() => setShowMore(!showMore)}
-            className="text-white p-1 mt-2 m-auto flex bg-blue-600 border-2 border-gray-500"
+            className="w-full flex items-center justify-center gap-2 text-gray-400 hover:text-emerald-400 transition-colors"
+            variants={itemVariants}
           >
-            Show More
+            <span>{showMore ? "Show Less" : "Show More Details"}</span>
+            <motion.span
+              animate={{ rotate: showMore ? 180 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <FiChevronDown />
+            </motion.span>
           </motion.button>
-        )}
 
-        <motion.button
-          onClick={handleJobApply}
-          className={`text-white p-3 mt-2 m-auto flex bg-orange-600 border-2 border-gray-500`}
-          style={{
-            cursor:
-              userHasAlreadyApplied || userHasApplied || loadingApply
-                ? "not-allowed"
-                : "pointer",
-            opacity:
-              userHasAlreadyApplied || userHasApplied || loadingApply ? 0.5 : 1,
-          }}
-          disabled={userHasApplied || loadingApply || userHasAlreadyApplied}
-        >
-          {loadingApply ? (
-            <i className="fa-solid fa-spinner fa-spin"></i>
-          ) : userHasApplied || userHasAlreadyApplied ? (
-            "Already Applied"
-          ) : (
-            "Apply"
-          )}
-        </motion.button>
+          {/* Apply Button */}
+          <motion.div className="mt-8" variants={itemVariants}>
+            <motion.button
+              onClick={handleJobApply}
+              whileHover={!userHasApplied && { scale: 1.02 }}
+              whileTap={!userHasApplied && { scale: 0.98 }}
+              className={`w-full py-4 rounded-xl font-semibold transition-all ${
+                userHasApplied || userHasAlreadyApplied
+                  ? "bg-emerald-400/30 text-emerald-400 cursor-not-allowed"
+                  : "bg-gradient-to-r from-emerald-400 to-cyan-400 hover:from-emerald-500 hover:to-cyan-500 text-gray-900"
+              }`}
+              disabled={userHasApplied || userHasAlreadyApplied}
+            >
+              {loadingApply ? (
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 1, repeat: Infinity }}
+                  className="inline-block"
+                >
+                  <FiClock />
+                </motion.div>
+              ) : userHasApplied || userHasAlreadyApplied ? (
+                <div className="flex items-center justify-center gap-2">
+                  <FiCheckCircle className="text-xl" />
+                  <span>Application Submitted</span>
+                </div>
+              ) : (
+                "Apply Now"
+              )}
+            </motion.button>
+          </motion.div>
+        </div>
 
         {(userHasApplied || userHasAlreadyApplied) && (
           <motion.h1 className="text-white p-3 mt-2 text-center table m-auto">
-            Want To Revert Application Your Application?{" "}
+            Want To Revert Your Application?{" "}
             <motion.a
-              className="ml-1 cursor-pointer hover:underline"
+              className="ml-1 cursor-pointer hover:underline hover:text-red-600"
               onClick={() => setShowRevertModal(true)}
             >
               Revert
@@ -377,41 +588,55 @@ const OpportunityConnectPage = () => {
           </motion.h1>
         )}
 
-        {showRevertModal && (
-          <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-              <h2 className="text-xl font-bold mb-4">Confirm Revert</h2>
-              <p className="mb-6">
-                Are you sure you want to revert your application?{" "}
-              </p>
-              <div className="flex justify-center gap-4">
-                <button
-                  onClick={() => {
-                    handleRevertApplication();
-                    setShowRevertModal(false);
-                  }}
-                  className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-                >
-                  Yes, Revert
-                </button>
-                <button
-                  onClick={() => setShowRevertModal(false)}
-                  className="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        {/* Revert Modal */}
+        <AnimatePresence>
+          {showRevertModal && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+            >
+              <motion.div
+                initial={{ scale: 0.9 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0.9 }}
+                className="bg-gray-800 rounded-2xl p-8 max-w-md w-full"
+              >
+                <h2 className="text-2xl font-bold text-emerald-400 mb-4">
+                  Confirm Revert
+                </h2>
+                <p className="text-gray-300 mb-6">
+                  Are you sure you want to withdraw your application?
+                </p>
+                <div className="flex gap-4 justify-center">
+                  <motion.button
+                    onClick={handleRevertApplication}
+                    className="px-6 py-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition-colors"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    Confirm Revert
+                  </motion.button>
+                  <motion.button
+                    onClick={() => setShowRevertModal(false)}
+                    className="px-6 py-2 bg-gray-700/30 text-gray-300 rounded-lg hover:bg-gray-700/40 transition-colors"
+                    whileHover={{ scale: 1.05 }}
+                  >
+                    Cancel
+                  </motion.button>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        {/* <ToastContainer position="bottom-left" /> */}
+        {/* Toast Notifications */}
         {toastMessage && (
           <NotificationToasts
             message={toastMessage}
             type={toastType}
             autoClose={1500}
-            position="top-right"
+            position="bottom-right"
             theme="dark"
           />
         )}

@@ -1,28 +1,25 @@
 .chatbot-container {
-    transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out;
-  }
-  
-  .message-bubble {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-  
-  .message-bubble:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Slide and Fade-In Animation */
-.chatbot-reveal {
-  animation: chatbot-reveal 0.5s ease-out forwards;
+  max-height: 400px; /* Fix max height */
+  overflow-y: auto; /* Allow vertical scrolling */
+  padding-right: 5px; /* Prevent content cutoff */
+  transition: height 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
-@keyframes chatbot-reveal {
-  0% {
-    opacity: 0;
-    transform: translateY(30px) scale(0.9);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+/* Prevent entire page from scrolling when inside the chatbot */
+.chatbot-container:hover {
+  overflow-y: auto; /* Keep scrolling inside */
+}
+
+/* Optional: Custom scrollbar */
+.chatbot-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chatbot-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.chatbot-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
 }

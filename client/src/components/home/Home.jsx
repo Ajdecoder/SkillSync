@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Lenis from "@studio-freight/lenis"; // Import Lenis
+import Lenis from "@studio-freight/lenis";
 import Awards from "./awards/Awards";
 import Featured from "./featured/Featured";
 import Hero from "./hero/Hero";
@@ -12,9 +12,14 @@ import HorizontalLogos from "../common/HorizontalLogos/HorizontalLogos";
 const Home = () => {
   useEffect(() => {
     const lenis = new Lenis({
-      smooth: true, // Enable smooth scrolling
-      lerp: 0.1, // Adjust for more/less smoothness
-      duration: 1.2, // Duration of scroll effect
+      smooth: true,
+      duration: 1.5,
+      easing: (t) => 1 - Math.pow(1 - t, 3),
+      wheelMultiplier: 1.2,
+      touchMultiplier: 2.5,
+      infinite: false,
+      gestureOrientation: "vertical",
+      smoothTouch: true,
     });
 
     function raf(time) {
@@ -22,9 +27,13 @@ const Home = () => {
       requestAnimationFrame(raf);
     }
     requestAnimationFrame(raf);
+ 
+    setTimeout(() => {
+      lenis.resize();
+    }, 500);
 
     return () => {
-      lenis.destroy(); // Cleanup Lenis when component unmounts
+      lenis.destroy();
     };
   }, []);
 
@@ -36,7 +45,7 @@ const Home = () => {
       <Location />
       <Team />
       <Price />
-      <HorizontalLogos/>
+      <HorizontalLogos />
       <FAQ />
     </>
   );

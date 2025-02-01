@@ -6,7 +6,8 @@ import { locations, skills } from "../../data/Data.jsx";
 
 const RecentOpportunity = ({ handleConnectClick, addedOpportunities }) => {
   const { loggedInUser } = useAuth();
-  const [filteredOpportunities, setFilteredOpportunities] = useState(addedOpportunities);
+  const [filteredOpportunities, setFilteredOpportunities] =
+    useState(addedOpportunities);
 
   const [filters, setFilters] = useState({
     title: "",
@@ -23,40 +24,42 @@ const RecentOpportunity = ({ handleConnectClick, addedOpportunities }) => {
 
     // Filter by title
     if (filters.title) {
-      filtered = filtered.filter(opportunity =>
+      filtered = filtered.filter((opportunity) =>
         opportunity.title.toLowerCase().includes(filters.title.toLowerCase())
       );
     }
 
     // Filter by description requirement
     if (filters.desc_requirement) {
-      filtered = filtered.filter(opportunity =>
-        opportunity.desc_requirement.toLowerCase().includes(filters.desc_requirement.toLowerCase())
+      filtered = filtered.filter((opportunity) =>
+        opportunity.desc_requirement
+          .toLowerCase()
+          .includes(filters.desc_requirement.toLowerCase())
       );
     }
 
     // Filter by type
     if (filters.type) {
-      filtered = filtered.filter(opportunity =>
-        opportunity.type.toLowerCase() === filters.type.toLowerCase()
+      filtered = filtered.filter(
+        (opportunity) =>
+          opportunity.type.toLowerCase() === filters.type.toLowerCase()
       );
     }
 
     // Filter by location
     if (filters.location) {
-      filtered = filtered.filter(opportunity =>
-        opportunity.location.toLowerCase() === filters.location.toLowerCase()
+      filtered = filtered.filter(
+        (opportunity) =>
+          opportunity.location.toLowerCase() === filters.location.toLowerCase()
       );
     }
-    
 
     // Filter by skills
     if (filters.skills) {
-      filtered = filtered.filter(opportunity =>
-        opportunity.skills.some(skill =>{
-          
-          skill.toLowerCase().includes(filters.skills.toLowerCase())}
-        )
+      filtered = filtered.filter((opportunity) =>
+        opportunity.skills.some((skill) => {
+          skill.toLowerCase().includes(filters.skills.toLowerCase());
+        })
       );
     }
 
@@ -89,15 +92,15 @@ const RecentOpportunity = ({ handleConnectClick, addedOpportunities }) => {
       {/* Added Opportunities Section */}
       {addedOpportunities.length > 0 && (
         <div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-           
-
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {filteredOpportunities.length > 0 ? (
               filteredOpportunities.map((opportunity) =>
                 renderOpportunityCard(opportunity)
               )
             ) : (
-              <div className="text-center text-gray-500">No matching opportunities found.</div>
+              <div className="text-center text-gray-500">
+                No matching opportunities found.
+              </div>
             )}
           </div>
         </div>

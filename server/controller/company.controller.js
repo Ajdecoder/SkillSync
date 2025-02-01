@@ -66,7 +66,7 @@ export const allOpportunitiesData = async (req, res) => {
 
 
 
-export const getRequirementById = async (req, res) => {
+export const getOpportunitytById = async (req, res) => {
   try {
     const RequirementId = req.params.id;
 
@@ -87,4 +87,88 @@ export const getRequirementById = async (req, res) => {
     });
   }
 };
+
+
+export const updateOpportunity = async (req, res) => {
+  try {
+    const RequirementId = req.params.id;
+    const updatedData = req.body;
+    console.log("updatedData",updatedData);
+    const updatedRequirement = await OpportunityCollection.findByIdAndUpdate(
+      RequirementId,
+      updatedData,
+      { new: true }
+    );
+    if (!updatedRequirement) {
+      return res.status(404).json({ message: "Requirement not found." });
+    }
+    res.status(200).json(updatedRequirement);
+    console.log("Requirement updated successfully");
+    } catch (error) {
+    console.error("Error updating requirement:", error);
+    res.status(500).json({ message: "Error updating requirement." });
+    }
+}
+
+export const deleteOpportunity = async (req, res) => {
+  try {
+    const RequirementId = req.params.id;
+    const deletedRequirement = await OpportunityCollection.findByIdAndDelete(RequirementId);
+    if (!deletedRequirement) {
+      return res.status(404).json({ message: "Requirement not found." });
+    }
+    res.status(200).json({ message: "Requirement deleted successfully." });
+  } catch (error) {
+    console.error("Error deleting requirement:", error);
+    res.status(500).json({ message: "Error deleting requirement." });
+  }
+}
+
+export const bookmarkOpportunity = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const opportunityId = req.params.opportunityId;
+    const { bookmarkedOpportunities } = req.body;
+    bookmarkedOpportunities.push(opportunityId);
+    const updatedUser = await UserCollection.findByIdAndUpdate(
+      userId,
+      { bookmarkedOpportunities },
+      { new: true }
+    );
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found." });
+    }
+    res.status(200).json(updatedUser);
+    console.log("Opportunity bookmarked successfully");
+    } catch (error) {
+    console.error("Error bookmarking opportunity:", error);
+    res.status(500).json({ message: "Error bookmarking opportunity." });
+    }
+}
+
+export const unbookmarkOpportunity = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const opportunityId = req.params.opportunityId;
+    const { bookmarkedOpportunities } = req.body;
+    const updatedBookmarks = bookmarkedOpportunities.filter(
+      (bookmark) => bookmark !== opportunityId
+    );
+    const updatedUser = await UserCollection.findByIdAndUpdate(
+      userId,
+      { bookmarkedOpportunities: updatedBookmarks },
+      { new: true }
+    );
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found." });
+    }
+    res.status(200).json(updatedUser);
+    console.log("Opportunity unbookmarked successfully");
+    } catch (error) {
+    console.error("Error unbookmarking opportunity:", error);
+    res.status(500).json({ message: "Error unbookmarking opportunity." });
+    }
+}
+
+
 

@@ -240,22 +240,22 @@ export const list = [
 ];
 export const awards = [
   {
-    icon: <i className="fa-solid fa-1"></i>,
+    icon: <i className="m-auto fa-solid fa-1"></i>,
     num: "Register",
     name: "Log-in or Sign-Up ",
   },
   {
-    icon: <i className="fa-solid fa-2"></i>,
+    icon: <i className="m-auto fa-solid fa-2"></i>,
     num: "Search ",
     name: "Search Your Requirements to get and to provide experts",
   },
   {
-    icon: <i className="fa-solid fa-3"></i>,
+    icon: <i className="m-auto fa-solid fa-3"></i>,
     num: "Match ",
     name: "Find experts who fullfill or matches Your Requirements ",
   },
   {
-    icon: <i className="fa-solid fa-4"></i>,
+    icon: <i className="m-auto fa-solid fa-4"></i>,
     num: "Connect",
     name: "Connect with them and ignite innovation",
   },
@@ -333,10 +333,10 @@ export const team = [
     address: "Liverpool, Canada",
     name: "Sargam S. Singh",
     icon: [
-      <i className="fa-brands fa-facebook-f"></i>,
-      <i className="fa-brands fa-linkedin"></i>,
-      <i className="fa-brands fa-twitter"></i>,
-      <i className="fa-brands fa-instagram"></i>,
+      <i className="m-auto fa-brands fa-facebook-f"></i>,
+      <i className="m-auto fa-brands fa-linkedin"></i>,
+      <i className="m-auto fa-brands fa-twitter"></i>,
+      <i className="m-auto fa-brands fa-instagram"></i>,
     ],
   },
   {
@@ -345,10 +345,10 @@ export const team = [
     address: "Montreal, Canada",
     name: "Harijeet M. Siller",
     icon: [
-      <i className="fa-brands fa-facebook-f"></i>,
-      <i className="fa-brands fa-linkedin"></i>,
-      <i className="fa-brands fa-twitter"></i>,
-      <i className="fa-brands fa-instagram"></i>,
+      <i className="m-auto fa-brands fa-facebook-f"></i>,
+      <i className="m-auto fa-brands fa-linkedin"></i>,
+      <i className="m-auto fa-brands fa-twitter"></i>,
+      <i className="m-auto fa-brands fa-instagram"></i>,
     ],
   },
   {
@@ -357,10 +357,10 @@ export const team = [
     address: "Denever, USA",
     name: "Anna K. Young",
     icon: [
-      <i className="fa-brands fa-facebook-f"></i>,
-      <i className="fa-brands fa-linkedin"></i>,
-      <i className="fa-brands fa-twitter"></i>,
-      <i className="fa-brands fa-instagram"></i>,
+      <i className="m-auto fa-brands fa-facebook-f"></i>,
+      <i className="m-auto fa-brands fa-linkedin"></i>,
+      <i className="m-auto fa-brands fa-twitter"></i>,
+      <i className="m-auto fa-brands fa-instagram"></i>,
     ],
   },
   {
@@ -369,10 +369,10 @@ export const team = [
     address: "2272 Briarwood Drive",
     name: "P. Grimaldo",
     icon: [
-      <i className="fa-brands fa-facebook-f"></i>,
-      <i className="fa-brands fa-linkedin"></i>,
-      <i className="fa-brands fa-twitter"></i>,
-      <i className="fa-brands fa-instagram"></i>,
+      <i className="m-auto fa-brands fa-facebook-f"></i>,
+      <i className="m-auto fa-brands fa-linkedin"></i>,
+      <i className="m-auto fa-brands fa-twitter"></i>,
+      <i className="m-auto fa-brands fa-instagram"></i>,
     ],
   },
   {
@@ -381,10 +381,10 @@ export const team = [
     address: "2272 Briarwood Drive",
     name: "Q. Grimaldo",
     icon: [
-      <i className="fa-brands fa-facebook-f"></i>,
-      <i className="fa-brands fa-linkedin"></i>,
-      <i className="fa-brands fa-twitter"></i>,
-      <i className="fa-brands fa-instagram"></i>,
+      <i className="m-auto fa-brands fa-facebook-f"></i>,
+      <i className="m-auto fa-brands fa-linkedin"></i>,
+      <i className="m-auto fa-brands fa-twitter"></i>,
+      <i className="m-auto fa-brands fa-instagram"></i>,
     ],
   },
   {
@@ -393,10 +393,10 @@ export const team = [
     address: "Montreal, USA",
     name: "Adam K. Jollio",
     icon: [
-      <i className="fa-brands fa-facebook-f"></i>,
-      <i className="fa-brands fa-linkedin"></i>,
-      <i className="fa-brands fa-twitter"></i>,
-      <i className="fa-brands fa-instagram"></i>,
+      <i className="m-auto fa-brands fa-facebook-f"></i>,
+      <i className="m-auto fa-brands fa-linkedin"></i>,
+      <i className="m-auto fa-brands fa-twitter"></i>,
+      <i className="m-auto fa-brands fa-instagram"></i>,
     ],
   },
 ];
@@ -409,55 +409,55 @@ export const price = [
     ptext: "per user, per month",
     list: [
       {
-        icon: <i className="fa-solid fa-check"></i>,
+        icon: <i className="m-auto fa-solid fa-check"></i>,
         text: "99.5% Uptime Guarantee",
       },
       {
-        icon: <i className="fa-solid fa-check"></i>,
+        icon: <i className="m-auto fa-solid fa-check"></i>,
         text: "100GB Cloud Storage",
       },
       {
-        icon: <i className="fa-solid fa-check"></i>,
+        icon: <i className="m-auto fa-solid fa-check"></i>,
         text: "Email Support",
       },
       {
         change: "color",
-        icon: <i className="fa-solid fa-x"></i>,
+        icon: <i className="m-auto fa-solid fa-x"></i>,
         text: "Dedicated Account Manager",
       },
       {
         change: "color",
-        icon: <i className="fa-solid fa-x"></i>,
+        icon: <i className="m-auto fa-solid fa-x"></i>,
         text: "Priority Support",
       },
     ],
   },
   {
-    best: <i className="fa-solid fa-crown"></i>,
+    best: <i className="m-auto fa-solid fa-crown"></i>,
     plan: "Standard",
     id: 2,
     package_price: "49",
     ptext: "per user, per month",
     list: [
       {
-        icon: <i className="fa-solid fa-check"></i>,
+        icon: <i className="m-auto fa-solid fa-check"></i>,
         text: "99.9% Uptime Guarantee",
       },
       {
-        icon: <i className="fa-solid fa-check"></i>,
+        icon: <i className="m-auto fa-solid fa-check"></i>,
         text: "250GB Cloud Storage",
       },
       {
-        icon: <i className="fa-solid fa-check"></i>,
+        icon: <i className="m-auto fa-solid fa-check"></i>,
         text: "Chat & Email Support",
       },
       {
-        icon: <i className="fa-solid fa-check"></i>,
+        icon: <i className="m-auto fa-solid fa-check"></i>,
         text: "Dedicated Account Manager",
       },
       {
         change: "color",
-        icon: <i className="fa-solid fa-x"></i>,
+        icon: <i className="m-auto fa-solid fa-x"></i>,
         text: "Priority Support",
       },
     ],
@@ -469,23 +469,23 @@ export const price = [
     ptext: "per 3 users, per month",
     list: [
       {
-        icon: <i className="fa-solid fa-check"></i>,
+        icon: <i className="m-auto fa-solid fa-check"></i>,
         text: "100% Uptime Guarantee",
       },
       {
-        icon: <i className="fa-solid fa-check"></i>,
+        icon: <i className="m-auto fa-solid fa-check"></i>,
         text: "500GB Cloud Storage",
       },
       {
-        icon: <i className="fa-solid fa-check"></i>,
+        icon: <i className="m-auto fa-solid fa-check"></i>,
         text: "24/7 Premium Support",
       },
       {
-        icon: <i className="fa-solid fa-check"></i>,
+        icon: <i className="m-auto fa-solid fa-check"></i>,
         text: "Dedicated Account Manager",
       },
       {
-        icon: <i className="fa-solid fa-check"></i>,
+        icon: <i className="m-auto fa-solid fa-check"></i>,
         text: "Priority Support & SLA",
       },
     ],

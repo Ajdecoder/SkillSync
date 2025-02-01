@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./chatbot.css";
 import { PORT_CLIENT } from "../../commonClient";
 import { getChatResponse } from "../../services/api";
+import { useLenis } from "@studio-freight/react-lenis";
 
 export const ChatBot = () => {
   const [messages, setMessages] = useState([
@@ -17,6 +18,45 @@ export const ChatBot = () => {
   ]);
   const [inputText, setInputText] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const chatContainer = document.querySelector(".chatbot-container");
+  
+    if (chatContainer) {
+      chatContainer.addEventListener(
+        "wheel",
+        (event) => {
+          event.stopPropagation(); // Stop event bubbling to the page
+        },
+        { passive: false }
+      );
+    }
+  
+    return () => {
+      chatContainer?.removeEventListener("wheel", (event) => event.stopPropagation());
+    };
+  }, []);
+
+  const lenis = useLenis(); // Get Lenis instance
+
+  useEffect(() => {
+    const chatContainer = document.querySelector(".chatbot-container");
+
+    if (chatContainer) {
+      chatContainer.addEventListener("mouseenter", () => {
+        lenis?.stop(); // Stop Lenis when hovering over chatbot
+      });
+
+      chatContainer.addEventListener("mouseleave", () => {
+        lenis?.start(); // Re-enable Lenis when leaving chatbot
+      });
+    }
+
+    return () => {
+      chatContainer?.removeEventListener("mouseenter", () => lenis?.stop());
+      chatContainer?.removeEventListener("mouseleave", () => lenis?.start());
+    };
+  }, [lenis]);
 
   const predefinedResponses = {
     "What is SkillSync?":

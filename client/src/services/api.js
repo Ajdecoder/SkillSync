@@ -5,7 +5,6 @@ const API = axios.create({
   baseURL: import.meta.env.VITE_SERVER_PORT,
 });
 
-
 // Add Authorization token
 API.interceptors.request.use((req) => {
   const token = localStorage.getItem("jwttoken");
@@ -44,25 +43,46 @@ export const addOpportunity = (data) =>
   API.post("/api/requirements/addOpportunity", data);
 export const getOpportunities = () =>
   API.get("/api/requirements/addedOpportunities");
+export const getOpportunityById = () =>
+  API.get("/api/requirements/addedOpportunities");
 export const ApplyToOpportunity = (userId, opportunityId) => {
   return API.put(`/api/users/candidate/opportunity/apply-to-job`, {
     userId,
-    opportunityId
+    opportunityId,
   });
 };
 export const RevertBackApplication = (userId, opportunityId) => {
   return API.put(`/api/users/candidate/revert-application`, {
     userId,
-    opportunityId
+    opportunityId,
   });
-}
+};
+
+export const GetBookmarkOpportunities = () => {
+  return API.get(`/api/users/candidate/bookmark-opportunities`);
+};
+export const GetBookmarkOpportunitiesById = (userId) => {
+  return API.get(`/api/users/candidate/bookmark-opportunities/${userId}`);
+};
+
+export const BookmarkOpportunity = (userId, opportunityId) => {
+  return API.put(`/api/users/candidate/bookmark-opportunity`, {
+    userId,
+    opportunityId,
+  });
+};
+
+export const RemoveBookmarkOpportunity = (userId, opportunityId) => {
+  return API.delete(
+    `/api/users/candidate/bookmark-opportunity/${userId}/${opportunityId}`
+  );
+};
+
 
 
 // Requirement By id Api Method
-export const getRequirementById = (id) =>
+export const getOpportunitytById = (id) =>
   API.get(`/api/requirements/Companyrequirements/${id}`);
-
-
 
 // Talents Api Methods
 export const getTalents = () => API.get("/api/requirements/allTalents");
@@ -70,11 +90,12 @@ export const hireTalent = (data) =>
   API.post("/api/requirements/hireTalent", data);
 
 // Chat Api Methods
-export const getChatResponse = (data) => API.post("/api/chatbot/chat-response", data);
+export const getChatResponse = (data) =>
+  API.post("/api/chatbot/chat-response", data);
 
 // notifications Api Methods
 
-export const getNotifications = () => API.get("/api/users/job/user/job-notifications");
+export const getNotifications = () =>
+  API.get("/api/users/job/user/job-notifications");
 export const markNotificationAsRead = (notificationId) =>
   API.put(`/api/users/notifications/markAsRead`, { notificationId });
-

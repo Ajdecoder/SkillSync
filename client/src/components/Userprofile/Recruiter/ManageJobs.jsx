@@ -102,8 +102,10 @@ const ManageJobs = ({
     setUpdatedData(updatedDataWithJobListings); // Update the parent state
   };
 
-  const handleSaveChanges = () => {
+  const handleSaveChanges = (e) => {
     setEditingJobIdx(false);
+    setUpdatedData(localUpdatedData);
+    handleSubmit(e)
   };
 
   return (
@@ -265,7 +267,7 @@ const ManageJobs = ({
                       <button
                         type="submit"
                         className="px-4 py-2 bg-blue-600 text-white rounded-lg mt-4"
-                        onClick={handleSaveChanges}
+                        onClick={(e)=>handleSaveChanges(e)}
                       >
                         Save Changes
                       </button>

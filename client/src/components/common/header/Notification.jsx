@@ -1,7 +1,8 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { getNotifications } from "../../../services/api";
 import { useAuth } from "../../context/AuthContext";
+import { Spinner } from "../loadingSpinner/spinner";
 
 const NotificationButton = () => {
   const [showNotifications, setShowNotifications] = useState(false);
@@ -9,18 +10,18 @@ const NotificationButton = () => {
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const { loggedInUser } = useAuth(); 
+  const [unreadNotificationCount, setUnreadNotificationCount] = useState(notifications.length);
 
   const fetchNotifications = async () => {
     try {
       const response = await getNotifications();
       const data = response.data;
 
-      console.log(data);
+      console.log("Notification here:----", data);
 
       if (response.statusText === "OK" && Array.isArray(data.notifications)) {
         
         const filteredNotifications = data.notifications.filter((notification) => {
-          
           if (loggedInUser?.role === "candidate" && notification.type === "job_posted") {
             return true;
           } else if (loggedInUser?.role === "recruiter" && notification.type === "application_received") {
@@ -42,7 +43,18 @@ const NotificationButton = () => {
 
   useEffect(() => {
     fetchNotifications();
-  }, [loggedInUser]); 
+  }, [loggedInUser]); // Fetch notifications only when user changes
+
+  // Memoized unread notification count
+  const unreadCount = useMemo(() => 
+    notifications.filter((notification) => !notification.read).length, 
+    [notifications]
+  );
+
+  // Immediately update the notification count whenever notifications change
+  useEffect(() => {
+    setUnreadNotificationCount(unreadCount);
+  }, [unreadCount]); // Depend on `unreadCount` only to avoid infinite re-renders
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -59,9 +71,6 @@ const NotificationButton = () => {
     setShowNotifications((prev) => !prev);
   };
 
-  
-  const unreadCount = notifications.filter((notification) => !notification.read).length;
-
   return (
     <div className="relative">
       {/* Notification Button */}
@@ -69,9 +78,9 @@ const NotificationButton = () => {
         className="notification-button"
         onClick={handleNotificationClick}
       >
-        <i className="fa-solid fa-bell text-3xl"></i>
+        {unreadCount?<i className="fa-solid fa-bell text-3xl"></i>:<Spinner/>}
         <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
-          {unreadCount}
+          {unreadNotificationCount}
         </span>
       </button>
 
@@ -99,10 +108,7 @@ const NotificationButton = () => {
               </ul>
               <button
                 className="block m-auto p-1"
-                onClick={() =>
-                  navigate("/notifications"
-                  )
-                }
+                onClick={() => navigate("/notifications")}
               >
                 View All
               </button>
