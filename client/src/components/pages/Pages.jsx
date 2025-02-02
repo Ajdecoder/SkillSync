@@ -19,6 +19,7 @@ import { RoutesConfig } from "./PageRoutes.jsx";
 import ScrollProgress from "../utils/ScrollProgress.jsx";
 import { LoginLoading } from "../Login/LoginLoading.jsx";
 import ScrollButton from "../utils/Scrollto.jsx";
+import { NotificationsProvider } from "../context/NotificationsContext.jsx";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -73,6 +74,7 @@ const Pages = () => {
               : window.location.origin,
         }}
       >
+        <NotificationsProvider>
         <HireFormProvider>
           <AddOpportunityFormProvider>
               <Router
@@ -103,6 +105,7 @@ const Pages = () => {
               </Router>
           </AddOpportunityFormProvider>
         </HireFormProvider>
+        </NotificationsProvider>
       </Auth0Provider>
     </AuthProvider>
   );

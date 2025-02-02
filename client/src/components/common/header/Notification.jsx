@@ -1,58 +1,22 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getNotifications } from "../../../services/api";
 import { useAuth } from "../../context/AuthContext";
+import { useNotifications } from "../../context/NotificationsContext";
 
 const NotificationButton = () => {
   const [showNotifications, setShowNotifications] = useState(false);
-  const [notifications, setNotifications] = useState([]);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const { loggedInUser } = useAuth();
+  const { notifications, unreadCount, fetchNotifications, markAsRead } =
+    useNotifications();
 
-  const fetchNotifications = async () => {
-    try {
-      const response = await getNotifications();
-      const data = response.data;
-
-      console.log(response);
-
-      if (
-        (response.statusText === "OK" || response.status === 200) &&
-        Array.isArray(data.notifications)
-      ) {
-        const filteredNotifications = data.notifications.filter(
-          (notification) => {
-            if (
-              loggedInUser?.role === "candidate" &&
-              notification.type === "job_posted"
-            ) {
-              return true;
-            } else if (
-              loggedInUser?.role === "recruiter" &&
-              notification.type === "application_received"
-            ) {
-              return true;
-            }
-            return false;
-          }
-        );
-
-        setNotifications(filteredNotifications);
-      } else {
-        console.error("Failed to fetch notifications:", data);
-        setNotifications([]);
-      }
-    } catch (error) {
-      console.error("Error fetching notifications:", error);
-      setNotifications([]);
-    }
-  };
-
+  // Fetch notifications on login/user change
   useEffect(() => {
     fetchNotifications();
-  }, [loggedInUser]);
+  }, [loggedInUser, fetchNotifications]);
 
+  // Handle click outside to close notifications dropdown
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -64,25 +28,37 @@ const NotificationButton = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleNotificationClick = () => {
+  const handleBellClick = () => {
     setShowNotifications((prev) => !prev);
   };
 
-  const unreadCount = notifications.filter(
-    (notification) => !notification.read
-  ).length;
+  const handleNotificationClick = async (notification) => {
+    try {
+      if (!notification.read) {
+        // Use markAsRead from context to handle both UI update and server call
+        await markAsRead(notification._id);
+        navigate(`/notifications/${notification._id}`);
+        setShowNotifications(false);
+      }
+    } catch (error) {
+      console.error("Error marking notification as read:", error);
+    }
+  };
 
   return (
     <div className="relative">
-      {/* Notification Button */}
-      <button className="notification-button" onClick={handleNotificationClick}>
+      <button
+        className="notification-button relative"
+        onClick={handleBellClick}
+      >
         <i className="fa-solid fa-bell text-3xl"></i>
-        <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
-          {unreadCount}
-        </span>
+        {unreadCount > 0 && (
+          <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
+            {unreadCount}
+          </span>
+        )}
       </button>
 
-      {/* Notification Dropdown */}
       {showNotifications && (
         <div
           ref={dropdownRef}
@@ -91,22 +67,26 @@ const NotificationButton = () => {
           {notifications.length > 0 ? (
             <>
               <ul>
-                {notifications.map((notification, index) => (
+                {notifications.map((notification) => (
                   <li
-                    key={index}
-                    style={{
-                      backgroundColor: notification.read ? "#f3f4f6" : "white",
-                      color: notification.read ? "#6b7280" : "black",
-                    }}
-                    className="text-sm py-2 border-b last:border-none hover:bg-gray-100 cursor-pointer p-2"
+                    key={notification._id}
+                    onClick={() => handleNotificationClick(notification)}
+                    className={`text-sm py-2 border-b last:border-none hover:bg-gray-100 cursor-pointer p-2 ${
+                      notification.read
+                        ? "text-gray-400 hidden"
+                        : "text-gray-800"
+                    }`}
                   >
                     {notification.message}
                   </li>
                 ))}
               </ul>
               <button
-                className="block m-auto p-1"
-                onClick={() => navigate("/notifications")}
+                className="block mx-auto p-1 hover:text-blue-600"
+                onClick={() => {
+                  navigate("/notifications");
+                  setShowNotifications(false);
+                }}
               >
                 View All
               </button>

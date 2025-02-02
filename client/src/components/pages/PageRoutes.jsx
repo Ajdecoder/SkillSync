@@ -118,7 +118,12 @@ export const RoutesConfig = ({ spin, setSpin }) => [
   />,
   <Route
     key="notifications"
-    path="/notifications"
+    path="/notifications/"
+    element={<NotificationPage />}
+  />,
+  <Route
+    key="notifications"
+    path="/notifications/:notificationId"
     element={<NotificationPage />}
   />,
   <Route key="delete-account" path="/settings/delete-account" element={<DeleteAccount />} />,
