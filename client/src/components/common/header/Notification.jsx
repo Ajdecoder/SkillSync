@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useMemo } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useNotifications } from "../../context/NotificationsContext";
@@ -64,18 +64,7 @@ const NotificationButton = () => {
           ref={dropdownRef}
           className="absolute bg-white shadow-lg rounded-md w-[18rem] top-12 right-[-7rem] p-4 max-h-[22rem] overflow-auto z-10 border border-gray-300"
         >
-          {loading ? (
-            <div className="space-y-2">
-              {[...Array(3)].map((_, i) => (
-                <div key={i} className="animate-pulse flex space-x-4">
-                  <div className="flex-1 space-y-2 py-1">
-                    <div className="h-3 bg-gray-200 rounded w-4/5"></div>
-                    <div className="h-3 bg-gray-200 rounded w-3/5"></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : notifications.length > 0 ? (
+          {notifications.length > 0 ? (
             <>
               <ul>
                 {notifications.map((notification) => (
@@ -99,7 +88,7 @@ const NotificationButton = () => {
                   setShowNotifications(false);
                 }}
               >
-                View All Notifications
+                View All
               </button>
             </>
           ) : (

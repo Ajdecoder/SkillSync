@@ -20,6 +20,7 @@ import ScrollProgress from "../utils/ScrollProgress.jsx";
 import { LoginLoading } from "../Login/LoginLoading.jsx";
 import ScrollButton from "../utils/Scrollto.jsx";
 import { NotificationsProvider } from "../context/NotificationsContext.jsx";
+import { useLenis } from "@studio-freight/react-lenis";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
