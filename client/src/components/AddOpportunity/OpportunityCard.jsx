@@ -1,6 +1,26 @@
-import React, { useEffect } from "react";
+import React from "react";
+import { motion } from "framer-motion";
+import { FiArrowRight, FiGlobe, FiMail, FiPhone, FiDollarSign, FiUsers, FiCalendar } from "react-icons/fi";
 
 const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        type: "spring", 
+        stiffness: 100,
+        damping: 10
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -10 },
+    visible: { opacity: 1, x: 0 }
+  };
+
   const {
     title,
     desc_requirement,
@@ -16,90 +36,126 @@ const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
     createdAt,
   } = opportunity;
 
-
   return (
-    <div className="shadow-lg rounded-lg overflow-hidden bg-black p-6 hover:shadow-2xl transition-all duration-300">
-      <div className="p-4 space-y-2">
-        {/* Job Title */}
-        <h4 className="text-xl font-semibold text-gray-800">{title}</h4>
+    <motion.div
+      className="group relative bg-gradient-to-br from-gray-900 to-black rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-shadow duration-300 overflow-hidden"
+      variants={cardVariants}
+      initial="hidden"
+      animate="visible"
+      whileHover={{ y: -5 }}
+    >
+      {/* Glow effect */}
+      <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      
+      <div className="relative space-y-4">
+        {/* Header Section */}
+        <motion.div variants={itemVariants}>
+          <h3 className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+            {title}
+          </h3>
+          <div className="flex items-center gap-2 mt-1">
+            <FiGlobe className="text-cyan-400" />
+            <a
+              href={`http://${company_website}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-cyan-400 hover:text-cyan-300 transition-colors"
+            >
+              {company_website}
+            </a>
+          </div>
+        </motion.div>
 
-        {/* Company Name and Website */}
-        <p className="text-sm text-gray-600">
-          <strong>Company:</strong> {company_name}
-        </p>
-        <p className="text-sm text-blue-500">
-          <strong>Website:</strong>{" "}
-          <a
-            href={`http://${company_website}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline hover:text-blue-700"
-            style={{ textTransform: "none" }}
-          >
-            {company_website}
-          </a>
-        </p>
-
-        {/* Job Type and Location */}
-        <p className="text-sm text-gray-500">
-          <strong>Type:</strong> {jobType}
-        </p>
-        <p className="text-sm text-gray-500">
-          <strong>Location:</strong> {location}
-        </p>
-
-        {/* Salary Range */}
-        <p className="text-sm text-gray-500">
-          <strong>Salary Range:</strong> {salaryRange}
-        </p>
+        {/* Metadata Grid */}
+        <motion.div 
+          className="grid grid-cols-2 md:grid-cols-3"
+          variants={itemVariants}
+          transition={{ delayChildren: 0.2, staggerChildren: 0.1 }}
+        >
+          <div className="flex-col items-center gap-2">
+            <FiUsers className="text-emerald-400" />
+            <span className="text-gray-300">{candidatesApplied.length}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <FiDollarSign className="text-emerald-400" />
+            <span className="text-gray-300">{salaryRange}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <FiCalendar className="text-emerald-400" />
+            <span className="text-gray-300">
+              {new Date(createdAt).toLocaleDateString()}
+            </span>
+          </div>
+        </motion.div>
 
         {/* Description */}
-        <p className="text-sm text-gray-600">
-          <strong>Description:</strong>{" "}
-          {desc_requirement
-            ? desc_requirement.substring(0, 150) + "..."
-            : "N/A"}
-        </p>
+        <motion.p 
+          className="text-gray-400 leading-relaxed"
+          variants={itemVariants}
+        >
+          {desc_requirement?.substring(0, 200) + "..." || "No description provided"}
+        </motion.p>
 
         {/* Skills */}
         {skills && skills.length > 0 && (
-          <p className="text-sm text-gray-500">
-            <strong>Skills:</strong>{" "}
-            {skills.map((sk, i) => {
-              return sk.skillName + " ";
-            })}
-          </p>
+          <motion.div 
+            className="flex flex-wrap gap-2"
+            variants={itemVariants}
+          >
+            {skills.map((skill, index) => (
+              <motion.span
+                key={index}
+                className="px-3 py-1 bg-emerald-500/10 rounded-full text-emerald-400 text-sm"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                {skill.skillName}
+              </motion.span>
+            ))}
+          </motion.div>
         )}
 
-        {/* Candidates Applied */}
-        <p className="text-sm text-gray-500">
-          <strong>Candidates Applied:</strong> {candidatesApplied.length}
-        </p>
-
         {/* Contact Info */}
-        <p className="text-sm text-blue-500">
-          <strong>Email:</strong> {email}
-        </p>
-        <p className="text-sm text-gray-500">
-          <strong>Phone:</strong> {ph_no}
-        </p>
-
-        {/* Post Date */}
-        <p className="text-xs text-gray-400">
-          <strong>Posted on:</strong> {new Date(createdAt).toLocaleDateString()}
-        </p>
-      </div>
-
-      {/* Connect Button */}
-      <div className="p-2 inline-block justify-center bg-green-500 rounded-md hover:bg-green-600 text-white">
-        <button
-          className="px-6 py-2 border border-transparent rounded-md transition duration-200"
-          onClick={onConnectClick}
+        <motion.div 
+          className="pt-4 border-t border-gray-800 space-y-2"
+          variants={itemVariants}
         >
-          Connect
-        </button>
+          <div className="flex items-center gap-2">
+            <FiMail className="text-cyan-400" />
+            <a href={`mailto:${email}`} className="text-cyan-400 hover:text-cyan-300">
+              {email}
+            </a>
+          </div>
+          <div className="flex items-center gap-2">
+            <FiPhone className="text-cyan-400" />
+            <span className="text-gray-300">{ph_no}</span>
+          </div>
+        </motion.div>
+
+        {/* Connect Button */}
+        <motion.div 
+          className="pt-6"
+          variants={itemVariants}
+        >
+          <motion.button
+            onClick={onConnectClick}
+            className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-lg hover:from-emerald-600 hover:to-cyan-600 transition-all"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <span className="font-semibold">Connect Now</span>
+            <motion.span
+              animate={{ x: 0 }}
+              whileHover={{ x: 5 }}
+              className="inline-block"
+            >
+              <FiArrowRight />
+            </motion.span>
+          </motion.button>
+        </motion.div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

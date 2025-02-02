@@ -23,20 +23,22 @@ import { NotificationsProvider } from "../context/NotificationsContext.jsx";
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
+  const lenis = useLenis()
+
+  console.log(pathname);
 
   useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  }, [pathname]);
+    if (lenis) {
+      lenis.scrollTo(0);
+    }
+  }, [pathname, lenis]);
 
   return null;
 };
 
 const Pages = () => {
   const [spin, setSpin] = useState(false);
-  const [loading, setLoading] = useState(false);  
+  const [loading, setLoading] = useState(true);  
 
   useEffect(() => {
     Aos.init({

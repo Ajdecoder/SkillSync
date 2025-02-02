@@ -1,5 +1,5 @@
-import React from 'react';
-import Marquee from 'react-fast-marquee';
+import React from "react";
+import Marquee from "react-fast-marquee";
 
 const HorizontalLogos = () => {
   const logos = [
@@ -14,10 +14,19 @@ const HorizontalLogos = () => {
 
   return (
     <div className="py-10">
-      <Marquee speed={40} gradient={true} pauseOnHover={true} gradientWidth={100} >
+      <Marquee
+        speed={140}
+        gradient={true}
+        pauseOnHover={true}
+        gradientWidth={100}
+      >
         {logos.map((logo, index) => (
-          <div key={index} className="mx-5">
-            <img src={logo} alt={`Logo ${index + 1}`} className="block w-58 h-48 object-cover" />
+          <div key={index} className="mx-5 hover:none overflow-hidden ">
+            <img
+              src={logo}
+              alt={`Logo ${index + 1}`}
+              className="block w-58 h-48 object-cover cursor-default"
+            />
           </div>
         ))}
       </Marquee>

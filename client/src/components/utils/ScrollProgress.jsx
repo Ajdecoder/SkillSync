@@ -47,7 +47,7 @@ const ScrollProgress = () => {
       window.removeEventListener("resize", updatePageHeight);
       observerRef.current?.disconnect(); // Clean up observer
     };
-  }, [lenis, location]);
+  }, [location]);
 
   return (
     <div

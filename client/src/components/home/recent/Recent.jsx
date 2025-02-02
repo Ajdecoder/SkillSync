@@ -79,7 +79,6 @@ const Recent = ({filterCategory,filteredProgrammers,programmers}) => {
                   handleConnectClick={handleConnectClick}
                   addedOpportunities={opportunities}
                 />
-                {console.log(opportunities)}
               </div>
             </section>
           )}

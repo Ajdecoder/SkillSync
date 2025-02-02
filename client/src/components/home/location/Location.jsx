@@ -10,7 +10,6 @@ const Location = () => {
         <div className="container">
           <Heading
             title="Explore By Company and Location"
-            subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
           />
 
           <div className="content grid3 mtop">

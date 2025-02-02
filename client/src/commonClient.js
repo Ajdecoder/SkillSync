@@ -7,3 +7,5 @@ const PORT_PRODUCTON = import.meta.env.VITE_PORT_PRODUCTON;
 export const PORT_CLIENT = isProduction && PORT_PRODUCTON   
   ? PORT_PRODUCTON 
   : PORT_LOCAL;
+
+  console.log(PORT_CLIENT)

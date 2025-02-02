@@ -1,16 +1,19 @@
 import React from "react";
 import { price } from "../../data/Data";
+import { motion } from "framer-motion";
 
 const PriceCard = () => {
   return (
     <div className="content flex justify-center mtop">
       {price.map((item, index) => (
-        <div
+        <motion.div
           className="box shadow bg-black text-white opacity-25"
           key={item.id}
         >
           <div className="topbtn">
-            <button className="btn3 p-2">{item.best}</button>
+            <button className="rounded-[50%] bg-orange-600 p-2">
+              {item.best}
+            </button>
           </div>
           <h3>{item.plan}</h3>
           <h1 className="text-white">${item.package_price}</h1>
@@ -18,7 +21,11 @@ const PriceCard = () => {
 
           <ul>
             {item.list.map((val, index) => (
-              <li key={index}>
+              <motion.li
+                key={index}
+                whileHover={{ x: 5 }}
+                className="flex items-center gap-2"
+              >
                 <label
                   style={{
                     background:
@@ -29,21 +36,19 @@ const PriceCard = () => {
                   {val.icon}
                 </label>
                 <p>{val.text}</p>
-              </li>
+              </motion.li>
             ))}
           </ul>
           <button
             className="btn5  hover:bg-sky-600 hover:text-white hover:scale-105 duration-300 ease-in-out"
-            style={
-              {
-                background: item.plan === "Standard" ? "#216eb9" : "#fff",
-                color: item.plan === "Standard" ? "#fff" : "#216eb9",
-              }
-            }
+            style={{
+              background: item.plan === "Standard" ? "#216eb9" : "#fff",
+              color: item.plan === "Standard" ? "#fff" : "#216eb9",
+            }}
           >
             Start {item.plan}
           </button>
-        </div>
+        </motion.div>
       ))}
     </div>
   );

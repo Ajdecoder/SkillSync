@@ -26,7 +26,7 @@ const Contact = () => {
         </h1>
         <form
           onSubmit={handleSubmit}
-          className="shadow-lg p-8 rounded-lg bg-[#111827] flex content-center"
+          className="shadow-lg p-8 rounded-lg bg-[#111827] flex justify-center"
         >
           <div className="space-y-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { getUserProfileById } from "../../../services/api";
 import { motion } from "framer-motion";
 import { Spinner } from "../../common/loadingSpinner/spinner";
+import { FiGithub, FiGlobe, FiLinkedin, FiMail } from "react-icons/fi";
 
 export const ViewCandidateInfo = () => {
   const { candidateid } = useParams();
@@ -12,7 +13,7 @@ export const ViewCandidateInfo = () => {
   useEffect(() => {
     const fetchCandidateProfile = async () => {
       try {
-        const { data } = await getUserProfileById(candidateid)  ;
+        const { data } = await getUserProfileById(candidateid);
         setCandidate(data.profile);
         setLoading(false);
       } catch (error) {
@@ -28,223 +29,163 @@ export const ViewCandidateInfo = () => {
 
   if (!candidate) return <div>No candidate data found.</div>;
 
-  return (
-    <div className="mx-auto p-4">
-      <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden"
-      >
-        <img
-          src={candidate?.profilePicture}
-          alt={`${candidate?.name}'s profile`}
-          className="w-full h-48 object-cover"
-        />
-        <div className="p-6">
-          <h2 className="text-2xl font-bold mb-2">{candidate?.name}</h2>
-          <p className="text-gray-700 mb-4">{candidate?.about}</p>
+     // Helper Components
+const SectionWrapper = ({ title, children }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="mb-8"
+  >
+    <h2 className="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-sky-100 pb-2">
+      {title}
+    </h2>
+    {children}
+  </motion.div>
+);
 
-          <div className="mb-4">
-            <h3 className="text-xl font-semibold">Skills:</h3>
-            <ul className="list-disc list-inside">
+const TimelineItem = ({ title, subtitle, description, index }) => (
+  <motion.div
+    initial={{ opacity: 0, x: -20 }}
+    animate={{ opacity: 1, x: 0 }}
+    transition={{ delay: index * 0.1 }}
+    className="relative pl-8 pb-4 border-l-2 border-sky-200"
+  >
+    <div className="absolute w-4 h-4 bg-sky-500 rounded-full -left-[9px] top-0" />
+    <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
+    {subtitle && <p className="text-sm text-gray-600 mb-2">{subtitle}</p>}
+    {description && <p className="text-gray-600">{description}</p>}
+  </motion.div>
+);
+
+const SocialIcon = ({ platform }) => {
+  const icons = {
+    linkedin: <FiLinkedin className="w-5 h-5 text-[#0A66C2]" />,
+    github: <FiGithub className="w-5 h-5 text-gray-800" />,
+    portfolio: <FiGlobe className="w-5 h-5 text-sky-600" />
+  };
+  return icons[platform] || <FiGlobe className="w-5 h-5 text-gray-600" />;
+};
+
+  return (
+    <div className="mx-auto p-4 max-w-4xl">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="bg-white rounded-2xl shadow-xl overflow-hidden"
+      >
+        {/* Profile Header */}
+        <div className="relative h-56 bg-gradient-to-r from-sky-500 to-indigo-600">
+          <motion.img
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.5 }}
+            src={candidate?.profilePicture}
+            alt={`${candidate?.name}'s profile`}
+            className="absolute -bottom-16 left-8 w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover"
+          />
+        </div>
+
+        <div className="pt-20 px-8 pb-8">
+          {/* Name and About */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+          >
+            <h1 className="text-3xl font-bold text-gray-800 mb-2">
+              {candidate?.name}
+            </h1>
+            <p className="text-lg text-gray-600 mb-6">{candidate?.about}</p>
+          </motion.div>
+
+          {/* Skills */}
+          <SectionWrapper title="Skills">
+            <div className="flex flex-wrap gap-2">
               {candidate?.skills.map((skill, index) => (
-                <motion.li
+                <motion.span
                   key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.2, delay: index * 0.1 }}
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ 
+                    type: "spring",
+                    stiffness: 260,
+                    damping: 20,
+                    delay: index * 0.05
+                  }}
+                  className="px-4 py-1 bg-sky-100 text-sky-700 rounded-full text-sm font-medium"
                 >
                   {skill}
-                </motion.li>
+                </motion.span>
               ))}
-            </ul>
-          </div>
-
-          <div className="mb-4">
-            <h3 className="text-xl font-semibold">Experience:</h3>
-            {candidate?.experience.map((exp, idx) => (
-              <motion.div
-                key={exp._id.$oid}
-                className="mb-2"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: idx * 0.1 }}
-              >
-                <h4 className="font-semibold">
-                  {exp.JobRole} at {exp.company}
-                </h4>
-                <p>{exp.duration}</p>
-                <p>{exp.description}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="mb-4">
-            <h3 className="text-xl font-semibold">Education:</h3>
-            {candidate?.education.map((edu, idx) => (
-              <motion.div
-                key={edu._id.$oid}
-                className="mb-2"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: idx * 0.1 }}
-              >
-                <h4 className="font-semibold">
-                  {edu.degree} from {edu.institution}
-                </h4>
-                <p>Year: {edu.year}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="mb-4">
-            <h3 className="text-xl font-semibold">Location:</h3>
-            <p>
-              {candidate?.location.city}, {candidate?.location.state},{" "}
-              {candidate?.location.country}
-            </p>
-          </div>
-
-          <div className="mb-4">
-            <h3 className="text-xl font-semibold">Preferences:</h3>
-            <p>
-              Salary Range: ${candidate?.preferences.salaryRange.min} - $
-              {candidate?.preferences.salaryRange.max}
-            </p>
-            <p>Job Type: {candidate?.preferences.jobType}</p>
-            <p>Industry: {candidate?.preferences.industry}</p>
-          </div>
-
-          <div className="mb-4">
-            <h3 className="text-xl font-semibold">Languages:</h3>
-            {candidate?.languages.map((lang, idx) => (
-              <motion.p
-                key={lang._id.$oid}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: idx * 0.1 }}
-              >
-                {lang.language} - {lang.proficiency}
-              </motion.p>
-            ))}
-          </div>
-
-          <div className="mb-4">
-            <h3 className="text-xl font-semibold">Certifications:</h3>
-            {candidate?.certifications.map((cert, idx) => (
-              <motion.div
-                key={cert._id.$oid}
-                className="mb-2"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: idx * 0.1 }}
-              >
-                <h4 className="font-semibold">{cert.name}</h4>
-                <p>Issued by: {cert.issuingOrganization}</p>
-                <p>
-                  Date Issued:{" "}
-                  {new Date(cert.dateIssued.$date).toLocaleDateString()}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="mb-4">
-            <h3 className="text-xl font-semibold">Portfolio:</h3>
-            {candidate?.portfolio.map((project, idx) => (
-              <motion.div
-                key={project._id.$oid}
-                className="mb-2"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: idx * 0.1 }}
-              >
-                <h4 className="font-semibold">{project.title}</h4>
-                <p>{project.description}</p>
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500"
-                >
-                  View Project
-                </a>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="mb-4">
-            <h3 className="text-xl font-semibold">Awards:</h3>
-            {candidate?.awards.map((award, idx) => (
-              <motion.div
-                key={award._id.$oid}
-                className="mb-2"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: idx * 0.1 }}
-              >
-                <h4 className="font-semibold">{award.awardName}</h4>
-                <p>Issued by: {award.issuingOrganization}</p>
-                <p>Date: {new Date(award.date.$date).toLocaleDateString()}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="mb-4">
-            <h3 className="text-xl font-semibold">Volunteer Experience:</h3>
-            {candidate?.volunteerExperience.map((volunteer, idx) => (
-              <motion.div
-                key={volunteer._id.$oid}
-                className="mb-2"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.3, delay: idx * 0.1 }}
-              >
-                <h4 className="font-semibold">
-                  {volunteer.volunteerRole} at {volunteer.organization}
-                </h4>
-                <p>{volunteer.duration}</p>
-                <p>{volunteer.description}</p>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="mb-4">
-            <h3 className="text-xl font-semibold">Contact:</h3>
-            <p>Email: {candidate?.email}</p>
-            <div className="flex gap-4">
-              <a
-                href={candidate?.socialLinks.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500"
-              >
-                LinkedIn
-              </a>
-              <a
-                href={candidate?.socialLinks.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500" 
-              >
-                GitHub
-              </a>
-              <a
-                href={candidate?.socialLinks.portfolio}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500"
-              >
-                Portfolio
-              </a>
             </div>
-          </div>
+          </SectionWrapper>
+
+          {/* Experience */}
+          <SectionWrapper title="Experience">
+            {candidate?.experience.map((exp, idx) => (
+              <TimelineItem
+                key={exp._id.$oid}
+                title={`${exp.JobRole} at ${exp.company}`}
+                subtitle={exp.duration}
+                description={exp.description}
+                index={idx}
+              />
+            ))}
+          </SectionWrapper>
+
+          {/* Education */}
+          <SectionWrapper title="Education">
+            {candidate?.education.map((edu, idx) => (
+              <TimelineItem
+                key={edu._id.$oid}
+                title={`${edu.degree} from ${edu.institution}`}
+                subtitle={`Year: ${edu.year}`}
+                index={idx}
+              />
+            ))}
+          </SectionWrapper>
+
+          {/* Contact & Social Links */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="mt-8 p-6 bg-sky-50 rounded-xl"
+          >
+            <h3 className="text-xl font-semibold text-gray-800 mb-4">Connect</h3>
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <FiMail className="w-5 h-5 text-gray-600" />
+                <span className="text-gray-700">{candidate?.email}</span>
+              </div>
+              <div className="flex gap-4 mt-2">
+                {Object.entries(candidate?.socialLinks || {}).map(([platform, url]) => (
+                  <motion.a
+                    key={platform}
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ y: -2 }}
+                    className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                  >
+                    <SocialIcon platform={platform} />
+                    <span className="capitalize text-gray-700">{platform}</span>
+                  </motion.a>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Hire Now Button */}
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="w-full mt-8 bg-gradient-to-r from-sky-500 to-indigo-500 text-white py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-shadow"
+          >
+            Hire Now
+          </motion.button>
         </div>
       </motion.div>
-
-            <motion.button className="text-white p-3 mt-2 m-auto flex bg-sky-600 border-2 border-gray-500" >Hire Now</motion.button>
-
     </div>
   );
 };
