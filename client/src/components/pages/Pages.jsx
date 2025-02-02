@@ -19,6 +19,7 @@ import { RoutesConfig } from "./PageRoutes.jsx";
 import ScrollProgress from "../utils/ScrollProgress.jsx";
 import { LoginLoading } from "../Login/LoginLoading.jsx";
 import ScrollButton from "../utils/Scrollto.jsx";
+import { NotificationsProvider } from "../context/NotificationsContext.jsx";
 import { useLenis } from "@studio-freight/react-lenis";
 
 const ScrollToTop = () => {
@@ -76,6 +77,7 @@ const Pages = () => {
               : window.location.origin,
         }}
       >
+        <NotificationsProvider>
         <HireFormProvider>
           <AddOpportunityFormProvider>
               <Router
@@ -106,6 +108,7 @@ const Pages = () => {
               </Router>
           </AddOpportunityFormProvider>
         </HireFormProvider>
+        </NotificationsProvider>
       </Auth0Provider>
     </AuthProvider>
   );
