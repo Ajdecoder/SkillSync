@@ -132,7 +132,7 @@ export const LoginCandidate = () => {
             <span className="px-3 text-gray-500">or</span>
             <div className="w-full h-px bg-gray-300"></div>
           </div>
-          <div className="flex justify-center mt-4">
+          <div className="flex justify-center mt-4" >
             <GoogleAuth />
           </div>
         </form>

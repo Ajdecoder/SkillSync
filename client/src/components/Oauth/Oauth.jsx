@@ -1,22 +1,38 @@
 import React, { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import "../../tailwind.css";
+import axios from "axios";
 
 export const GoogleAuth = () => {
   const { loginWithRedirect, user, isAuthenticated, isLoading, logout: auth0Logout } = useAuth0();
 
-  // Effect hook to update localStorage when the user's authentication state changes
+  const handleOauthLogin = async (response) => {
+    try {
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/auth/google`, {
+        token: response.tokenId,
+      });
+
+      const { token, user } = res.data;
+
+      localStorage.setItem("jwttoken", token); // Store JWT
+
+      window.location.reload();
+    } catch (error) {
+      console.error("OAuth Login Failed:", error);
+    }
+  };
+  
   useEffect(() => {
     if (isAuthenticated && user) {
-      // Store user info in localStorage when authenticated
+      
       localStorage.setItem("Auth0User", JSON.stringify(user));
     } else {
-      // Clear user info from localStorage if not authenticated
+      
       localStorage.removeItem("Auth0User");
     }
   }, [isAuthenticated, user]);
 
-  // Handle logout and clear user info from localStorage
+  
   const handleLogout = () => {
     auth0Logout({ returnTo: window.location.origin });
     localStorage.removeItem("Auth0User");
@@ -48,7 +64,7 @@ export const GoogleAuth = () => {
             className="w-4 h-4 me-2"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
+            fill="currentColor" 
             viewBox="0 0 18 19"
           >
             <path

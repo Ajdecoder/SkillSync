@@ -1,19 +1,22 @@
-import React from "react"
-import Heading from "../../common/Heading"
-import { awards } from "../../data/Data"
-import "./awards.css"
+import React from "react";
+import Heading from "../../common/Heading";
+import { awards } from "../../data/Data";
+import "./awards.css";
 
 const Awards = () => {
   return (
     <>
-      <section className='awards'>
-        <div className='container'>
-          <Heading title='Over 1,24,000+ Happy User Bieng With Us Still They Love Our Services' subtitle='Our Awards' />
+      <section className="awards">
+        <div className="container">
+          <Heading
+            title="Our Awards"
+            subtitle="Over 1,24,000+ Happy User Bieng With Us Still They Love Our Services"
+          />
 
-          <div className='content grid4 mtop'>
+          <div className="content grid4 mtop">
             {awards.map((val, index) => (
-              <div className='box' key={index}>
-                <div className='icon'>
+              <div className="box" key={index}>
+                <div className="icon">
                   <span>{val.icon}</span>
                 </div>
                 <h1>{val.num}</h1>
@@ -24,7 +27,7 @@ const Awards = () => {
         </div>
       </section>
     </>
-  )
-}
+  );
+};
 
-export default Awards
+export default Awards;

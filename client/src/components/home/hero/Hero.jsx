@@ -7,6 +7,7 @@ import { PORT_CLIENT } from "../../../commonClient";
 import Recent from "../recent/Recent";
 import { filterData } from "../../data/Data";
 import { motion } from "framer-motion";  // Import Framer Motion
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   const { loggedInUser } = useAuth();
@@ -155,29 +156,46 @@ const Hero = () => {
         </section>
       ) : (
         <section className="hero-notloggedin bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 text-white py-16">
-          <motion.div
-            className="hero-container mx-auto max-w-4xl text-center space-y-6"
+        <motion.div
+          className="hero-container mx-auto max-w-4xl text-center space-y-6"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1 }}
+        >
+          <Heading
+            title="Search Your Way"
+            subtitle="Whether you're looking to hire top talent or find your next job, we have the right tools to connect you with opportunities."
+          />
+  
+          <p className="text-lg md:text-xl font-light">
+            Discover skilled professionals or explore job opportunities that align with your expertise. 
+            Start your journey today!
+          </p>
+  
+          <motion.div 
+            className="mt-8 flex justify-center gap-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
+            transition={{ delay: 0.2, duration: 1 }}
           >
-            <Heading
-              title="Search Your Way"
-              subtitle="Discover talented programmers and developers in your city, and take your projects to the next level."
-            />
-            <p className="text-lg md:text-xl font-light">
-              Explore a diverse pool of skilled professionals and connect with the right talent for your needs.
-            </p>
-            <motion.div className="mt-8 flex justify-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 1 }}>
-              <button className="bg-white text-indigo-600 hover:text-purple-600 font-semibold py-3 px-6 rounded-lg shadow-lg transition-all duration-300">
-                Start Your Search
-              </button>
-              <button className="ml-4 bg-transparent border-2 border-white text-white font-semibold py-3 px-6 rounded-lg hover:bg-white hover:text-indigo-600 transition-all duration-300">
-                Post a Job
-              </button>
-            </motion.div>
+            {/* Button for candidates to search for jobs */}
+            <Link 
+              to={"/requirements/search"} 
+              className="bg-white text-indigo-600 hover:text-purple-600 font-semibold py-3 px-6 rounded-lg shadow-lg transition-all duration-300"
+            >
+              Start Your Search
+            </Link>
+  
+            {/* Button for recruiters to post jobs */}
+            <Link 
+              to={"/requirements/add-opportunity"} 
+              className="bg-transparent border-2 border-white text-white font-semibold py-3 px-6 rounded-lg hover:bg-white hover:text-indigo-600 transition-all duration-300"
+            >
+              Post a Job
+            </Link>
           </motion.div>
-        </section>
+        </motion.div>
+      </section>
       )}
       <Recent
         programmers={programmers}

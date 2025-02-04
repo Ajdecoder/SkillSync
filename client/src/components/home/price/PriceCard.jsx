@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const PriceCard = () => {
   return (
-    <div className="content flex justify-center mtop">
+    <div className="content flex justify-center mtop gap-4">
       {price.map((item, index) => (
         <motion.div
           className="box shadow bg-black text-white opacity-25"
