@@ -26,8 +26,6 @@ const ScrollToTop = () => {
   const { pathname } = useLocation();
   const lenis = useLenis()
 
-  console.log(pathname);
-
   useEffect(() => {
     if (lenis) {
       lenis.scrollTo(0);

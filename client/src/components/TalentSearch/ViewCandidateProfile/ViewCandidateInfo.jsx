@@ -125,7 +125,7 @@ const SocialIcon = ({ platform }) => {
           <SectionWrapper title="Experience">
             {candidate?.experience.map((exp, idx) => (
               <TimelineItem
-                key={exp._id.$oid}
+                key={exp._id}
                 title={`${exp.JobRole} at ${exp.company}`}
                 subtitle={exp.duration}
                 description={exp.description}
@@ -138,7 +138,7 @@ const SocialIcon = ({ platform }) => {
           <SectionWrapper title="Education">
             {candidate?.education.map((edu, idx) => (
               <TimelineItem
-                key={edu._id.$oid}
+                key={edu._id}
                 title={`${edu.degree} from ${edu.institution}`}
                 subtitle={`Year: ${edu.year}`}
                 index={idx}

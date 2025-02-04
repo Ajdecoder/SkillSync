@@ -6,7 +6,7 @@
 }
 .awards .heading {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
 }
 .awards .heading p {
   color: #216eb9;
