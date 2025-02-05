@@ -45,11 +45,10 @@ export const getOpportunities = () =>
   API.get("/api/requirements/addedOpportunities");
 export const getOpportunityById = () =>
   API.get("/api/requirements/addedOpportunities");
-export const ApplyToOpportunity = (userId, opportunityId) => {
-  return API.put(`/api/users/candidate/opportunity/apply-to-job`, {
-    userId,
-    opportunityId,
-  });
+export const ApplyToOpportunity = (payload) => {
+  return API.put(`/api/users/candidate/opportunity/apply-to-job`,
+   payload
+ );
 };
 export const RevertBackApplication = (userId, opportunityId) => {
   return API.put(`/api/users/candidate/revert-application`, {
@@ -66,7 +65,7 @@ export const GetBookmarkOpportunitiesById = (userId) => {
 };
 
 export const BookmarkOpportunity = (userId, opportunityId) => {
-  return API.put(`/api/users/candidate/bookmark-opportunity`, {
+  return API.put(`/api/opportunity/job/bookmark-opportunity/`, {
     userId,
     opportunityId,
   });
@@ -74,7 +73,7 @@ export const BookmarkOpportunity = (userId, opportunityId) => {
 
 export const RemoveBookmarkOpportunity = (userId, opportunityId) => {
   return API.delete(
-    `/api/users/candidate/bookmark-opportunity/${userId}/${opportunityId}`
+    `/api/opportunity/job/unbookmark-opportunity/${userId}/${opportunityId}`
   );
 };
 

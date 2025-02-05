@@ -67,26 +67,37 @@ const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
         </motion.div>
 
         {/* Metadata Grid */}
-        <motion.div 
-          className="grid grid-cols-2 md:grid-cols-3"
-          variants={itemVariants}
-          transition={{ delayChildren: 0.2, staggerChildren: 0.1 }}
-        >
-          <div className="flex-col items-center gap-2">
-            <FiUsers className="text-emerald-400" />
-            <span className="text-gray-300">{candidatesApplied.length}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <FiDollarSign className="text-emerald-400" />
-            <span className="text-gray-300">{salaryRange}</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <FiCalendar className="text-emerald-400" />
-            <span className="text-gray-300">
-              {new Date(createdAt).toLocaleDateString()}
-            </span>
-          </div>
-        </motion.div>
+        <motion.div
+  className="grid grid-cols-2 md:grid-cols-3 gap-4"
+  variants={itemVariants}
+  transition={{ delayChildren: 0.2, staggerChildren: 0.1 }}
+>
+  <div className="flex flex-col items-center gap-2">
+    <FiUsers className="text-emerald-400" />
+    <span className="text-gray-300">{candidatesApplied.length}</span>
+  </div>
+
+  <div className="flex flex-col items-center gap-2">
+    <FiDollarSign className="text-emerald-400" />
+    <div className="flex items-center gap-1">
+      <span className="text-gray-300">
+        {(salaryRange?.minSalary / 1000).toFixed(1)}k
+      </span>
+      <span className="text-gray-300">-</span>
+      <span className="text-gray-300">
+        {(salaryRange?.maxSalary / 1000).toFixed(1)}k
+      </span>
+    </div>
+  </div>
+
+  <div className="flex flex-col items-center gap-2">
+    <FiCalendar className="text-emerald-400" />
+    <span className="text-gray-300">
+      {new Date(createdAt).toLocaleDateString()}
+    </span>
+  </div>
+</motion.div>
+
 
         {/* Description */}
         <motion.p 

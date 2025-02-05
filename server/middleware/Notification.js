@@ -3,15 +3,15 @@ import Notification from "../model/notification.js";
 
 // ✅ Middleware to handle notifications
 const notificationMiddleware = async (req, res, next) => {
-  console.log("Received request for notification middleware");
+  
+
+  console.log("printing req:-",req.body);
 
   try {
     // console.log("Printing req body =>", req.body);
     const { action, payload } = req.body;
 
-    if (!payload || !payload.title) {
-      return res.status(400).json({ message: "Missing required fields in payload" });
-    }
+    console.log("printing now===========>",payload);
 
     // ✅ Determine action type and trigger appropriate notifications
     if (action === "job_posted") {
@@ -83,7 +83,7 @@ const sendNotificationToCandidate = async (candidateId, message, relatedJobId) =
 // ✅ Notify recruiter when a candidate applies for a job
 const notifyRecruiterForNewApplication = async (payload) => {
   try {
-    console.log("printing now notifyRecruiterForNewApplication===========>",payload);
+
     if (!payload.recruiterId) {
       console.log("Recruiter ID is missing in payload.");
       return;

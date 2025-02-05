@@ -3,6 +3,7 @@ import axios from "axios";
 import "./chatbot.css";
 import { PORT_CLIENT } from "../../commonClient";
 import { getChatResponse } from "../../services/api";
+import { motion } from "framer-motion";
 import { useLenis } from "@studio-freight/react-lenis";
 
 export const ChatBot = () => {
@@ -21,7 +22,7 @@ export const ChatBot = () => {
 
   useEffect(() => {
     const chatContainer = document.querySelector(".chatbot-container");
-  
+
     if (chatContainer) {
       chatContainer.addEventListener(
         "wheel",
@@ -31,9 +32,11 @@ export const ChatBot = () => {
         { passive: false }
       );
     }
-  
+
     return () => {
-      chatContainer?.removeEventListener("wheel", (event) => event.stopPropagation());
+      chatContainer?.removeEventListener("wheel", (event) =>
+        event.stopPropagation()
+      );
     };
   }, []);
 
@@ -162,7 +165,9 @@ export const ChatBot = () => {
 
       {/* Chatbot UI */}
       {isOpen && (
-        <div
+        <motion.div
+          draggable
+          drag
           className={`chatbot-window fixed bottom-[0.1rem] right-4 w-[25rem] bg-white rounded-lg shadow-lg z-[1000] p-2
       transition-all duration-500 transform ${
         isOpen ? "chatbot-reveal" : "hidden"
@@ -260,7 +265,7 @@ export const ChatBot = () => {
               Send
             </button>
           </div>
-        </div>
+        </motion.div>
       )}
     </>
   );

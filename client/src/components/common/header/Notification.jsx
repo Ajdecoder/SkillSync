@@ -22,6 +22,7 @@ const NotificationButton = () => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowNotifications(false);
       }
+      console.log(notifications);
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -44,6 +45,7 @@ const NotificationButton = () => {
       console.error("Error marking notification as read:", error);
     }
   };
+  
 
   return (
     <div className="relative">
@@ -62,7 +64,8 @@ const NotificationButton = () => {
       {showNotifications && (
         <div
           ref={dropdownRef}
-          className="absolute bg-white shadow-lg rounded-md w-[18rem] top-12 right-[-7rem] p-4 max-h-[22rem] overflow-auto z-10 border border-gray-300"
+          className="absolute bg-white shadow-lg rounded-md w-[18rem] top-12 right-[-7rem] p-4 max-h-[22rem] overflow-auto z-10 border border-gray-300 scroll-smooth"
+          onWheel={(e)=> e.stopPropagation()}
         >
           {notifications.length > 0 ? (
             <>
