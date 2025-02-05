@@ -60,17 +60,31 @@ const OpportunityConnectPage = () => {
   const handleJobApply = async () => {
     if (!userId || !companyData?._id) return;
 
-    try {
-      setLoadingApply(true);
-      await ApplyToOpportunity(userId, companyData._id);
-      setUserHasApplied(true);
+      try {
+        setLoadingApply(true);
 
-      // Set toast message on successful application
-      setToastMessage("Application submitted successfully!");
-      setToastType("success");
-    } catch (err) {
-      console.error("Error applying to the job:", err);
-      setError("There was an error applying to the opportunity.");
+        // Construct the payload  
+        const payload = {
+          action: "job_applied",
+          payload: {
+            userId,
+            opportunityId: companyData._id,
+            recruiterId: "677c11ad2ae876e568b0123d",
+          },
+        };
+
+        // Check if payload is properly formed
+        console.log("Payload:", payload);
+
+        await ApplyToOpportunity(payload);
+        setUserHasApplied(true);
+
+        // Set toast message on successful application
+        setToastMessage("Application submitted successfully!");
+        setToastType("success");
+      } catch (err) {
+        console.error("Error applying to the job:", err);
+        setError("There was an error applying to the opportunity.");
 
       // Show error toast
       setToastMessage("Failed to apply for the job.");
@@ -95,7 +109,7 @@ const OpportunityConnectPage = () => {
         (candidateId) => candidateId !== userId
       );
       companyData.candidatesApplied = updatedCandidates;
-      setShowRevertModal(false)
+      setShowRevertModal(false);
     } catch (err) {
       console.error("Error reverting application:", err);
       setToastMessage("Failed to revert the application.");
@@ -132,7 +146,7 @@ const OpportunityConnectPage = () => {
     company_website,
     candidatesApplied,
     _id,
-    recruiterDetails ,
+    recruiterDetails,
   } = companyData;
 
   console.log(companyData);
@@ -282,7 +296,8 @@ const OpportunityConnectPage = () => {
                 </div>
                 <div className="flex items-center gap-2">
                   <FiDollarSign className="text-cyan-400" />
-                  <span>{salaryRange}</span>
+                  <span>{salaryRange?.maxSalary}</span>
+                  <span>{salaryRange?.minSalary}</span>
                 </div>
               </div>
             </div>
@@ -319,214 +334,212 @@ const OpportunityConnectPage = () => {
             )}
           </AnimatePresence>
 
-            {/* Show More Content */}
-            <motion.div>
-              {showMore && (
+          {/* Show More Content */}
+          <motion.div>
+            {showMore && (
+              <motion.div
+                animate={{
+                  height: "auto",
+                  transition: { duration: 0.4, ease: "easeInOut" },
+                }}
+                exit={{ opacity: 1, height: 0 }}
+                className="overflow-hidden space-y-8 pt-6"
+              >
+                {/* Company Overview */}
                 <motion.div
-                  animate={{
-                    height: "auto",
-                    transition: { duration: 0.4, ease: "easeInOut" },
-                  }}
-                  exit={{ opacity: 1, height: 0 }}
-                  className="overflow-hidden space-y-8 pt-6"
+                  variants={itemVariants}
+                  className="p-6 bg-gray-700/20 rounded-xl"
                 >
-                  {/* Company Overview */}
-                  <motion.div
-                    variants={itemVariants}
-                    className="p-6 bg-gray-700/20 rounded-xl"
-                  >
-                    <h3 className="text-xl font-semibold text-emerald-400 mb-4">
-                      Company Overview
-                    </h3>
-                    <div className="space-y-3 text-gray-300">
-                      <p>
-                        <strong className="text-cyan-400">Name:</strong>{" "}
-                        {recruiterDetails?.companyOverview?.name || "N/A"}
-                      </p>
-                      <p>
-                        <strong className="text-cyan-400">Description:</strong>{" "}
-                        {recruiterDetails?.companyOverview?.description ||
-                          "No description available"}
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <FiGlobe className="text-cyan-400" />
-                        <a
-                          href={recruiterDetails?.companyOverview?.website}
-                          target="_blank"
-                          className="hover:text-emerald-400 transition-colors"
-                        >
-                          {recruiterDetails?.companyOverview?.website || "N/A"}
-                        </a>
-                      </div>
-                    </div>
-                  </motion.div>
-
-                  {/* Company Location */}
-                  <motion.div
-                    variants={itemVariants}
-                    className="p-6 bg-gray-700/20 rounded-xl"
-                  >
-                    <h3 className="text-xl font-semibold text-emerald-400 mb-4">
-                      Company Location
-                    </h3>
-                    <div className="flex items-center gap-2 text-gray-300">
+                  <h3 className="text-xl font-semibold text-emerald-400 mb-4">
+                    Company Overview
+                  </h3>
+                  <div className="space-y-3 text-gray-300">
+                    <p>
+                      <strong className="text-cyan-400">Name:</strong>{" "}
+                      {recruiterDetails?.companyOverview?.name || "N/A"}
+                    </p>
+                    <p>
+                      <strong className="text-cyan-400">Description:</strong>{" "}
+                      {recruiterDetails?.companyOverview?.description ||
+                        "No description available"}
+                    </p>
+                    <div className="flex items-center gap-2">
                       <FiGlobe className="text-cyan-400" />
-                      <p>
-                        {companyData?.location || "No location provided" }
-                      </p>
-                    </div>
-                  </motion.div>
-
-                  {/* Recruitment Process */}
-                  <motion.div
-                    variants={itemVariants}
-                    className="p-6 bg-gray-700/20 rounded-xl"
-                  >
-                    <h3 className="text-xl font-semibold text-emerald-400 mb-4">
-                      Recruitment Process
-                    </h3>
-                    <div className="space-y-4 text-gray-300">
-                      <motion.div
-                        className="space-y-2"
-                        initial="hidden"
-                        animate="visible"
-                        transition={{ staggerChildren: 0.1 }}
+                      <a
+                        href={recruiterDetails?.companyOverview?.website}
+                        target="_blank"
+                        className="hover:text-emerald-400 transition-colors"
                       >
-                        <motion.p variants={itemVariants}>
-                          <strong className="text-cyan-400">Description:</strong>{" "}
-                          {recruiterDetails?.recruitmentProcess?.description || "No description provided" }
-                        </motion.p>
-                        <motion.p variants={itemVariants}>
-                          <strong className="text-cyan-400">Timeline:</strong>{" "}
-                          {recruiterDetails?.recruitmentProcess?.timeline || "No timeline provided"}
-                        </motion.p>
-                        <motion.p variants={itemVariants}>
-                          <strong className="text-cyan-400">
-                            Interview Stages:
-                          </strong>{" "}
-                          {recruiterDetails?.recruitmentProcess?.interviewStages?.join(
-                            ", "
-                          ) || "No interview stages provided"}
-                        </motion.p>
-                        <motion.p variants={itemVariants}>
-                          <strong className="text-cyan-400">
-                            Assessment Types:
-                          </strong>{" "}
-                          {recruiterDetails?.recruitmentProcess?.assessmentTypes?.join(
-                            ", "
-                          ) || "No assessment types provided"}
-                        </motion.p>
-                        <motion.p variants={itemVariants}>
-                          <strong className="text-cyan-400">
-                            Application Review:
-                          </strong>{" "}
-                          {
-                            recruiterDetails?.recruitmentProcess
-                              ?.applicationReview
-                        || "No application review"}
-                        </motion.p>
-                      </motion.div>
+                        {recruiterDetails?.companyOverview?.website || "N/A"}
+                      </a>
                     </div>
-                  </motion.div>
+                  </div>
+                </motion.div>
 
-                  {/* Past Hires */}
-                  <motion.div
-                    variants={itemVariants}
-                    className="p-6 bg-gray-700/20 rounded-xl"
-                  >
-                    <h3 className="text-xl font-semibold text-emerald-400 mb-4">
-                      Past Hires
-                    </h3>
-                    <motion.ul
-                      className="space-y-3 text-gray-300"
+                {/* Company Location */}
+                <motion.div
+                  variants={itemVariants}
+                  className="p-6 bg-gray-700/20 rounded-xl"
+                >
+                  <h3 className="text-xl font-semibold text-emerald-400 mb-4">
+                    Company Location
+                  </h3>
+                  <div className="flex items-center gap-2 text-gray-300">
+                    <FiGlobe className="text-cyan-400" />
+                    <p>{companyData?.location || "No location provided"}</p>
+                  </div>
+                </motion.div>
+
+                {/* Recruitment Process */}
+                <motion.div
+                  variants={itemVariants}
+                  className="p-6 bg-gray-700/20 rounded-xl"
+                >
+                  <h3 className="text-xl font-semibold text-emerald-400 mb-4">
+                    Recruitment Process
+                  </h3>
+                  <div className="space-y-4 text-gray-300">
+                    <motion.div
+                      className="space-y-2"
                       initial="hidden"
                       animate="visible"
                       transition={{ staggerChildren: 0.1 }}
                     >
-                      {recruiterDetails?.pastHires?.length > 0 ? (
-                        recruiterDetails.pastHires.map((hire, index) => (
-                          <motion.li
-                            key={index}
-                            variants={itemVariants}
-                            className="flex items-center gap-2"
-                          >
-                            <FiUsers className="text-cyan-400" />
-                            <span>
-                              {hire.name || "NA" } - {hire.position || "NA" }
-                            </span>
-                          </motion.li>
-                        ))
-                      ) : (
-                        <motion.p
-                          variants={itemVariants}
-                          className="text-gray-400"
-                        >
-                          No past hires available
-                        </motion.p>
-                      )}
-                    </motion.ul>
-                  </motion.div>
-
-                  {/* Team Members */}
-                  <motion.div
-                    variants={itemVariants}
-                    className="p-6 bg-gray-700/20 rounded-xl"
-                  >
-                    <h3 className="text-xl font-semibold text-emerald-400 mb-4">
-                      Team Members
-                    </h3>
-                    <motion.div
-                      className="grid grid-cols-1 md:grid-cols-2 gap-4"
-                      transition={{ staggerChildren: 0.1 }}
-                    >
-                      {recruiterDetails?.teamMembers?.length > 0 ? (
-                        recruiterDetails.teamMembers.map((member, index) => (
-                          <motion.div
-                            key={index}
-                            variants={itemVariants}
-                            className="p-4 bg-gray-700/30 rounded-lg"
-                          >
-                            <p className="text-cyan-400 font-medium">
-                              {member.name }
-                            </p>
-                            <p className="text-gray-400 text-sm">
-                              {member.teamMemberRole}
-                            </p>
-                            <div className="mt-2 flex gap-3 text-sm">
-                              {member.github && (
-                                <a
-                                  href={member.github}
-                                  target="_blank"
-                                  className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300"
-                                >
-                                  <FiGlobe /> GitHub
-                                </a>
-                              )}
-                              {member.linkedIn && (
-                                <a
-                                  href={member.linkedIn}
-                                  target="_blank"
-                                  className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300"
-                                >
-                                  <FiGlobe /> LinkedIn
-                                </a>
-                              )}
-                            </div>
-                          </motion.div>
-                        ))
-                      ) : (
-                        <motion.p
-                          variants={itemVariants}
-                          className="text-gray-400"
-                        >
-                          No team members available
-                        </motion.p>
-                      )}
+                      <motion.p variants={itemVariants}>
+                        <strong className="text-cyan-400">Description:</strong>{" "}
+                        {recruiterDetails?.recruitmentProcess?.description ||
+                          "No description provided"}
+                      </motion.p>
+                      <motion.p variants={itemVariants}>
+                        <strong className="text-cyan-400">Timeline:</strong>{" "}
+                        {recruiterDetails?.recruitmentProcess?.timeline ||
+                          "No timeline provided"}
+                      </motion.p>
+                      <motion.p variants={itemVariants}>
+                        <strong className="text-cyan-400">
+                          Interview Stages:
+                        </strong>{" "}
+                        {recruiterDetails?.recruitmentProcess?.interviewStages?.join(
+                          ", "
+                        ) || "No interview stages provided"}
+                      </motion.p>
+                      <motion.p variants={itemVariants}>
+                        <strong className="text-cyan-400">
+                          Assessment Types:
+                        </strong>{" "}
+                        {recruiterDetails?.recruitmentProcess?.assessmentTypes?.join(
+                          ", "
+                        ) || "No assessment types provided"}
+                      </motion.p>
+                      <motion.p variants={itemVariants}>
+                        <strong className="text-cyan-400">
+                          Application Review:
+                        </strong>{" "}
+                        {recruiterDetails?.recruitmentProcess
+                          ?.applicationReview || "No application review"}
+                      </motion.p>
                     </motion.div>
+                  </div>
+                </motion.div>
+
+                {/* Past Hires */}
+                <motion.div
+                  variants={itemVariants}
+                  className="p-6 bg-gray-700/20 rounded-xl"
+                >
+                  <h3 className="text-xl font-semibold text-emerald-400 mb-4">
+                    Past Hires
+                  </h3>
+                  <motion.ul
+                    className="space-y-3 text-gray-300"
+                    initial="hidden"
+                    animate="visible"
+                    transition={{ staggerChildren: 0.1 }}
+                  >
+                    {recruiterDetails?.pastHires?.length > 0 ? (
+                      recruiterDetails.pastHires.map((hire, index) => (
+                        <motion.li
+                          key={index}
+                          variants={itemVariants}
+                          className="flex items-center gap-2"
+                        >
+                          <FiUsers className="text-cyan-400" />
+                          <span>
+                            {hire.name || "NA"} - {hire.position || "NA"}
+                          </span>
+                        </motion.li>
+                      ))
+                    ) : (
+                      <motion.p
+                        variants={itemVariants}
+                        className="text-gray-400"
+                      >
+                        No past hires available
+                      </motion.p>
+                    )}
+                  </motion.ul>
+                </motion.div>
+
+                {/* Team Members */}
+                <motion.div
+                  variants={itemVariants}
+                  className="p-6 bg-gray-700/20 rounded-xl"
+                >
+                  <h3 className="text-xl font-semibold text-emerald-400 mb-4">
+                    Team Members
+                  </h3>
+                  <motion.div
+                    className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                    transition={{ staggerChildren: 0.1 }}
+                  >
+                    {recruiterDetails?.teamMembers?.length > 0 ? (
+                      recruiterDetails.teamMembers.map((member, index) => (
+                        <motion.div
+                          key={index}
+                          variants={itemVariants}
+                          className="p-4 bg-gray-700/30 rounded-lg"
+                        >
+                          <p className="text-cyan-400 font-medium">
+                            {member.name}
+                          </p>
+                          <p className="text-gray-400 text-sm">
+                            {member.teamMemberRole}
+                          </p>
+                          <div className="mt-2 flex gap-3 text-sm">
+                            {member.github && (
+                              <a
+                                href={member.github}
+                                target="_blank"
+                                className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300"
+                              >
+                                <FiGlobe /> GitHub
+                              </a>
+                            )}
+                            {member.linkedIn && (
+                              <a
+                                href={member.linkedIn}
+                                target="_blank"
+                                className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300"
+                              >
+                                <FiGlobe /> LinkedIn
+                              </a>
+                            )}
+                          </div>
+                        </motion.div>
+                      ))
+                    ) : (
+                      <motion.p
+                        variants={itemVariants}
+                        className="text-gray-400"
+                      >
+                        No team members available
+                      </motion.p>
+                    )}
                   </motion.div>
                 </motion.div>
-              )}
-            </motion.div>
+              </motion.div>
+            )}
+          </motion.div>
 
           {/* Show More Button */}
           <motion.button

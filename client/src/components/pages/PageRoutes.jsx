@@ -47,7 +47,7 @@ export const RoutesConfig = ({ spin, setSpin }) => [
   <Route
     key="hire-talent"
     path="/requirements/hire-talent"
-    element={<TalentsCard />}
+    element={<HireResources />}
   />,
   <Route
     key="listed-opportunity"

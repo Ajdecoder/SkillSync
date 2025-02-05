@@ -16,6 +16,7 @@ export const ViewCandidateInfo = () => {
         const { data } = await getUserProfileById(candidateid);
         setCandidate(data.profile);
         setLoading(false);
+        console.log(candidate);
       } catch (error) {
         console.error("Error fetching requirement details:", error);
         setLoading(false);

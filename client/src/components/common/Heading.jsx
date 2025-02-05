@@ -3,7 +3,7 @@ import React from "react";
 const Heading = ({ title, subtitle, subtitleClassName, titleClassName }) => {
   return (
     <>
-      <main className="heading p-4">
+      <main className="heading">
         <h1 className={`heading tracking-tighter ${titleClassName} `}>
           {title}
         </h1>

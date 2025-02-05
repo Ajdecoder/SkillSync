@@ -5,7 +5,16 @@ import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
 import useFetchData from "../../hooks/useGetDataFetch";
 import { motion } from "framer-motion";
-import { FiArrowRight, FiGlobe, FiMail, FiPhone, FiDollarSign, FiUsers, FiCalendar } from "react-icons/fi";
+import {
+  FiArrowRight,
+  FiGlobe,
+  FiMail,
+  FiPhone,
+  FiDollarSign,
+  FiUsers,
+  FiCalendar,
+} from "react-icons/fi";
+import { Spinner } from "../../common/loadingSpinner/spinner";
 
 export const SavedOpportunity = () => {
   const { loggedInUser } = useAuth();
@@ -23,7 +32,7 @@ export const SavedOpportunity = () => {
   }, [data]);
 
   if (loading) {
-    return <div className="text-center text-gray-500">Loading...</div>;
+    <Spinner />;
   }
 
   if (error) {
@@ -31,7 +40,11 @@ export const SavedOpportunity = () => {
   }
 
   if (!loggedInUser) {
-    return <div className="text-center text-gray-500">Please log in to view saved opportunities</div>;
+    return (
+      <div className="text-center text-gray-500">
+        Please log in to view saved opportunities
+      </div>
+    );
   }
 
   const handleConnectClick = (opportunity) => {
@@ -41,20 +54,20 @@ export const SavedOpportunity = () => {
 
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { 
-        type: "spring", 
+      transition: {
+        type: "spring",
         stiffness: 100,
-        damping: 10
-      }
-    }
+        damping: 10,
+      },
+    },
   };
 
   const itemVariants = {
     hidden: { opacity: 0, x: -10 },
-    visible: { opacity: 1, x: 0 }
+    visible: { opacity: 1, x: 0 },
   };
 
   return (
@@ -76,8 +89,8 @@ export const SavedOpportunity = () => {
         } = opportunity;
 
         // Fix website URL formatting
-        const websiteUrl = company_website.startsWith('http') 
-          ? company_website 
+        const websiteUrl = company_website.startsWith("http")
+          ? company_website
           : `http://${company_website}`;
 
         return (
@@ -90,7 +103,7 @@ export const SavedOpportunity = () => {
             whileHover={{ y: -5 }}
           >
             <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            
+
             <div className="relative space-y-4">
               {/* Header Section */}
               <motion.div variants={itemVariants}>
@@ -111,17 +124,36 @@ export const SavedOpportunity = () => {
               </motion.div>
 
               {/* Metadata Grid */}
-              <motion.div 
+              <motion.div
                 className="grid grid-cols-2 md:grid-cols-3 gap-4"
                 variants={itemVariants}
                 transition={{ staggerChildren: 0.1 }}
               >
                 {[
                   { icon: <FiUsers />, value: candidatesApplied.length },
-                  { icon: <FiDollarSign />, value: salaryRange },
-                  { icon: <FiCalendar />, value: new Date(createdAt).toLocaleDateString() },
+                  {
+                    icon: <FiDollarSign />,
+                    value: (
+                      <span>
+                        {salaryRange?.minSalary && (
+                          <span>
+                            {(salaryRange?.minSalary / 1000).toFixed(1)}k -{" "}
+                          </span>
+                        )}
+                        {salaryRange?.maxSalary && (
+                          <span>
+                            {(salaryRange?.maxSalary / 1000).toFixed(1)}k
+                          </span>
+                        )}
+                      </span>
+                    ),
+                  },
+                  {
+                    icon: <FiCalendar />,
+                    value: new Date(createdAt).toLocaleDateString(),
+                  },
                 ].map((item, idx) => (
-                  <motion.div 
+                  <motion.div
                     key={idx}
                     className="flex flex-col items-center gap-1"
                     variants={itemVariants}
@@ -133,16 +165,17 @@ export const SavedOpportunity = () => {
               </motion.div>
 
               {/* Description */}
-              <motion.p 
+              <motion.p
                 className="text-gray-400 leading-relaxed"
                 variants={itemVariants}
               >
-                {desc_requirement?.substring(0, 200) + "..." || "No description provided"}
+                {desc_requirement?.substring(0, 200) + "..." ||
+                  "No description provided"}
               </motion.p>
 
               {/* Skills */}
               {skills && skills.length > 0 && (
-                <motion.div 
+                <motion.div
                   className="flex flex-wrap gap-2"
                   variants={itemVariants}
                 >
@@ -159,13 +192,16 @@ export const SavedOpportunity = () => {
               )}
 
               {/* Contact Info */}
-              <motion.div 
+              <motion.div
                 className="pt-4 border-t border-gray-800 space-y-2"
                 variants={itemVariants}
               >
                 <div className="flex items-center gap-2">
                   <FiMail className="text-cyan-400" />
-                  <a href={`mailto:${email}`} className="text-cyan-400 hover:text-cyan-300">
+                  <a
+                    href={`mailto:${email}`}
+                    className="text-cyan-400 hover:text-cyan-300"
+                  >
                     {email}
                   </a>
                 </div>
@@ -176,10 +212,7 @@ export const SavedOpportunity = () => {
               </motion.div>
 
               {/* Connect Button */}
-              <motion.div 
-                className="pt-6"
-                variants={itemVariants}
-              >
+              <motion.div className="pt-6" variants={itemVariants}>
                 <motion.button
                   onClick={() => handleConnectClick(opportunity)}
                   className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-lg hover:from-emerald-600 hover:to-cyan-600 transition-all"

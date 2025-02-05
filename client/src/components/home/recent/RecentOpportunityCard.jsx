@@ -64,7 +64,7 @@ const RecentOpportunity = ({ handleConnectClick, addedOpportunities }) => {
     }
 
     // Filter by salary range (optional if required)
-    if (filters.salaryRange) {
+    if (filters?.salaryRange) {
       // You can implement a specific salary range filter logic here if needed
     }
 
