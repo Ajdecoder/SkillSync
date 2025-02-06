@@ -1,24 +1,32 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { FiArrowRight, FiGlobe, FiMail, FiPhone, FiDollarSign, FiUsers, FiCalendar } from "react-icons/fi";
+import {
+  FiArrowRight,
+  FiGlobe,
+  FiMail,
+  FiPhone,
+  FiDollarSign,
+  FiUsers,
+  FiCalendar,
+} from "react-icons/fi";
 
 const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { 
-        type: "spring", 
+      transition: {
+        type: "spring",
         stiffness: 100,
-        damping: 10
-      }
-    }
+        damping: 10,
+      },
+    },
   };
 
   const itemVariants = {
     hidden: { opacity: 0, x: -10 },
-    visible: { opacity: 1, x: 0 }
+    visible: { opacity: 1, x: 0 },
   };
 
   const {
@@ -46,7 +54,7 @@ const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
     >
       {/* Glow effect */}
       <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      
+
       <div className="relative space-y-4">
         {/* Header Section */}
         <motion.div variants={itemVariants}>
@@ -68,51 +76,48 @@ const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
 
         {/* Metadata Grid */}
         <motion.div
-  className="grid grid-cols-2 md:grid-cols-3 gap-4"
-  variants={itemVariants}
-  transition={{ delayChildren: 0.2, staggerChildren: 0.1 }}
->
-  <div className="flex flex-col items-center gap-2">
-    <FiUsers className="text-emerald-400" />
-    <span className="text-gray-300">{candidatesApplied.length}</span>
-  </div>
+          className="grid grid-cols-2 md:grid-cols-3 gap-4"
+          variants={itemVariants}
+          transition={{ delayChildren: 0.2, staggerChildren: 0.1 }}
+        >
+          <div className="flex flex-col items-center gap-2">
+            <FiUsers className="text-emerald-400" />
+            <span className="text-gray-300">{candidatesApplied.length}</span>
+          </div>
 
-  <div className="flex flex-col items-center gap-2">
-    <FiDollarSign className="text-emerald-400" />
-    <div className="flex items-center gap-1">
-      <span className="text-gray-300">
-        {(salaryRange?.minSalary / 1000).toFixed(1)}k
-      </span>
-      <span className="text-gray-300">-</span>
-      <span className="text-gray-300">
-        {(salaryRange?.maxSalary / 1000).toFixed(1)}k
-      </span>
-    </div>
-  </div>
+          <div className="flex flex-col items-center gap-2">
+            <FiDollarSign className="text-emerald-400" />
+            <div className="flex items-center gap-1">
+              <span className="text-gray-300">
+                {(salaryRange?.minSalary / 1000).toFixed(1)}k
+              </span>
+              <span className="text-gray-300">-</span>
+              <span className="text-gray-300">
+                {(salaryRange?.maxSalary / 1000).toFixed(1)}k
+              </span>
+            </div>
+          </div>
 
-  <div className="flex flex-col items-center gap-2">
-    <FiCalendar className="text-emerald-400" />
-    <span className="text-gray-300">
-      {new Date(createdAt).toLocaleDateString()}
-    </span>
-  </div>
-</motion.div>
-
+          <div className="flex flex-col items-center gap-2">
+            <FiCalendar className="text-emerald-400" />
+            <span className="text-gray-300">
+              {new Date(createdAt).toLocaleDateString()}
+            </span>
+          </div>
+        </motion.div>
 
         {/* Description */}
-        <motion.p 
+        <motion.p
           className="text-gray-400 leading-relaxed"
           variants={itemVariants}
         >
-          {desc_requirement?.substring(0, 200) + "..." || "No description provided"}
+          {desc_requirement?.substring(0, 200) + "..." ||
+            "No description provided"}
         </motion.p>
 
         {/* Skills */}
         {skills && skills.length > 0 && (
-          <motion.div 
-            className="flex flex-wrap gap-2"
-            variants={itemVariants}
-          >
+          <motion.div className="flex flex-wrap gap-2" variants={itemVariants}>
             {skills.map((skill, index) => (
               <motion.span
                 key={index}
@@ -128,13 +133,16 @@ const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
         )}
 
         {/* Contact Info */}
-        <motion.div 
+        <motion.div
           className="pt-4 border-t border-gray-800 space-y-2"
           variants={itemVariants}
         >
           <div className="flex items-center gap-2">
             <FiMail className="text-cyan-400" />
-            <a href={`mailto:${email}`} className="text-cyan-400 hover:text-cyan-300">
+            <a
+              href={`mailto:${email}`}
+              className="text-cyan-400 hover:text-cyan-300"
+            >
               {email}
             </a>
           </div>
@@ -145,10 +153,7 @@ const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
         </motion.div>
 
         {/* Connect Button */}
-        <motion.div 
-          className="pt-6"
-          variants={itemVariants}
-        >
+        <motion.div className="pt-6" variants={itemVariants}>
           <motion.button
             onClick={onConnectClick}
             className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-lg hover:from-emerald-600 hover:to-cyan-600 transition-all"

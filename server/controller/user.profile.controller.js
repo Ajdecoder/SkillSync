@@ -33,13 +33,17 @@ export const getUserProfileById = async (req, res) => {
     const { id } = req.params;
 
     // Check candidate profile
-    const candidateProfile = await CandidateUserProfile.findById(id).populate("candidateInfo");
+    const candidateProfile = await CandidateUserProfile.findById(id).populate(
+      "candidateInfo"
+    );
     if (candidateProfile) {
       return res.status(200).json({ profile: candidateProfile });
     }
 
     // Check recruiter profile
-    const recruiterProfile = await RecruiterUserProfile.findById(id).populate("recruiterInfo");
+    const recruiterProfile = await RecruiterUserProfile.findById(id).populate(
+      "recruiterInfo"
+    );
     if (recruiterProfile) {
       return res.status(200).json({ profile: recruiterProfile });
     }
@@ -48,7 +52,9 @@ export const getUserProfileById = async (req, res) => {
     return res.status(404).json({ message: "User profile not found" });
   } catch (error) {
     console.error("Error fetching user profile:", error);
-    return res.status(500).json({ message: "Error fetching user profile", error: error.message });
+    return res
+      .status(500)
+      .json({ message: "Error fetching user profile", error: error.message });
   }
 };
 
@@ -127,6 +133,75 @@ export const updateUserProfileByEmail = async (req, res) => {
     return res
       .status(500)
       .json({ message: "Error updating user profile", error: error.message });
+  }
+};
+
+/**
+ * Bookmark Opportunites
+ */
+
+export const bookmarkOpportunity = async (req, res) => {
+  try {
+    const { userId, post_id } = req.body;
+
+    // Find the user
+    const profile = await CandidateUserProfile.findById(userId);
+    if (!profile) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    // Check if the opportunity is already bookmarked
+    const isBookmarked = profile.bookmarks.includes(post_id);
+
+    if (isBookmarked) {
+      // Remove bookmark
+      profile.bookmarks = profile.bookmarks.filter(
+        (id) => id.toString() !== post_id
+      );
+    } else {
+      // Add bookmark
+      profile.bookmarks.push(post_id);
+    }
+
+    await profile.save();
+    res.status(200).json({ message: isBookmarked ? "Bookmark removed" : "Bookmark added", bookmarks: profile.bookmarks });
+  } catch (error) {
+    console.error("Error toggling bookmark:", error);
+    res.status(500).json({ message: "Error updating bookmarks." });
+  }
+
+};
+
+export const unbookmarkOpportunity = async (req, res) => {
+
+  try {
+    console.log(req.body);
+    const { userId, post_id } = req.body;
+    
+    console.log(userId, post_id);
+ 
+    const profile = await CandidateUserProfile.findById(userId);
+    if (!profile) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    // Remove the bookmarked opportunity
+    profile.bookmarks = profile.bookmarks.filter(
+      (bookmark) => bookmark.toString() !== post_id
+    );
+
+    // Save the updated profile
+    await profile.save();
+
+    res.status(200).json({
+      message: "Opportunity unbookmarked successfully",
+      bookmarks: profile.bookmarks,
+    });
+
+    console.log("Opportunity unbookmarked successfully");
+  } catch (error) {
+    console.error("Error unbookmarking opportunity:", error);
+    res.status(500).json({ message: "Error unbookmarking opportunity." });
   }
 };
 

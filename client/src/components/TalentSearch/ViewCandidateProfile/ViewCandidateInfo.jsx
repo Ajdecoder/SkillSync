@@ -3,12 +3,19 @@ import { useParams } from "react-router-dom";
 import { getUserProfileById } from "../../../services/api";
 import { motion } from "framer-motion";
 import { Spinner } from "../../common/loadingSpinner/spinner";
-import { FiGithub, FiGlobe, FiLinkedin, FiMail } from "react-icons/fi";
+import {
+  FiBookmark,
+  FiGithub,
+  FiGlobe,
+  FiLinkedin,
+  FiMail,
+} from "react-icons/fi";
 
 export const ViewCandidateInfo = () => {
   const { candidateid } = useParams();
   const [candidate, setCandidate] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [bookmark, setBookmark] = useState(false);
 
   useEffect(() => {
     const fetchCandidateProfile = async () => {
@@ -26,46 +33,50 @@ export const ViewCandidateInfo = () => {
     fetchCandidateProfile();
   }, [candidateid]);
 
+  const handleBookmarClick = () => {
+    setBookmark(!bookmark);
+  }
+
   if (loading) return <Spinner />;
 
   if (!candidate) return <div>No candidate data found.</div>;
 
-     // Helper Components
-const SectionWrapper = ({ title, children }) => (
-  <motion.div
-    initial={{ opacity: 0, y: 10 }}
-    animate={{ opacity: 1, y: 0 }}
-    className="mb-8"
-  >
-    <h2 className="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-sky-100 pb-2">
-      {title}
-    </h2>
-    {children}
-  </motion.div>
-);
+  // Helper Components
+  const SectionWrapper = ({ title, children }) => (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="mb-8"
+    >
+      <h2 className="text-2xl font-bold text-gray-800 mb-4 border-b-2 border-sky-100 pb-2">
+        {title}
+      </h2>
+      {children}
+    </motion.div>
+  );
 
-const TimelineItem = ({ title, subtitle, description, index }) => (
-  <motion.div
-    initial={{ opacity: 0, x: -20 }}
-    animate={{ opacity: 1, x: 0 }}
-    transition={{ delay: index * 0.1 }}
-    className="relative pl-8 pb-4 border-l-2 border-sky-200"
-  >
-    <div className="absolute w-4 h-4 bg-sky-500 rounded-full -left-[9px] top-0" />
-    <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
-    {subtitle && <p className="text-sm text-gray-600 mb-2">{subtitle}</p>}
-    {description && <p className="text-gray-600">{description}</p>}
-  </motion.div>
-);
+  const TimelineItem = ({ title, subtitle, description, index }) => (
+    <motion.div
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: index * 0.1 }}
+      className="relative pl-8 pb-4 border-l-2 border-sky-200"
+    >
+      <div className="absolute w-4 h-4 bg-sky-500 rounded-full -left-[9px] top-0" />
+      <h3 className="text-lg font-semibold text-gray-800">{title}</h3>
+      {subtitle && <p className="text-sm text-gray-600 mb-2">{subtitle}</p>}
+      {description && <p className="text-gray-600">{description}</p>}
+    </motion.div>
+  );
 
-const SocialIcon = ({ platform }) => {
-  const icons = {
-    linkedin: <FiLinkedin className="w-5 h-5 text-[#0A66C2]" />,
-    github: <FiGithub className="w-5 h-5 text-gray-800" />,
-    portfolio: <FiGlobe className="w-5 h-5 text-sky-600" />
+  const SocialIcon = ({ platform }) => {
+    const icons = {
+      linkedin: <FiLinkedin className="w-5 h-5 text-[#0A66C2]" />,
+      github: <FiGithub className="w-5 h-5 text-gray-800" />,
+      portfolio: <FiGlobe className="w-5 h-5 text-sky-600" />,
+    };
+    return icons[platform] || <FiGlobe className="w-5 h-5 text-gray-600" />;
   };
-  return icons[platform] || <FiGlobe className="w-5 h-5 text-gray-600" />;
-};
 
   return (
     <div className="mx-auto p-4 max-w-4xl">
@@ -85,6 +96,21 @@ const SocialIcon = ({ platform }) => {
             alt={`${candidate?.name}'s profile`}
             className="absolute -bottom-16 left-8 w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover"
           />
+
+          <motion.button
+            onClick={() => handleBookmarClick()}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            className="text-2xl m-5 p-2 float-end rounded-full hover:bg-gray-700/30 transition-colors"
+          >
+            <FiBookmark
+              className={`${
+                bookmark
+                  ? "fill-emerald-400 stroke-emerald-400"
+                  : "text-gray-400"
+              }`}
+            />
+          </motion.button>
         </div>
 
         <div className="pt-20 px-8 pb-8">
@@ -108,11 +134,11 @@ const SocialIcon = ({ platform }) => {
                   key={index}
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  transition={{ 
+                  transition={{
                     type: "spring",
                     stiffness: 260,
                     damping: 20,
-                    delay: index * 0.05
+                    delay: index * 0.05,
                   }}
                   className="px-4 py-1 bg-sky-100 text-sky-700 rounded-full text-sm font-medium"
                 >
@@ -153,26 +179,32 @@ const SocialIcon = ({ platform }) => {
             animate={{ opacity: 1 }}
             className="mt-8 p-6 bg-sky-50 rounded-xl"
           >
-            <h3 className="text-xl font-semibold text-gray-800 mb-4">Connect</h3>
+            <h3 className="text-xl font-semibold text-gray-800 mb-4">
+              Connect
+            </h3>
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2">
                 <FiMail className="w-5 h-5 text-gray-600" />
                 <span className="text-gray-700">{candidate?.email}</span>
               </div>
               <div className="flex gap-4 mt-2">
-                {Object.entries(candidate?.socialLinks || {}).map(([platform, url]) => (
-                  <motion.a
-                    key={platform}
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ y: -2 }}
-                    className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
-                  >
-                    <SocialIcon platform={platform} />
-                    <span className="capitalize text-gray-700">{platform}</span>
-                  </motion.a>
-                ))}
+                {Object.entries(candidate?.socialLinks || {}).map(
+                  ([platform, url]) => (
+                    <motion.a
+                      key={platform}
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ y: -2 }}
+                      className="flex items-center gap-2 px-4 py-2 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                    >
+                      <SocialIcon platform={platform} />
+                      <span className="capitalize text-gray-700">
+                        {platform}
+                      </span>
+                    </motion.a>
+                  )
+                )}
               </div>
             </div>
           </motion.div>

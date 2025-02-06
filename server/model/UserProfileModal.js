@@ -39,7 +39,6 @@ export const candidateProfileSchema = new mongoose.Schema(
         default: ["Web Development", "Programming"],
       },
       jobType: { type: String, default: "Full-Time" },
-      industry: { type: String, default: "General", enum: ["Technology", "Finance", "Healthcare", "Education"] },
       salaryRange: {
         min: { type: Number, default: 30000 },
         max: { type: Number, default: 100000 },
@@ -87,7 +86,7 @@ export const candidateProfileSchema = new mongoose.Schema(
     availabilityStatus: {
       type: String,
       default: "Closed",
-      enum: ["Closed", "Open"],
+      // enum: ["Closed", "Open"],    
     },
     resume: { type: String, default: "" },
     volunteerExperience: [
@@ -102,6 +101,7 @@ export const candidateProfileSchema = new mongoose.Schema(
       type: String,
       default: "Remote",
     },
+    bookmarks: []
   },
   { timestamps: true }
 );
@@ -254,6 +254,8 @@ export const recruiterProfileSchema = new mongoose.Schema(
         },
       ],
     },
-  },
+    bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: "AddOpportunity" }]
+  }
+  ,
   { timestamps: true }
 );

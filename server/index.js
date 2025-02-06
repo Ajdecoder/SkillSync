@@ -7,6 +7,7 @@ import companyRoutes from "./routes/company.Routes.js";
 import cookieParser from "cookie-parser";
 import chatBotRoutes from "./routes/chat.Routes.js";
 import UserProfileRoutes from "./routes/userProfile.Routes.js";
+import BookmarRoutes from "./routes/bookmark.Routes.js";
 
 dotenv.config();
 const app = express();
@@ -34,6 +35,8 @@ app.use("/api/user/profile", UserProfileRoutes);
 app.use("/api/requirements", companyRoutes);
 
 app.use("/api/chatbot/", chatBotRoutes);
+
+app.use("/api/bookmark", BookmarRoutes);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the homepage");

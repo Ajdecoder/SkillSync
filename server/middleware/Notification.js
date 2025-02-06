@@ -5,13 +5,10 @@ import Notification from "../model/notification.js";
 const notificationMiddleware = async (req, res, next) => {
   
 
-  console.log("printing req:-",req.body);
-
   try {
     // console.log("Printing req body =>", req.body);
     const { action, payload } = req.body;
 
-    console.log("printing now===========>",payload);
 
     // ✅ Determine action type and trigger appropriate notifications
     if (action === "job_posted") {
@@ -32,7 +29,6 @@ const notificationMiddleware = async (req, res, next) => {
 
 // ✅ Notify candidates when a new job is posted
 const notifyCandidatesForNewJob = async (payload) => {
-  console.log("printing notifyCandidatesForNewJob now payload===========>",payload);
   try {
     if (!Array.isArray(payload.skills)) {
       throw new Error("Invalid skills format in payload");
