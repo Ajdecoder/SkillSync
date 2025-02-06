@@ -1,6 +1,6 @@
 import {
   OpportunityCollection,
-  
+  Bookmars
 } from "../db/database.js";
 
 export const addOpportunity = async (req, res) => {
@@ -124,51 +124,6 @@ export const deleteOpportunity = async (req, res) => {
   }
 }
 
-export const bookmarkOpportunity = async (req, res) => {
-  try {
-    const userId = req.params.userId;
-    const opportunityId = req.params.opportunityId;
-    const { bookmarkedOpportunities } = req.body;
-    bookmarkedOpportunities.push(opportunityId);
-    const updatedUser = await UserCollection.findByIdAndUpdate(
-      userId,
-      { bookmarkedOpportunities },
-      { new: true }
-    );
-    if (!updatedUser) {
-      return res.status(404).json({ message: "User not found." });
-    }
-    res.status(200).json(updatedUser);
-    console.log("Opportunity bookmarked successfully");
-    } catch (error) {
-    console.error("Error bookmarking opportunity:", error);
-    res.status(500).json({ message: "Error bookmarking opportunity." });
-    }
-}
-
-export const unbookmarkOpportunity = async (req, res) => {
-  try {
-    const userId = req.params.userId;
-    const opportunityId = req.params.opportunityId;
-    const { bookmarkedOpportunities } = req.body;
-    const updatedBookmarks = bookmarkedOpportunities.filter(
-      (bookmark) => bookmark !== opportunityId
-    );
-    const updatedUser = await UserCollection.findByIdAndUpdate(
-      userId,
-      { bookmarkedOpportunities: updatedBookmarks },
-      { new: true }
-    );
-    if (!updatedUser) {
-      return res.status(404).json({ message: "User not found." });
-    }
-    res.status(200).json(updatedUser);
-    console.log("Opportunity unbookmarked successfully");
-    } catch (error) {
-    console.error("Error unbookmarking opportunity:", error);
-    res.status(500).json({ message: "Error unbookmarking opportunity." });
-    }
-}
 
 
 

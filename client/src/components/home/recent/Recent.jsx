@@ -30,7 +30,6 @@ const Recent = ({filterCategory,filteredProgrammers,programmers}) => {
     const fetchCandidates = async () => {
       try {
         const { data } = await getAllCandidateProfiles();
-        console.log(data);
         setTalents(data.candidates || []);
         setTalentsLoading(false)
       } catch (error) {

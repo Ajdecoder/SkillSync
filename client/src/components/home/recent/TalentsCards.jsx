@@ -2,11 +2,22 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FiArrowRight, FiBriefcase, FiMapPin, FiStar } from "react-icons/fi";
 import { getAllCandidateProfiles } from "../../../services/api";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { OpportunitiesFilter } from "../../common/Filters/OpportunitiesFilter";
+import { filterData } from "../../data/Data";
 
 const TalentsCard = ({ bgColor }) => {
   const [talents, setTalents] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const [programmers, setProgrammers] = useState([]);
+
+  const [filterCategory, setFilterCategory] = useState({
+    selectedCity: "",
+    selectedExpertType: "",
+    selectedPriceRange: "",
+  });
 
   useEffect(() => {
     const fetchCandidates = async () => {
@@ -22,14 +33,15 @@ const TalentsCard = ({ bgColor }) => {
 
   // Experience formatting helper
   const formatExperience = (experience) => {
-    if (!Array.isArray(experience) || experience.length === 0) return 'Fresher';
+    if (!Array.isArray(experience) || experience.length === 0) return "Fresher";
     const latestExperience = experience[0];
     return `${latestExperience.jobRole} (${latestExperience.duration})`;
   };
 
   // Skill display helper
   const renderSkill = (skill) => {
-    if (typeof skill === 'object') return skill.skillName || skill.name || 'Unknown Skill';
+    if (typeof skill === "object")
+      return skill.skillName || skill.name || "Unknown Skill";
     return skill;
   };
 
@@ -46,19 +58,19 @@ const TalentsCard = ({ bgColor }) => {
   // Animation variants
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { duration: 0.4, ease: "easeOut" }
-    }
+      transition: { duration: 0.4, ease: "easeOut" },
+    },
   };
 
   const staggerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.1 }
-    }
+      transition: { staggerChildren: 0.1 },
+    },
   };
 
   return (
@@ -69,6 +81,15 @@ const TalentsCard = ({ bgColor }) => {
         initial="hidden"
         animate="visible"
       >
+        {location.pathname !== "/" && (
+          <OpportunitiesFilter
+            filterCategory={filterCategory}
+            setFilterCategory={setFilterCategory}
+            filterData={filterData}
+            programmers={programmers}
+            setProgrammers={setProgrammers}
+          />
+        )}
         {talents.map((candidate) => (
           <motion.div
             key={candidate?._id}
@@ -77,10 +98,9 @@ const TalentsCard = ({ bgColor }) => {
             whileHover={{ y: -5 }}
           >
             <div className="absolute inset-0 bg-gradient-to-br from-red-500 to-violet-600 opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-xl" />
-            
+
             {/* Card Content */}
             <div className="border border-gray-200/20 rounded-xl shadow-2xl overflow-hidden flex flex-col p-6 bg-gradient-to-br from-gray-900 to-gray-800 h-full">
-              
               {/* Profile Image Section */}
               <motion.div
                 className="relative mx-auto mb-4"
@@ -91,7 +111,7 @@ const TalentsCard = ({ bgColor }) => {
                   alt={`${candidate?.name}'s profile`}
                   className="rounded-full w-28 h-28 object-cover border-4 border-emerald-400/20 hover:border-emerald-400/40 transition-all"
                   onError={(e) => {
-                    e.target.src = '/default-profile.png';
+                    e.target.src = "/default-profile.png";
                   }}
                 />
                 {candidate?.isVerified && (
@@ -104,24 +124,24 @@ const TalentsCard = ({ bgColor }) => {
               {/* Candidate Info */}
               <div className="text-center space-y-4">
                 <h3 className="text-xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
-                  {candidate?.name || 'Anonymous Candidate'}
+                  {candidate?.name || "Anonymous Candidate"}
                 </h3>
-                
+
                 {/* Experience & Location */}
-                <div className="flex flex-wrap justify-center gap-2">
-                  <motion.div 
+                <div className="flex flex-wrap self-center items-center flex-col gap-2">
+                  <motion.div
                     className="px-3 py-1 bg-emerald-400/10 rounded-full text-emerald-400 text-sm flex items-center gap-1"
                     whileHover={{ scale: 1.05 }}
                   >
                     <FiBriefcase className="text-sm" />
                     <span>{formatExperience(candidate?.experience)}</span>
                   </motion.div>
-                  <motion.div 
+                  <motion.div
                     className="px-3 py-1 bg-cyan-400/10 rounded-full text-cyan-400 text-sm flex items-center gap-1"
                     whileHover={{ scale: 1.05 }}
                   >
                     <FiMapPin className="text-sm" />
-                    <span>{candidate?.location?.city || 'Location not specified'}</span>
+                    <span>{candidate?.location?.city || "NA"}</span>
                   </motion.div>
                 </div>
 
@@ -141,7 +161,7 @@ const TalentsCard = ({ bgColor }) => {
                 )}
 
                 <p className="text-gray-400 text-sm line-clamp-3">
-                  {candidate?.about || 'No description available'}
+                  {candidate?.about || "No description available"}
                 </p>
               </div>
 

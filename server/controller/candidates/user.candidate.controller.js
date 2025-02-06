@@ -170,7 +170,6 @@ export const RevertApplication = async (req, res) => {
     }
 
     const getIndexofId =  opportunity.candidatesApplied.indexOf(userId);
-    console.log(getIndexofId,userId)
     opportunity.candidatesApplied.splice(getIndexofId);
     await opportunity.save();
 

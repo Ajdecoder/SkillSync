@@ -15,11 +15,21 @@ import {
   FiCalendar,
 } from "react-icons/fi";
 import { Spinner } from "../../common/loadingSpinner/spinner";
+import { CandidatesFilters } from "../../common/Filters/TalentsFilter";
+import { filterData } from "../../data/Data";
 
 export const SavedOpportunity = () => {
   const { loggedInUser } = useAuth();
   const [opportunities, setOpportunities] = useState([]);
   const navigate = useNavigate();
+
+  const [programmers, setProgrammers] = useState([]);
+
+  const [filterCategory, setFilterCategory] = useState({
+    selectedCity: "",
+    selectedExpertType: "",
+    selectedPriceRange: "",
+  });
 
   const { data, error, loading } = useFetchData(
     `${PORT_CLIENT}/api/requirements/addedOpportunities`
@@ -72,6 +82,14 @@ export const SavedOpportunity = () => {
 
   return (
     <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+      <CandidatesFilters
+        filterCategory={filterCategory}
+        setFilterCategory={setFilterCategory}
+        filterData={filterData}
+        programmers={programmers}
+        setProgrammers={setProgrammers}
+      />
+
       {opportunities.map((opportunity, index) => {
         const {
           title,

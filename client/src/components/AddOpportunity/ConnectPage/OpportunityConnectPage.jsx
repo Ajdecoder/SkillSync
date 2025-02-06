@@ -8,6 +8,7 @@ import {
   ApplyToOpportunity,
   BookmarkOpportunity,
   getUserProfileByEmail,
+  RemoveBookmarkOpportunity,
   RevertBackApplication,
 } from "../../../services/api.js";
 import { useAuth } from "../../context/AuthContext.jsx";
@@ -32,10 +33,11 @@ const OpportunityConnectPage = () => {
   const [showMore, setShowMore] = useState(false);
   const { loggedInUser } = useAuth();
   const [userId, setUserId] = useState(null);
-  const { post_id } = useParams();
   const [toastMessage, setToastMessage] = useState(null);
   const [toastType, setToastType] = useState("success");
   const [bookmark, setBookmark] = useState(false);
+
+  const { post_id } = useParams();
 
   const { data: companyData, loading } = useFetchData(
     `${PORT_CLIENT}/api/requirements/Companyrequirements/${post_id}`
@@ -46,6 +48,7 @@ const OpportunityConnectPage = () => {
       try {
         const user = await getUserProfileByEmail(loggedInUser.email);
         setUserId(user.data.candidateProfile._id);
+        setBookmark(user.data.candidateProfile.bookmarks.includes(post_id));
       } catch (err) {
         console.error("Error fetching user profile:", err);
         setError("Unable to fetch user profile.");
@@ -60,31 +63,31 @@ const OpportunityConnectPage = () => {
   const handleJobApply = async () => {
     if (!userId || !companyData?._id) return;
 
-      try {
-        setLoadingApply(true);
+    try {
+      setLoadingApply(true);
 
-        // Construct the payload  
-        const payload = {
-          action: "job_applied",
-          payload: {
-            userId,
-            opportunityId: companyData._id,
-            recruiterId: "677c11ad2ae876e568b0123d",
-          },
-        };
+      // Construct the payload
+      const payload = {
+        action: "job_applied",
+        payload: {
+          userId,
+          opportunityId: companyData._id,
+          recruiterId: "677c11ad2ae876e568b0123d",
+        },
+      };
 
-        // Check if payload is properly formed
-        console.log("Payload:", payload);
+      // Check if payload is properly formed
+      // console.log("Payload:", payload);
 
-        await ApplyToOpportunity(payload);
-        setUserHasApplied(true);
+      await ApplyToOpportunity(payload);
+      setUserHasApplied(true);
 
-        // Set toast message on successful application
-        setToastMessage("Application submitted successfully!");
-        setToastType("success");
-      } catch (err) {
-        console.error("Error applying to the job:", err);
-        setError("There was an error applying to the opportunity.");
+      // Set toast message on successful application
+      setToastMessage("Application submitted successfully!");
+      setToastType("success");
+    } catch (err) {
+      console.error("Error applying to the job:", err);
+      setError("There was an error applying to the opportunity.");
 
       // Show error toast
       setToastMessage("Failed to apply for the job.");
@@ -160,17 +163,31 @@ const OpportunityConnectPage = () => {
       : "No skills available";
   };
 
-  const handleBookmarClick = async (_id, userId) => {
+  const handleBookmarClick = async () => {
+    if (!userId || !post_id) return;
+  
     try {
-      await BookmarkOpportunity(_id, userId);
-      setToastMessage("Bookmark added successfully!");
-      setToastType("success");
+      // If bookmark is false, add bookmark. Otherwise, remove bookmark.
+      if (!bookmark) {
+        await BookmarkOpportunity(userId, post_id); // Add bookmark
+        setToastMessage("Bookmark added successfully!");
+        setToastType("success");
+      } else {
+        await RemoveBookmarkOpportunity(userId, post_id); // Remove bookmark
+        setToastMessage("Bookmark removed successfully!");
+        setToastType("success");
+      }
+  
+      // Toggle the bookmark state after the operation
+      setBookmark(!bookmark); // This updates the UI to reflect the new state
+      console.log(userId, post_id);
     } catch (error) {
-      console.error("Error adding bookmark:", error);
-      setToastMessage("Failed to add bookmark.");
+      console.error("Error updating bookmark:", error);
+      setToastMessage("Failed to update bookmark.");
       setToastType("error");
     }
   };
+  
 
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -649,7 +666,7 @@ const OpportunityConnectPage = () => {
             message={toastMessage}
             type={toastType}
             autoClose={1500}
-            position="bottom-right"
+            position="top-left"
             theme="dark"
           />
         )}

@@ -6,11 +6,6 @@ import { experiences, locations, skills } from "../../data/Data";
 import { motion } from "framer-motion";
 import { FiArrowRight, FiBriefcase, FiMapPin, FiStar } from "react-icons/fi";
 
-const jobTypes = ["Full-Time", "Part-Time", "Contract", "Internship"];
-const industries = ["Technology", "Finance", "Healthcare", "Education"];
-const languages = ["English", "Spanish", "French", "German"];
-const workEnvironments = ["Remote", "On-Site", "Hybrid"];
-
 
 const TalentsCard = ({ bgColor = "#000000d6" }) => {
   const [talents, setTalents] = useState([]);

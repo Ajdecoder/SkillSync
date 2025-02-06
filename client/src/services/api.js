@@ -46,9 +46,7 @@ export const getOpportunities = () =>
 export const getOpportunityById = () =>
   API.get("/api/requirements/addedOpportunities");
 export const ApplyToOpportunity = (payload) => {
-  return API.put(`/api/users/candidate/opportunity/apply-to-job`,
-   payload
- );
+  return API.put(`/api/users/candidate/opportunity/apply-to-job`, payload);
 };
 export const RevertBackApplication = (userId, opportunityId) => {
   return API.put(`/api/users/candidate/revert-application`, {
@@ -58,35 +56,52 @@ export const RevertBackApplication = (userId, opportunityId) => {
 };
 
 export const GetBookmarkOpportunities = () => {
-  return API.get(`/api/users/candidate/bookmark-opportunities`);
+  return API.get(`/api/bookmark/candidate/bookmark-opportunities`);
 };
 export const GetBookmarkOpportunitiesById = (userId) => {
+  return API.get(`/api/bookmark/candidate/bookmark-opportunities/${userId}`);
+};
+
+export const BookmarkOpportunity = (userId, post_id) => {
+  return API.put(`/api/bookmark/opportunity/job/bookmark-opportunity/`, {
+    userId,
+    post_id,
+  });
+};
+
+export const RemoveBookmarkOpportunity = (userId, post_id) => {
+  console.log("userId", userId, "post_id", post_id);
+  return API.delete('/api/bookmark/opportunity/job/unbookmark-opportunity', {
+    data: { userId, post_id }, // Ensure the data is sent correctly in the body
+  });
+};
+
+
+// Talents By id Api Method
+export const getOpportunitytById = (id) =>
+  API.get(`/api/requirements/Companyrequirements/${id}`);
+
+// Talents Api Method
+
+export const GetBookmarkTakents = () => {
+  return API.get(`/api/users/candidate/bookmark-opportunities`);
+};
+export const GetBookmarkTakentsById = (userId) => {
   return API.get(`/api/users/candidate/bookmark-opportunities/${userId}`);
 };
 
-export const BookmarkOpportunity = (userId, opportunityId) => {
+export const BookmaTakents = (userId, opportunityId) => {
   return API.put(`/api/opportunity/job/bookmark-opportunity/`, {
     userId,
     opportunityId,
   });
 };
 
-export const RemoveBookmarkOpportunity = (userId, opportunityId) => {
+export const RemoveBookmaTakents = (userId, opportunityId) => {
   return API.delete(
     `/api/opportunity/job/unbookmark-opportunity/${userId}/${opportunityId}`
   );
 };
-
-
-
-// Requirement By id Api Method
-export const getOpportunitytById = (id) =>
-  API.get(`/api/requirements/Companyrequirements/${id}`);
-
-// Talents Api Methods
-export const getTalents = () => API.get("/api/requirements/allTalents");
-export const hireTalent = (data) =>
-  API.post("/api/requirements/hireTalent", data);
 
 // Chat Api Methods
 export const getChatResponse = (data) =>
