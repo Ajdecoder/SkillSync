@@ -113,6 +113,7 @@ export const updateOpportunity = async (req, res) => {
 export const deleteOpportunity = async (req, res) => {
   try {
     const RequirementId = req.params.id;
+    console.log(RequirementId);
     const deletedRequirement = await OpportunityCollection.findByIdAndDelete(RequirementId);
     if (!deletedRequirement) {
       return res.status(404).json({ message: "Requirement not found." });

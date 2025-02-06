@@ -23,7 +23,7 @@ import { UserProfile } from "../Userprofile/UserProfile.jsx";
 import { LoginRecruiter } from "../Login/LoginRecruiter.jsx";
 import { ChooseLoginMode } from "../Login/ChooseLoginMode.jsx";
 import DeleteAccount from "../account/settings/DeleteAccount.jsx";
-import { MyJobListnings } from "../Requirements/Recruiters/MyJobListnings.jsx";
+import {MyJobListings} from "../Requirements/Recruiters/MyJobListings.jsx";
 import { ViewCandidateInfo } from "../TalentSearch/ViewCandidateProfile/ViewCandidateInfo.jsx";
 import NotFoundPage from "../4NOT4/404.jsx";
 import TalentsCard from "../Requirements/Recruiters/TalentSearchPage.jsx";
@@ -52,7 +52,7 @@ export const RoutesConfig = ({ spin, setSpin }) => [
   <Route
     key="listed-opportunity"
     path="/requirements/listed-opportunity"
-    element={<MyJobListnings />}
+    element={<MyJobListings />}
   />,
   <Route
     key="add-opportunity"

@@ -55,6 +55,10 @@ export const RevertBackApplication = (userId, opportunityId) => {
   });
 };
 
+export const DeleteOpportunity = (opportunityId) => {
+  return API.delete(`/api/requirements/deleteOpportunity/${opportunityId}`);
+}
+
 export const GetBookmarkOpportunities = () => {
   return API.get(`/api/bookmark/candidate/bookmark-opportunities`);
 };
