@@ -82,7 +82,7 @@ const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
         >
           <div className="flex flex-col items-center gap-2">
             <FiUsers className="text-emerald-400" />
-            <span className="text-gray-300">{candidatesApplied.length}</span>
+            <span className="text-gray-300">{candidatesApplied?.length||"0"}</span>
           </div>
 
           <div className="flex flex-col items-center gap-2">

@@ -72,9 +72,10 @@ const OpportunityConnectPage = () => {
         payload: {
           userId,
           opportunityId: companyData._id,
-          recruiterId: "677c11ad2ae876e568b0123d",
+          recruiterId: userId,
         },
       };
+      
 
       // Check if payload is properly formed
       // console.log("Payload:", payload);
@@ -158,7 +159,7 @@ const OpportunityConnectPage = () => {
   const userHasAlreadyApplied = candidatesApplied?.includes(userId);
 
   const renderSkills = () => {
-    return skills.length > 0
+    return skills?.length > 0
       ? skills.map((skill) => skill.skillName || "Unnamed Skill").join(", ")
       : "No skills available";
   };
