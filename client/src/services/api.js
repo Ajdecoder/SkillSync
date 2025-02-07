@@ -80,32 +80,36 @@ export const RemoveBookmarkOpportunity = (userId, post_id) => {
   });
 };
 
-
-// Talents By id Api Method
 export const getOpportunitytById = (id) =>
   API.get(`/api/requirements/Companyrequirements/${id}`);
+
+
 
 // Talents Api Method
 
 export const GetBookmarkTakents = () => {
-  return API.get(`/api/users/candidate/bookmark-opportunities`);
+  return API.get(`/api/bookmark/talents/bookmark-opportunities`);
 };
 export const GetBookmarkTakentsById = (userId) => {
-  return API.get(`/api/users/candidate/bookmark-opportunities/${userId}`);
+  return API.get(`/api/bookmark/talents/bookmark-opportunities/${userId}`);
 };
 
-export const BookmaTakents = (userId, opportunityId) => {
-  return API.put(`/api/opportunity/job/bookmark-opportunity/`, {
-    userId,
-    opportunityId,
+export const BookmarkTakents = (recruiterId, candidateId) => {
+  return API.put(`/api/bookmark/talents/addBookmark/`, {
+    recruiterId,
+    candidateId,
   });
 };
 
-export const RemoveBookmaTakents = (userId, opportunityId) => {
+export const RemoveBookmarkTakents = (recruiterId, candidateId) => {
   return API.delete(
-    `/api/opportunity/job/unbookmark-opportunity/${userId}/${opportunityId}`
+    `/api/bookmark/talents/removeBookmark/`,{
+      data: { recruiterId, candidateId }, // Ensure the data is sent correctly in the body
+    }
   );
 };
+
+
 
 // Chat Api Methods
 export const getChatResponse = (data) =>

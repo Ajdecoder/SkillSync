@@ -54,6 +54,7 @@ const OpportunityConnectPage = () => {
         setError("Unable to fetch user profile.");
       }
     };
+    
 
     if (loggedInUser.email) {
       fetchUserProfile();

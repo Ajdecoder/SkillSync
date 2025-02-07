@@ -94,7 +94,7 @@ const MarketTrends = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center px-6 py-10">
+    <div className="min-h-full bg-gray-100 flex flex-col items-center px-6 py-10">
       {/* Header Section */}
       <header className=" trends-header text-center mb-10">
         <h1 className="text-4xl font-bold text-gray-800 mb-4">Market Trends</h1>
@@ -125,7 +125,7 @@ const MarketTrends = () => {
       {/* Chart Section */}
       <section className="max-w-6xl mt-16 w-full">
         <motion.div
-          className="bg-white rounded-lg shadow-lg p-6"
+          className="bg-white rounded-lg shadow-lg p-6 dynamic-graph"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 1 }}

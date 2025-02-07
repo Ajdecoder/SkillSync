@@ -164,22 +164,25 @@ export const bookmarkOpportunity = async (req, res) => {
     }
 
     await profile.save();
-    res.status(200).json({ message: isBookmarked ? "Bookmark removed" : "Bookmark added", bookmarks: profile.bookmarks });
+    res
+      .status(200)
+      .json({
+        message: isBookmarked ? "Bookmark removed" : "Bookmark added",
+        bookmarks: profile.bookmarks,
+      });
   } catch (error) {
     console.error("Error toggling bookmark:", error);
     res.status(500).json({ message: "Error updating bookmarks." });
   }
-
 };
 
 export const unbookmarkOpportunity = async (req, res) => {
-
   try {
     console.log(req.body);
     const { userId, post_id } = req.body;
-    
+
     console.log(userId, post_id);
- 
+
     const profile = await CandidateUserProfile.findById(userId);
     if (!profile) {
       return res.status(404).json({ message: "User not found." });
@@ -205,3 +208,68 @@ export const unbookmarkOpportunity = async (req, res) => {
   }
 };
 
+
+/**
+ * Bookmark Talents
+ */
+
+export const bookmarkTalents = async (req, res) => {
+  try {
+    const { recruiterId, candidateId } = req.body;
+    console.log(req.body);
+    console.log(recruiterId, candidateId);
+    const profile = await RecruiterUserProfile.findById(recruiterId);
+
+    if (!profile) {
+      return res.status(404).json({ message: "User not found." });
+    }
+    const isTalentBookmarked = profile.bookmarkedTalents.includes(candidateId);
+    if (isTalentBookmarked) {
+      profile.bookmarkedTalents = profile.bookmarkedTalents.filter(
+        (id) => id.toString() !== candidateId
+      );
+    } else {
+      profile.bookmarkedTalents.push(candidateId);
+
+      await profile.save();
+
+      res
+        .status(200)
+        .json({
+          message: isTalentBookmarked
+            ? "Talent unbookmarked"
+            : "Talent bookmarked",
+          bookmarkedTalents: profile.bookmarkedTalents,
+        });
+
+      console.log("Talent bookmarked successfully");
+    }
+  } catch (error) {
+    console.error("Error bookmarking talent:", error);
+    res.status(500).json({ message: "Error bookmarking talent." });
+  }
+};
+
+export const unbookmarkTalents = async (req, res) => {
+  try {
+    const { recruiterId, candidateId } = req.body;
+    console.log(recruiterId, candidateId);
+    const profile = await RecruiterUserProfile.findById(recruiterId);
+    if (!profile) {
+      return res.status(404).json({ message: "User not found." });
+    }
+    profile.bookmarkedTalents = profile.bookmarkedTalents.filter(
+      (id) => id.toString()!== candidateId
+    );
+    await profile.save();
+    res.status(200).json({
+      message: "Talent unbookmarked successfully",
+      bookmarkedTalents: profile.bookmarkedTalents,
+    });
+    console.log("Talent unbookmarked successfully");
+    } catch (error) {
+    console.error("Error unbookmarking talent:", error);
+    res.status(500).json({ message: "Error unbookmarking talent." });
+    
+    }
+}

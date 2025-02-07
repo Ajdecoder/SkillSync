@@ -27,7 +27,7 @@ const NotificationButton = () => {
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [notifications]);
 
   const handleBellClick = () => {
     setShowNotifications((prev) => !prev);
@@ -45,7 +45,6 @@ const NotificationButton = () => {
       console.error("Error marking notification as read:", error);
     }
   };
-  
 
   return (
     <div className="relative">
@@ -65,9 +64,9 @@ const NotificationButton = () => {
         <div
           ref={dropdownRef}
           className="absolute bg-white shadow-lg rounded-md w-[18rem] top-12 right-[-7rem] p-4 max-h-[22rem] overflow-auto z-10 border border-gray-300 scroll-smooth"
-          onWheel={(e)=> e.stopPropagation()}
+          onWheel={(e) => e.stopPropagation()}
         >
-          {notifications.length > 0 ? (
+          {notifications.length && notifications.read > 0 ? (
             <>
               <ul>
                 {notifications.map((notification) => (

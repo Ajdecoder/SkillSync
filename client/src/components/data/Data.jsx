@@ -74,8 +74,8 @@ export const navExpand = [
     path: "requirements/add-opportunity",
   },
   {
-    text: "Saved Searches",
-    path: "requirements/saved-searches",
+    text: "Browse Opportunities",
+    path: "requirements/browse-opportunities",
   },
   {
     text: "Opportunities",
