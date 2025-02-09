@@ -31,9 +31,19 @@
     grid-template-columns: 1fr !important;
   }
 
-  .scroll-toggle-btn{
+  .scroll-toggle-btn {
     display: none !important;
   }
+
+  .trends-header {
+    height: 10rem !important;
+    display: flex; 
+  }
+
+  .dynamic-graph{
+   font-size: smaller !important;
+  }
+
 }
 
 @media screen and (max-width: 480px) {
@@ -76,7 +86,13 @@
   .chatbot-window {
     max-width: 20rem;
   }
-  .location{
+  .location {
     display: none;
+  }
+
+  .trends-header {
+    display: flex;
+    padding: 1rem !important;
+    align-content: center;
   }
 }

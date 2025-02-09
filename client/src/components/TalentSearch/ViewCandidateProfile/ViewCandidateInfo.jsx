@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getUserProfileById } from "../../../services/api";
+import {
+  BookmarkTakents,
+  getUserProfileByEmail,
+  getUserProfileById,
+  RemoveBookmarkTakents,
+} from "../../../services/api";
 import { motion } from "framer-motion";
 import { Spinner } from "../../common/loadingSpinner/spinner";
 import {
@@ -10,32 +15,63 @@ import {
   FiLinkedin,
   FiMail,
 } from "react-icons/fi";
+import { useAuth } from "../../context/AuthContext";
+import NotificationToasts from "../../chatbot/Toast/Toast";
 
 export const ViewCandidateInfo = () => {
-  const { candidateid } = useParams();
+  const { candidateId } = useParams();
   const [candidate, setCandidate] = useState(null);
+  const [recruiterId, setRecruiterId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [bookmark, setBookmark] = useState(false);
+  const { loggedInUser } = useAuth();
+  const [toastMessage, setToastMessage] = useState(null);
+  const [toastType, setToastType] = useState("success");
 
   useEffect(() => {
     const fetchCandidateProfile = async () => {
       try {
-        const { data } = await getUserProfileById(candidateid);
+        const { data } = await getUserProfileById(candidateId);
         setCandidate(data.profile);
         setLoading(false);
-        console.log(candidate);
       } catch (error) {
         console.error("Error fetching requirement details:", error);
         setLoading(false);
       }
     };
 
+    const fetchRecruiterProfile = async () => {
+      try {
+        const { data } = await getUserProfileByEmail(loggedInUser.email);
+        console.log(data.recruiterProfile);
+        setRecruiterId(data.recruiterProfile._id);
+        setBookmark(
+          data.recruiterProfile.bookmarkedTalents.includes(candidateId)
+        );
+      } catch (error) {
+        console.error("Error fetching recruiter profile:", error);
+      }
+    };
+    fetchRecruiterProfile();
     fetchCandidateProfile();
-  }, [candidateid]);
+  }, []);
 
-  const handleBookmarClick = () => {
-    setBookmark(!bookmark);
-  }
+  const handleBookmarClick = async () => {
+    try {
+      if (!bookmark) {
+        await BookmarkTakents(recruiterId, candidateId); // Add bookmark
+        setToastMessage("Bookmark added successfully!");
+        setToastType("success");
+      } else {
+        await RemoveBookmarkTakents(recruiterId, candidateId); // Remove bookmark
+        setToastMessage("Bookmark removed successfully!");
+        setToastType("success");
+      }
+      setBookmark(!bookmark);
+    } catch (error) {
+      console.error("Error bookmarking candidate:", error);
+    }
+  };
 
   if (loading) return <Spinner />;
 
@@ -217,6 +253,16 @@ export const ViewCandidateInfo = () => {
           >
             Hire Now
           </motion.button>
+          {/* Toast Notifications */}
+          {toastMessage && (
+            <NotificationToasts
+              message={toastMessage}
+              type={toastType}
+              autoClose={1500}
+              position="top-left"
+              theme="dark"
+            />
+          )}
         </div>
       </motion.div>
     </div>

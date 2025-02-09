@@ -22,7 +22,7 @@
 }
 .team img {
   width: 97px;
-  right: 7px;
+  right: 5px;
   height: 90px;
   border-radius: 50%;
   position: relative;
@@ -33,7 +33,7 @@
   font-size: 17px;
   position: absolute;
   top: 35px;
-  right: -10px;
+  right: 0px;
 }
 .team .img::after {
   content: "";

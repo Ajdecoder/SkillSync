@@ -254,7 +254,7 @@ export const recruiterProfileSchema = new mongoose.Schema(
         },
       ],
     },
-    bookmarks: [{ type: mongoose.Schema.Types.ObjectId, ref: "AddOpportunity" }]
+    bookmarkedTalents: [{ type: mongoose.Schema.Types.ObjectId, ref: "CandidateUserProfile" }]
   }
   ,
   { timestamps: true }

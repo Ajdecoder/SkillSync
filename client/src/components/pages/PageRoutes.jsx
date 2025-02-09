@@ -28,6 +28,7 @@ import { ViewCandidateInfo } from "../TalentSearch/ViewCandidateProfile/ViewCand
 import NotFoundPage from "../4NOT4/404.jsx";
 import TalentsCard from "../Requirements/Recruiters/TalentSearchPage.jsx";
 import NotificationPage from "../Notificationpage/Notificationpage.jsx";
+import TalentPool from "../Requirements/Recruiters/TalentPool.jsx";
 
 // This is just a helper function to return route elements.
 
@@ -93,7 +94,7 @@ export const RoutesConfig = ({ spin, setSpin }) => [
   <Route key="blog-page" path="/blog/:Blogid" element={<BlogPage />} />,
   <Route
     key="candidate-info"
-    path="/candidateinfo/:candidateid"
+    path="/candidateinfo/:candidateId"
     element={<ViewCandidateInfo />}
   />,
   <Route
@@ -125,6 +126,11 @@ export const RoutesConfig = ({ spin, setSpin }) => [
     key="notifications"
     path="/notifications/:notificationId"
     element={<NotificationPage />}
+  />,
+  <Route
+    key="/requirements/talent-pool"
+    path="/requirements/talent-pool"
+    element={<TalentPool />}
   />,
   <Route key="delete-account" path="/settings/delete-account" element={<DeleteAccount />} />,
   <Route key="not-found" path="*" element={<NotFoundPage />} />,

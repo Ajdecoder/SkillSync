@@ -14,8 +14,8 @@ export const userSchema = new mongoose.Schema({
     required: true,
     enum: ["recruiter", "candidate"],
   },
-  recruiterProfile:{type: mongoose.Schema.ObjectId, ref: "Recruiter"},
-  candidateProfile:{type: mongoose.Schema.ObjectId, ref: "Candidate"},
+  recruiterProfile:{type: mongoose.Schema.ObjectId, ref: "RecruiterUserProfile"},
+  candidateProfile:{type: mongoose.Schema.ObjectId, ref: "CandidateUserProfile"},
 });
 
 // Define a method to generate and return JWT token for a user

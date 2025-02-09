@@ -36,7 +36,7 @@ app.use("/api/requirements", companyRoutes);
 
 app.use("/api/chatbot/", chatBotRoutes);
 
-app.use("/api/bookmark", BookmarRoutes);
+app.use("/api/bookmark/", BookmarRoutes);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the homepage");
