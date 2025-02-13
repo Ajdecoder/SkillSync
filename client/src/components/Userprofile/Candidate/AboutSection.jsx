@@ -17,7 +17,6 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
     }));
   };
 
-
   const handleSubmit = async (section) => {
     try {
       const response = await updateUserProfileByEmail(
@@ -27,6 +26,7 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
 
       if (response.status === 200) {
         setIsEditing(false);
+        if (onUpdate) onUpdate(updatedData);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -44,20 +44,13 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
             {isEditing ? (
               <input
                 type="text"
-                style={{
-                  border: "0.5px solid",
-                }}
+                style={{ border: "0.5px solid" }}
                 className="w-[50%] p-3 rounded-md focus:ring focus:ring-blue-300"
-                value={updatedData?.candidateInfo?.name || ""}
-                onChange={(e) =>
-                  handleInputChange("candidateInfo", {
-                    ...updatedData.candidateInfo,
-                    name: e.target.value,
-                  })
-                }
+                value={updatedData?.name || ""}
+                onChange={(e) => handleInputChange("name", e.target.value)}
               />
             ) : (
-              <p>{profileData?.candidateInfo?.name || "Name not provided"}</p>
+              <p>{updatedData?.name || "Name not provided"}</p>
             )}
           </div>
 
@@ -67,20 +60,13 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
             {isEditing ? (
               <input
                 type="email"
-                style={{
-                  border: "0.5px solid",
-                }}
+                style={{ border: "0.5px solid" }}
                 className="w-[50%] p-3 rounded-md focus:ring focus:ring-blue-300"
-                value={updatedData?.candidateInfo?.email || ""}
-                onChange={(e) =>
-                  handleInputChange("candidateInfo", {
-                    ...updatedData.candidateInfo,
-                    email: e.target.value,
-                  })
-                }
+                value={profileData?.email || ""}
+                disabled
               />
             ) : (
-              <p>{profileData?.candidateInfo?.email || "Email not provided"}</p>
+              <p>{profileData?.email || "Email not provided"}</p>
             )}
           </div>
 
@@ -89,60 +75,96 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
             <p className="font-bold">Bio:</p>
             {isEditing ? (
               <textarea
-                style={{
-                  border: "0.5px solid",
-                }}
+                style={{ border: "0.5px solid" }}
                 className="w-[50%] p-3 rounded-md focus:ring focus:ring-blue-300"
                 value={updatedData?.about || ""}
                 onChange={(e) => handleInputChange("about", e.target.value)}
               />
             ) : (
-              <p>{profileData?.about || "No bio available"}</p>
+              <p>{updatedData?.about || "No bio available"}</p>
             )}
           </div>
 
           {/* Languages */}
           <div className="mb-4">
             <p className="font-bold">Languages:</p>
-            {isEditing
-              ? updatedData?.languages?.map((lang, idx) => (
-                  <div key={idx} className="flex gap-2 mb-2">
-                    <input
-                      type="text"
-                      style={{
-                        border: "0.5px solid",
-                      }}
-                      className="w-[35%] p-3 rounded-md focus:ring focus:ring-blue-300"
-                      value={lang.language || ""}
-                      onChange={(e) => {
-                        const updatedLanguages = [...updatedData.languages];
-                        updatedLanguages[idx].language = e.target.value;
-                        handleInputChange("languages", updatedLanguages);
-                      }}
-                      placeholder="Language"
-                    />
-                    <input
-                      type="text"
-                      style={{
-                        border: "0.5px solid",
-                      }}
-                      className="w-[35%] p-3 rounded-md focus:ring focus:ring-blue-300"
-                      value={lang.proficiency || ""}
-                      onChange={(e) => {
-                        const updatedLanguages = [...updatedData.languages];
-                        updatedLanguages[idx].proficiency = e.target.value;
-                        handleInputChange("languages", updatedLanguages);
-                      }}
-                      placeholder="Proficiency"
-                    />
-                  </div>
-                ))
-              : profileData?.languages?.map((lang, idx) => (
-                  <div key={idx} className="flex">
-                    <p>{lang.language || "No language"}</p>
-                    <p>({lang.proficiency || "No proficiency"})</p>
-                  </div>
-                ))}
+            {isEditing ? (
+              <>
+                {updatedData?.languages && updatedData.languages.length > 0 ? (
+                  updatedData.languages.map((lang, idx) => (
+                    <div key={idx} className="flex gap-2 mb-2">
+                      <input
+                        type="text"
+                        style={{ border: "0.5px solid" }}
+                        className="w-[35%] p-3 rounded-md focus:ring focus:ring-blue-300"
+                        value={lang.language || ""}
+                        onChange={(e) => {
+                          const updatedLanguages = [...updatedData.languages];
+                          updatedLanguages[idx].language = e.target.value;
+                          handleInputChange("languages", updatedLanguages);
+                        }}
+                        placeholder="Language"
+                      />
+                      <select
+                        style={{ border: "0.5px solid" }}
+                        className="w-[35%] p-3 rounded-md focus:ring focus:ring-blue-300"
+                        value={lang.proficiency || "Basic"}
+                        onChange={(e) => {  
+                          const updatedLanguages = [...updatedData.languages];
+                          updatedLanguages[idx].proficiency = e.target.value;
+                          handleInputChange("languages", updatedLanguages);
+                        }}
+                      >
+                        <option value="Basic">Basic</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Fluent">Fluent</option>
+                        <option value="Native">Native</option>
+                      </select>
+                      <button
+                        type="button"
+                        className="px-2 py-1 bg-red-500 text-white rounded"
+                        onClick={() => {
+                          const updatedLanguages = updatedData.languages.filter(
+                            (_, i) => i !== idx
+                          );
+                          handleInputChange("languages", updatedLanguages);
+                        }}
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))
+                ) : (
+                  <p>No languages provided. Click below to add one.</p>
+                )}
+                <button
+                  type="button"
+                  className="mt-2 px-4 py-2 bg-green-500 text-white rounded"
+                  onClick={() => {
+                    const newLanguage = { language: "", proficiency: "" };
+                    const updatedLanguages = updatedData.languages
+                      ? [...updatedData.languages, newLanguage]
+                      : [newLanguage];
+                    handleInputChange("languages", updatedLanguages);
+                  }}
+                >
+                  Add Language
+                </button>
+              </>
+            ) : (
+              <>
+                {profileData?.languages && updatedData.languages.length > 0 ? (
+                  updatedData.languages.map((lang, idx) => (
+                    <div key={idx} className="flex">
+                      <p>{lang.language || "No language"}</p>
+                      <p>({lang.proficiency || "No proficiency"})</p>
+                    </div>
+                  ))
+                ) : (
+                  <p>No languages listed</p>
+                )}
+              </>
+            )}
           </div>
 
           {/* Location */}
@@ -151,9 +173,7 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
             {isEditing ? (
               <div className="flex gap-2">
                 <input
-                  style={{
-                    border: "0.5px solid",
-                  }}
+                  style={{ border: "0.5px solid" }}
                   className="w-[35%] p-3 rounded-md focus:ring focus:ring-blue-300"
                   type="text"
                   placeholder="City"
@@ -166,9 +186,7 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
                   }
                 />
                 <input
-                  style={{
-                    border: "0.5px solid",
-                  }}
+                  style={{ border: "0.5px solid" }}
                   className="w-[35%] p-3 rounded-md focus:ring focus:ring-blue-300"
                   type="text"
                   placeholder="State"
@@ -198,14 +216,15 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
                   className="px-4 py-2 bg-green-500 text-white font-semibold rounded hover:bg-green-600"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
-                  onClick={() =>
-                    handleSubmit(updatedData, "candidate about")
-                  }
+                  onClick={() => handleSubmit("candidate about")}
                 >
                   Save
                 </motion.button>
                 <motion.button
-                  onClick={handleEditToggle}
+                  onClick={() => {
+                    setUpdatedData(profileData);
+                    setIsEditing(false);
+                  }}
                   className="px-4 py-2 bg-gray-500 text-white font-semibold rounded hover:bg-gray-600"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}

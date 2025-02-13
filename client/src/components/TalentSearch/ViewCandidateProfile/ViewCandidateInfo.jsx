@@ -35,7 +35,36 @@ export const ViewCandidateInfo = () => {
     const fetchCandidateProfile = async () => {
       try {
         const { data } = await getUserProfileById(candidateId);
-        setCandidate(data.profile);
+        setCandidate({
+          ...data.profile,
+          skills: data.profile.skills.length
+            ? data.profile.skills
+            : ["No skills listed"],
+          experience: data.profile.experience.length
+            ? data.profile.experience
+            : [
+                {
+                  JobRole: "No experience",
+                  company: "N/A",
+                  duration: "N/A",
+                  description: "No experience details available.",
+                },
+              ],
+          education: data.profile.education.length
+            ? data.profile.education
+            : [
+                {
+                  degree: "No education details",
+                  institution: "N/A",
+                  year: "N/A",
+                },
+              ],
+          socialLinks: {
+            linkedin: data.profile.socialLinks.linkedin || "#",
+            github: data.profile.socialLinks.github || "#",
+            portfolio: data.profile.socialLinks.portfolio || "#",
+          },
+        });
         setLoading(false);
       } catch (error) {
         console.error("Error fetching requirement details:", error);
@@ -207,7 +236,7 @@ export const ViewCandidateInfo = () => {
             {candidate?.experience.map((exp, idx) => (
               <TimelineItem
                 key={exp._id}
-                title={`${exp.JobRole} at ${exp.company}`}
+                title={`${exp.jobRole} at ${exp.company}`}
                 subtitle={exp.duration}
                 description={exp.description}
                 index={idx}

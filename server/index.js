@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import userRoutes from "./routes/user.Routes.js";
-import testingRoutes from "./routes/testing.routes.js";
 import companyRoutes from "./routes/company.Routes.js";
 import cookieParser from "cookie-parser";
 import chatBotRoutes from "./routes/chat.Routes.js";
@@ -26,7 +25,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use("/api/testings", testingRoutes)
 
 app.use("/api/users", userRoutes);
 

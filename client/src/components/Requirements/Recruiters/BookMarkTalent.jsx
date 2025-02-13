@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   getUserProfileByEmail,
-  removeBookmarkedTalent,
+  removeBookmarkedOpportunity,
 } from "../../../services/api";
 import { useAuth } from "../../context/AuthContext";
 import { motion } from "framer-motion";
@@ -9,48 +9,98 @@ import { FaBookmark, FaBriefcase, FaLink, FaUser } from "react-icons/fa";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { CiBeaker1 } from "react-icons/ci";
 import NotificationToasts from "../../chatbot/Toast/Toast";
+import { IoArrowRedoSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import useFetchData from "../../hooks/useGetDataFetch";
+import { PORT_CLIENT } from "../../../commonClient";
 
 export const CandidatesBookmark = () => {
   const [bookmarkedTalents, setBookmarkedTalents] = useState([]);
-  const [toastMessage, setToastMessage] = useState(null);
-  const [toastType, setToastType] = useState("success");
-  const [talentId, setTalentId] = useState(null);
+  const [toastState, setToastState] = useState({
+    message: null,
+    type: "success",
+  });
   const { loggedInUser } = useAuth();
+  const [opportunities, setOpportunities] = useState([]);
+
+  console.log(opportunities);
+
+  const navigate = useNavigate();
+
+  const {
+    data: opportunitiesData,
+    error: opportunitiesError,
+    loading: opportunitiesLoading,
+  } = useFetchData(`${PORT_CLIENT}/api/requirements/addedOpportunities`);
 
   useEffect(() => {
-    const getBookmarkedTalents = async () => {
+    if (opportunitiesData?.Addedopportunities) {
+      setOpportunities(opportunitiesData.Addedopportunities);
+    }
+  }, [opportunitiesData]);
+  
+
+  useEffect(() => {
+      if (opportunitiesData?.Addedopportunities) {
+        setOpportunities(opportunitiesData.Addedopportunities);
+      }
+    }, [opportunitiesData]);
+
+  useEffect(() => {
+    if (opportunitiesData?.Addedopportunities) {
+      setOpportunities(opportunitiesData.Addedopportunities);
+    }
+  }, [opportunitiesData]);
+
+  useEffect(() => {
+    if (!loggedInUser?.email) return;
+
+    const fetchBookmarkedTalents = async () => {
       try {
         const response = await getUserProfileByEmail(loggedInUser.email);
-        const bookmarks = response.data.candidateProfile.OpportunityBookmarks;
+        const bookmarks =
+          response?.data?.candidateProfile?.OpportunityBookmarks || [];
         setBookmarkedTalents(bookmarks);
-        setTalentId(response.data.candidateProfile._id);
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching bookmarked talents:", error);
       }
     };
-    getBookmarkedTalents();
-  }, [loggedInUser]);
 
-  const handleBookmarkClick = async (opportunityId) => {
+    fetchBookmarkedTalents();
+  }, [loggedInUser?.email]);
+
+  const showToast = (message, type) => {
+    setToastState({ message, type });
+  };
+
+  const handleBookmarkClick = async (userId, post_id) => {
     try {
-      console.log(talentId);
-      const response = await removeBookmarkedTalent(talentId, opportunityId);
-      console.log(response);
-  
-      // Remove the unbookmarked opportunity from the UI list
-      setBookmarkedTalents((prevTalents) =>
-        prevTalents.filter((talent) => talent._id !== opportunityId)
+      await removeBookmarkedOpportunity(userId, post_id);
+      setBookmarkedTalents((prev) =>
+        prev.filter((talent) => talent.post_id !== post_id)
       );
-  
-      setToastMessage("Opportunity removed from bookmarks.");
-      setToastType("success");
+      showToast("Opportunity removed from bookmarks.", "success");
     } catch (error) {
-      console.log(error);
-      setToastMessage("Failed to remove bookmark.");
-      setToastType("error");
+      showToast("Failed to remove bookmark.", "error");
     }
   };
+
+  const handleViewOpportunity = (opportunities,  index) => {
+    console.log("found index", index);
+    const post_id = opportunities[index]?._id;
+    const foundOpportunity = opportunities.find((o) => o._id === post_id);
   
+    if (!foundOpportunity) {
+      showToast("Error: Opportunity not found!", "error");
+      return;
+    }
+  
+    navigate(`/opportunity/connect/${foundOpportunity._id}`, {
+      state: { item: foundOpportunity },
+    });
+  };
+  
+
 
   return (
     <div className="bookmark-talent p-6 max-w-7xl mx-auto">
@@ -97,7 +147,12 @@ export const CandidatesBookmark = () => {
               transition={{ duration: 0.4, ease: "easeOut" }}
               whileHover={{ scale: 1.02 }}
             >
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-t-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            
+            {
+              opportunities.map((oppotunity ) => {
+                
+              })
+            }
 
               <div className="space-y-4">
                 <div className="flex items-start gap-4">
@@ -106,10 +161,10 @@ export const CandidatesBookmark = () => {
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-gray-800">
-                      {talent.title}
+                      {talent.title || "Unknown Title"}
                     </h3>
                     <p className="text-gray-500 font-medium">
-                      {talent.company_name}
+                      {talent.company_name || "Unknown Company"}
                     </p>
                   </div>
                 </div>
@@ -118,53 +173,39 @@ export const CandidatesBookmark = () => {
                   <div className="flex items-center gap-2 text-gray-600">
                     <FaIndianRupeeSign className="h-5 w-5 text-purple-600" />
                     <span>
-                      ₹{talent.salaryRange.minSalary} - ₹
-                      {talent.salaryRange.maxSalary}
+                      ₹{talent.salaryRange?.min ?? "N/A"} - ₹
+                      {talent.salaryRange?.max ?? "N/A"}
                     </span>
                   </div>
 
                   <div className="flex items-center gap-2 text-gray-600">
                     <FaUser className="h-5 w-5 text-green-600" />
                     <div className="flex flex-wrap gap-2">
-                      {talent.skills.map((skill, index) => (
-                        <span
-                          key={index}
-                          className="px-3 py-1 bg-gray-100 rounded-full text-sm"
-                        >
-                          {skill.skillName}
+                      {talent.skills?.length > 0 ? (
+                        talent.skills.map((skill, index) => (
+                          <span
+                            key={index}
+                            className="px-3 py-1 bg-gray-100 rounded-full text-sm"
+                          >
+                            {skill.skillName}
+                          </span>
+                        ))
+                      ) : (
+                        <span className="px-3 py-1 bg-gray-100 rounded-full text-sm">
+                          No skills listed
                         </span>
-                      ))}
+                      )}
                     </div>
                   </div>
-
-                  {talent.company_website && (
-                    <div className="flex items-center gap-2 text-gray-600">
-                      <FaLink className="h-5 w-5 text-orange-600" />
-                      <a
-                        href={talent.company_website}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline truncate"
-                      >
-                        {talent.company_website}
-                      </a>
-                    </div>
-                  )}
                 </div>
-
-                <p className="text-gray-600 text-sm leading-relaxed">
-                  {talent.desc_requirement}
-                </p>
 
                 <motion.button
                   className="w-full mt-4 px-5 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => {
-                    handleBookmarkClick(talent._id);
-                    setToastMessage("Bookmark removed successfully!");
-                    setToastType("success");
-                  }}
+                  onClick={() =>
+                    handleBookmarkClick(loggedInUser._id, talent.post_id)
+                  }
                 >
                   <FaBookmark className="h-5 w-5" />
                   Unbookmark
@@ -174,11 +215,11 @@ export const CandidatesBookmark = () => {
           ))}
         </motion.ul>
       )}
-      {/* Toast Notifications */}
-      {toastMessage && (
+
+      {toastState.message && (
         <NotificationToasts
-          message={toastMessage}
-          type={toastType}
+          message={toastState.message}
+          type={toastState.type}
           autoClose={1500}
           position="top-left"
           theme="dark"
