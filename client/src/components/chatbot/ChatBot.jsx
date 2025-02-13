@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import "./chatbot.css";
 import { PORT_CLIENT } from "../../commonClient";
@@ -19,6 +19,7 @@ export const ChatBot = () => {
   ]);
   const [inputText, setInputText] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const chatContainerRef = useRef(null);
 
   useEffect(() => {
     const chatContainer = document.querySelector(".chatbot-container");
@@ -167,6 +168,8 @@ export const ChatBot = () => {
       {isOpen && (
         <motion.div
           draggable
+          dragConstraints={{ left: -1000, right: 50, top: -200, bottom: 200 }}
+          ref={chatContainerRef}
           drag
           className={`chatbot-window fixed bottom-[0.1rem] right-4 w-[25rem] bg-white rounded-lg shadow-lg z-[1000] p-2
       transition-all duration-500 transform ${

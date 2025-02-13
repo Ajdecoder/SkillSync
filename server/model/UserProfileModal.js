@@ -86,7 +86,7 @@ export const candidateProfileSchema = new mongoose.Schema(
     availabilityStatus: {
       type: String,
       default: "Closed",
-      // enum: ["Closed", "Open"],    
+      // enum: ["Closed", "Open"],
     },
     resume: { type: String, default: "" },
     volunteerExperience: [
@@ -101,7 +101,9 @@ export const candidateProfileSchema = new mongoose.Schema(
       type: String,
       default: "Remote",
     },
-    bookmarks: []
+    OpportunityBookmarks: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "AddOpportunity" },
+    ],
   },
   { timestamps: true }
 );
@@ -192,7 +194,14 @@ export const recruiterProfileSchema = new mongoose.Schema(
       },
       applicationReview: {
         type: String,
-        enum: ["Pending", "Reviewed", "Interviewing", "Hired", "Rejected"],
+        enum: [
+          "Pending",
+          "Reviewed",
+          "Under Review",
+          "Interviewing",
+          "Hired",
+          "Rejected",
+        ],
         default: "Pending",
       },
     },
@@ -254,8 +263,12 @@ export const recruiterProfileSchema = new mongoose.Schema(
         },
       ],
     },
-    bookmarkedTalents: [{ type: mongoose.Schema.Types.ObjectId, ref: "CandidateUserProfile" }]
-  }
-  ,
+    bookmarkedTalents: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "CandidateUserProfile" },
+    ],
+    hiringIntrests: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "CandidateUserProfile" },
+    ],
+  },
   { timestamps: true }
 );

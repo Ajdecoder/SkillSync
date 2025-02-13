@@ -133,6 +133,7 @@ export const UserProfile = () => {
   if (loading) return <Spinner />;
   if (error) return <div className="error-message">Error: {error.message}</div>;
   if (!profileData) return <div>No profile data available</div>;
+  console.log(profileData);
 
   return (
     <div>

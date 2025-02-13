@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 export const OpportunitiesFilter = ({ filterCategory, setFilterCategory, filterData }) => {
   return (
-    <>
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" >
       {/* City Filter */}
       <motion.div
         className="box inpbox"
@@ -86,6 +86,6 @@ export const OpportunitiesFilter = ({ filterCategory, setFilterCategory, filterD
           )}
         </select>
       </motion.div>
-    </>
+    </div>
   );
 };

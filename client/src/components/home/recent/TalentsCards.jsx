@@ -3,13 +3,14 @@ import { motion } from "framer-motion";
 import { FiArrowRight, FiBriefcase, FiMapPin, FiStar } from "react-icons/fi";
 import { getAllCandidateProfiles } from "../../../services/api";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { OpportunitiesFilter } from "../../common/Filters/OpportunitiesFilter";
 import { filterData } from "../../data/Data";
+import { CandidatesFilters } from "../../common/Filters/TalentsFilter";
 
 const TalentsCard = ({ bgColor }) => {
   const [talents, setTalents] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
+  const [filteredCandidates,setFilteredCandidates] = useState([]);
 
   const [programmers, setProgrammers] = useState([]);
 
@@ -19,6 +20,54 @@ const TalentsCard = ({ bgColor }) => {
     selectedPriceRange: "",
   });
 
+  const applyFilters = () => {
+    let filtered = talents;
+  
+    // Filter by City
+    if (filterCategory.selectedCity) {
+      filtered = filtered.filter(
+        (candidate) =>
+          candidate.location?.city?.toLowerCase() ===
+          filterCategory.selectedCity.toLowerCase()
+      );
+    }
+  
+    // Filter by Skills
+    if (filterCategory.selectedExpertType) {
+      filtered = filtered.filter((candidate) =>
+        candidate.skills.includes(filterCategory.selectedExpertType)
+      );
+    }
+  
+    // Filter by Experience
+    if (filterCategory.selectedPriceRange) {
+      filtered = filtered.filter((candidate) => {
+        if (filterCategory.selectedPriceRange === "fresher") {
+          return candidate.experience === 0;
+        } else if (filterCategory.selectedPriceRange === "mid") {
+          return candidate.experience >= 1 && candidate.experience <= 3;
+        } else {
+          return candidate.experience > 3;
+        }
+      });
+    }
+  
+    // Filter by Salary
+    if (filterCategory.minSalary || filterCategory.maxSalary) {
+      filtered = filtered.filter((candidate) => {
+        const min = filterCategory.minSalary ? parseInt(filterCategory.minSalary) : 0;
+        const max = filterCategory.maxSalary ? parseInt(filterCategory.maxSalary) : Infinity;
+        
+        const candidateMin = candidate.preferences?.salaryRange?.min || 0;
+        const candidateMax = candidate.preferences?.salaryRange?.max || Infinity;
+  
+        return candidateMax >= min && candidateMin <= max;
+      });
+    }
+  
+    setFilteredCandidates(filtered);
+  };
+  
   useEffect(() => {
     const fetchCandidates = async () => {
       try {
@@ -28,8 +77,14 @@ const TalentsCard = ({ bgColor }) => {
         console.error("Error fetching candidates:", error);
       }
     };
+  
     fetchCandidates();
   }, []);
+  
+  useEffect(() => {
+    applyFilters(); // Run filtering only after talents are fetched
+  }, [talents, filterCategory]); // Runs whenever talents or filters change
+  
 
   // Experience formatting helper
   const formatExperience = (experience) => {
@@ -82,7 +137,7 @@ const TalentsCard = ({ bgColor }) => {
         animate="visible"
       >
         {location.pathname !== "/" && (
-          <OpportunitiesFilter
+          <CandidatesFilters
             filterCategory={filterCategory}
             setFilterCategory={setFilterCategory}
             filterData={filterData}
@@ -134,14 +189,14 @@ const TalentsCard = ({ bgColor }) => {
                     whileHover={{ scale: 1.05 }}
                   >
                     <FiBriefcase className="text-sm" />
-                    <span>{formatExperience(candidate?.experience)}</span>
+                    <span>{formatExperience(filteredCandidates?.experience)}</span>
                   </motion.div>
                   <motion.div
                     className="px-3 py-1 bg-cyan-400/10 rounded-full text-cyan-400 text-sm flex items-center gap-1"
                     whileHover={{ scale: 1.05 }}
                   >
                     <FiMapPin className="text-sm" />
-                    <span>{candidate?.location?.city || "NA"}</span>
+                    <span>{filteredCandidates?.location?.city || "NA"}</span>
                   </motion.div>
                 </div>
 

@@ -11,6 +11,7 @@ const useFetchData = (url) => {
     try {
       const response = await axios.get(url);
       setData(response.data || {});
+      setLoading(false)
       setError(false);
     } catch (error) {
       console.error("API Error:", error.message);

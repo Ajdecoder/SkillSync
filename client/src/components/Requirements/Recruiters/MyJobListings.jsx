@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { DeleteOpportunity, getOpportunities } from "../../../services/api";
+import { deleteOpportunity, getOpportunities } from "../../../services/api";
 import { Spinner } from "../../common/loadingSpinner/spinner";
 import { useAuth } from "../../context/AuthContext";
 import { RxCross1 } from "react-icons/rx";
@@ -34,7 +34,7 @@ export const MyJobListings = () => {
   const handleDeleteJob = async (jobId) => {
     try {
       setDeleting(jobId);
-      await DeleteOpportunity(jobId);
+      await deleteOpportunity(jobId);
       setJobs((prevJobs) => prevJobs.filter((job) => job._id !== jobId));
     } catch (error) {
       console.error("Error deleting job:", error);
