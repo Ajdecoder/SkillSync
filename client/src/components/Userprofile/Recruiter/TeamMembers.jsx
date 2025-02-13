@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-const TeamMembers = ({ userRole, handleSubmit, setUpdatedData ,updatedData }) => {
-  const [teamMembers, setTeamMembers] = useState(updatedData.teamMembers || []);
+const TeamMembers = ({ userRole, handleSubmit, setUpdatedData ,updatedData, profileData }) => {
+  const [teamMembers, setTeamMembers] = useState(profileData.teamMembers || []);
   const [editingIndex, setEditingIndex] = useState(null); // Track the index of the member being edited
 
   useEffect(() => {
@@ -42,7 +42,7 @@ const TeamMembers = ({ userRole, handleSubmit, setUpdatedData ,updatedData }) =>
       teamMembers: teamMembers,
     }));
     // Call handleSubmit for any additional logic (e.g., API calls)
-    handleSubmit(e);
+    handleSubmit(e,'teamMembers');
     setEditingIndex(null); // Close edit mode after submission
   };
 

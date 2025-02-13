@@ -10,7 +10,7 @@ const CompanyBenefits = ({
   handleInputChange,
   handleSubmit,
   handleEditClick,
-  setUpdatedData
+  setUpdatedData,
 }) => {
   const handleAddBenefit = () => {
     setUpdatedData((prevState) => ({
@@ -19,6 +19,15 @@ const CompanyBenefits = ({
         ...prevState.companyBenefits,
         { benefitType: "", description: "" },
       ],
+    }));
+  };
+
+  const handleRemoveBenefit = () => {
+    setUpdatedData((prevState) => ({
+      ...prevState,
+      companyBenefits: prevState.companyBenefits.filter(
+        (_, index) => index !== prevState.companyBenefits.length - 1
+      ),
     }));
   };
 
@@ -48,7 +57,7 @@ const CompanyBenefits = ({
                       key={idx}
                       className="bg-gray-100 p-4 rounded-lg shadow-sm"
                     >
-                      <div>
+                      <div className="flex items-center mt-2">
                         <input
                           type="text"
                           name={`companyBenefits.${idx}.benefitType`}
@@ -71,6 +80,13 @@ const CompanyBenefits = ({
                           placeholder="Description"
                         />
                       </div>
+                      <button
+                        type="button"
+                        className="ml-2 px-2 py-1 bg-red-600 text-white rounded"
+                        onClick={handleRemoveBenefit}
+                      >
+                        Remove
+                      </button>
                     </li>
                   ))}
                 </ul>

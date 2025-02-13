@@ -12,6 +12,7 @@ export const RecruiterAboutSection = ({ userRole, profileData }) => {
   const handleSubmit = async (section) => {
     try {
       const response = await updateUserProfileByEmail(profileData.email, updatedData);
+      console.log(response);
       if (response.status === 200) {
         setIsEditing(false);
       }

@@ -55,7 +55,6 @@ const TalentsCard = ({ bgColor = "#000000d6" }) => {
        console.error("Invalid candidate ID");
        return;
      }
-     console.log("Navigating to candidate ID:", id);
      navigate(`/candidateinfo/${id}`);
    };
  
