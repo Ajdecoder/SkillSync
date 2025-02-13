@@ -22,7 +22,6 @@ const NotificationButton = () => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowNotifications(false);
       }
-      console.log(notifications);
     };
 
     document.addEventListener("mousedown", handleClickOutside);
@@ -94,9 +93,20 @@ const NotificationButton = () => {
               </button>
             </>
           ) : (
-            <p className="text-sm text-gray-500 text-center">
-              No new notifications
-            </p>
+            <>
+              <p className="text-sm text-gray-500 text-center">
+                No new notifications
+              </p>
+              <button
+                className="block mx-auto p-1 hover:text-blue-600"
+                onClick={() => {
+                  navigate("/notifications");
+                  setShowNotifications(false);
+                }}
+              >
+                View All
+              </button>
+            </>
           )}
         </div>
       )}

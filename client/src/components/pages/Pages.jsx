@@ -37,7 +37,7 @@ const ScrollToTop = () => {
 
 const Pages = () => {
   const [spin, setSpin] = useState(false);
-  const [loading, setLoading] = useState(true);  
+  const [loading, setLoading] = useState(false);  
 
   useEffect(() => {
     Aos.init({

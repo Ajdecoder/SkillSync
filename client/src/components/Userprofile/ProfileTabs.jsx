@@ -7,7 +7,7 @@ const ProfileTabs = ({ activeTab, onTabChange, userRole }) => {
         onClick={() => onTabChange("about")}
         className={`px-4 py-2 ${
           activeTab === "about" ? "bg-green-600 text-white" : "bg-white"
-        } shadow rounded hover:bg-green-500 hover:text-white transition-all`}
+        } shadow rounded-lg hover:bg-green-500 hover:text-white transition-all `}
         aria-label="About Section"
       >
         About
@@ -21,7 +21,7 @@ const ProfileTabs = ({ activeTab, onTabChange, userRole }) => {
               activeTab === "skillsAndExperience"
                 ? "bg-green-600 text-white"
                 : "bg-white"
-            } shadow rounded hover:bg-green-500 hover:text-white transition-all`}
+            } shadow rounded-lg hover:bg-green-500 hover:text-white transition-all `}
             aria-label="Skills and Experience Section"
           >
             Skills & Experience
@@ -33,7 +33,7 @@ const ProfileTabs = ({ activeTab, onTabChange, userRole }) => {
               activeTab === "preferences"
                 ? "bg-green-600 text-white"
                 : "bg-white"
-            } shadow rounded hover:bg-green-500 hover:text-white transition-all`}
+            } shadow rounded-lg hover:bg-green-500 hover:text-white transition-all`}
             aria-label="Certifications Section"
           >
             Preferences
@@ -43,7 +43,7 @@ const ProfileTabs = ({ activeTab, onTabChange, userRole }) => {
             onClick={() => onTabChange("portfolio")}
             className={`px-4 py-2 ${
               activeTab === "portfolio" ? "bg-green-600 text-white" : "bg-white"
-            } shadow rounded hover:bg-green-500 hover:text-white transition-all`}
+            } shadow rounded-lg hover:bg-green-500 hover:text-white transition-all`}
             aria-label="Portfolio Section"
           >
             Portfolio
@@ -55,7 +55,7 @@ const ProfileTabs = ({ activeTab, onTabChange, userRole }) => {
               activeTab === "certifications"
                 ? "bg-green-600 text-white"
                 : "bg-white"
-            } shadow rounded hover:bg-green-500 hover:text-white transition-all`}
+            } shadow rounded-lg hover:bg-green-500 hover:text-white transition-all`}
             aria-label="Certifications Section"
           >
             Certifications
@@ -74,7 +74,7 @@ const ProfileTabs = ({ activeTab, onTabChange, userRole }) => {
               activeTab === "manage-jobs"
                 ? "bg-green-600 text-white"
                 : "bg-white"
-            } shadow rounded hover:bg-green-500 hover:text-white transition-all`}
+            } shadow rounded-lg hover:bg-green-500 hover:text-white transition-all`}
             aria-label="Manage Jobs Section"
           >
             Manage Jobs
@@ -86,7 +86,7 @@ const ProfileTabs = ({ activeTab, onTabChange, userRole }) => {
               activeTab === "companyOverview"
                 ? "bg-green-600 text-white"
                 : "bg-white"
-            } shadow rounded hover:bg-green-500 hover:text-white transition-all`}
+            } shadow rounded-lg hover:bg-green-500 hover:text-white transition-all`}
             aria-label="Company Overview Section"
           >
             Company Overview
@@ -98,7 +98,7 @@ const ProfileTabs = ({ activeTab, onTabChange, userRole }) => {
               activeTab === "recruitmentProcess"
                 ? "bg-green-600 text-white"
                 : "bg-white"
-            } shadow rounded hover:bg-green-500 hover:text-white transition-all`}
+            } shadow rounded-lg hover:bg-green-500 hover:text-white transition-all`}
             aria-label="Recruitment Process Section"
           >
             Recruitment Process
@@ -110,7 +110,7 @@ const ProfileTabs = ({ activeTab, onTabChange, userRole }) => {
               activeTab === "teamMembers"
                 ? "bg-green-600 text-white"
                 : "bg-white"
-            } shadow rounded hover:bg-green-500 hover:text-white transition-all`}
+            } shadow rounded-lg hover:bg-green-500 hover:text-white transition-all`}
             aria-label="Team Members Section"
           >
             Team Members
@@ -122,7 +122,7 @@ const ProfileTabs = ({ activeTab, onTabChange, userRole }) => {
               activeTab === "companyBenefits"
                 ? "bg-green-600 text-white"
                 : "bg-white"
-            } shadow rounded hover:bg-green-500 hover:text-white transition-all`}
+            } shadow rounded-lg hover:bg-green-500 hover:text-white transition-all`}
             aria-label="Company Benefits Section"
           >
             Company Benefits
@@ -134,7 +134,7 @@ const ProfileTabs = ({ activeTab, onTabChange, userRole }) => {
               activeTab === "pastHires"
                 ? "bg-green-600 text-white"
                 : "bg-white"
-            } shadow rounded hover:bg-green-500 hover:text-white transition-all`}
+            } shadow rounded-lg hover:bg-green-500 hover:text-white transition-all`}
             aria-label="Past Hires Section"
           >
             Past Hires
@@ -146,7 +146,7 @@ const ProfileTabs = ({ activeTab, onTabChange, userRole }) => {
         onClick={() => onTabChange("settings")}
         className={`px-4 py-2 ${
           activeTab === "settings" ? "bg-green-600 text-white" : "bg-white"
-        } shadow rounded hover:bg-green-500 hover:text-white transition-all`}
+        } shadow rounded-lg hover:bg-green-500 hover:text-white transition-all`}
         aria-label="Settings Section"
       >
         Settings

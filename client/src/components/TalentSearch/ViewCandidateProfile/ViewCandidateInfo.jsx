@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
-  BookmarkTakents,
+  bookmarkTalent,
   getUserProfileByEmail,
   getUserProfileById,
-  RemoveBookmarkTakents,
+  removeBookmarkedTalent,
 } from "../../../services/api";
 import { motion } from "framer-motion";
 import { Spinner } from "../../common/loadingSpinner/spinner";
@@ -17,6 +17,7 @@ import {
 } from "react-icons/fi";
 import { useAuth } from "../../context/AuthContext";
 import NotificationToasts from "../../chatbot/Toast/Toast";
+import HireTalentModal from "../../Requirements/Recruiters/HireTalents/HireTalentModal";
 
 export const ViewCandidateInfo = () => {
   const { candidateId } = useParams();
@@ -27,12 +28,43 @@ export const ViewCandidateInfo = () => {
   const { loggedInUser } = useAuth();
   const [toastMessage, setToastMessage] = useState(null);
   const [toastType, setToastType] = useState("success");
+  const [hiretalentModal, setHireTalentModal] = useState(false);
 
+  // Fetch Candidate and Recruiter Profile
   useEffect(() => {
     const fetchCandidateProfile = async () => {
       try {
         const { data } = await getUserProfileById(candidateId);
-        setCandidate(data.profile);
+        setCandidate({
+          ...data.profile,
+          skills: data.profile.skills.length
+            ? data.profile.skills
+            : ["No skills listed"],
+          experience: data.profile.experience.length
+            ? data.profile.experience
+            : [
+                {
+                  JobRole: "No experience",
+                  company: "N/A",
+                  duration: "N/A",
+                  description: "No experience details available.",
+                },
+              ],
+          education: data.profile.education.length
+            ? data.profile.education
+            : [
+                {
+                  degree: "No education details",
+                  institution: "N/A",
+                  year: "N/A",
+                },
+              ],
+          socialLinks: {
+            linkedin: data.profile.socialLinks.linkedin || "#",
+            github: data.profile.socialLinks.github || "#",
+            portfolio: data.profile.socialLinks.portfolio || "#",
+          },
+        });
         setLoading(false);
       } catch (error) {
         console.error("Error fetching requirement details:", error);
@@ -43,33 +75,48 @@ export const ViewCandidateInfo = () => {
     const fetchRecruiterProfile = async () => {
       try {
         const { data } = await getUserProfileByEmail(loggedInUser.email);
-        console.log(data.recruiterProfile);
         setRecruiterId(data.recruiterProfile._id);
         setBookmark(
-          data.recruiterProfile.bookmarkedTalents.includes(candidateId)
+          data.recruiterProfile.bookmarkedTalents.some(
+            (bookmark) => bookmark._id === candidateId
+          )
         );
       } catch (error) {
         console.error("Error fetching recruiter profile:", error);
       }
     };
-    fetchRecruiterProfile();
-    fetchCandidateProfile();
-  }, []);
 
-  const handleBookmarClick = async () => {
+    if (loggedInUser?.email) {
+      fetchRecruiterProfile();
+      fetchCandidateProfile();
+    }
+  }, [candidateId, loggedInUser]); // Ensure it re-fetches when the candidate changes
+
+  // Handle Bookmark Click
+  const handleBookmarkClick = async () => {
     try {
       if (!bookmark) {
-        await BookmarkTakents(recruiterId, candidateId); // Add bookmark
+        await bookmarkTalent(recruiterId, candidateId);
         setToastMessage("Bookmark added successfully!");
-        setToastType("success");
       } else {
-        await RemoveBookmarkTakents(recruiterId, candidateId); // Remove bookmark
+        await removeBookmarkedTalent(recruiterId, candidateId);
         setToastMessage("Bookmark removed successfully!");
-        setToastType("success");
       }
+
+      setToastType("success");
       setBookmark(!bookmark);
+
+      // Fetch updated recruiter profile to keep data in sync
+      const { data } = await getUserProfileByEmail(loggedInUser.email);
+      setBookmark(
+        data.recruiterProfile.bookmarkedTalents.some(
+          (bookmark) => bookmark._id === candidateId
+        )
+      );
     } catch (error) {
       console.error("Error bookmarking candidate:", error);
+      setToastMessage("Something went wrong!");
+      setToastType("error");
     }
   };
 
@@ -134,7 +181,7 @@ export const ViewCandidateInfo = () => {
           />
 
           <motion.button
-            onClick={() => handleBookmarClick()}
+            onClick={() => handleBookmarkClick()}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             className="text-2xl m-5 p-2 float-end rounded-full hover:bg-gray-700/30 transition-colors"
@@ -189,7 +236,7 @@ export const ViewCandidateInfo = () => {
             {candidate?.experience.map((exp, idx) => (
               <TimelineItem
                 key={exp._id}
-                title={`${exp.JobRole} at ${exp.company}`}
+                title={`${exp.jobRole} at ${exp.company}`}
                 subtitle={exp.duration}
                 description={exp.description}
                 index={idx}
@@ -250,6 +297,7 @@ export const ViewCandidateInfo = () => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             className="w-full mt-8 bg-gradient-to-r from-sky-500 to-indigo-500 text-white py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-shadow"
+            onClick={() => setHireTalentModal(true)}
           >
             Hire Now
           </motion.button>
@@ -265,6 +313,13 @@ export const ViewCandidateInfo = () => {
           )}
         </div>
       </motion.div>
+
+      {hiretalentModal && (
+        <HireTalentModal
+          candidate={candidate}
+          onClose={() => setHireTalentModal(false)}
+        />
+      )}
     </div>
   );
 };

@@ -11,6 +11,9 @@ const CandidateProfileContent = ({ profileData, activeTab, userRole }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const handleSubmit = async (section) => {
+
+    console.log("section",section);
+    console.log("Updatedata in pro",updatedData);
     try {
       const response = await updateUserProfileByEmail(profileData.email, updatedData);
 

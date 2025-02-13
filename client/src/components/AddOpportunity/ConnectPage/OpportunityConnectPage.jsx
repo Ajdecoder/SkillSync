@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { PORT_CLIENT } from "../../../commonClient.js";
 import useFetchData from "../../hooks/useGetDataFetch.jsx";
 import { Spinner } from "../../common/loadingSpinner/spinner.jsx";
 import { AnimatePresence, motion } from "framer-motion";
 import {
-  ApplyToOpportunity,
-  BookmarkOpportunity,
+  applyToOpportunity,
+  bookmarkOpportunity,
   getUserProfileByEmail,
-  RemoveBookmarkOpportunity,
-  RevertBackApplication,
+  removeBookmarkedOpportunity,
+  revertBackApplication,
 } from "../../../services/api.js";
 import { useAuth } from "../../context/AuthContext.jsx";
 import NotificationToasts from "../../chatbot/Toast/Toast.jsx";
@@ -47,14 +47,18 @@ const OpportunityConnectPage = () => {
     const fetchUserProfile = async () => {
       try {
         const user = await getUserProfileByEmail(loggedInUser.email);
+        console.log("user: ", user.data.candidateProfile.OpportunityBookmarks);
         setUserId(user.data.candidateProfile._id);
-        setBookmark(user.data.candidateProfile.bookmarks.includes(post_id));
+        setBookmark(
+          user.data.candidateProfile.OpportunityBookmarks.some(
+            (bookmark) => bookmark._id === post_id
+          )
+        );
       } catch (err) {
         console.error("Error fetching user profile:", err);
         setError("Unable to fetch user profile.");
       }
     };
-    
 
     if (loggedInUser.email) {
       fetchUserProfile();
@@ -76,12 +80,11 @@ const OpportunityConnectPage = () => {
           recruiterId: userId,
         },
       };
-      
 
       // Check if payload is properly formed
       // console.log("Payload:", payload);
 
-      await ApplyToOpportunity(payload);
+      await applyToOpportunity(payload);
       setUserHasApplied(true);
 
       // Set toast message on successful application
@@ -104,7 +107,7 @@ const OpportunityConnectPage = () => {
 
     try {
       setLoadingApply(true);
-      await RevertBackApplication(userId, companyData._id);
+      await revertBackApplication(userId, companyData._id);
       setUserHasApplied(false);
 
       setToastMessage("Application reverted successfully!");
@@ -154,8 +157,6 @@ const OpportunityConnectPage = () => {
     recruiterDetails,
   } = companyData;
 
-  console.log(companyData);
-  // console.log(recruiterDetails);
 
   const userHasAlreadyApplied = candidatesApplied?.includes(userId);
 
@@ -167,19 +168,19 @@ const OpportunityConnectPage = () => {
 
   const handleBookmarClick = async () => {
     if (!userId || !post_id) return;
-  
+
     try {
       // If bookmark is false, add bookmark. Otherwise, remove bookmark.
       if (!bookmark) {
-        await BookmarkOpportunity(userId, post_id); // Add bookmark
-        setToastMessage("Bookmark added successfully!");
+        await bookmarkOpportunity(userId, post_id); // Add bookmark
+        setToastMessage("Opportunity Bookmared!");
         setToastType("success");
       } else {
-        await RemoveBookmarkOpportunity(userId, post_id); // Remove bookmark
-        setToastMessage("Bookmark removed successfully!");
+        await removeBookmarkedOpportunity(userId, post_id); // Remove bookmark
+        setToastMessage("Opportunity Unbookmared!");
         setToastType("success");
       }
-  
+
       // Toggle the bookmark state after the operation
       setBookmark(!bookmark); // This updates the UI to reflect the new state
       console.log(userId, post_id);
@@ -189,7 +190,6 @@ const OpportunityConnectPage = () => {
       setToastType("error");
     }
   };
-  
 
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -262,13 +262,13 @@ const OpportunityConnectPage = () => {
           >
             <div className="flex items-center gap-2">
               <FiGlobe className="text-emerald-400" />
-              <a
+              <Link
                 href={`http://${company_website}`}
                 target="_blank"
                 className="hover:text-emerald-400 transition-colors"
               >
                 {company_website}
-              </a>
+              </Link>
             </div>
             <div className="flex items-center gap-2">
               <FiClock className="text-cyan-400" />
@@ -384,13 +384,13 @@ const OpportunityConnectPage = () => {
                     </p>
                     <div className="flex items-center gap-2">
                       <FiGlobe className="text-cyan-400" />
-                      <a
-                        href={recruiterDetails?.companyOverview?.website}
+                      <Link
+                        to={recruiterDetails?.companyOverview?.website}
                         target="_blank"
                         className="hover:text-emerald-400 transition-colors"
                       >
                         {recruiterDetails?.companyOverview?.website || "N/A"}
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </motion.div>
@@ -526,22 +526,22 @@ const OpportunityConnectPage = () => {
                           </p>
                           <div className="mt-2 flex gap-3 text-sm">
                             {member.github && (
-                              <a
-                                href={member.github}
+                              <Link
+                                to={member.github}
                                 target="_blank"
                                 className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300"
                               >
                                 <FiGlobe /> GitHub
-                              </a>
+                              </Link>
                             )}
                             {member.linkedIn && (
-                              <a
-                                href={member.linkedIn}
+                              <Link
+                                to={member.linkedIn}
                                 target="_blank"
                                 className="flex items-center gap-1 text-emerald-400 hover:text-emerald-300"
                               >
                                 <FiGlobe /> LinkedIn
-                              </a>
+                              </Link>
                             )}
                           </div>
                         </motion.div>
