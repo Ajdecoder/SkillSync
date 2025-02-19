@@ -5,6 +5,7 @@ import { Candidatepreferences } from "./Candidate/CandidatePreference";
 import { Portfolio } from "./Candidate/Portfolio";
 import { Certification } from "./Candidate/Certification";
 import { updateUserProfileByEmail } from "../../services/api";
+import ResumeUpload from "./Candidate/Resume";
 
 const CandidateProfileContent = ({ profileData, activeTab, userRole }) => {
   const [updatedData, setUpdatedData] = useState(profileData);
@@ -13,7 +14,7 @@ const CandidateProfileContent = ({ profileData, activeTab, userRole }) => {
   const handleSubmit = async (section) => {
 
     console.log("section",section);
-    console.log("Updatedata in pro",updatedData);
+    console.log("Updatedata in pro",updatedData.preferences);
     try {
       const response = await updateUserProfileByEmail(profileData.email, updatedData);
 
@@ -28,6 +29,11 @@ const CandidateProfileContent = ({ profileData, activeTab, userRole }) => {
 
   return (
     <>
+
+    {
+      activeTab === "resume" && (
+        <ResumeUpload/>
+      )}
      
       {activeTab === "skillsAndExperience" && (
         <SkillsAndExperience

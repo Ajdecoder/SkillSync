@@ -8,6 +8,7 @@ export const NotificationsProvider = ({ children }) => {
   const { loggedInUser } = useAuth();
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  
 
   // Fetch notifications based on the user's role
   const fetchNotifications = useCallback(async () => {
