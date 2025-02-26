@@ -96,8 +96,7 @@ export const updateUserProfileByEmail = async (req, res) => {
   try {
     const { email } = req.params;
     const {data} = req.body;
-    console.log("email ",email);
-    console.log("skills ",data.skills);
+    console.log("skills ",data.preferences);
 
     // Check if the body contains data to update
     if (!Object.keys(data).length) {

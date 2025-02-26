@@ -2,14 +2,17 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { useNotifications } from "../../context/NotificationsContext";
+import { AnimatePresence, motion } from "framer-motion";
+import { FaCheckCircle } from "react-icons/fa";
+import { HiBellAlert } from "react-icons/hi2";
 
 const NotificationButton = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const dropdownRef = useRef(null);
-  const navigate = useNavigate();
   const { loggedInUser } = useAuth();
   const { notifications, unreadCount, fetchNotifications, markAsRead } =
     useNotifications();
+  const navigate = useNavigate();
 
   // Fetch notifications on login/user change
   useEffect(() => {
@@ -65,23 +68,62 @@ const NotificationButton = () => {
           className="absolute bg-white shadow-lg rounded-md w-[18rem] top-12 right-[-7rem] p-4 max-h-[22rem] overflow-auto z-10 border border-gray-300 scroll-smooth"
           onWheel={(e) => e.stopPropagation()}
         >
-          {notifications.length && notifications.read > 0 ? (
+          {console.log(notifications[0])}
+          {notifications&&notifications[0]?.read === false ? (
             <>
-              <ul>
-                {notifications.map((notification) => (
-                  <li
-                    key={notification._id}
-                    onClick={() => handleNotificationClick(notification)}
-                    className={`text-sm py-2 border-b last:border-none hover:bg-gray-100 cursor-pointer p-2 ${
-                      notification.read
-                        ? "text-gray-400 hidden"
-                        : "text-gray-800"
-                    }`}
-                  >
-                    {notification.message}
-                  </li>
-                ))}
-              </ul>
+              <motion.ul
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+                }}
+                className="divide-y divide-gray-100 rounded-lg shadow-lg border border-gray-100 bg-white max-w-md overflow-hidden"
+              >
+                <AnimatePresence>
+                  {notifications.map((notification) => (
+                    <motion.li
+                      key={notification._id}
+                      variants={{
+                        hidden: { opacity: 0, x: -50 },
+                        visible: { opacity: 1, x: 0 },
+                      }}
+                      exit={{ opacity: 0, height: 0 }}
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => handleNotificationClick(notification)}
+                      className={`p-4 transition-all duration-200 ease-out ${
+                        notification.read
+                          ? "bg-gray-50 text-gray-400"
+                          : "bg-white text-gray-800 hover:bg-blue-50"
+                      }`}
+                    >
+                      <div className="flex items-start space-x-3">
+                        <div className="flex-shrink-0">
+                          {notification.read ? (
+                            <FaCheckCircle className="w-5 h-5 text-green-500" />
+                          ) : (
+                            <div className="relative">
+                              <HiBellAlert className="w-5 h-5 text-blue-500 animate-pulse" />
+                              <div className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full animate-ping" />
+                            </div>
+                          )}
+                        </div>
+                        <p className="text-sm leading-5">
+                          {notification.message}
+                        </p>
+                      </div>
+                      {!notification.read && (
+                        <motion.div
+                          initial={{ scaleX: 0 }}
+                          animate={{ scaleX: 1 }}
+                          className="h-1 bg-blue-200 mt-2 rounded-full"
+                        />
+                      )}
+                    </motion.li>
+                  ))}
+                </AnimatePresence>
+              </motion.ul>
               <button
                 className="block mx-auto p-1 hover:text-blue-600"
                 onClick={() => {

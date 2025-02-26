@@ -10,6 +10,7 @@ const UserPreferenceForm = ({
 }) => {
   const [selectedInterests, setSelectedInterests] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isEditing, setIsEditing] = useState(false);
   const [areasOfInterest] = useState([
     "Web Development",
     "Programming",
@@ -149,8 +150,15 @@ const UserPreferenceForm = ({
   console.log(updatedData.preferences.careerInterests);
 
   const handleInterestSubmit = () => {
-    setUpdatedData(updatedData);
-    handleSubmit("Areas of interest");
+    setUpdatedData((prevData) => ({
+      ...prevData,
+      preferences: {
+        ...prevData.preferences,
+        careerInterests: selectedInterests,
+      },
+    }));
+    handleSubmit("Areas of Interest");
+    setIsEditing(false);
   };
 
   const filteredAreas = areasOfInterest.filter((interest) =>

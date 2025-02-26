@@ -9,7 +9,9 @@ const NotificationPage = () => {
   const navigate = useNavigate();
   const { notifications, markAsRead } = useNotifications();
 
-  const selectedNotification = notifications.find((n) => n._id === notificationId);
+  const selectedNotification = notifications.find(
+    (n) => n._id === notificationId
+  );
 
   // Mark notification as read when page loads
   useEffect(() => {
@@ -20,7 +22,7 @@ const NotificationPage = () => {
 
   const handleNotificationSelect = (notification) => {
     if (!notification.read) {
-      markAsRead(notification._id); 
+      markAsRead(notification._id);
     }
     navigate(`/notifications/${notification._id}`);
   };
@@ -32,107 +34,254 @@ const NotificationPage = () => {
 
   const renderNotificationDetails = () => {
     if (!selectedNotification) {
-      return <p className="text-gray-500">Select a notification to view details</p>;
+      return (
+        <p className="text-gray-500">Select a notification to view details</p>
+      );
     }
 
-    return (
-      <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="bg-white p-6 shadow-lg rounded-lg max-w-lg w-full"
-    >
-      <h3 className="text-xl font-bold mb-2">
-        {selectedNotification.message}
-      </h3>
-
-      {/* Company Info */}
-      <div className="mb-3">
-        <p className="text-sm text-gray-500">Company</p>
-        <h3 className="text-lg font-semibold">
-          {selectedNotification.recipient?.company_name || "N/A"}
-        </h3>
-        <a
-          href={selectedNotification.recipient?.company_website}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-500 hover:underline"
+    const renderJobPostings = () => {
+      return (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white p-6 shadow-lg rounded-lg max-w-lg w-full"
         >
-          {selectedNotification.recipient?.company_website ||
-            "No Website"}
-        </a>
-      </div>
+          {console.log(selectedNotification)}
+          <h3 className="text-xl font-bold mb-2">
+            {selectedNotification.message}
+          </h3>
 
-      {/* Job Description */}
-      <div className="mb-3">
-        <p className="text-sm text-gray-500">Job Description</p>
-        <p className="text-base text-gray-800">
-          {selectedNotification.recipient?.desc_requirement ||
-            "No description available"}
-        </p>
-      </div>
+          {/* Company Info */}
+          <div className="mb-3">
+            <p className="text-sm text-gray-500">Company</p>
+            <h3 className="text-lg font-semibold">
+              {selectedNotification.recipient?.company_name || "N/A"}
+            </h3>
+            <a
+              href={selectedNotification.recipient?.company_website}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500 hover:underline"
+            >
+              {selectedNotification.recipient?.company_website || "No Website"}
+            </a>
+          </div>
 
-      {/* Job Details */}
-      <div className="mb-3">
-        <p className="text-sm text-gray-500">Job Type</p>
-        <p className="text-base text-gray-800">
-          {selectedNotification.recipient?.requirement_type ||
-            "Not specified"}
-        </p>
-      </div>
+          {/* Job Description */}
+          <div className="mb-3">
+            <p className="text-sm text-gray-500">Job Description</p>
+            <p className="text-base text-gray-800">
+              {selectedNotification.recipient?.desc_requirement ||
+                "No description available"}
+            </p>
+          </div>
 
-      {/* Salary */}
-      <div className="mb-3">
-        <p className="text-sm text-gray-500">Salary Range</p>
-        <p className="text-base text-gray-800">
-          {selectedNotification.recipient?.salaryRange || "Not disclosed"}
-        </p>
-      </div>
+          {/* Job Details */}
+          <div className="mb-3">
+            <p className="text-sm text-gray-500">Job Type</p>
+            <p className="text-base text-gray-800">
+              {selectedNotification.recipient?.requirement_type ||
+                "Not specified"}
+            </p>
+          </div>
 
-      {/* Location */}
-      <div className="mb-3">
-        <p className="text-sm text-gray-500">Location</p>
-        <p className="text-base text-gray-800">
-          {selectedNotification.recipient?.location ||
-            "Remote / Unspecified"}
-        </p>
-      </div>
+          {/* Salary */}
+          <div className="mb-3">
+            <p className="text-sm text-gray-500">Salary Range</p>
+            <p className="text-base text-gray-800">
+              {selectedNotification.recipient?.salaryRange.minSalary +
+                "-" +
+                selectedNotification.recipient?.salaryRange.maxSalary ||
+                "Not disclosed"}
+            </p>
+          </div>
 
-      {/* Contact Info */}
-      <div className="mb-3">
-        <p className="text-sm text-gray-500">Contact Email</p>
-        <p className="text-base text-gray-800">
-          {selectedNotification.recipient?.email || "No email provided"}
-        </p>
-      </div>
+          {/* Location */}
+          <div className="mb-3">
+            <p className="text-sm text-gray-500">Location</p>
+            <p className="text-base text-gray-800">
+              {selectedNotification.recipient?.location ||
+                "Remote / Unspecified"}
+            </p>
+          </div>
 
-      <div className="mb-3">
-        <p className="text-sm text-gray-500">Contact Phone</p>
-        <p className="text-base text-gray-800">
-          {selectedNotification.recipient?.ph_no ||
-            "No phone number provided"}
-        </p>
-      </div>
+          {/* Contact Info */}
+          <div className="mb-3">
+            <p className="text-sm text-gray-500">Contact Email</p>
+            <p className="text-base text-gray-800">
+              {selectedNotification.recipient?.email || "No email provided"}
+            </p>
+          </div>
 
-      {/* Skills Required */}
-      <div className="mb-3">
-        <p className="text-sm text-gray-500">Required Skills</p>
-        <ul className="list-disc list-inside text-gray-800">
-          {selectedNotification.recipient?.skills?.length > 0 ? (
-            selectedNotification.recipient.skills.map((skill, index) => (
-              <li key={index}>{skill.name}</li>
-            ))
-          ) : (
-            <li>No skills specified</li>
-          )}
-        </ul>
-      </div>
+          <div className="mb-3">
+            <p className="text-sm text-gray-500">Contact Phone</p>
+            <p className="text-base text-gray-800">
+              {selectedNotification.recipient?.ph_no ||
+                "No phone number provided"}
+            </p>
+          </div>
 
-      {/* Timestamp */}
-      <p className="text-sm text-gray-500 mt-4">
-        Posted on: {formatTime(selectedNotification.createdAt)}
-      </p>
-    </motion.div>
-    );
+          {/* Skills Required */}
+          <div className="mb-3">
+            <p className="text-sm text-gray-500">Required Skills</p>
+            <ul className="list-disc list-inside text-gray-800">
+              {selectedNotification.recipient?.skills?.length > 0 ? (
+                selectedNotification.recipient.skills.map((skill, index) => (
+                  <li key={index}>{skill.skillName}</li>
+                ))
+              ) : (
+                <li>No skills specified</li>
+              )}
+            </ul>
+          </div>
+
+          {/* Timestamp */}
+          <p className="text-sm text-gray-500 mt-4">
+            Posted on: {formatTime(selectedNotification.createdAt)}
+          </p>
+        </motion.div>
+      );
+    };
+
+    const renderApplicationRecieved = () => {
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-white p-6 shadow-lg rounded-lg max-w-lg w-full"
+          >
+            {console.log(selectedNotification)}
+            <h3 className="text-xl font-bold mb-2">Application from {selectedNotification.name}</h3>
+            
+            {/* Candidate Info */}
+            <div className="flex items-center gap-4 mb-3">
+              <img
+                src={selectedNotification.profilePicture}
+                alt={selectedNotification.name}
+                className="w-14 h-14 rounded-full border"
+              />
+              <div>
+                <p className="text-lg font-semibold">{selectedNotification.name}</p>
+                <p className="text-sm text-gray-500">{selectedNotification.email}</p>
+              </div>
+            </div>
+            
+            {/* Location */}
+            <div className="mb-3">
+              <p className="text-sm text-gray-500">Location</p>
+              <p className="text-base text-gray-800">
+                {selectedNotification.location.city}, {selectedNotification.location.state}, {selectedNotification.location.country}
+              </p>
+            </div>
+      
+            {/* Skills */}
+            <div className="mb-3">
+              <p className="text-sm text-gray-500">Skills</p>
+              <ul className="list-disc list-inside text-gray-800">
+                {selectedNotification.skills.length > 0 ? (
+                  selectedNotification.skills.map((skill, index) => <li key={index}>{skill}</li>)
+                ) : (
+                  <li>No skills specified</li>
+                )}
+              </ul>
+            </div>
+      
+            {/* Career Interests */}
+            <div className="mb-3">
+              <p className="text-sm text-gray-500">Career Interests</p>
+              <p className="text-base text-gray-800">
+                {selectedNotification.preferences.careerInterests.join(", ") || "Not specified"}
+              </p>
+            </div>
+      
+            {/* Job Type */}
+            <div className="mb-3">
+              <p className="text-sm text-gray-500">Preferred Job Type</p>
+              <p className="text-base text-gray-800">{selectedNotification.preferences.jobType}</p>
+            </div>
+      
+            {/* Salary Range */}
+            <div className="mb-3">
+              <p className="text-sm text-gray-500">Expected Salary Range</p>
+              <p className="text-base text-gray-800">
+                {selectedNotification.preferences.salaryRange.min} - {selectedNotification.preferences.salaryRange.max}
+              </p>
+            </div>
+      
+            {/* Work Environment */}
+            <div className="mb-3">
+              <p className="text-sm text-gray-500">Work Environment Preference</p>
+              <p className="text-base text-gray-800">{selectedNotification.workEnvironment || "Not specified"}</p>
+            </div>
+            
+            {/* About Candidate */}
+            <div className="mb-3">
+              <p className="text-sm text-gray-500">About</p>
+              <p className="text-base text-gray-800">{selectedNotification.about || "No description available"}</p>
+            </div>
+            
+            {/* Portfolio Links */}
+            {selectedNotification.portfolio.length > 0 && (
+              <div className="mb-3">
+                <p className="text-sm text-gray-500">Portfolio</p>
+                {selectedNotification.portfolio.map((item, index) => (
+                  <a
+                    key={index}
+                    href={item.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 hover:underline block"
+                  >
+                    {item.title || "Portfolio Item"}
+                  </a>
+                ))}
+              </div>
+            )}
+      
+            {/* Social Links */}
+            <div className="mb-3">
+              <p className="text-sm text-gray-500">Social Links</p>
+              <div className="flex gap-2">
+                {selectedNotification.socialLinks.linkedin && (
+                  <a
+                    href={selectedNotification.socialLinks.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 hover:underline"
+                  >
+                    LinkedIn
+                  </a>
+                )}
+                {selectedNotification.socialLinks.github && (
+                  <a
+                    href={selectedNotification.socialLinks.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-700 hover:underline"
+                  >
+                    GitHub
+                  </a>
+                )}
+                {selectedNotification.socialLinks.portfolio && (
+                  <a
+                    href={selectedNotification.socialLinks.portfolio}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-green-600 hover:underline"
+                  >
+                    Portfolio
+                  </a>
+                )}
+              </div>
+            </div>
+            
+            {/* Timestamp */}
+            <p className="text-sm text-gray-500 mt-4">
+              Applied on: {new Date(selectedNotification.createdAt.$date).toLocaleDateString()}
+            </p>
+          </motion.div>
+    }
+
+    return <>{ selectedNotification.type==="job_posted" ? renderJobPostings() : renderApplicationRecieved()}</>;
   };
 
   if (!notifications) {
@@ -157,7 +306,9 @@ const NotificationPage = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.05 }}
                 className={`p-3 rounded-lg cursor-pointer border ${
-                  notification.read ? "bg-gray-200" : "bg-gray-50 hover:bg-gray-100"
+                  notification.read
+                    ? "bg-gray-200"
+                    : "bg-gray-50 hover:bg-gray-100"
                 }`}
                 onClick={() => handleNotificationSelect(notification)}
               >
@@ -168,7 +319,9 @@ const NotificationPage = () => {
               </motion.div>
             ))
           ) : (
-            <p className="text-center text-gray-500">No notifications available</p>
+            <p className="text-center text-gray-500">
+              No notifications available
+            </p>
           )}
         </div>
       </div>

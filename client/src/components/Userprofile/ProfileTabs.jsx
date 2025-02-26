@@ -61,8 +61,17 @@ const ProfileTabs = ({ activeTab, onTabChange, userRole }) => {
             Certifications
           </button>
 
-
-      
+          <button
+            onClick={() => onTabChange("resume")}
+            className={`px-4 py-2 ${
+              activeTab === "resume"
+                ? "bg-green-600 text-white"
+                : "bg-white"
+            } shadow rounded-lg hover:bg-green-500 hover:text-white transition-all`}
+            aria-label="Certifications Section"
+          >
+            Resume
+          </button>
         </>
       )}
 
@@ -131,9 +140,7 @@ const ProfileTabs = ({ activeTab, onTabChange, userRole }) => {
           <button
             onClick={() => onTabChange("pastHires")}
             className={`px-4 py-2 ${
-              activeTab === "pastHires"
-                ? "bg-green-600 text-white"
-                : "bg-white"
+              activeTab === "pastHires" ? "bg-green-600 text-white" : "bg-white"
             } shadow rounded-lg hover:bg-green-500 hover:text-white transition-all`}
             aria-label="Past Hires Section"
           >
