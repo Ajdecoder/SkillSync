@@ -8,7 +8,7 @@ import { PORT_CLIENT } from "../../commonClient";
 import { GoogleAuth } from "../Oauth/Oauth";
 import bgImage from "/images/logingPage/bg.png";
 import { loginRecruiter } from "../../services/api";
-import NotificationToasts from "../chatbot/Toast/Toast";
+import NotificationToasts  from "../common/Toast/Toast";
 
 export const LoginRecruiter = () => {
   const navigate = useNavigate();
@@ -66,6 +66,9 @@ export const LoginRecruiter = () => {
           setToastType("error");
         }
       }
+    }
+    finally {
+      toast.dismiss();
     }
   };
 
@@ -140,7 +143,7 @@ export const LoginRecruiter = () => {
           </div>
         </form>
         {toastMessage && (
-          <NotificationToasts
+          <NotificationToasts 
             message={toastMessage}
             type={toastType}
             autoClose={1500}

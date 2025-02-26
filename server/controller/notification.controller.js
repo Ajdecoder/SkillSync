@@ -32,7 +32,6 @@ export const NotificationAsRead = async function (req, res) {
 export const Notifications = async function (req, res) {
   try {
     const notifications = await Notification.find().populate("recipient");
-    console.log(notifications);
     res.status(200).send({ notifications });
   } catch (error) {
     console.log(error);

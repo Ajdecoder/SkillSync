@@ -13,13 +13,17 @@ const notificationMiddleware = async (req, res, next) => {
       console.log("Unknown action type");
       return res.status(400).json({ message: "Unknown action type" });
     }
+    next()
   } catch (error) {
     console.error("Notification Middleware Error:", error);
     res.status(500).json({ message: "Error in notification middleware" });
   }
 };
 
+
 const notifyCandidatesForNewJob = async (payload) => {
+  
+  console.log("payload ==============================>",payload);
   try {
     if (!Array.isArray(payload.skills)) {
       throw new Error("Invalid skills format in payload");
@@ -30,6 +34,8 @@ const notifyCandidatesForNewJob = async (payload) => {
     const candidates = await CandidateUserProfile.find({
       skills: { $in: skillNames },
     });
+
+    console.log('candidates found with similar skills', candidates);
 
     if (candidates.length === 0) {
       console.log("No candidates found matching the required skills.");
@@ -45,6 +51,7 @@ const notifyCandidatesForNewJob = async (payload) => {
     console.error("Error notifying candidates:", error);
   }
 };
+
 
 const sendNotificationToCandidate = async (
   candidateId,
@@ -74,6 +81,7 @@ const notifyRecruiterForNewApplication = async (payload) => {
 
     const recruiter = await RecruiterUserProfile.findById(payload.recruiterId);
     console.log("printing value of id ", recruiter);
+    console.log("printing value of payload ", payload);
     if (!recruiter) {
       console.log("Recruiter not found.");
       return;

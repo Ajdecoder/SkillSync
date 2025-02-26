@@ -96,7 +96,7 @@ export const updateUserProfileByEmail = async (req, res) => {
   try {
     const { email } = req.params;
     const {data} = req.body;
-    console.log("skills ",data.preferences);
+    console.log("skills ",data?.preferences);
 
     // Check if the body contains data to update
     if (!Object.keys(data).length) {
@@ -179,8 +179,9 @@ export const unbookmarkOpportunity = async (req, res) => {
   try {
     const { userId, post_id } = req.body;
 
+    console.log(userId, post_id);
+
     const profile = await CandidateUserProfile.findById(userId);
-    console.log(profile)
     if (!profile) {
       return res.status(404).json({ message: "User not found." });
     }

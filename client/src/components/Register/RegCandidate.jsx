@@ -8,7 +8,7 @@ import { PORT_CLIENT } from "../../commonClient";
 import { useAuth } from "../context/AuthContext";
 import { GoogleAuth } from "../Oauth/Oauth";
 import { registerCandidate } from "../../services/api";
-import NotificationToasts from "../chatbot/Toast/Toast";
+import NotificationToasts  from "../common/Toast/Toast";
 
 export const RegCandidate = () => {
   const navigate = useNavigate();
@@ -207,7 +207,7 @@ export const RegCandidate = () => {
           </div>
         </form>
         {toastMessage && (
-          <NotificationToasts
+          <NotificationToasts 
             message={toastMessage}
             type={toastType}
             autoClose={1500}

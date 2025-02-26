@@ -12,7 +12,7 @@ import {
   revertBackApplication,
 } from "../../../services/api.js";
 import { useAuth } from "../../context/AuthContext.jsx";
-import NotificationToasts from "../../chatbot/Toast/Toast.jsx";
+import NotificationToasts  from "../../common/Toast/Toast.jsx";
 import {
   FiBookmark,
   FiCheckCircle,
@@ -36,12 +36,16 @@ const OpportunityConnectPage = () => {
   const [toastMessage, setToastMessage] = useState(null);
   const [toastType, setToastType] = useState("success");
   const [bookmark, setBookmark] = useState(false);
+  const [opportunity, setOpportunity] = useState(null);
+
 
   const { post_id } = useParams();
 
   const { data: companyData, loading } = useFetchData(
     `${PORT_CLIENT}/api/requirements/Companyrequirements/${post_id}`
   );
+
+  console.log(companyData);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -127,6 +131,7 @@ const OpportunityConnectPage = () => {
       setLoadingApply(false);
     }
   };
+  
 
   if (!post_id) {
     return <div className="text-red-500">Invalid post ID.</div>;
@@ -183,7 +188,7 @@ const OpportunityConnectPage = () => {
 
       // Toggle the bookmark state after the operation
       setBookmark(!bookmark); // This updates the UI to reflect the new state
-      console.log(userId, post_id);
+      // console.log(userId, post_id);
     } catch (error) {
       console.error("Error updating bookmark:", error);
       setToastMessage("Failed to update bookmark.");
@@ -664,7 +669,7 @@ const OpportunityConnectPage = () => {
 
         {/* Toast Notifications */}
         {toastMessage && (
-          <NotificationToasts
+          <NotificationToasts 
             message={toastMessage}
             type={toastType}
             autoClose={1500}

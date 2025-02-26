@@ -8,7 +8,7 @@ import { PORT_CLIENT } from "../../commonClient";
 import { useAuth } from "../context/AuthContext";
 import { GoogleAuth } from "../Oauth/Oauth";
 import { registerRecruiter } from "../../services/api";
-import NotificationToasts from "../chatbot/Toast/Toast";
+import NotificationToasts from "../common/Toast/Toast";
 
 export const RegRecruiter = () => {
   const navigate = useNavigate();
