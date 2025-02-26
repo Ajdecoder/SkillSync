@@ -35,8 +35,6 @@ const notifyCandidatesForNewJob = async (payload) => {
       skills: { $in: skillNames },
     });
 
-    console.log('candidates found with similar skills', candidates);
-
     if (candidates.length === 0) {
       console.log("No candidates found matching the required skills.");
       return;
@@ -59,6 +57,7 @@ const sendNotificationToCandidate = async (
   relatedJobId
 ) => {
   try {
+    console.log("sssssssssssssss>>>>>>>>>>",candidateId, message,relatedJobId);
     await Notification.create({
       recipient: candidateId,
       message: message,

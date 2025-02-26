@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { updateUserProfileByEmail } from "../../../services/api";
+import { FaEdit } from "react-icons/fa";
 
 export const RecruiterAboutSection = ({ userRole, profileData }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -11,7 +12,10 @@ export const RecruiterAboutSection = ({ userRole, profileData }) => {
 
   const handleSubmit = async (section) => {
     try {
-      const response = await updateUserProfileByEmail(profileData.email, updatedData);
+      const response = await updateUserProfileByEmail(
+        profileData.email,
+        updatedData
+      );
       console.log(response);
       if (response.status === 200) {
         setIsEditing(false);
@@ -104,10 +108,7 @@ export const RecruiterAboutSection = ({ userRole, profileData }) => {
                 className="border rounded p-2 w-full"
               />
             ) : (
-                <p>
-                {updatedData.companyOverview?.name ||
-                  "Add Company Name"}
-              </p>
+              <p>{updatedData.companyOverview?.name || "Add Company Name"}</p>
             )}
           </div>
           <div className="mt-4">
@@ -121,9 +122,9 @@ export const RecruiterAboutSection = ({ userRole, profileData }) => {
             ) : (
               <button
                 onClick={() => setIsEditing(true)}
-                className="bg-gray-500 text-white px-4 py-2 rounded"
+                className="bg-blue-600 text-white px-4 py-2 rounded"
               >
-                Edit
+                <FaEdit />
               </button>
             )}
             {isEditing && (

@@ -96,7 +96,6 @@ export const updateUserProfileByEmail = async (req, res) => {
   try {
     const { email } = req.params;
     const {data} = req.body;
-    console.log("skills ",data?.preferences);
 
     // Check if the body contains data to update
     if (!Object.keys(data).length) {
@@ -179,8 +178,6 @@ export const unbookmarkOpportunity = async (req, res) => {
   try {
     const { userId, post_id } = req.body;
 
-    console.log(userId, post_id);
-
     const profile = await CandidateUserProfile.findById(userId);
     if (!profile) {
       return res.status(404).json({ message: "User not found." });
@@ -198,8 +195,6 @@ export const unbookmarkOpportunity = async (req, res) => {
       message: "Opportunity unbookmarked successfully",
       OpportunityBookmarks: profile.OpportunityBookmarks,
     });
-
-    console.log("Opportunity unbookmarked successfully");
   } catch (error) {
     console.error("Error unbookmarking opportunity:", error);
     res.status(500).json({ message: "Error unbookmarking opportunity." });
@@ -256,7 +251,6 @@ export const unbookmarkTalents = async (req, res) => {
       message: "Talent unbookmarked successfully",
       bookmarkedTalents: profile.bookmarkedTalents,
     });
-    console.log("Talent unbookmarked successfully");
   } catch (error) {
     console.error("Error unbookmarking talent:", error);
     res.status(500).json({ message: "Error unbookmarking talent." });

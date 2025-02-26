@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import React, { useState } from "react";
 import { updateUserProfileByEmail } from "../../../services/api";
+import { FaEdit } from "react-icons/fa";
 
 export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -40,7 +41,7 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
         <>
           {/* Name */}
           <div className="mb-4">
-            <p className="font-bold">Name:</p>
+            <p className="text-lg font-semibold text-gray-700 flex items-center">👤 Name:</p>
             {isEditing ? (
               <input
                 type="text"
@@ -56,7 +57,7 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
 
           {/* Email */}
           <div className="mb-4">
-            <p className="font-bold">Email:</p>
+            <p className="text-lg font-semibold text-gray-700 flex items-center">📧Email:</p>
             {isEditing ? (
               <input
                 type="email"
@@ -72,7 +73,7 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
 
           {/* Bio */}
           <div className="mb-4">
-            <p className="font-bold">Bio:</p>
+            <p className="text-lg font-semibold text-gray-700 flex items-center">Bio:</p>
             {isEditing ? (
               <textarea
                 style={{ border: "0.5px solid" }}
@@ -87,7 +88,7 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
 
           {/* Languages */}
           <div className="mb-4">
-            <p className="font-bold">Languages:</p>
+            <p className="text-lg font-semibold text-gray-700 flex items-center">💬Languages:</p>
             {isEditing ? (
               <>
                 {updatedData?.languages && updatedData.languages.length > 0 ? (
@@ -169,7 +170,7 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
 
           {/* Location */}
           <div className="mb-4">
-            <p className="font-bold">Location:</p>
+            <p className="text-lg font-semibold text-gray-700 flex items-center">➤ Location:</p>
             {isEditing ? (
               <div className="flex gap-2">
                 <input
@@ -239,7 +240,7 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Edit
+                <FaEdit/>
               </motion.button>
             )}
           </div>

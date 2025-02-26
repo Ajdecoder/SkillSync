@@ -45,7 +45,7 @@ export const NotificationsById = async function (req, res) {
       return res.status(400).json({ message: "Notification ID is required." });
     }
     const notifications = await Notification.findById(req.body.notificationId).populate("recipient");
-    console.log(req.params)
+    console.log(notifications);
     res.status(200).send({ notifications });
   } catch (error) {
     console.log(error);
