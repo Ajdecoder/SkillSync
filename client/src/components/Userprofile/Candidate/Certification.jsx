@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { FaEdit } from "react-icons/fa";
 
 export const Certification = ({
   profileData,
@@ -165,7 +166,7 @@ export const Certification = ({
               className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
               onClick={() => setIsEditing(true)}
             >
-              Edit
+              <FaEdit />
             </button>
           )}
         </div>

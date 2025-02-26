@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import UserPreferenceForm from "../UserPreferenceForm";
 import { motion } from "framer-motion";
+import { FaEdit } from "react-icons/fa";
 
 export const Candidatepreferences = ({
   profileData,
@@ -55,7 +56,7 @@ export const Candidatepreferences = ({
       />
       {!isEditing ? (
         <section className="profile-content mt-6 bg-white p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold">Job Preferences</h2>
+          <h2 className="text-xl font-semibold">💼Job Preferences</h2>
           <div className="mt-4 space-y-4">
             <div>
               <p className="font-bold">Looking For:</p>
@@ -76,7 +77,7 @@ export const Candidatepreferences = ({
             className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
             onClick={() => setIsEditing(true)}
           >
-            Edit
+            <FaEdit/>
           </motion.button>
         </section>
       ) : (
