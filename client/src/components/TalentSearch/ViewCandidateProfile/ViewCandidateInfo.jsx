@@ -16,7 +16,7 @@ import {
   FiMail,
 } from "react-icons/fi";
 import { useAuth } from "../../context/AuthContext";
-import NotificationToasts from "../../chatbot/Toast/Toast";
+import NotificationToasts  from "../../common/Toast/Toast";
 import HireTalentModal from "../../Requirements/Recruiters/HireTalents/HireTalentModal";
 
 export const ViewCandidateInfo = () => {
@@ -303,7 +303,7 @@ export const ViewCandidateInfo = () => {
           </motion.button>
           {/* Toast Notifications */}
           {toastMessage && (
-            <NotificationToasts
+            <NotificationToasts 
               message={toastMessage}
               type={toastType}
               autoClose={1500}

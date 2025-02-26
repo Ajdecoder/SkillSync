@@ -67,6 +67,7 @@ export const bookmarkOpportunity = (userId, post_id) =>
     post_id,
   });
 export const removeBookmarkedOpportunity = (userId, post_id) =>
+  
   API.delete("/api/bookmark/opportunity/job/unbookmark-opportunity", {
     data: { userId, post_id },
   });
@@ -87,11 +88,7 @@ export const removeBookmarkedTalent = (recruiterId, candidateId) =>
     data: { recruiterId, candidateId },
   });
 
-export const removeBookedJobs = (opportunityId, recruiterId) => {
-  return API.delete(`/api/bookmark/opportunity/job/remove-bookmarked-jobs`, {
-    data: { opportunityId, recruiterId },
-  });
-};
+
 
 /* ========== Chat APIs ========== */
 

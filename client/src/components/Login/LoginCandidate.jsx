@@ -8,7 +8,7 @@ import { PORT_CLIENT } from "../../commonClient";
 import { GoogleAuth } from "../Oauth/Oauth";
 import bgImage from '/images/logingPage/bg.png'
 import { loginCandidate } from "../../services/api";
-import NotificationToasts from "../chatbot/Toast/Toast";
+import NotificationToasts  from "../common/Toast/Toast";
 
 
 export const LoginCandidate = () => {
@@ -64,7 +64,9 @@ export const LoginCandidate = () => {
           setToastType("error");
           
         } else {
+          console.log(error);
           setToastMessage(`${error.response.data.message}`)
+          setToastType('error')
         }
       }
     }
@@ -137,7 +139,7 @@ export const LoginCandidate = () => {
           </div>
         </form>
         {toastMessage && (
-          <NotificationToasts
+          <NotificationToasts 
             message={toastMessage}
             type={toastType}
             autoClose={1500}

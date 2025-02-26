@@ -64,32 +64,6 @@ export const filterData = [
   { city: "Ahmedabad", expert: "QA Engineer", expected_salary: "40000-45000" },
 ];
 
-export const navExpand = [
-  {
-    text: "Talent Search",
-    path: "requirements/hire-talent",
-  },
-  {
-    text: "Add Opportunity",
-    path: "requirements/add-opportunity",
-  },
-  {
-    text: "Browse Opportunities",
-    path: "requirements/browse-opportunities",
-  },
-  {
-    text: "Opportunities",
-    path: "requirements/browse-opportunities",
-  },
-  {
-    text: "Bookmark Talent",
-    path: "requirements/bookmark-talent",
-  },
-  {
-    text: "Market Trends",
-    path: "requirements/market-trends",
-  },
-];
 
 export const navExpandRecruiter = [
   {
@@ -122,7 +96,7 @@ export const navExpandCAndidate = [
   },
   {
     text: "Bookmarked Jobs",
-    path: "requirements/bookmark-talent",
+    path: "requirements/bookmarked-jobs",
   },
   {
     text: "Manage Job Preferences",

@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import "../Userprofile/Userpreference.css";
+import { updateUserProfileByEmail } from "../../services/api";
+import { useAuth } from "../context/AuthContext";
 
-const UserPreferenceForm = ({
-  handleSubmit,
-  setUpdatedData,
-  updatedData,
-  profileData,
-}) => {
+const UserPreferenceForm = ({ setUpdatedData, updatedData }) => {
   const [selectedInterests, setSelectedInterests] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isEditing, setIsEditing] = useState(false);
@@ -147,18 +144,24 @@ const UserPreferenceForm = ({
     "Subject Matter Expert (SME)",
   ]);
 
-  console.log(updatedData.preferences.careerInterests);
+  const { loggedInUser } = useAuth();
 
-  const handleInterestSubmit = () => {
-    setUpdatedData((prevData) => ({
-      ...prevData,
-      preferences: {
-        ...prevData.preferences,
-        careerInterests: selectedInterests,
-      },
-    }));
-    handleSubmit("Areas of Interest");
-    setIsEditing(false);
+  const handleInterestSubmit = async () => {
+    try {
+      const updatedProfile = {
+        ...updatedData,
+        preferences: {
+          ...updatedData.preferences,
+          careerInterests: selectedInterests,
+        },
+      };
+      setUpdatedData(updatedProfile);
+      setIsEditing(true);
+      await updateUserProfileByEmail(loggedInUser.email, updatedProfile);
+      setIsEditing(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const filteredAreas = areasOfInterest.filter((interest) =>
@@ -172,7 +175,7 @@ const UserPreferenceForm = ({
 
   useEffect(() => {
     const preferencesfromDb = updatedData.preferences.careerInterests;
-    
+
     return setSelectedInterests(preferencesfromDb);
   }, []);
 
@@ -255,12 +258,12 @@ const UserPreferenceForm = ({
 
       {/* Save Button */}
       <motion.button
-        onClick={(e) => handleSubmit("career interests")}
+        onClick={(e) => handleInterestSubmit("career interests")}
         className="p-3 w-36 m-3 bg-sky-600 text-white rounded-lg"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
       >
-        Save
+        {isEditing ? "Saving..." : "Save"}
       </motion.button>
     </div>
   );

@@ -68,8 +68,8 @@ const NotificationButton = () => {
           className="absolute bg-white shadow-lg rounded-md w-[18rem] top-12 right-[-7rem] p-4 max-h-[22rem] overflow-auto z-10 border border-gray-300 scroll-smooth"
           onWheel={(e) => e.stopPropagation()}
         >
-          {console.log(notifications[0])}
-          {notifications&&notifications[0]?.read === false ? (
+          {notifications &&
+          (notifications.read || notifications[0]?.read === true) ? (
             <>
               <motion.ul
                 initial="hidden"
@@ -125,7 +125,7 @@ const NotificationButton = () => {
                 </AnimatePresence>
               </motion.ul>
               <button
-                className="block mx-auto p-1 hover:text-blue-600"
+                className="block mx-auto p-1 hover:text-blue-600 mt-2"
                 onClick={() => {
                   navigate("/notifications");
                   setShowNotifications(false);

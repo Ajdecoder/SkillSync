@@ -5,105 +5,84 @@ import {
 } from "../../../services/api";
 import { useAuth } from "../../context/AuthContext";
 import { motion } from "framer-motion";
-import { FaBookmark, FaBriefcase, FaLink, FaUser } from "react-icons/fa";
+import { FaBookmark, FaBriefcase, FaUser } from "react-icons/fa";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { CiBeaker1 } from "react-icons/ci";
-import NotificationToasts from "../../chatbot/Toast/Toast";
-import { IoArrowRedoSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import useFetchData from "../../hooks/useGetDataFetch";
 import { PORT_CLIENT } from "../../../commonClient";
+import NotificationToasts from "../../common/Toast/Toast";
+import { IoReturnUpForward } from "react-icons/io5";
 
-export const CandidatesBookmark = () => {
-  const [bookmarkedTalents, setBookmarkedTalents] = useState([]);
+export const BookmarkedOpportunity = () => {
+  const [bookmarkedOpportunities, setBookmarkedOpportunities] = useState([]);
   const [toastState, setToastState] = useState({
     message: null,
     type: "success",
   });
   const { loggedInUser } = useAuth();
-  const [opportunities, setOpportunities] = useState([]);
-
-  console.log(opportunities);
-
+  const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
 
-  const {
-    data: opportunitiesData,
-    error: opportunitiesError,
-    loading: opportunitiesLoading,
-  } = useFetchData(`${PORT_CLIENT}/api/requirements/addedOpportunities`);
-
-  useEffect(() => {
-    if (opportunitiesData?.Addedopportunities) {
-      setOpportunities(opportunitiesData.Addedopportunities);
-    }
-  }, [opportunitiesData]);
-  
-
-  useEffect(() => {
-      if (opportunitiesData?.Addedopportunities) {
-        setOpportunities(opportunitiesData.Addedopportunities);
-      }
-    }, [opportunitiesData]);
-
-  useEffect(() => {
-    if (opportunitiesData?.Addedopportunities) {
-      setOpportunities(opportunitiesData.Addedopportunities);
-    }
-  }, [opportunitiesData]);
+  const { data: opportunitiesData } = useFetchData(
+    `${PORT_CLIENT}/api/requirements/addedOpportunities`
+  );
 
   useEffect(() => {
     if (!loggedInUser?.email) return;
 
-    const fetchBookmarkedTalents = async () => {
+    const fetchBookmarkedOpportunities = async () => {
       try {
         const response = await getUserProfileByEmail(loggedInUser.email);
         const bookmarks =
           response?.data?.candidateProfile?.OpportunityBookmarks || [];
-        setBookmarkedTalents(bookmarks);
+        setBookmarkedOpportunities(bookmarks);
+
+        const fetchedUserId = response?.data?.candidateProfile?._id;
+        if (fetchedUserId) {
+          setUserId(fetchedUserId);
+        } else {
+          console.error("User ID not found in the profile.");
+        }
       } catch (error) {
-        console.error("Error fetching bookmarked talents:", error);
+        console.error("Error fetching bookmarked opportunities:", error);
+        showToast("Failed to fetch bookmarked opportunities.", "error");
       }
     };
 
-    fetchBookmarkedTalents();
+    fetchBookmarkedOpportunities();
   }, [loggedInUser?.email]);
 
-  const showToast = (message, type) => {
-    setToastState({ message, type });
-  };
+  const showToast = (message, type) => setToastState({ message, type });
 
-  const handleBookmarkClick = async (userId, post_id) => {
-    try {
-      await removeBookmarkedOpportunity(userId, post_id);
-      setBookmarkedTalents((prev) =>
-        prev.filter((talent) => talent.post_id !== post_id)
-      );
-      showToast("Opportunity removed from bookmarks.", "success");
-    } catch (error) {
-      showToast("Failed to remove bookmark.", "error");
-    }
-  };
-
-  const handleViewOpportunity = (opportunities,  index) => {
-    console.log("found index", index);
-    const post_id = opportunities[index]?._id;
-    const foundOpportunity = opportunities.find((o) => o._id === post_id);
-  
-    if (!foundOpportunity) {
-      showToast("Error: Opportunity not found!", "error");
+  const handleBookmarkClick = async (postId) => {
+    if (!userId) {
+      showToast("User ID is missing. Please try again.", "error");
       return;
     }
-  
-    navigate(`/opportunity/connect/${foundOpportunity._id}`, {
-      state: { item: foundOpportunity },
-    });
-  };
-  
 
+    // Optimistic update: Remove the opportunity from the UI immediately
+    setBookmarkedOpportunities((prev) =>
+      prev.filter((opportunity) => opportunity._id !== postId)
+    );
+
+    try {
+      await removeBookmarkedOpportunity(userId, postId);
+      showToast("Opportunity removed from bookmarks.", "success");
+    } catch (error) {
+      console.error("Error removing bookmark:", error);
+      showToast("Failed to remove bookmark.", "error");
+
+      // Revert the UI update if the API call fails
+      const response = await getUserProfileByEmail(loggedInUser.email);
+      const bookmarks =
+        response?.data?.candidateProfile?.OpportunityBookmarks || [];
+      setBookmarkedOpportunities(bookmarks);
+    }
+  };
 
   return (
-    <div className="bookmark-talent p-6 max-w-7xl mx-auto">
+    <div className="bookmark-opportunity p-6 max-w-7xl mx-auto">
       <motion.h2
         className="text-3xl font-bold text-gray-800 mb-8 text-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
         initial={{ opacity: 0, y: -20 }}
@@ -113,7 +92,7 @@ export const CandidatesBookmark = () => {
         Saved Opportunities
       </motion.h2>
 
-      {bookmarkedTalents.length === 0 ? (
+      {bookmarkedOpportunities.length === 0 ? (
         <motion.div
           className="text-center py-12"
           initial={{ opacity: 0 }}
@@ -138,22 +117,15 @@ export const CandidatesBookmark = () => {
             visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
           }}
         >
-          {bookmarkedTalents.map((talent) => (
+          {bookmarkedOpportunities.map((opportunity) => (
             <motion.li
-              key={talent._id}
+              key={opportunity._id}
               className="group relative p-6 border border-gray-200 rounded-xl bg-white hover:border-blue-200 transition-all duration-300 shadow-sm hover:shadow-lg"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
               whileHover={{ scale: 1.02 }}
             >
-            
-            {
-              opportunities.map((oppotunity ) => {
-                
-              })
-            }
-
               <div className="space-y-4">
                 <div className="flex items-start gap-4">
                   <div className="p-3 bg-blue-50 rounded-lg">
@@ -161,28 +133,27 @@ export const CandidatesBookmark = () => {
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-gray-800">
-                      {talent.title || "Unknown Title"}
+                      {opportunity.title || "Unknown Title"}
                     </h3>
                     <p className="text-gray-500 font-medium">
-                      {talent.company_name || "Unknown Company"}
+                      {opportunity.company_name || "Unknown Company"}
                     </p>
                   </div>
+                  
                 </div>
-
                 <div className="space-y-3">
                   <div className="flex items-center gap-2 text-gray-600">
                     <FaIndianRupeeSign className="h-5 w-5 text-purple-600" />
                     <span>
-                      ₹{talent.salaryRange?.min ?? "N/A"} - ₹
-                      {talent.salaryRange?.max ?? "N/A"}
+                      ₹{opportunity.salaryRange?.min ?? "N/A"} - ₹
+                      {opportunity.salaryRange?.max ?? "N/A"}
                     </span>
                   </div>
-
                   <div className="flex items-center gap-2 text-gray-600">
                     <FaUser className="h-5 w-5 text-green-600" />
                     <div className="flex flex-wrap gap-2">
-                      {talent.skills?.length > 0 ? (
-                        talent.skills.map((skill, index) => (
+                      {opportunity.skills?.length > 0 ? (
+                        opportunity.skills.map((skill, index) => (
                           <span
                             key={index}
                             className="px-3 py-1 bg-gray-100 rounded-full text-sm"
@@ -198,17 +169,13 @@ export const CandidatesBookmark = () => {
                     </div>
                   </div>
                 </div>
-
                 <motion.button
                   className="w-full mt-4 px-5 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() =>
-                    handleBookmarkClick(loggedInUser._id, talent.post_id)
-                  }
+                  onClick={() => handleBookmarkClick(opportunity._id)}
                 >
-                  <FaBookmark className="h-5 w-5" />
-                  Unbookmark
+                  <FaBookmark className="h-5 w-5" /> Unbookmark
                 </motion.button>
               </div>
             </motion.li>

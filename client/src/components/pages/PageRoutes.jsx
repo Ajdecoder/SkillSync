@@ -28,7 +28,7 @@ import NotFoundPage from "../4NOT4/404.jsx";
 import TalentsCard from "../Requirements/Recruiters/TalentSearchPage.jsx";
 import NotificationPage from "../Notificationpage/Notificationpage.jsx";
 import TalentPool from "../Requirements/Recruiters/TalentPool.jsx";
-import { CandidatesBookmark } from "../Requirements/Recruiters/BookMarkTalent.jsx";
+import { BookmarkedOpportunity } from "../Requirements/Candidates/BookmarkedOpportunity.jsx";
 
 // This is just a helper function to return route elements.
 
@@ -66,9 +66,9 @@ export const RoutesConfig = ({ spin, setSpin }) => [
     element={<SavedOpportunity />}
   />,
   <Route
-    key="bookmark-talent"
-    path="/requirements/bookmark-talent"
-    element={<CandidatesBookmark />}
+    key="bookmarked-jobs"
+    path="/requirements/bookmarked-jobs"
+    element={<BookmarkedOpportunity />}
   />,
   <Route
     key="market-trends"

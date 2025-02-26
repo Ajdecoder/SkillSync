@@ -4,9 +4,9 @@ import {
 } from "../db/database.js";
 
 export const addOpportunity = async (req, res) => {
+
  
   const {payload} = req.body;
-  console.log("payload ==============================>",payload);
   
   const {
     title,
@@ -20,7 +20,10 @@ export const addOpportunity = async (req, res) => {
     desc_requirement,
     skills,
     requirement_type,
+    recruiterDetails,
   } = payload;
+
+
 
   try {
     const newOpportunity = new OpportunityCollection({
@@ -35,7 +38,7 @@ export const addOpportunity = async (req, res) => {
       desc_requirement,
       skills,
       requirement_type,
-      // recruiterDetails
+      recruiterDetails
     });
 
     await newOpportunity.save();
@@ -67,6 +70,8 @@ export const allOpportunitiesData = async (req, res) => {
 
 
 export const getOpportunitytById = async (req, res) => {
+
+  
   try {
     const RequirementId = req.params.id;
 
@@ -93,7 +98,7 @@ export const updateOpportunity = async (req, res) => {
   try {
     const RequirementId = req.params.id;
     const updatedData = req.body;
-    console.log("updatedData",updatedData);
+    
     const updatedRequirement = await OpportunityCollection.findByIdAndUpdate(
       RequirementId,
       updatedData,

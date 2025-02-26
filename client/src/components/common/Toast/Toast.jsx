@@ -17,6 +17,9 @@ const NotificationToasts = ({
 }) => {
   useEffect(() => {
     if (!message) return; // Prevents empty toasts
+    
+    const toastId = toast[type] ? toast[type](message, { autoClose, position }) : toast(message, { autoClose, position });
+    toast.dismiss(toastId);
 
     const toastOptions = { autoClose, position };
 
