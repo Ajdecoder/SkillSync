@@ -33,8 +33,10 @@ export const addOpportunity = async (req, res) => {
       email,
       ph_no,
       location,
-      maxSalary,
-      minSalary,
+      salaryRange: {
+        minSalary,
+        maxSalary
+      },
       desc_requirement,
       skills,
       requirement_type,
@@ -42,7 +44,7 @@ export const addOpportunity = async (req, res) => {
     });
 
     await newOpportunity.save();
-    res.status(201).json({ message: "Opportunity added successfully." });
+    res.status(201).json({ message: "Opportunity added successfully." , id: newOpportunity._id });
   } catch (err) {
     console.error("Error:", err);
     res
@@ -118,7 +120,6 @@ export const updateOpportunity = async (req, res) => {
 export const deleteOpportunity = async (req, res) => {
   try {
     const RequirementId = req.params.id;
-    console.log(RequirementId);
     const deletedRequirement = await OpportunityCollection.findByIdAndDelete(RequirementId);
     if (!deletedRequirement) {
       return res.status(404).json({ message: "Requirement not found." });

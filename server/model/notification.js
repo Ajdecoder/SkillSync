@@ -4,8 +4,13 @@ const notificationSchema = new mongoose.Schema(
   {
     recipient: {
       type: mongoose.Schema.Types.ObjectId,
+      ref:"RecruiterUserProfile"
+      // required: true,
+    },
+    JobDetails: {
+      type: mongoose.Schema.Types.ObjectId,
       ref: "AddOpportunity",
-      required: true,
+      // required: true,
     },
     message: {
       type: String,
