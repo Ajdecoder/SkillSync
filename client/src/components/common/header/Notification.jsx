@@ -68,8 +68,7 @@ const NotificationButton = () => {
           className="absolute bg-white shadow-lg rounded-md w-[18rem] top-12 right-[-7rem] p-4 max-h-[22rem] overflow-auto z-10 border border-gray-300 scroll-smooth"
           onWheel={(e) => e.stopPropagation()}
         >
-          {notifications &&
-          (notifications.read || notifications[0]?.read === true) ? (
+          {notifications && (notifications.read || notifications) ? (
             <>
               <motion.ul
                 initial="hidden"

@@ -1,36 +1,36 @@
 import { CandidateUserProfile, RecruiterUserProfile } from "../db/database.js";
 import Notification from "../model/notification.js";
+import mongoose from "mongoose";
 
 const notificationMiddleware = async (req, res, next) => {
   try {
     const { action, payload } = req.body;
+
+    if (!payload || !action) {
+      return res.status(400).json({ message: "Invalid request data" });
+    }
 
     if (action === "job_posted") {
       await notifyCandidatesForNewJob(payload);
     } else if (action === "job_applied") {
       await notifyRecruiterForNewApplication(payload);
     } else {
-      console.log("Unknown action type");
+      console.error("Unknown action type:", action);
       return res.status(400).json({ message: "Unknown action type" });
     }
-    next()
+
+    next();
   } catch (error) {
     console.error("Notification Middleware Error:", error);
     res.status(500).json({ message: "Error in notification middleware" });
   }
 };
 
-
+// ✅ Notify candidates when a new job is posted
 const notifyCandidatesForNewJob = async (payload) => {
-  
-  console.log("payload ==============================>",payload);
   try {
-    if (!Array.isArray(payload.skills)) {
-      throw new Error("Invalid skills format in payload");
-    }
 
     const skillNames = payload.skills.map((skill) => skill.skillName);
-
     const candidates = await CandidateUserProfile.find({
       skills: { $in: skillNames },
     });
@@ -42,72 +42,77 @@ const notifyCandidatesForNewJob = async (payload) => {
 
     for (const candidate of candidates) {
       const message = `New Job Posted: ${payload.title} at ${payload.company_name}.`;
-
-      await sendNotificationToCandidate(candidate._id, message, payload._id);
+      await sendNotificationToCandidate(payload.jobId, payload.recruiterDetails, message);
     }
   } catch (error) {
     console.error("Error notifying candidates:", error);
   }
 };
 
-
-const sendNotificationToCandidate = async (
-  candidateId,
-  message,
-  relatedJobId
-) => {
+// ✅ Send notification to candidates
+const sendNotificationToCandidate = async (jobId, recruiterDetails, message) => {
   try {
-    console.log("sssssssssssssss>>>>>>>>>>",candidateId, message,relatedJobId);
+
+    const jobObjectId = jobId
+    console.log(jobObjectId);
+    if (!jobObjectId) {
+      console.error("Invalid job ID for notification:", jobObjectId);
+      // return;
+    }
+
     await Notification.create({
-      recipient: candidateId,
-      message: message,
+      recipient: recruiterDetails,
+      message,
       type: "job_posted",
-      relatedJob: relatedJobId,
-      relatedApplication: null,
+      JobDetails: jobObjectId,
       read: false,
     });
+
+    console.log("Notification successfully created for candidate.");
   } catch (error) {
     console.error("Error sending notification to candidate:", error);
   }
 };
 
+// ✅ Notify recruiter when a candidate applies for a job
 const notifyRecruiterForNewApplication = async (payload) => {
   try {
-    if (!payload.recruiterId) {
-      console.log("Recruiter ID is missing in payload.");
+    if (!payload.recruiterId || !mongoose.Types.ObjectId.isValid(payload.recruiterId)) {
+      console.error("Invalid recruiter ID in payload:", payload.recruiterId);
       return;
     }
 
     const recruiter = await RecruiterUserProfile.findById(payload.recruiterId);
-    console.log("printing value of id ", recruiter);
-    console.log("printing value of payload ", payload);
     if (!recruiter) {
-      console.log("Recruiter not found.");
+      console.error("Recruiter not found for ID:", payload.recruiterId);
       return;
     }
 
     const message = `New Application for: ${payload.jobTitle}`;
-
     await sendNotificationToRecruiter(recruiter._id, message, payload._id);
   } catch (error) {
     console.error("Error notifying recruiter:", error);
   }
 };
 
-const sendNotificationToRecruiter = async (
-  recruiterId,
-  message,
-  relatedApplicationId
-) => {
+// ✅ Send notification to recruiter
+const sendNotificationToRecruiter = async (recruiterId, message, relatedApplicationId) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(relatedApplicationId)) {
+      console.error("Invalid application ID for notification:", relatedApplicationId);
+      return;
+    }
+
     await Notification.create({
       recipient: recruiterId,
-      message: message,
+      message,
       type: "application_received",
       relatedJob: null,
-      relatedApplication: relatedApplicationId,
+      relatedApplication: new mongoose.Types.ObjectId(relatedApplicationId),
       read: false,
     });
+
+    console.log("Notification successfully created for recruiter.");
   } catch (error) {
     console.error("Error sending notification to recruiter:", error);
   }

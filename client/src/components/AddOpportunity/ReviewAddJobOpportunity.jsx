@@ -4,7 +4,7 @@ import axios from "axios";
 import { PORT_CLIENT } from "../../commonClient";
 import { toast, ToastContainer } from "react-toastify";
 import { addOpportunity, getUserProfileByEmail } from "../../services/api";
-import NotificationToasts  from "../common/Toast/Toast";
+import NotificationToasts from "../common/Toast/Toast";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -20,10 +20,10 @@ const ReviewJobOpportunity = ({ prevStep }) => {
   const [toastMessage, setToastMessage] = useState(null);
   const [toastType, setToastType] = useState("success");
   const [payloadRecruiterId, setPayloadRecruiterId] = useState(null);
+  const [payloadJobId,setPayloadJobId] = useState(null)
 
-
-  const navigate = useNavigate()
-  const {loggedInUser} = useAuth()
+  const navigate = useNavigate();
+  const { loggedInUser } = useAuth();
 
   // Check if the form is complete or needs more data
   useEffect(() => {
@@ -39,7 +39,6 @@ const ReviewJobOpportunity = ({ prevStep }) => {
       localFormData.desc_requirement;
     setIsFormValid(isValid);
   }, [localFormData]);
-
 
   const handleInputChange = (field, value) => {
     setLocalFormData((prev) => ({
@@ -58,16 +57,14 @@ const ReviewJobOpportunity = ({ prevStep }) => {
     }
   };
 
-  
   useEffect(() => {
     if (!loggedInUser?.email) return;
 
     const fetchBookmarkedTalents = async () => {
       try {
         const response = await getUserProfileByEmail(loggedInUser.email);
-        const recruiterId =
-          response?.data?.recruiterProfile?._id || [];
-          setPayloadRecruiterId(recruiterId);
+        const recruiterId = response?.data?.recruiterProfile?._id || [];
+        setPayloadRecruiterId(recruiterId);
       } catch (error) {
         console.error("Error fetching bookmarked talents:", error);
       }
@@ -113,7 +110,6 @@ const ReviewJobOpportunity = ({ prevStep }) => {
 
     try {
       setIsSubmitting(true);
-      console.log("Submitting Form Data:", localFormData); // Log current form data
 
       // Construct the payload
       const payload = {
@@ -132,23 +128,25 @@ const ReviewJobOpportunity = ({ prevStep }) => {
           minSalary: localFormData.minSalary,
           maxSalary: localFormData.maxSalary,
           desc_requirement: localFormData.desc_requirement,
-          recruiterDetails: payloadRecruiterId
+          recruiterDetails: payloadRecruiterId,
+          jobId: payloadJobId,
         },
       };
 
-      // Call your API to submit the data
-      console.log(payload);
-      await addOpportunity(payload);
+      const response = await addOpportunity(payload);
+     setPayloadJobId(response.data.id);
+     console.log(response.data.id);
+     console.log(payloadJobId);
       setToastMessage("Form Submitted Successfully");
       setToastType("success");
-      setIsSubmitting(false); 
+      setIsSubmitting(false);
       // navigate('/')
     } catch (error) {
       console.error("Error Submitting Form:", error);
       setToastMessage("Error Submitting Form");
       setToastType("error");
     } finally {
-      setIsSubmitting(false); 
+      setIsSubmitting(false);
       // navigate('/');
     }
   };
@@ -387,7 +385,7 @@ const ReviewJobOpportunity = ({ prevStep }) => {
         </div>
       </form>
       {toastMessage && (
-        <NotificationToasts 
+        <NotificationToasts
           message={toastMessage}
           type={toastType}
           autoClose={1500}
