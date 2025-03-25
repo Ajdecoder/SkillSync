@@ -17,12 +17,12 @@ import {
 import { Spinner } from "../../common/loadingSpinner/spinner";
 import { filterData } from "../../data/Data";
 import { OpportunitiesFilter } from "../../common/Filters/OpportunitiesFilter";
+import { LoginPromoPage } from "../../Login/NotLoggedIn";
 
 export const SavedOpportunity = () => {
-  const { loggedInUser } = useAuth();
+  const { loggedInUser, google_user } = useAuth();
   const [opportunities, setOpportunities] = useState([]);
   const navigate = useNavigate();
-
   const [programmers, setProgrammers] = useState([]);
 
   const [filterCategory, setFilterCategory] = useState({
@@ -30,6 +30,8 @@ export const SavedOpportunity = () => {
     selectedExpertType: "",
     selectedPriceRange: "",
   });
+
+  const currentUser = loggedInUser || google_user;
 
   const { data, error, loading } = useFetchData(
     `${PORT_CLIENT}/api/requirements/addedOpportunities`
@@ -49,11 +51,9 @@ export const SavedOpportunity = () => {
     return <div className="text-center text-red-500">{error}</div>;
   }
 
-  if (!loggedInUser) {
+  if (!currentUser) {
     return (
-      <div className="text-center text-gray-500">
-        Please log in to view saved opportunities
-      </div>
+      <LoginPromoPage/>
     );
   }
 
@@ -80,8 +80,8 @@ export const SavedOpportunity = () => {
     visible: { opacity: 1, x: 0 },
   };
 
-  if(!opportunities){
-    return <Spinner/>
+  if (!opportunities) {
+    return <Spinner />;
   }
 
   return (

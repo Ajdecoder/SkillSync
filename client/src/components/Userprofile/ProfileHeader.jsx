@@ -1,11 +1,16 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import React from "react";
 
 const ProfileHeader = ({ user, profileCompletion, userRole }) => {
+
+    const { user: auth0User, isAuthenticated, isLoading: isAuth0Loading, logout: auth0Logout } = useAuth0();
+
+
   return (
     <div className="profile-header flex items-center gap-6 p-4 bg-white rounded-lg shadow-md h-[10rem]">
       <img
         src={
-          user?.profilePicture ||
+          user?.profilePicture || user?.profile ||
           "https://i.pinimg.com/1200x/d9/04/bb/d904bbc138e6cba76e5470df5054b106.jpg"
         }
         alt="Profile"

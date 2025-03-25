@@ -18,19 +18,29 @@ export const UserProfile = () => {
   const [profileCompletion, setProfileCompletion] = useState(0);
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
-
-  const { loggedInUser } = useAuth();
+  const { loggedInUser,google_user } = useAuth();
   const navigate = useNavigate();
 
   const onTabChange = (tabName) => setActiveTab(tabName);
 
+  const currentUser = loggedInUser || google_user;
+
+
+  // Fetch profile data (always executed, avoiding conditional hook calls)
   const {
     data: fetchedProfileData,
     loading,
     error,
   } = useFetchData(
-    `${PORT_CLIENT}/api/user/profile/account/user/email/${loggedInUser?.email}`
+    `${PORT_CLIENT}/api/user/profile/account/user/email/${currentUser?.email}`
   );
+
+  // If user is not logged in, navigate and return null (ensuring hooks run first)
+  useEffect(() => {
+    if (!currentUser) {
+      navigate("/");
+    }
+  }, [currentUser, navigate]);
 
   const calculateProfileCompletion = (user, role) => {
     let filledFields = 0;
@@ -85,12 +95,9 @@ export const UserProfile = () => {
     return Math.floor((filledFields / totalFields) * 100);
   };
 
-  // Consolidated useEffect
   useEffect(() => {
     if (fetchedProfileData) {
-      const role = fetchedProfileData?.recruiterProfile
-        ? "recruiter"
-        : "candidate";
+      const role = fetchedProfileData?.recruiterProfile ? "recruiter" : "candidate";
       setUserRole(role);
 
       const data =
@@ -99,18 +106,12 @@ export const UserProfile = () => {
           : fetchedProfileData.candidateProfile;
 
       setProfileData(data);
-
-      const completion = calculateProfileCompletion(data, role);
-      setProfileCompletion(completion);
+      setProfileCompletion(calculateProfileCompletion(data, role));
     }
   }, [fetchedProfileData]);
 
-  // Consolidated localStorage management
+  // Manage theme and notification settings in localStorage
   useEffect(() => {
-    if (!loggedInUser) {
-      navigate("/");
-    }
-    // Load settings
     const savedEmailNotifications = localStorage.getItem("emailNotifications");
     const savedDarkMode = localStorage.getItem("darkMode");
 
@@ -121,19 +122,13 @@ export const UserProfile = () => {
       setDarkMode(JSON.parse(savedDarkMode));
     }
 
-    // Save settings
-    localStorage.setItem(
-      "emailNotifications",
-      JSON.stringify(emailNotifications)
-    );
+    localStorage.setItem("emailNotifications", JSON.stringify(emailNotifications));
     localStorage.setItem("darkMode", JSON.stringify(darkMode));
   }, [emailNotifications, darkMode]);
 
-  
   if (loading) return <Spinner />;
   if (error) return <div className="error-message">Error: {error.message}</div>;
   if (!profileData) return <div>No profile data available</div>;
-  console.log(profileData);
 
   return (
     <div>
@@ -155,14 +150,8 @@ export const UserProfile = () => {
             <section className="profile-about-section p-6 bg-white rounded-lg shadow-md">
               <h2 className="text-xl font-semibold">About</h2>
               <div className="mt-4 space-y-4">
-                <RecruiterAboutSection
-                  profileData={profileData}
-                  userRole={userRole}
-                />
-                <CandidateAboutSection
-                  profileData={profileData}
-                  userRole={userRole}
-                />
+                <RecruiterAboutSection profileData={profileData} userRole={userRole} />
+                <CandidateAboutSection profileData={profileData} userRole={userRole} />
               </div>
             </section>
           )}

@@ -31,7 +31,7 @@ const OpportunityConnectPage = () => {
   const [userHasApplied, setUserHasApplied] = useState(false);
   const [showRevertModal, setShowRevertModal] = useState(false);
   const [showMore, setShowMore] = useState(false);
-  const { loggedInUser } = useAuth();
+  const { loggedInUser,google_user } = useAuth();
   const [userId, setUserId] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
   const [toastType, setToastType] = useState("success");
@@ -45,12 +45,15 @@ const OpportunityConnectPage = () => {
     `${PORT_CLIENT}/api/requirements/Companyrequirements/${post_id}`
   );
 
+  const currentUser = loggedInUser || google_user;
+
+
   console.log(companyData);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      try {
-        const user = await getUserProfileByEmail(loggedInUser.email);
+      try { 
+        const user = await getUserProfileByEmail(currentUser.email);
         console.log("user: ", user.data.candidateProfile.OpportunityBookmarks);
         setUserId(user.data.candidateProfile._id);
         setBookmark(
@@ -64,10 +67,10 @@ const OpportunityConnectPage = () => {
       }
     };
 
-    if (loggedInUser.email) {
+    if (currentUser.email) {
       fetchUserProfile();
     }
-  }, [loggedInUser.email]);
+  }, [currentUser.email]);
 
   const handleJobApply = async () => {
     if (!userId || !companyData?._id) return;

@@ -203,7 +203,8 @@ export const RegCandidate = () => {
           </div>
 
           <div className="flex justify-center mt-4">
-            <GoogleAuth />
+                    <GoogleAuth role={'candidate'} />
+        
           </div>
         </form>
         {toastMessage && (

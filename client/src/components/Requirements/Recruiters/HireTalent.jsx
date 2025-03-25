@@ -1,7 +1,7 @@
 import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../../context/AuthContext";
-import { ChooseLoginMode } from "../../Login/ChooseLoginMode";
 import TalentsCard from "../../home/recent/TalentsCards";
+import { LoginPromoPage } from "../../Login/NotLoggedIn";
 
 const HireResources = () => {
   const { loggedInUser } = useAuth();
@@ -11,7 +11,7 @@ const HireResources = () => {
     // <TalentSearch />
     <TalentsCard bgColor='black' />
   ) : (
-    <ChooseLoginMode />
+    <LoginPromoPage />
   );
 };
 

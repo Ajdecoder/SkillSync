@@ -20,7 +20,7 @@ export const BookmarkedOpportunity = () => {
     message: null,
     type: "success",
   });
-  const { loggedInUser } = useAuth();
+  const { loggedInUser,google_user } = useAuth();
   const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
 
@@ -28,12 +28,16 @@ export const BookmarkedOpportunity = () => {
     `${PORT_CLIENT}/api/requirements/addedOpportunities`
   );
 
+  const currentUser = loggedInUser || google_user;
+
+
   useEffect(() => {
-    if (!loggedInUser?.email) return;
+    if (!currentUser?.email) return;
 
     const fetchBookmarkedOpportunities = async () => {
       try {
-        const response = await getUserProfileByEmail(loggedInUser.email);
+        const response = await getUserProfileByEmail(currentUser.email);
+        console.log(response);
         const bookmarks =
           response?.data?.candidateProfile?.OpportunityBookmarks || [];
         setBookmarkedOpportunities(bookmarks);
@@ -51,7 +55,7 @@ export const BookmarkedOpportunity = () => {
     };
 
     fetchBookmarkedOpportunities();
-  }, [loggedInUser?.email]);
+  }, []);
 
   const showToast = (message, type) => setToastState({ message, type });
 
@@ -74,7 +78,7 @@ export const BookmarkedOpportunity = () => {
       showToast("Failed to remove bookmark.", "error");
 
       // Revert the UI update if the API call fails
-      const response = await getUserProfileByEmail(loggedInUser.email);
+      const response = await getUserProfileByEmail(currentUser.email);
       const bookmarks =
         response?.data?.candidateProfile?.OpportunityBookmarks || [];
       setBookmarkedOpportunities(bookmarks);

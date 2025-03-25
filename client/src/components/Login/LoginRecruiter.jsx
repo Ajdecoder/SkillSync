@@ -139,7 +139,7 @@ export const LoginRecruiter = () => {
             <div className="w-full h-px bg-gray-300"></div>
           </div>
           <div className="flex justify-center mt-4">
-            <GoogleAuth />
+            <GoogleAuth role={'recruiter'} />
           </div>
         </form>
         {toastMessage && (

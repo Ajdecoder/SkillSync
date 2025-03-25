@@ -1,5 +1,5 @@
 // RoutesConfig.jsx
-import { Route } from "react-router-dom";
+import { Navigate, Route } from "react-router-dom";
 import Home from "../home/Home";
 import About from "../about/About";
 import Pricing from "../pricing/Pricing";
@@ -22,15 +22,24 @@ import { UserProfile } from "../Userprofile/UserProfile.jsx";
 import { LoginRecruiter } from "../Login/LoginRecruiter.jsx";
 import { ChooseLoginMode } from "../Login/ChooseLoginMode.jsx";
 import DeleteAccount from "../account/settings/DeleteAccount.jsx";
-import {MyJobListings} from "../Requirements/Recruiters/MyJobListings.jsx";
+import { MyJobListings } from "../Requirements/Recruiters/MyJobListings.jsx";
 import { ViewCandidateInfo } from "../TalentSearch/ViewCandidateProfile/ViewCandidateInfo.jsx";
 import NotFoundPage from "../4NOT4/404.jsx";
-import TalentsCard from "../Requirements/Recruiters/TalentSearchPage.jsx";
 import NotificationPage from "../Notificationpage/Notificationpage.jsx";
 import TalentPool from "../Requirements/Recruiters/TalentPool.jsx";
-import { BookmarkedOpportunity } from "../Requirements/Candidates/BookmarkedOpportunity.jsx";
+import { useAuth } from "../context/AuthContext.jsx";
+import { ListedListenings } from "../Requirements/Recruiters/JobListings/ListedListenings.jsx";
+import { ListedTalents } from "../Requirements/Recruiters/ListedTalents.jsx";
+import { AllBookmarks } from "../Requirements/Candidates/AllBookmarks.jsx";
 
 // This is just a helper function to return route elements.
+
+const PreventLoggedIn = ({ children }) => {
+  const { loggedInUser, google_user } = useAuth();
+  const currentUser = loggedInUser || google_user;
+  
+  return currentUser ? <Navigate to="/" replace /> : children;
+};
 
 export const RoutesConfig = ({ spin, setSpin }) => [
   <Route key="home" path="/" element={<Home />} />,
@@ -43,7 +52,15 @@ export const RoutesConfig = ({ spin, setSpin }) => [
   />,
   <Route key="pricing" path="/pricing" element={<Pricing />} />,
   <Route key="contact" path="/contact" element={<Contact />} />,
-  <Route key="login" path="/login" element={<ChooseLoginMode />} />,
+  <Route
+    key="login"
+    path="/login"
+    element={
+      <PreventLoggedIn>
+        <ChooseLoginMode />
+      </PreventLoggedIn>
+    }
+  />,
   <Route key="requirements" path="/requirements" element={<Resources />} />,
   <Route
     key="hire-talent"
@@ -53,7 +70,7 @@ export const RoutesConfig = ({ spin, setSpin }) => [
   <Route
     key="listed-opportunity"
     path="/requirements/listed-opportunity"
-    element={<MyJobListings />}
+    element={<ListedListenings />}
   />,
   <Route
     key="add-opportunity"
@@ -68,7 +85,7 @@ export const RoutesConfig = ({ spin, setSpin }) => [
   <Route
     key="bookmarked-jobs"
     path="/requirements/bookmarked-jobs"
-    element={<BookmarkedOpportunity />}
+    element={<AllBookmarks />}
   />,
   <Route
     key="market-trends"
@@ -130,9 +147,12 @@ export const RoutesConfig = ({ spin, setSpin }) => [
   <Route
     key="/requirements/talent-pool"
     path="/requirements/talent-pool"
-    element={<TalentPool />}
+    element={<ListedTalents />}
   />,
-  <Route key="delete-account" path="/settings/delete-account" element={<DeleteAccount />} />,
+  <Route
+    key="delete-account"
+    path="/settings/delete-account"
+    element={<DeleteAccount />}
+  />,
   <Route key="not-found" path="*" element={<NotFoundPage />} />,
 ];
-

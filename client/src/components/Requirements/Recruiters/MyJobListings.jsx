@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { deleteOpportunity, getOpportunities } from "../../../services/api";
 import { Spinner } from "../../common/loadingSpinner/spinner";
-import { useAuth } from "../../context/AuthContext";
 import { RxCross1 } from "react-icons/rx";
 import { Link } from "react-router-dom";
 
@@ -13,7 +12,7 @@ export const MyJobListings = () => {
   const [deleting, setDeleting] = useState(null);
   const [selectedApplicants, setSelectedApplicants] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const { loggedInUser } = useAuth();
+
 
   useEffect(() => {
     const fetchJobs = async () => {

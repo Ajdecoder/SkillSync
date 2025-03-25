@@ -5,6 +5,7 @@ import { PORT_CLIENT } from "../../commonClient";
 import { getChatResponse } from "../../services/api";
 import { motion } from "framer-motion";
 import { useLenis } from "@studio-freight/react-lenis";
+import { FaForward } from "react-icons/fa";
 
 export const ChatBot = () => {
   const [messages, setMessages] = useState([
@@ -19,7 +20,7 @@ export const ChatBot = () => {
   ]);
   const [inputText, setInputText] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const chatContainerRef = useRef(null);
+  const [premenu, setPremenu] = useState(false)
 
   useEffect(() => {
     const chatContainer = document.querySelector(".chatbot-container");
@@ -111,162 +112,189 @@ export const ChatBot = () => {
   // Send user input message
   const sendMessage = async (message) => {
     if (message.trim() === "") return;
-
+  
+    const userMessage = {
+      id: messages.length + 1,
+      sender: "You",
+      time: new Date().toLocaleTimeString(),
+      text: message,
+      status: "Sent ✔",
+      alignment: "right",
+    };
+  
+    setMessages((prevMessages) => [...prevMessages, userMessage]);
+  
     try {
       const response = await getChatResponse({ text: message });
-      const botMessage = {
+      const fullText = response.data.res; // Full response text
+      let words = fullText.split(" ");
+      let botMessage = {
         id: messages.length + 2,
         sender: "ChatGuru",
         time: new Date().toLocaleTimeString(),
-        text: response.data.res,
-        status: "Delivered ✔",
+        text: "", // Start empty, words will be appended
+        status: "Typing...",
         alignment: "left",
       };
-
-      setInputText("");
+  
       setMessages((prevMessages) => [...prevMessages, botMessage]);
+  
+      words.forEach((word, index) => {
+        setTimeout(() => {
+          setMessages((prevMessages) =>
+            prevMessages.map((msg) =>
+              msg.id === botMessage.id
+                ? { ...msg, text: msg.text + " " + word, status: "Delivered ✔" }
+                : msg
+            )
+          );
+        }, index * 88) // Delay each word by 200ms
+      });
+      setInputText('')
     } catch (error) {
-      console.error("Error fetching response from Gemini:", error);
-
+      console.error("Error fetching response:", error);
       const errorMessage = {
         id: messages.length + 2,
-        sender: "ChatGuru",
+          er: "ChatGuru",
         time: new Date().toLocaleTimeString(),
         text: "Sorry, I couldn't process your message. Please try again.",
         status: "Error",
         alignment: "left",
       };
-
       setMessages((prevMessages) => [...prevMessages, errorMessage]);
     }
   };
+  
 
   return (
     <>
-      {/* Chatbot Toggle Button */}
-      <button
+      <motion.button
         onClick={() => setIsOpen(!isOpen)}
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
         style={{
           position: "fixed",
-          bottom: "0em",
-          right: "20px",
+          bottom: " 1.2em",
+          right: "1.3em",
           zIndex: 1000,
-          color: "white",
-          border: "none",
+          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
           borderRadius: "50%",
           width: "50px",
           height: "50px",
-          boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+          boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
           cursor: "pointer",
         }}
-        className=" chatbot-toogle-btn animate-bounce flex items-center justify-center hover:scale-10 transition-ease-in-out duration-200 hover:text-[1rem] bg-[#007bff] hover:bg-black "
+        className="flex items-center justify-center transition-all duration-300 hover:shadow-xl"
       >
-        {isOpen ? <i className="fa-solid fa-angle-down "></i> : "💬"}
-      </button>
+        {isOpen ? (
+          <i className="fa-solid fa-xmark text-white text-xl" />
+        ) : (
+          <motion.div
+            animate={{ rotate: [0, 10, -10, 0] }}
+            transition={{ repeat: Infinity, duration: 2 }}
+          >
+            <span className="text-2xl">💬</span>
+          </motion.div>
+        )}
+      </motion.button>
 
-      {/* Chatbot UI */}
+      {/* Enhanced Chatbot Window */}
       {isOpen && (
         <motion.div
-          draggable
-          dragConstraints={{ left: -1000, right: 50, top: -200, bottom: 200 }}
-          ref={chatContainerRef}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
           drag
-          className={`chatbot-window fixed bottom-[0.1rem] right-4 w-[25rem] bg-white rounded-lg shadow-lg z-[1000] p-2
-      transition-all duration-500 transform ${
-        isOpen ? "chatbot-reveal" : "hidden"
-      }`}
+          dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+          className="fixed bottom-[1em] right-[.5em] w-[400px] h-[600px] bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl z-[1000] flex flex-col border border-white/20"
         >
-          {/* Navbar */}
-          <div className="flex items-center justify-between bg-blue-500 text-white p-4 rounded-t-lg">
-            <span className="font-bold">ChatGuru</span>
+          {/* Gradient Header */}
+          <div className="bg-gradient-to-r from-purple-600 to-blue-500 p-4 rounded-t-2xl flex justify-between items-center">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center">
+                <i className="fa-regular fa-comment-dots text-white" />
+              </div>
+              <h2 className="text-white font-semibold text-lg">ChatGuru</h2>
+            </div>
             <button
               onClick={() => setIsOpen(false)}
-              className="text-white hover:text-gray-300"
+              className="p-1.5 hover:bg-white/10 rounded-full transition-colors"
             >
-              <i className="fa-solid fa-window-minimize"></i>
+              <i className="fa-solid fa-minimize text-white/80 text-sm" />
             </button>
           </div>
 
-          {/* Predefined Buttons */}
-          <div className="text-black flex gap-3 p-3 text-[12px]">
-            <button
-              className="border-2 border-violet-600"
-              onClick={() => handlePredefinedMessage("What is SkillSync?")}
-            >
-              What is SkillSync?
-            </button>
-            <button
-              className="border-2 border-violet-600"
-              onClick={() => handlePredefinedMessage("How to post a job?")}
-            >
-              How to post a job?
-            </button>
-            <button
-              className="border-2 border-violet-600"
-              onClick={() =>
-                handlePredefinedMessage("How to update my profile?")
-              }
-            >
-              How to update my profile?
-            </button>
-          </div>
-
-          {/* Chat Messages */}
-          <div className="chatbot-container p-4 max-h-[400px] overflow-y-auto">
-            {messages.map(({ id, sender, time, text, status, alignment }) => (
-              <div
-                key={id}
-                className={`flex mb-4 ${
-                  alignment === "right"
-                    ? "justify-end items-end"
-                    : alignment === "center"
-                    ? "justify-center items-center "
-                    : "justify-start items-start"
-                }`}
+          {/* Predefined Questions */}
+          <div className="p-4 flex gap-2 overflow-x-auto scrollbar-hide">
+            {Object.keys(predefinedResponses).map((question) => (
+              <motion.button
+                key={question}
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={() => handlePredefinedMessage(question)}
+                className="px-3 py-2 bg-white/10 text-purple-600 text-sm font-medium rounded-full border border-purple-100 hover:border-purple-200 hover:bg-purple-50 transition-colors whitespace-nowrap"
               >
-                {/* Message Bubble */}
-                <div
-                  className={`message-bubble break-words whitespace-pre-wrap p-3 max-w-[70%]
-              ${
-                alignment === "right"
-                  ? "bg-slate-300 text-black self-end rounded-tl-lg rounded-bl-lg"
-                  : alignment === "center"
-                  ? "bg-white text-black rounded-xl"
-                  : "bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-tr-lg rounded-br-lg"
-              }`}
-                >
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="font-semibold">{sender}</span>
-                    <span className="text-xs text-gray-700 dark:text-gray-400">
-                      {time}
-                    </span>
-                  </div>
-                  <p className="mt-2 text-sm">{text}</p>
-                  <span className="mt-1 text-xs text-gray-800">{status}</span>
-                </div>
-              </div>
+                {question}
+              </motion.button>
             ))}
           </div>
 
-          {/* Input Field */}
-          <div className="flex gap-2 mt-2 p-2 w-full items-center">
-            <input
-              type="text"
-              className="w-full p-2 border border-gray-300 rounded-lg shadow-sm dark:bg-gray-900 dark:text-white dark:border-gray-600
-          focus:ring-2 focus:ring-blue-400"
-              placeholder="Type a message..."
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && sendMessage(inputText)}
-            />
-            <button
-              onClick={() => sendMessage(inputText)}
-              className="px-4 py-2 text-white bg-blue-500 rounded-lg transform transition-transform duration-300
-          hover:scale-105 hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800"
-              disabled={inputText.trim() === ""}
-            >
-              Send
-            </button>
+          {/* Chat Messages Container */}
+          <div className="flex-1 p-4 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-purple-200 scrollbar-track-transparent">
+            {messages.map((message) => (
+              <motion.div
+                key={message.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`flex ${message.alignment === "right" ? "justify-end" : "justify-start"}`}
+              >
+                <div
+                  className={`max-w-[80%] rounded-2xl p-3 ${
+                    message.alignment === "right"
+                      ? "bg-gradient-to-br from-purple-600 to-blue-500 text-white"
+                      : message.alignment === "center"
+                      ? "bg-gray-100 text-gray-600 text-center"
+                      : "bg-gray-50 border border-gray-100"
+                  }`}
+                >
+                  <div className="flex items-center justify-between gap-2 mb-1.5">
+                    <span className="text-xs font-semibold">
+                      {message.sender}
+                    </span>
+                    <span className="text-xs opacity-70">{message.time}</span>
+                  </div>
+                  <p className="text-sm leading-relaxed">{message.text}</p>
+                  <div className="mt-1.5 flex justify-end">
+                    <span className="text-[0.6rem] opacity-70">
+                      {message.status}
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Enhanced Input Area */}
+          <div className="p-4 pt-2 border-t border-gray-100">
+            <div className="relative flex items-center gap-2">
+              <input
+                type="text"
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && sendMessage(inputText)}
+                placeholder="Ask me anything..."
+                className="w-full pl-4 pr-12 py-3 bg-white border border-gray-200 rounded-full shadow-sm focus:outline-none focus:border-purple-300 focus:ring-2 focus:ring-purple-100 transition-all"
+              />
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => sendMessage(inputText)}
+                disabled={inputText.trim() === ""}
+                className="absolute right-2 bg-gradient-to-br from-purple-600 to-blue-500 p-2 rounded-full shadow-sm disabled:opacity-50 disabled:pointer-events-none"
+              >
+                <FaForward className="text-white text-sm" />
+              </motion.button>
+            </div>
           </div>
         </motion.div>
       )}

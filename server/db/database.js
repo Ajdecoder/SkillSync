@@ -32,3 +32,4 @@ export const Recruiter = connect.model("Recruiter", userSchema, "RecruiterCollec
 export const CandidateUserProfile = connect.model("CandidateUserProfile", candidateProfileSchema, "CandidateProfileCollection");
 export const RecruiterUserProfile = connect.model("RecruiterUserProfile", recruiterProfileSchema, "RecruiterProfileCollection");
 export const Bookmars = connect.model("Bookmarks", BookMarkSchema, "BookmarksCollection");
+  

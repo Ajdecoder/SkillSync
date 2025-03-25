@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import chatBotRoutes from "./routes/chat.Routes.js";
 import UserProfileRoutes from "./routes/userProfile.Routes.js";
 import BookmarRoutes from "./routes/bookmark.Routes.js";
+import { GoogleLogin } from "./controller/googleAuth.controller.js";
 
 dotenv.config();
 const app = express();
@@ -35,6 +36,8 @@ app.use("/api/requirements", companyRoutes);
 app.use("/api/chatbot/", chatBotRoutes);
 
 app.use("/api/bookmark/", BookmarRoutes);
+
+app.post('/auth/google/', GoogleLogin)
 
 app.get("/", (req, res) => {
   res.send("Welcome to the homepage");

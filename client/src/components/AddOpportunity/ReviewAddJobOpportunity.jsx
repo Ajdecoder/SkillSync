@@ -20,10 +20,13 @@ const ReviewJobOpportunity = ({ prevStep }) => {
   const [toastMessage, setToastMessage] = useState(null);
   const [toastType, setToastType] = useState("success");
   const [payloadRecruiterId, setPayloadRecruiterId] = useState(null);
-  const [payloadJobId,setPayloadJobId] = useState(null)
+  const [payloadJobId, setPayloadJobId] = useState(null);
 
   const navigate = useNavigate();
-  const { loggedInUser } = useAuth();
+  const { loggedInUser,google_user } = useAuth();
+
+  const currentUser = loggedInUser || google_user;
+
 
   // Check if the form is complete or needs more data
   useEffect(() => {
@@ -58,7 +61,7 @@ const ReviewJobOpportunity = ({ prevStep }) => {
   };
 
   useEffect(() => {
-    if (!loggedInUser?.email) return;
+    if (!currentUser?.email) return;
 
     const fetchBookmarkedTalents = async () => {
       try {
@@ -129,14 +132,21 @@ const ReviewJobOpportunity = ({ prevStep }) => {
           maxSalary: localFormData.maxSalary,
           desc_requirement: localFormData.desc_requirement,
           recruiterDetails: payloadRecruiterId,
-          jobId: payloadJobId,
         },
       };
 
       const response = await addOpportunity(payload);
-     setPayloadJobId(response.data.id);
-     console.log(response.data.id);
-     console.log(payloadJobId);
+      setPayloadJobId(response.data.id);
+      console.log(response.data.id);
+      console.log(payloadJobId);
+      const updatedPayload = {
+        ...payload,
+        payload: {
+          ...payload.payload,
+          jobId: response.data.id, // Include the jobId here
+        },
+      };
+      await addOpportunity(updatedPayload);
       setToastMessage("Form Submitted Successfully");
       setToastType("success");
       setIsSubmitting(false);

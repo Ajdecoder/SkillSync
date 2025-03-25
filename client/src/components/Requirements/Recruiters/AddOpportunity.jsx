@@ -1,12 +1,14 @@
 import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../../context/AuthContext";
-import { ChooseLoginMode } from "../../Login/ChooseLoginMode";
 import AddOpportunityForm from "../../AddOpportunity/AddOpportunityForm";
+import { LoginPromoPage } from "../../Login/NotLoggedIn";
 
 const AddOpportunity = () => {
-  const { loggedInUser } = useAuth();
+  const { loggedInUser, google_user } = useAuth();
 
-  return loggedInUser?.role==='recruiter' ? <AddOpportunityForm /> : <ChooseLoginMode />;
+  const currentUser = loggedInUser || google_user;
+
+  return currentUser?.role==='recruiter' ? <AddOpportunityForm /> : <LoginPromoPage />;
 };
 
 export default AddOpportunity;

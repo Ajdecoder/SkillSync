@@ -135,7 +135,7 @@ export const LoginCandidate = () => {
             <div className="w-full h-px bg-gray-300"></div>
           </div>
           <div className="flex justify-center mt-4" >
-            <GoogleAuth />
+            <GoogleAuth role={'candidate'} />
           </div>
         </form>
         {toastMessage && (

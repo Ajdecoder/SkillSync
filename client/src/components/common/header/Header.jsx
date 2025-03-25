@@ -3,41 +3,63 @@ import "./header.css";
 import { nav, navExpandCAndidate, navExpandRecruiter } from "../../data/Data";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { useAuth0 } from "@auth0/auth0-react";
 import logo from "/images/logo.png?url";
 import clsx from "clsx";
 import "./notifications.css";
 import NotificationButton from "./Notification";
+import { FaRegUser } from "react-icons/fa";
 
 const Header = () => {
-  const { loggedInUser, logout: customLogout } = useAuth();
-  const { user, isAuthenticated, logout: auth0Logout } = useAuth0();
+  const { loggedInUser, logout: customLogout, google_user } = useAuth();
   const navigate = useNavigate();
   // State management
   const [isNavListOpen, setIsNavListOpen] = useState(false);
   const [showAboutUser, setShowAboutUser] = useState(false);
-  const [showExpand, setShowExpand] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
   const [navExpand, setExpandNav] = useState([]);
   const location = useLocation();
-  const dropdownRef = useRef(null); // Ref for user dropdown
+  const dropdownRef = useRef(null); // Ref for google_user dropdown
   const dropdownExpandRef = useRef(null); // Ref for Requirement dropdown
   const headerRef = useRef(null); // Ref for header
 
-  // Determine current user
-  const currentUser = loggedInUser || (isAuthenticated && user);
+  // Determine current google_user
+  const currentUser = loggedInUser || google_user;
 
-  // console.log("Auth0currentUser",user)
+  // console.log("Auth0currentUser",google_user)
   // console.log("CustomAuth",loggedInUser)
 
-  // Set navigation based on user role
+  // Set navigation based on google_user role
   useEffect(() => {
-    setExpandNav(
-      loggedInUser?.role === "candidate"
-        ? navExpandCAndidate
-        : navExpandRecruiter
-    );
-  }, [loggedInUser]);
+    if (currentUser) {
+      setExpandNav(
+        currentUser?.role === "candidate" ? navExpandCAndidate : navExpandRecruiter
+      );
+    } else {
+      setExpandNav([
+        {
+          text: "Talent Search",
+          path: "requirements/hire-talent",
+        },
+        {
+          text: "Browse Opportunities",
+          path: "requirements/browse-opportunities",
+        },
+        {
+          text: "My Job Listings",
+          path: "requirements/listed-opportunity",
+        },
+        {
+          text: "Manage Job Preferences",
+          path: "requirements/job-preferences",
+        },
+        {
+          text: "Market Trends",
+          path: "requirements/market-trends",
+        },
+      ]);
+    }
+  }, [currentUser]);
+  
 
   // Handle screen resizing
   useEffect(() => {
@@ -52,18 +74,11 @@ const Header = () => {
 
   // Handle logout
   const handleLogout = () => {
-    if (loggedInUser) {
+    if (currentUser) {
       customLogout();
+      localStorage.removeItem("googleUser");
       navigate("/");
-    } else if (isAuthenticated) {
-      auth0Logout({ returnTo: window.location.origin });
     }
-  };
-
-  // Handle Requirement dropdown toggle
-  const handleRequirementClick = (event) => {
-    event.preventDefault();
-    setShowExpand((prev) => !prev);
   };
 
   // Close dropdowns when clicking outside
@@ -71,13 +86,6 @@ const Header = () => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowAboutUser(false);
-      }
-
-      if (
-        dropdownExpandRef.current &&
-        !dropdownExpandRef.current.contains(event.target)
-      ) {
-        setShowExpand(false);
       }
 
       if (
@@ -136,7 +144,7 @@ const Header = () => {
           </NavLink>
         </div>
 
-        {/* Navigation */}  
+        {/* Navigation */}
         <nav ref={headerRef} className="nav">
           <ul
             className={clsx(isNavListOpen ? "small overflow-scroll" : "flex")}
@@ -145,13 +153,13 @@ const Header = () => {
           </ul>
         </nav>
 
-        {loggedInUser && <NotificationButton />}
+        {currentUser && <NotificationButton />}
 
-        {/* User Section */}
+        {/* google_User Section */}
         <div ref={dropdownRef} className="button">
           {currentUser ? (
             <>
-              {/* User Avatar */}
+              {/* google_User Avatar */}
               <div
                 className="flex items-center space-x-3 cursor-pointer hover:scale-[0.9] transition-ease-in duration-200 "
                 onClick={() => setShowAboutUser((prev) => !prev)}
@@ -168,10 +176,12 @@ const Header = () => {
                     to="/profile/userProfile"
                     className="text-center text-2xl"
                   >
-                    <i className="fa-solid fa-user"></i>
+                    <i className="fa-solid fa-google_user">
+                      <FaRegUser />
+                    </i>
                   </Link>
                   <p className="text-sm text-gray-700 mb-2">
-                    <strong>Name:</strong> {currentUser?.name || "User"}
+                    <strong>Name:</strong> {currentUser?.name || "google_User"}
                   </p>
                   <p className="text-sm text-gray-700 mb-2">
                     <strong>Email:</strong> {currentUser?.email || "N/A"}
