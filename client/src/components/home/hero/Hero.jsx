@@ -12,7 +12,7 @@ import { CandidatesFilters } from "../../common/Filters/TalentsFilter";
 import { OpportunitiesFilter } from "../../common/Filters/OpportunitiesFilter";
 
 const Hero = () => {
-  const { loggedInUser } = useAuth();
+  const { loggedInUser, google_user } = useAuth();
 
   const [programmers, setProgrammers] = useState([]);
   const [filterCategory, setFilterCategory] = useState({
@@ -23,14 +23,16 @@ const Hero = () => {
   const [error, setError] = useState(null);
   const [isSearching, setIsSearching] = useState(false);
 
-
   const filteredProgrammers = useMemo(() => {
-    const { selectedCity, selectedExpertType, selectedPriceRange } = filterCategory;
+    const { selectedCity, selectedExpertType, selectedPriceRange } =
+      filterCategory;
     return programmers.filter((programmer) => {
       return (
         (selectedCity === "" || programmer?.address === selectedCity) &&
-        (selectedExpertType === "" || programmer?.expertType === selectedExpertType) &&
-        (selectedPriceRange === "" || programmer?.priceRange === selectedPriceRange)
+        (selectedExpertType === "" ||
+          programmer?.expertType === selectedExpertType) &&
+        (selectedPriceRange === "" ||
+          programmer?.priceRange === selectedPriceRange)
       );
     });
   }, [programmers, filterCategory]);
@@ -45,14 +47,25 @@ const Hero = () => {
 
   return (
     <>
-      {loggedInUser ? (
+      {loggedInUser || google_user ? (
         <section className="hero">
           <div className="hero-image">
-            <img className="opacity-[0.0]" src="/images/banner.jpg" alt="Hero" />
+            <img
+              className="opacity-[0.0]"
+              src="/images/banner.jpg"
+              alt="Hero"
+            />
           </div>
           <div className="hero-container">
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
-              <Heading title="Search Your Way" subtitle="Find new & featured programmers located in your local city." />
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1 }}
+            >
+              <Heading
+                title="Search Your Way"
+                subtitle="Find new & featured programmers located in your local city."
+              />
             </motion.div>
 
             <motion.form
@@ -61,7 +74,8 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1 }}
             >
-              {loggedInUser.role === "recruiter" ? (
+              {loggedInUser?.role === "recruiter" ||
+              google_user?.role === "recruiter" ? (
                 <CandidatesFilters
                   filterCategory={filterCategory}
                   setFilterCategory={setFilterCategory}
@@ -71,16 +85,20 @@ const Hero = () => {
                   setProgrammers={setProgrammers}
                 />
               ) : (
-                <OpportunitiesFilter filterCategory={filterCategory}
-                setFilterCategory={setFilterCategory}
-                filterData={filterData}
-                setError={setError}
-                programmers={programmers}
-                setProgrammers={setProgrammers} />
+                <OpportunitiesFilter
+                  filterCategory={filterCategory}
+                  setFilterCategory={setFilterCategory}
+                  filterData={filterData}
+                  setError={setError}
+                  programmers={programmers}
+                  setProgrammers={setProgrammers}
+                />
               )}
 
               <motion.button
-                className={`btn1 bg-[#663399] p-[1rem] mb-0 hover:bg-black text-white ${isSearching ? "opacity-50 cursor-not-allowed" : ""}`}
+                className={`btn1 bg-[#663399] p-[1rem] mb-0 hover:bg-black text-white ${
+                  isSearching ? "opacity-50 cursor-not-allowed" : ""
+                }`}
                 type="button"
                 onClick={handleClick}
                 disabled={isSearching}
@@ -88,13 +106,19 @@ const Hero = () => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.8, duration: 1 }}
               >
-                {isSearching ? "Searching..." : <><i className="fa fa-search"></i> Search</>}
+                {isSearching ? (
+                  "Searching..."
+                ) : (
+                  <>
+                    <i className="fa fa-search"></i> Search
+                  </>
+                )}
               </motion.button>
             </motion.form>
           </div>
         </section>
       ) : (
-        <section className="hero-notloggedin bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 text-white py-16">
+        <section className="hero-LoginPromoPage bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 text-white py-16">
           <motion.div
             className="hero-container mx-auto max-w-4xl text-center space-y-6"
             initial={{ opacity: 0 }}
@@ -106,10 +130,16 @@ const Hero = () => {
               subtitle="Whether you're looking to hire top talent or find your next job, we have the right tools to connect you with opportunities."
             />
             <p className="text-lg md:text-xl font-light">
-              Discover skilled professionals or explore job opportunities that align with your expertise. Start your journey today!
+              Discover skilled professionals or explore job opportunities that
+              align with your expertise. Start your journey today!
             </p>
 
-            <motion.div className="mt-8 flex justify-center gap-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 1 }}>
+            <motion.div
+              className="mt-8 flex justify-center gap-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2, duration: 1 }}
+            >
               <Link
                 to="/requirements/search"
                 className="bg-white text-indigo-600 hover:text-purple-600 font-semibold py-3 px-6 rounded-lg shadow-lg transition-all duration-300"
@@ -126,7 +156,11 @@ const Hero = () => {
           </motion.div>
         </section>
       )}
-      <Recent programmers={programmers} filteredProgrammers={filteredProgrammers} filterCategory={filterCategory} />
+      <Recent
+        programmers={programmers}
+        filteredProgrammers={filteredProgrammers}
+        filterCategory={filterCategory}
+      />
     </>
   );
 };

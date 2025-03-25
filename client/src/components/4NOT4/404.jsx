@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const NotFoundPage = () => {
   return (
@@ -69,14 +70,14 @@ const NotFoundPage = () => {
           Click below to head back home and find your way.
         </motion.p>
 
-        <motion.a
-          href="/"
+        <Link
+          to="/"
           className="inline-block mt-8 px-6 py-3 text-lg font-semibold text-white bg-red-500 rounded-full shadow-lg hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
         >
           Go Back Home
-        </motion.a>
+        </Link>
       </motion.div>
     </div>
   );

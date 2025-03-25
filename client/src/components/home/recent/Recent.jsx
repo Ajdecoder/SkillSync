@@ -10,10 +10,9 @@ import { PORT_CLIENT } from "../../../commonClient";
 import { Spinner } from "../../common/loadingSpinner/spinner";
 import { getAllCandidateProfiles } from "../../../services/api";
 
-const Recent = ({filterCategory,filteredProgrammers,programmers}) => {
-
-    console.log(filterCategory, filteredProgrammers, programmers);
-  const { loggedInUser } = useAuth();
+const Recent = ({ filterCategory, filteredProgrammers, programmers }) => {
+  console.log(filterCategory, filteredProgrammers, programmers);
+  const { loggedInUser, google_user } = useAuth();
   const navigate = useNavigate();
   const [talentsError, setTalentsError] = useState(null);
   const [talentsLoading, setTalentsLoading] = useState(true);
@@ -31,7 +30,7 @@ const Recent = ({filterCategory,filteredProgrammers,programmers}) => {
       try {
         const { data } = await getAllCandidateProfiles();
         setTalents(data.candidates || []);
-        setTalentsLoading(false)
+        setTalentsLoading(false);
       } catch (error) {
         console.error("Error fetching candidates:", error);
       }
@@ -45,7 +44,6 @@ const Recent = ({filterCategory,filteredProgrammers,programmers}) => {
       setOpportunities(opportunitiesData.Addedopportunities);
     }
   }, [opportunitiesData]);
-
 
   const handleConnectClick = (item, index, type) => {
     const post_id = opportunities[index]?._id;
@@ -65,9 +63,10 @@ const Recent = ({filterCategory,filteredProgrammers,programmers}) => {
 
   return (
     <>
-      {loggedInUser ? (
+      {loggedInUser || google_user ? (
         <>
-          {loggedInUser.role === "candidate" && (
+          {(loggedInUser?.role === "candidate" ||
+            google_user?.role === "candidate") && (
             <section className="recent padding">
               <div className="container">
                 <Heading
@@ -82,7 +81,8 @@ const Recent = ({filterCategory,filteredProgrammers,programmers}) => {
             </section>
           )}
 
-          {loggedInUser.role === "recruiter" && (
+          {(loggedInUser?.role === "recruiter" ||
+            google_user?.role === "recruiter") && (
             <section className="recent padding">
               <div className="container">
                 <Heading

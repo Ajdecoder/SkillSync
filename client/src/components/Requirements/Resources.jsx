@@ -12,7 +12,9 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export const Resources = () => {
-  const { loggedInUser } = useAuth();
+  const { loggedInUser, google_user } = useAuth();
+
+  const currentUser = loggedInUser || google_user;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -170,7 +172,7 @@ export const Resources = () => {
           Start Your Journey Today
         </h2>
         <div className="flex justify-center gap-4">
-          {loggedInUser.role ==='recruiter' ?
+          {currentUser?.role === "recruiter" ? (
             <>
               <Link
                 to="/requirements/hire-talent"
@@ -185,16 +187,16 @@ export const Resources = () => {
                 Post Jobs Now
               </Link>
             </>
-            :
+          ) : (
             <>
-             <Link
+              <Link
                 to="/requirements/browse-opportunities"
                 className="bg-blue-600 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl"
               >
                 Find Your Dream Job
               </Link>
             </>
-          }
+          )}
         </div>
       </motion.div>
     </motion.div>

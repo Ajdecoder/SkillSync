@@ -201,7 +201,7 @@ export const RegRecruiter = () => {
               </div>
 
               <div className="flex justify-center mt-4">
-                <GoogleAuth />
+                <GoogleAuth role={"recruiter"} />
               </div>
             </form>
 
