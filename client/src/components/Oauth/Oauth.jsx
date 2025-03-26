@@ -5,6 +5,8 @@ import { PORT_CLIENT } from "../../commonClient";
 
 export const GoogleAuth = ({ role }) => {
   const clientId = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
+  console.log("Client ID from ENV:", import.meta.env.VITE_APP_GOOGLE_CLIENT_ID);
+  console.log("Client ID from ENV:", clientId);
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("googleUser"))
   );
