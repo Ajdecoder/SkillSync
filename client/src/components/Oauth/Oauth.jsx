@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { PORT_CLIENT } from "../../commonClient";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export const GoogleAuth = ({ role }) => {
   const clientId = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
@@ -10,6 +11,9 @@ export const GoogleAuth = ({ role }) => {
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("googleUser"))
   );
+
+  let navigate = useNavigate();
+
 
   const handleLoginSuccess = async (response) => {
     try {
@@ -24,7 +28,8 @@ export const GoogleAuth = ({ role }) => {
       const {  user } = res.data;
       localStorage.setItem("googleUser", JSON.stringify(user));
       setUser(user);
-
+      
+      navigate("/");
       window.location.reload(); // Refresh to update UI
     } catch (error) {
       console.error("Google Login Failed:", error);

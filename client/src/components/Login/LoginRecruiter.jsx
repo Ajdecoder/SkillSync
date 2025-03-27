@@ -73,13 +73,9 @@ export const LoginRecruiter = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100 relative">
-      <img
-        src={bgImage}
-        alt="Login Illustration"
-        className="absolute inset-0 w-full h-full object-cover " // Background image with reduced opacity
-      />
-      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8 z-10 opacity-70">
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 to-purple-900 text-white flex flex-col items-center justify-center p-6p-6 relative">
+  
+      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8 z-10">
         <h1 className="text-3xl font-semibold text-gray-800 text-center mb-6">
           Recruiter Login
         </h1>

@@ -96,9 +96,9 @@ export const Settings = () => {
             </Link>
             <p className="text-gray-700">
               Permanently delete your{" "}
-              {console.log(loggedInUser.loggedInUser.role)}
-              {loggedInUser.loggedInUser.role.charAt(0).toUpperCase() +
-               loggedInUser.loggedInUser.role.slice(1).toLowerCase()}{" "}
+              {console.log(loggedInUser.loggedInUser?.role)}
+              {loggedInUser.loggedInUser?.role.charAt(0).toUpperCase() +
+               loggedInUser.loggedInUser?.role.slice(1).toLowerCase()}{" "}
               Account
             </p>
           </div>
