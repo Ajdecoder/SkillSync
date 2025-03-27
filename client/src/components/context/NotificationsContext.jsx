@@ -5,7 +5,8 @@ import { useAuth } from "./AuthContext";
 const NotificationsContext = createContext();
 
 export const NotificationsProvider = ({ children }) => {
-  const { loggedInUser } = useAuth();
+  const { loggedInUser,google_user } = useAuth();
+  const currentUser = loggedInUser || google_user;
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   
@@ -16,8 +17,8 @@ export const NotificationsProvider = ({ children }) => {
       const response = await getNotifications();
       if (response.ok || response.status === 200) {
         const filtered = response.data.notifications.filter((notification) => {
-          if (loggedInUser?.role === "candidate") return notification.type === "job_posted";
-          if (loggedInUser?.role === "recruiter") return notification.type === "application_received";
+          if (currentUser?.role === "candidate") return notification.type === "job_posted";
+          if (currentUser?.role === "recruiter") return notification.type === "application_received";
           return false;
         });
         setNotifications(filtered);
@@ -28,7 +29,7 @@ export const NotificationsProvider = ({ children }) => {
       setNotifications([]);
       setUnreadCount(0);
     }
-  }, [loggedInUser]);
+  }, [currentUser]);
 
   // Mark a notification as read (both in UI and on the server)
   const markAsRead = useCallback(async (notificationId) => {

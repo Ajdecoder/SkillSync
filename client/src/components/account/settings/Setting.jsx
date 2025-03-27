@@ -7,7 +7,10 @@ export const Settings = () => {
   const toggleCheckbox = (setter, value) => setter(!value);
 
   const [settings, setSettings] = useState(communication_privacy);
-  const loggedInUser = useAuth();
+  const {loggedInUser,google_user} = useAuth();
+
+  const currentUser = loggedInUser || google_user;
+
 
   const handleToggle = (index) => {
     const updatedSettings = [...settings];
@@ -96,9 +99,9 @@ export const Settings = () => {
             </Link>
             <p className="text-gray-700">
               Permanently delete your{" "}
-              {console.log(loggedInUser.loggedInUser?.role)}
-              {loggedInUser.loggedInUser?.role.charAt(0).toUpperCase() +
-               loggedInUser.loggedInUser?.role.slice(1).toLowerCase()}{" "}
+              {console.log(currentUser?.role)}
+              {currentUser?.role.charAt(0).toUpperCase() +
+               currentUser?.role.slice(1).toLowerCase()}{" "}
               Account
             </p>
           </div>

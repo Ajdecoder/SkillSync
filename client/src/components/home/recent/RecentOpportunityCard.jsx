@@ -5,7 +5,9 @@ import AddOpportunityCard from "../../AddOpportunity/OpportunityCard.jsx";
 import { locations, skills } from "../../data/Data.jsx";
 
 const RecentOpportunity = ({ handleConnectClick, addedOpportunities }) => {
-  const { loggedInUser } = useAuth();
+  const { loggedInUser,google_user } = useAuth();
+  const currentUser = loggedInUser || google_user;
+
   const [filteredOpportunities, setFilteredOpportunities] =
     useState(addedOpportunities);
 

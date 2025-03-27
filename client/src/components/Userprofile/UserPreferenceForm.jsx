@@ -144,7 +144,9 @@ const UserPreferenceForm = ({ setUpdatedData, updatedData }) => {
     "Subject Matter Expert (SME)",
   ]);
 
-  const { loggedInUser } = useAuth();
+  const { loggedInUser,google_user } = useAuth();
+  const currentUser = loggedInUser || google_user;
+
 
   const handleInterestSubmit = async () => {
     try {
@@ -157,7 +159,7 @@ const UserPreferenceForm = ({ setUpdatedData, updatedData }) => {
       };
       setUpdatedData(updatedProfile);
       setIsEditing(true);
-      await updateUserProfileByEmail(loggedInUser.email, updatedProfile);
+      await updateUserProfileByEmail(currentUser?.email, updatedProfile);
       setIsEditing(false);
     } catch (error) {
       console.error(error);

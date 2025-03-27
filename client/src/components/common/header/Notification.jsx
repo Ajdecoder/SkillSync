@@ -9,7 +9,9 @@ import { HiBellAlert } from "react-icons/hi2";
 const NotificationButton = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const dropdownRef = useRef(null);
-  const { loggedInUser } = useAuth();
+  const { loggedInUser,google_user } = useAuth();
+  const currentUser = loggedInUser || google_user;
+
   const { notifications, unreadCount, fetchNotifications, markAsRead } =
     useNotifications();
   const navigate = useNavigate();
@@ -17,7 +19,7 @@ const NotificationButton = () => {
   // Fetch notifications on login/user change
   useEffect(() => {
     fetchNotifications();
-  }, [loggedInUser, fetchNotifications]);
+  }, [currentUser, fetchNotifications]);
 
   // Handle click outside to close notifications dropdown
   useEffect(() => {
