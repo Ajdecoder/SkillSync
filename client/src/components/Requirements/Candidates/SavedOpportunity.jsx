@@ -20,7 +20,7 @@ import { OpportunitiesFilter } from "../../common/Filters/OpportunitiesFilter";
 import { LoginPromoPage } from "../../Login/NotLoggedIn";
 
 export const SavedOpportunity = () => {
-  const { loggedInUser, google_user } = useAuth();
+  const { loggedInUser, googleUser } = useAuth();
   const [opportunities, setOpportunities] = useState([]);
   const navigate = useNavigate();
   const [programmers, setProgrammers] = useState([]);
@@ -31,7 +31,7 @@ export const SavedOpportunity = () => {
     selectedPriceRange: "",
   });
 
-  const currentUser = loggedInUser || google_user;
+  const currentUser = loggedInUser || googleUser;
 
   const { data, error, loading } = useFetchData(
     `${PORT_CLIENT}/api/requirements/addedOpportunities`

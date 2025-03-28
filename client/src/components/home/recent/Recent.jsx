@@ -12,7 +12,7 @@ import { getAllCandidateProfiles } from "../../../services/api";
 
 const Recent = ({ filterCategory, filteredProgrammers, programmers }) => {
   console.log(filterCategory, filteredProgrammers, programmers);
-  const { loggedInUser, google_user } = useAuth();
+  const { loggedInUser, googleUser } = useAuth();
   const navigate = useNavigate();
   const [talentsError, setTalentsError] = useState(null);
   const [talentsLoading, setTalentsLoading] = useState(true);
@@ -63,10 +63,10 @@ const Recent = ({ filterCategory, filteredProgrammers, programmers }) => {
 
   return (
     <>
-      {loggedInUser || google_user ? (
+      {loggedInUser || googleUser ? (
         <>
           {(loggedInUser?.role === "candidate" ||
-            google_user?.role === "candidate") && (
+            googleUser?.role === "candidate") && (
             <section className="recent padding">
               <div className="container">
                 <Heading
@@ -82,7 +82,7 @@ const Recent = ({ filterCategory, filteredProgrammers, programmers }) => {
           )}
 
           {(loggedInUser?.role === "recruiter" ||
-            google_user?.role === "recruiter") && (
+            googleUser?.role === "recruiter") && (
             <section className="recent padding">
               <div className="container">
                 <Heading

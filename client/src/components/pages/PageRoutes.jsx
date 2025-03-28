@@ -35,8 +35,8 @@ import { AllBookmarks } from "../Requirements/Candidates/AllBookmarks.jsx";
 // This is just a helper function to return route elements.
 
 const PreventLoggedIn = ({ children }) => {
-  const { loggedInUser, google_user } = useAuth();
-  const currentUser = loggedInUser || google_user;
+  const { loggedInUser, googleUser } = useAuth();
+  const currentUser = loggedInUser || googleUser;
   
   return currentUser ? <Navigate to="/" replace /> : children;
 };

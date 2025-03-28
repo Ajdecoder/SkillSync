@@ -12,9 +12,9 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export const Resources = () => {
-  const { loggedInUser, google_user } = useAuth();
+  const { loggedInUser, googleUser } = useAuth();
 
-  const currentUser = loggedInUser || google_user;
+  const currentUser = loggedInUser || googleUser;
 
   const containerVariants = {
     hidden: { opacity: 0 },

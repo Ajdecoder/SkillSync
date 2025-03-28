@@ -144,8 +144,8 @@ const UserPreferenceForm = ({ setUpdatedData, updatedData }) => {
     "Subject Matter Expert (SME)",
   ]);
 
-  const { loggedInUser,google_user } = useAuth();
-  const currentUser = loggedInUser || google_user;
+  const { loggedInUser,googleUser } = useAuth();
+  const currentUser = loggedInUser || googleUser;
 
 
   const handleInterestSubmit = async () => {

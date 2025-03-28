@@ -7,9 +7,9 @@ export const Settings = () => {
   const toggleCheckbox = (setter, value) => setter(!value);
 
   const [settings, setSettings] = useState(communication_privacy);
-  const {loggedInUser,google_user} = useAuth();
+  const {loggedInUser,googleUser} = useAuth();
 
-  const currentUser = loggedInUser || google_user;
+  const currentUser = loggedInUser || googleUser;
 
 
   const handleToggle = (index) => {

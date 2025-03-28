@@ -49,7 +49,7 @@ export const GoogleLogin = async (req, res) => {
 
                 user.candidateProfile = candidateProfile._id; // Link profile to user
                 await user.save();
-            } 
+            }
             else if (role === 'recruiter') {
                 user = new Recruiter({
                     googleId: sub,
@@ -78,7 +78,7 @@ export const GoogleLogin = async (req, res) => {
 
         // Generate JWT Token
         const authToken = jwt.sign(
-            { userId: user._id, role: user.role },
+            { userId: user._id, email: user.email, name: user.name, role: user.role },
             process.env.JWT_SECRET,
             { expiresIn: '7d' }
         );

@@ -31,7 +31,7 @@ const OpportunityConnectPage = () => {
   const [userHasApplied, setUserHasApplied] = useState(false);
   const [showRevertModal, setShowRevertModal] = useState(false);
   const [showMore, setShowMore] = useState(false);
-  const { loggedInUser,google_user } = useAuth();
+  const { loggedInUser,googleUser } = useAuth();
   const [userId, setUserId] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
   const [toastType, setToastType] = useState("success");
@@ -45,7 +45,7 @@ const OpportunityConnectPage = () => {
     `${PORT_CLIENT}/api/requirements/Companyrequirements/${post_id}`
   );
 
-  const currentUser = loggedInUser || google_user;
+  const currentUser = loggedInUser || googleUser;
 
 
   console.log(companyData);
