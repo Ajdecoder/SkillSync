@@ -5,9 +5,9 @@ import { LoginPromoPage } from "../../Login/NotLoggedIn";
 
 
 export const ListedTalents = () => {
-  const { loggedInUser, google_user } = useAuth();
+  const { loggedInUser, googleUser } = useAuth();
 
-  const currentUser = loggedInUser || google_user;
+  const currentUser = loggedInUser || googleUser;
 
   return currentUser?.role === "recruiter" ? (
     <TalentPool />

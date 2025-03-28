@@ -4,8 +4,8 @@ import TalentsCard from "../../home/recent/TalentsCards";
 import { LoginPromoPage } from "../../Login/NotLoggedIn";
 
 const HireResources = () => {
-  const { loggedInUser,google_user } = useAuth();
-  const currentUser = loggedInUser || google_user;
+  const { loggedInUser,googleUser } = useAuth();
+  const currentUser = loggedInUser || googleUser;
 
 
   return currentUser?.role === "recruiter" ? (

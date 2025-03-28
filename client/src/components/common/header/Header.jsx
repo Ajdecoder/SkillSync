@@ -10,7 +10,7 @@ import NotificationButton from "./Notification";
 import { FaRegUser } from "react-icons/fa";
 
 const Header = () => {
-  const { loggedInUser, logout: customLogout, google_user } = useAuth();
+  const { loggedInUser, logout: customLogout, googleUser } = useAuth();
   const navigate = useNavigate();
   // State management
   const [isNavListOpen, setIsNavListOpen] = useState(false);
@@ -18,17 +18,17 @@ const Header = () => {
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
   const [navExpand, setExpandNav] = useState([]);
   const location = useLocation();
-  const dropdownRef = useRef(null); // Ref for google_user dropdown
+  const dropdownRef = useRef(null); // Ref for googleUser dropdown
   const dropdownExpandRef = useRef(null); // Ref for Requirement dropdown
   const headerRef = useRef(null); // Ref for header
 
-  // Determine current google_user
-  const currentUser = loggedInUser || google_user;
+  // Determine current googleUser
+  const currentUser = loggedInUser || googleUser;
 
-  // console.log("Auth0currentUser",google_user)
+  // console.log("Auth0currentUser",googleUser)
   // console.log("CustomAuth",loggedInUser)
 
-  // Set navigation based on google_user role
+  // Set navigation based on googleUser role
   useEffect(() => {
     if (currentUser) {
       setExpandNav(
@@ -176,7 +176,7 @@ const Header = () => {
                     to="/profile/userProfile"
                     className="text-center text-2xl"
                   >
-                    <i className="fa-solid fa-google_user">
+                    <i className="fa-solid fa-googleUser">
                       <FaRegUser />
                     </i>
                   </Link>

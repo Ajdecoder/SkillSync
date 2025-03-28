@@ -23,9 +23,9 @@ const ReviewJobOpportunity = ({ prevStep }) => {
   const [payloadJobId, setPayloadJobId] = useState(null);
 
   const navigate = useNavigate();
-  const { loggedInUser,google_user } = useAuth();
+  const { loggedInUser,googleUser } = useAuth();
 
-  const currentUser = loggedInUser || google_user;
+  const currentUser = loggedInUser || googleUser;
 
 
   // Check if the form is complete or needs more data

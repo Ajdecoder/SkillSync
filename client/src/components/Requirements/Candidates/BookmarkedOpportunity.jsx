@@ -20,7 +20,7 @@ export const BookmarkedOpportunity = () => {
     message: null,
     type: "success",
   });
-  const { loggedInUser,google_user } = useAuth();
+  const { loggedInUser,googleUser } = useAuth();
   const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
 
@@ -28,7 +28,7 @@ export const BookmarkedOpportunity = () => {
     `${PORT_CLIENT}/api/requirements/addedOpportunities`
   );
 
-  const currentUser = loggedInUser || google_user;
+  const currentUser = loggedInUser || googleUser;
 
 
   useEffect(() => {

@@ -18,13 +18,12 @@ export const UserProfile = () => {
   const [profileCompletion, setProfileCompletion] = useState(0);
   const [emailNotifications, setEmailNotifications] = useState(true);
   const [darkMode, setDarkMode] = useState(false);
-  const { loggedInUser,google_user } = useAuth();
+  const { loggedInUser, googleUser } = useAuth();
   const navigate = useNavigate();
 
   const onTabChange = (tabName) => setActiveTab(tabName);
 
-  const currentUser = loggedInUser || google_user;
-
+  const currentUser = loggedInUser || googleUser;
 
   // Fetch profile data (always executed, avoiding conditional hook calls)
   const {
@@ -97,7 +96,9 @@ export const UserProfile = () => {
 
   useEffect(() => {
     if (fetchedProfileData) {
-      const role = fetchedProfileData?.recruiterProfile ? "recruiter" : "candidate";
+      const role = fetchedProfileData?.recruiterProfile
+        ? "recruiter"
+        : "candidate";
       setUserRole(role);
 
       const data =
@@ -122,7 +123,10 @@ export const UserProfile = () => {
       setDarkMode(JSON.parse(savedDarkMode));
     }
 
-    localStorage.setItem("emailNotifications", JSON.stringify(emailNotifications));
+    localStorage.setItem(
+      "emailNotifications",
+      JSON.stringify(emailNotifications)
+    );
     localStorage.setItem("darkMode", JSON.stringify(darkMode));
   }, [emailNotifications, darkMode]);
 
@@ -150,8 +154,14 @@ export const UserProfile = () => {
             <section className="profile-about-section p-6 bg-white rounded-lg shadow-md">
               <h2 className="text-xl font-semibold">About</h2>
               <div className="mt-4 space-y-4">
-                <RecruiterAboutSection profileData={profileData} userRole={userRole} />
-                <CandidateAboutSection profileData={profileData} userRole={userRole} />
+                <RecruiterAboutSection
+                  profileData={profileData}
+                  userRole={userRole}
+                />
+                <CandidateAboutSection
+                  profileData={profileData}
+                  userRole={userRole}
+                />
               </div>
             </section>
           )}

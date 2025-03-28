@@ -25,12 +25,12 @@ export const ViewCandidateInfo = () => {
   const [recruiterId, setRecruiterId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [bookmark, setBookmark] = useState(false);
-  const { loggedInUser,google_user } = useAuth();
+  const { loggedInUser,googleUser } = useAuth();
   const [toastMessage, setToastMessage] = useState(null);
   const [toastType, setToastType] = useState("success");
   const [hiretalentModal, setHireTalentModal] = useState(false);
 
-  const currentUser = loggedInUser || google_user;
+  const currentUser = loggedInUser || googleUser;
   console.log(currentUser);
 
 

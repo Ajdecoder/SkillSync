@@ -12,7 +12,7 @@ import { CandidatesFilters } from "../../common/Filters/TalentsFilter";
 import { OpportunitiesFilter } from "../../common/Filters/OpportunitiesFilter";
 
 const Hero = () => {
-  const { loggedInUser, google_user } = useAuth();
+  const { loggedInUser, googleUser } = useAuth();
 
   const [programmers, setProgrammers] = useState([]);
   const [filterCategory, setFilterCategory] = useState({
@@ -47,7 +47,7 @@ const Hero = () => {
 
   return (
     <>
-      {loggedInUser || google_user ? (
+      {loggedInUser || googleUser ? (
         <section className="hero">
           <div className="hero-image">
             <img
@@ -75,7 +75,7 @@ const Hero = () => {
               transition={{ duration: 1 }}
             >
               {loggedInUser?.role === "recruiter" ||
-              google_user?.role === "recruiter" ? (
+              googleUser?.role === "recruiter" ? (
                 <CandidatesFilters
                   filterCategory={filterCategory}
                   setFilterCategory={setFilterCategory}

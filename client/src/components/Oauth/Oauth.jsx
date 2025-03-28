@@ -6,8 +6,8 @@ import { Navigate, useNavigate } from "react-router-dom";
 
 export const GoogleAuth = ({ role }) => {
   const clientId = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
-  console.log("Client ID from ENV:", import.meta.env.VITE_APP_GOOGLE_CLIENT_ID);
-  console.log("Client ID from ENV:", clientId);
+  // console.log("Client ID from ENV:", import.meta.env.VITE_APP_GOOGLE_CLIENT_ID);
+  // console.log("Client ID from ENV:", clientId);
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("googleUser"))
   );
@@ -25,12 +25,12 @@ export const GoogleAuth = ({ role }) => {
         }
       );
 
-      const {  user } = res.data;
-      localStorage.setItem("googleUser", JSON.stringify(user));
+      const {  token } = res.data;
+      localStorage.setItem("googleUser", JSON.stringify(token));
       setUser(user);
       
-      navigate("/");
-      window.location.reload(); // Refresh to update UI
+      // navigate("/");
+      // window.location.reload(); // Refresh to update UI
     } catch (error) {
       console.error("Google Login Failed:", error);
     }

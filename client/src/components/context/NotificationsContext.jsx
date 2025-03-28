@@ -5,8 +5,8 @@ import { useAuth } from "./AuthContext";
 const NotificationsContext = createContext();
 
 export const NotificationsProvider = ({ children }) => {
-  const { loggedInUser,google_user } = useAuth();
-  const currentUser = loggedInUser || google_user;
+  const { loggedInUser,googleUser } = useAuth();
+  const currentUser = loggedInUser || googleUser;
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   

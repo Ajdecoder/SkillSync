@@ -1,15 +1,12 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-export const OpportunitiesFilter = ({ filterCategory, setFilterCategory, filterData }) => {
+export const  OpportunitiesFilter = ({ filterCategory, setFilterCategory, filterData }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" >
       {/* City Filter */}
       <motion.div
         className="box inpbox"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2, duration: 1 }}
       >
         <span>City/Region</span>
         <select
@@ -34,9 +31,7 @@ export const OpportunitiesFilter = ({ filterCategory, setFilterCategory, filterD
       {/* Expert Type Filter */}
       <motion.div
         className="box inpbox"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.4, duration: 1 }}
+       
       >
         <span>Expert Type</span>
         <select
@@ -61,9 +56,6 @@ export const OpportunitiesFilter = ({ filterCategory, setFilterCategory, filterD
       {/* Price Range Filter */}
       <motion.div
         className="box inpbox"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6, duration: 1 }}
       >
         <span>Price Range</span>
         <select

@@ -4,9 +4,9 @@ import AddOpportunityForm from "../../AddOpportunity/AddOpportunityForm";
 import { LoginPromoPage } from "../../Login/NotLoggedIn";
 
 const AddOpportunity = () => {
-  const { loggedInUser, google_user } = useAuth();
+  const { loggedInUser, googleUser } = useAuth();
 
-  const currentUser = loggedInUser || google_user;
+  const currentUser = loggedInUser || googleUser;
 
   return currentUser?.role==='recruiter' ? <AddOpportunityForm /> : <LoginPromoPage />;
 };

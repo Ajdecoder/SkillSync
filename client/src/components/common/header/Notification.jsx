@@ -9,8 +9,8 @@ import { HiBellAlert } from "react-icons/hi2";
 const NotificationButton = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const dropdownRef = useRef(null);
-  const { loggedInUser,google_user } = useAuth();
-  const currentUser = loggedInUser || google_user;
+  const { loggedInUser, googleUser } = useAuth();
+  const currentUser = loggedInUser || googleUser;
 
   const { notifications, unreadCount, fetchNotifications, markAsRead } =
     useNotifications();
@@ -39,10 +39,10 @@ const NotificationButton = () => {
 
   const handleNotificationClick = async (notification) => {
     try {
-      if (!notification.read) {
+      if (!notification?.read) {
         // Use markAsRead from context to handle both UI update and server call
-        await markAsRead(notification._id);
-        navigate(`/notifications/${notification._id}`);
+        await markAsRead(notification?._id);
+        navigate(`/notifications/${notification?._id}`);
         setShowNotifications(false);
       }
     } catch (error) {
@@ -84,7 +84,7 @@ const NotificationButton = () => {
                 <AnimatePresence>
                   {notifications.map((notification) => (
                     <motion.li
-                      key={notification._id}
+                      key={notification?._id}
                       variants={{
                         hidden: { opacity: 0, x: -50 },
                         visible: { opacity: 1, x: 0 },
@@ -94,14 +94,14 @@ const NotificationButton = () => {
                       whileTap={{ scale: 0.98 }}
                       onClick={() => handleNotificationClick(notification)}
                       className={`p-4 transition-all duration-200 ease-out ${
-                        notification.read
+                        notification?.read
                           ? "bg-gray-50 text-gray-400"
                           : "bg-white text-gray-800 hover:bg-blue-50"
                       }`}
                     >
                       <div className="flex items-start space-x-3">
                         <div className="flex-shrink-0">
-                          {notification.read ? (
+                          {notification?.read ? (
                             <FaCheckCircle className="w-5 h-5 text-green-500" />
                           ) : (
                             <div className="relative">
@@ -111,10 +111,10 @@ const NotificationButton = () => {
                           )}
                         </div>
                         <p className="text-sm leading-5">
-                          {notification.message}
+                          {notification?.message}
                         </p>
                       </div>
-                      {!notification.read && (
+                      {!notification?.read && (
                         <motion.div
                           initial={{ scaleX: 0 }}
                           animate={{ scaleX: 1 }}
