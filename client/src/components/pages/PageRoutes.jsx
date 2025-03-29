@@ -87,6 +87,7 @@ export const RoutesConfig = ({ spin, setSpin }) => [
     path="/requirements/bookmarked-jobs"
     element={<AllBookmarks />}
   />,
+  
   <Route
     key="market-trends"
     path="/requirements/market-trends"

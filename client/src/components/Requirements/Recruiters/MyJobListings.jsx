@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { deleteOpportunity, getOpportunities } from "../../../services/api";
+import {
+  deleteOpportunity,
+  getOpportunities,
+  getUserProfileByEmail,
+  jobListeningsByRecruiter,
+} from "../../../services/api";
 import { Spinner } from "../../common/loadingSpinner/spinner";
 import { RxCross1 } from "react-icons/rx";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 export const MyJobListings = () => {
   const [jobs, setJobs] = useState([]);
@@ -13,22 +19,31 @@ export const MyJobListings = () => {
   const [selectedApplicants, setSelectedApplicants] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
+  const { loggedInUser, google_auth } = useAuth();
+
+  const currentUser = loggedInUser || google_auth;
+  const recruiterEmail = currentUser.email || currentUser.email;
 
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const response = await getOpportunities();
+        const recruiterProfile = await getUserProfileByEmail(recruiterEmail);
+        const recruiterId = recruiterProfile?.data?.recruiterProfile?._id;
+
+
+        // No need to wait for state update, use recruiterId directly
+        const response = await jobListeningsByRecruiter(recruiterId);
         setJobs(response.data.Addedopportunities || []);
-        setError(null);
       } catch (err) {
         setError("Error fetching job listings.");
-        console.error(err);
+        console.error("Error in fetchJobs:", err);
       } finally {
         setLoading(false);
       }
     };
+
     fetchJobs();
-  }, []);
+  }, [recruiterEmail]); // Fetch data when recruiterEmail changes
 
   const handleDeleteJob = async (jobId) => {
     try {

@@ -9,8 +9,8 @@ import { HiBellAlert } from "react-icons/hi2";
 const NotificationButton = () => {
   const [showNotifications, setShowNotifications] = useState(false);
   const dropdownRef = useRef(null);
-  const { loggedInUser, googleUser } = useAuth();
-  const currentUser = loggedInUser || googleUser;
+  const { loggedInUser,google_user } = useAuth();
+  const currentUser = loggedInUser || google_user;
 
   const { notifications, unreadCount, fetchNotifications, markAsRead } =
     useNotifications();

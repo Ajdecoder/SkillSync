@@ -29,8 +29,8 @@ export const GoogleAuth = ({ role }) => {
       localStorage.setItem("googleUser", JSON.stringify(token));
       setUser(user);
       
-      // navigate("/");
-      // window.location.reload(); // Refresh to update UI
+      navigate("/");
+      window.location.reload(); // Refresh to update UI
     } catch (error) {
       console.error("Google Login Failed:", error);
     }
@@ -60,6 +60,7 @@ export const GoogleAuth = ({ role }) => {
         <GoogleLogin
           onSuccess={handleLoginSuccess}
           onError={() => console.error("Login Failed")}
+          
         />
       )}
     </GoogleOAuthProvider>

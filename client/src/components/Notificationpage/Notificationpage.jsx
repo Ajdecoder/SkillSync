@@ -331,8 +331,8 @@ const NotificationPage = () => {
                 transition={{ delay: index * 0.05 }}
                 className={`p-3 rounded-lg cursor-pointer border ${
                   notification.read
-                    ? "bg-gray-200"
-                    : "bg-gray-50 hover:bg-gray-100"
+                    ? "bg-green-200"
+                    : "bg-gray-200 hover:bg-gray-100"
                 }`}
                 onClick={() => handleNotificationSelect(notification)}
               >

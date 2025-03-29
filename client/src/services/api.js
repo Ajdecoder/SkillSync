@@ -46,6 +46,11 @@ export const addOpportunity = (data) =>
   API.post("/api/requirements/addOpportunity", data);
 export const getOpportunities = () =>
   API.get("/api/requirements/addedOpportunities");
+export const jobListeningsByRecruiter = (recruiterId) =>
+  API.get(`/api/requirements/jobListeningsByRecruiter/${recruiterId}`);
+
+
+
 export const getOpportunityById = (id) =>
   API.get(`/api/requirements/Companyrequirements/${id}`);
 export const applyToOpportunity = (payload) =>
@@ -67,7 +72,7 @@ export const bookmarkOpportunity = (userId, post_id) =>
     post_id,
   });
 export const removeBookmarkedOpportunity = (userId, post_id) =>
-  
+
   API.delete("/api/bookmark/opportunity/job/unbookmark-opportunity", {
     data: { userId, post_id },
   });
