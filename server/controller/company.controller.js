@@ -5,9 +5,9 @@ import {
 
 export const addOpportunity = async (req, res) => {
 
- 
-  const {payload} = req.body;
-  
+
+  const { payload } = req.body;
+
   const {
     title,
     company_name,
@@ -44,7 +44,7 @@ export const addOpportunity = async (req, res) => {
     });
 
     await newOpportunity.save();
-    res.status(201).json({ message: "Opportunity added successfully." , id: newOpportunity._id });
+    res.status(201).json({ message: "Opportunity added successfully.", id: newOpportunity._id });
   } catch (err) {
     console.error("Error:", err);
     res
@@ -69,15 +69,42 @@ export const allOpportunitiesData = async (req, res) => {
   }
 };
 
+export const jobListeningsByRecruiter = async (req, res) => {
+  try {
+    const {recruiterId} = req.params;
+    console.log("Running jobListeningsByRecruiter, Recruiter ID:", recruiterId);
+
+    if (!recruiterId) {
+      res.status(400).json({ message: "Recruiter ID is required" });
+    }
+
+    const Addedopportunities = await OpportunityCollection.find({
+      recruiterDetails: recruiterId, // Ensure this matches your schema
+    })
+      .populate("candidatesApplied")
+      .populate("recruiterDetails");
+
+    console.log(Addedopportunities)
+
+    res.status(200).json({ Addedopportunities });
+  } catch (error) {
+    console.error("Error fetching job listings:", error.message);
+    res.status(500).json({
+      message: "Failed to fetch job listings. Please try again later.",
+    });
+  }
+};
+
+
 
 
 export const getOpportunitytById = async (req, res) => {
 
-  
+
   try {
     const RequirementId = req.params.id;
 
-    
+
     const getRequirementFromAddOpportunity =
       await OpportunityCollection.findById(RequirementId).populate("recruiterDetails");;
 
@@ -100,7 +127,7 @@ export const updateOpportunity = async (req, res) => {
   try {
     const RequirementId = req.params.id;
     const updatedData = req.body;
-    
+
     const updatedRequirement = await OpportunityCollection.findByIdAndUpdate(
       RequirementId,
       updatedData,
@@ -111,10 +138,10 @@ export const updateOpportunity = async (req, res) => {
     }
     res.status(200).json(updatedRequirement);
     console.log("Requirement updated successfully");
-    } catch (error) {
+  } catch (error) {
     console.error("Error updating requirement:", error);
     res.status(500).json({ message: "Error updating requirement." });
-    }
+  }
 }
 
 export const deleteOpportunity = async (req, res) => {

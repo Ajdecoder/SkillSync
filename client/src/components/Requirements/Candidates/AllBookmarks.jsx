@@ -7,7 +7,8 @@ export const AllBookmarks = () => {
     const { loggedInUser, googleUser } = useAuth();
 
     const currentUser = loggedInUser || googleUser;
+    console.log(currentUser)
   
-    return currentUser?.role==='recruiter' ? <BookmarkedOpportunity /> : <LoginPromoPage />;
+    return currentUser?.role==='candidate' ? <BookmarkedOpportunity /> : <LoginPromoPage />;
   
 }

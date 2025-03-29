@@ -12,7 +12,7 @@ import {
   revertBackApplication,
 } from "../../../services/api.js";
 import { useAuth } from "../../context/AuthContext.jsx";
-import NotificationToasts  from "../../common/Toast/Toast.jsx";
+import NotificationToasts from "../../common/Toast/Toast.jsx";
 import {
   FiBookmark,
   FiCheckCircle,
@@ -31,13 +31,12 @@ const OpportunityConnectPage = () => {
   const [userHasApplied, setUserHasApplied] = useState(false);
   const [showRevertModal, setShowRevertModal] = useState(false);
   const [showMore, setShowMore] = useState(false);
-  const { loggedInUser,googleUser } = useAuth();
+  const { loggedInUser, googleUser } = useAuth();
   const [userId, setUserId] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
   const [toastType, setToastType] = useState("success");
   const [bookmark, setBookmark] = useState(false);
   const [opportunity, setOpportunity] = useState(null);
-
 
   const { post_id } = useParams();
 
@@ -47,12 +46,11 @@ const OpportunityConnectPage = () => {
 
   const currentUser = loggedInUser || googleUser;
 
-
   console.log(companyData);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      try { 
+      try {
         const user = await getUserProfileByEmail(currentUser.email);
         console.log("user: ", user.data.candidateProfile.OpportunityBookmarks);
         setUserId(user.data.candidateProfile._id);
@@ -70,7 +68,7 @@ const OpportunityConnectPage = () => {
     if (currentUser.email) {
       fetchUserProfile();
     }
-  }, [currentUser.email]);
+  }, [currentUser.email, post_id]);
 
   const handleJobApply = async () => {
     if (!userId || !companyData?._id) return;
@@ -83,7 +81,7 @@ const OpportunityConnectPage = () => {
         action: "job_applied",
         payload: {
           userId,
-          opportunityId: companyData._id,
+          opportunityId: companyData?._id,
           recruiterId: userId,
         },
       };
@@ -114,13 +112,13 @@ const OpportunityConnectPage = () => {
 
     try {
       setLoadingApply(true);
-      await revertBackApplication(userId, companyData._id);
+      await revertBackApplication(userId, companyData?._id);
       setUserHasApplied(false);
 
       setToastMessage("Application reverted successfully!");
       setToastType("info");
 
-      const updatedCandidates = companyData.candidatesApplied.filter(
+      const updatedCandidates = companyData?.candidatesApplied.filter(
         (candidateId) => candidateId !== userId
       );
       companyData.candidatesApplied = updatedCandidates;
@@ -134,7 +132,6 @@ const OpportunityConnectPage = () => {
       setLoadingApply(false);
     }
   };
-  
 
   if (!post_id) {
     return <div className="text-red-500">Invalid post ID.</div>;
@@ -164,7 +161,6 @@ const OpportunityConnectPage = () => {
     _id,
     recruiterDetails,
   } = companyData;
-
 
   const userHasAlreadyApplied = candidatesApplied?.includes(userId);
 
@@ -356,7 +352,6 @@ const OpportunityConnectPage = () => {
                 exit={{ opacity: 0, height: 0 }}
                 className="overflow-hidden"
               >
-                {/* ... (your existing expanded content) */}
               </motion.div>
             )}
           </AnimatePresence>
@@ -413,7 +408,7 @@ const OpportunityConnectPage = () => {
                   </h3>
                   <div className="flex items-center gap-2 text-gray-300">
                     <FiGlobe className="text-cyan-400" />
-                    <p>{companyData?.location || "No location provided"}</p>
+                    <p>{location || "No location provided"}</p>
                   </div>
                 </motion.div>
 
@@ -492,7 +487,7 @@ const OpportunityConnectPage = () => {
                         >
                           <FiUsers className="text-cyan-400" />
                           <span>
-                            {hire.name || "NA"} - {hire.position || "NA"}
+                            {hire.candidateName || "NA"} - {hire.position || "NA"}
                           </span>
                         </motion.li>
                       ))
@@ -672,7 +667,7 @@ const OpportunityConnectPage = () => {
 
         {/* Toast Notifications */}
         {toastMessage && (
-          <NotificationToasts 
+          <NotificationToasts
             message={toastMessage}
             type={toastType}
             autoClose={1500}
