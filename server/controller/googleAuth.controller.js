@@ -5,7 +5,6 @@ import { Candidate, CandidateUserProfile, Recruiter, RecruiterUserProfile } from
 
 export const GoogleLogin = async (req, res) => {
 
-    console.log('mai run hogya');
     try {
         const { token, role } = req.body;
 

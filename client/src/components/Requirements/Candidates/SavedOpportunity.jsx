@@ -37,10 +37,6 @@ export const SavedOpportunity = () => {
     `${PORT_CLIENT}/api/requirements/addedOpportunities`
   );
 
-  if (loading) {
-    <Spinner />;
-  }
-
   useEffect(() => {
     if (data?.Addedopportunities) {
       setOpportunities(data.Addedopportunities);
@@ -51,10 +47,15 @@ export const SavedOpportunity = () => {
     return <div className="text-center text-red-500">{error}</div>;
   }
 
-  if (!currentUser) {
+  if (loading)
     return (
-      <LoginPromoPage/>
+      <div className="flex justify-center items-center min-h-screen">
+        <Spinner />
+      </div>
     );
+
+  if (!currentUser) {
+    return <LoginPromoPage />;
   }
 
   const handleConnectClick = (opportunity) => {
@@ -79,10 +80,6 @@ export const SavedOpportunity = () => {
     hidden: { opacity: 0, x: -10 },
     visible: { opacity: 1, x: 0 },
   };
-
-  if (!opportunities) {
-    return <Spinner />;
-  }
 
   return (
     <div>
