@@ -84,7 +84,6 @@ export const jobListeningsByRecruiter = async (req, res) => {
       .populate("candidatesApplied")
       .populate("recruiterDetails");
 
-    console.log(Addedopportunities)
 
     res.status(200).json({ Addedopportunities });
   } catch (error) {

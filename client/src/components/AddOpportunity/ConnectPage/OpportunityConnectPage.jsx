@@ -33,10 +33,10 @@ const OpportunityConnectPage = () => {
   const [showMore, setShowMore] = useState(false);
   const { loggedInUser, googleUser } = useAuth();
   const [userId, setUserId] = useState(null);
+  const [jobPoster, setJobPoster] = useState(null);
   const [toastMessage, setToastMessage] = useState(null);
   const [toastType, setToastType] = useState("success");
   const [bookmark, setBookmark] = useState(false);
-  const [opportunity, setOpportunity] = useState(null);
 
   const { post_id } = useParams();
 
@@ -44,15 +44,17 @@ const OpportunityConnectPage = () => {
     `${PORT_CLIENT}/api/requirements/Companyrequirements/${post_id}`
   );
 
+
+
   const currentUser = loggedInUser || googleUser;
 
-  console.log(companyData);
-
   useEffect(() => {
+    console.log(companyData)
     const fetchUserProfile = async () => {
+      setJobPoster(companyData?.recruiterDetails?._id);
+      console.log(companyData?.recruiterDetails?._id);
       try {
         const user = await getUserProfileByEmail(currentUser.email);
-        console.log("user: ", user.data.candidateProfile.OpportunityBookmarks);
         setUserId(user.data.candidateProfile._id);
         setBookmark(
           user.data.candidateProfile.OpportunityBookmarks.some(
@@ -68,7 +70,7 @@ const OpportunityConnectPage = () => {
     if (currentUser.email) {
       fetchUserProfile();
     }
-  }, [currentUser.email, post_id]);
+  }, [currentUser.email, post_id, companyData]);
 
   const handleJobApply = async () => {
     if (!userId || !companyData?._id) return;
@@ -78,11 +80,13 @@ const OpportunityConnectPage = () => {
 
       // Construct the payload
       const payload = {
-        action: "job_applied",
+        action: "application_received",
         payload: {
+          jobTitle: companyData?.title,
+          candidateName: currentUser.name,
           userId,
           opportunityId: companyData?._id,
-          recruiterId: userId,
+          recruiterId: jobPoster,
         },
       };
 
@@ -351,8 +355,7 @@ const OpportunityConnectPage = () => {
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
                 className="overflow-hidden"
-              >
-              </motion.div>
+              ></motion.div>
             )}
           </AnimatePresence>
 
@@ -487,7 +490,8 @@ const OpportunityConnectPage = () => {
                         >
                           <FiUsers className="text-cyan-400" />
                           <span>
-                            {hire.candidateName || "NA"} - {hire.position || "NA"}
+                            {hire.candidateName || "NA"} -{" "}
+                            {hire.position || "NA"}
                           </span>
                         </motion.li>
                       ))

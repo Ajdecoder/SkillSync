@@ -127,8 +127,9 @@ export const CandidateForgotPassword = async (req, res) => {
 };
 
 export const JobApply = async (req, res) => {
-  console.log("hitting job apply",req.body);
   const { userId, opportunityId } = req.body.payload;
+
+
 
   if (!userId || !opportunityId) {
     return res.status(400).json({ message: "User ID and Opportunity ID are required." });

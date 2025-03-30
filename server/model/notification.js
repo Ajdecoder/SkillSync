@@ -2,9 +2,9 @@ import mongoose from "mongoose";
 
 const notificationSchema = new mongoose.Schema(
   {
-    recipient: {
+    applicant: {
       type: mongoose.Schema.Types.ObjectId,
-      ref:"RecruiterUserProfile"
+      ref:"CandidateUserProfile"
       // required: true,
     },
     JobDetails: {

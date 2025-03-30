@@ -150,14 +150,14 @@ const ReviewJobOpportunity = ({ prevStep }) => {
       setToastMessage("Form Submitted Successfully");
       setToastType("success");
       setIsSubmitting(false);
-      // navigate('/')
+      navigate('/')
     } catch (error) {
       console.error("Error Submitting Form:", error);
       setToastMessage("Error Submitting Form");
       setToastType("error");
     } finally {
       setIsSubmitting(false);
-      // navigate('/');
+      navigate('/');
     }
   };
 
