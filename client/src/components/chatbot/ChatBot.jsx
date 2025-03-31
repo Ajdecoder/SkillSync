@@ -2,10 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import "./chatbot.css";
 import { PORT_CLIENT } from "../../commonClient";
-import { getChatResponse } from "../../services/api";
+import { getChatResponse, getUserProfileByEmail } from "../../services/api";
 import { motion } from "framer-motion";
 import { useLenis } from "@studio-freight/react-lenis";
 import { FaForward } from "react-icons/fa";
+import { useAuth } from "../context/AuthContext";
 
 export const ChatBot = () => {
   const [messages, setMessages] = useState([
@@ -20,7 +21,19 @@ export const ChatBot = () => {
   ]);
   const [inputText, setInputText] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [premenu, setPremenu] = useState(false)
+  const [userId, setUserId] = useState(null);
+
+  const { loggedInUser, googleUser } = useAuth();
+
+  const currentUser = loggedInUser || googleUser;
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      const profile = await getUserProfileByEmail(currentUser.email);
+      setUserId(profile?.data?.candidateProfile?._id);
+    };
+    fetchUserProfile();
+  }, []);
 
   useEffect(() => {
     const chatContainer = document.querySelector(".chatbot-container");
@@ -46,22 +59,31 @@ export const ChatBot = () => {
 
   useEffect(() => {
     const chatContainer = document.querySelector(".chatbot-container");
-
     if (chatContainer) {
-      chatContainer.addEventListener("mouseenter", () => {
-        lenis?.stop(); // Stop Lenis when hovering over chatbot
-      });
-
-      chatContainer.addEventListener("mouseleave", () => {
-        lenis?.start(); // Re-enable Lenis when leaving chatbot
-      });
+      chatContainer.addEventListener("mouseenter", () => lenis?.stop());
+      chatContainer.addEventListener("mouseleave", () => lenis?.start());
     }
-
     return () => {
       chatContainer?.removeEventListener("mouseenter", () => lenis?.stop());
       chatContainer?.removeEventListener("mouseleave", () => lenis?.start());
     };
   }, [lenis]);
+
+  useEffect(() => {
+    const chatContainer = document.querySelector(".chatbot-container");
+    if (chatContainer) {
+      chatContainer.addEventListener(
+        "wheel",
+        (event) => event.stopPropagation(),
+        { passive: false }
+      );
+    }
+    return () => {
+      chatContainer?.removeEventListener("wheel", (event) =>
+        event.stopPropagation()
+      );
+    };
+  }, []);
 
   const predefinedResponses = {
     "What is SkillSync?":
@@ -111,8 +133,10 @@ export const ChatBot = () => {
 
   // Send user input message
   const sendMessage = async (message) => {
+    setInputText("");
+
     if (message.trim() === "") return;
-  
+
     const userMessage = {
       id: messages.length + 1,
       sender: "You",
@@ -121,12 +145,13 @@ export const ChatBot = () => {
       status: "Sent ✔",
       alignment: "right",
     };
-  
+
     setMessages((prevMessages) => [...prevMessages, userMessage]);
-  
+
     try {
-      const response = await getChatResponse({ text: message });
-      const fullText = response.data.res; // Full response text
+      const response = await getChatResponse({ text: message, id: userId });
+      console.log(response);
+      const fullText = response.data.response; // Full response text
       let words = fullText.split(" ");
       let botMessage = {
         id: messages.length + 2,
@@ -136,9 +161,9 @@ export const ChatBot = () => {
         status: "Typing...",
         alignment: "left",
       };
-  
+
       setMessages((prevMessages) => [...prevMessages, botMessage]);
-  
+
       words.forEach((word, index) => {
         setTimeout(() => {
           setMessages((prevMessages) =>
@@ -148,23 +173,22 @@ export const ChatBot = () => {
                 : msg
             )
           );
-        }, index * 88) // Delay each word by 200ms
+        }, index * 88); // Delay each word by 200ms
       });
-      setInputText('')
+      setInputText("");
     } catch (error) {
       console.error("Error fetching response:", error);
       const errorMessage = {
         id: messages.length + 2,
-          er: "ChatGuru",
+        er: "ChatGuru",
         time: new Date().toLocaleTimeString(),
-        text: "Sorry, I couldn't process your message. Please try again.",
+        text: "Sorry, I couldn't process your request. Please try again.",
         status: "Error",
         alignment: "left",
       };
       setMessages((prevMessages) => [...prevMessages, errorMessage]);
     }
   };
-  
 
   return (
     <>
@@ -240,13 +264,20 @@ export const ChatBot = () => {
           </div>
 
           {/* Chat Messages Container */}
-          <div className="flex-1 p-4 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-purple-200 scrollbar-track-transparent">
+          <div
+            className="flex-1 p-4 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-purple-200 scrollbar-track-transparent"
+            style={{ height: "400px" }}
+          >
             {messages.map((message) => (
               <motion.div
                 key={message.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`flex ${message.alignment === "right" ? "justify-end" : "justify-start"}`}
+                className={`flex ${
+                  message.alignment === "right"
+                    ? "justify-end"
+                    : "justify-start"
+                }`}
               >
                 <div
                   className={`max-w-[80%] rounded-2xl p-3 ${

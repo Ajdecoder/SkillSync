@@ -11,7 +11,7 @@ export const candidateProfileSchema = new mongoose.Schema(
       default:
         "https://i.pinimg.com/1200x/d9/04/bb/d904bbc138e6cba76e5470df5054b106.jpg",
     },
-    role: { type: String, default: "Job Seeker" },
+    role: { type: String, default: "candidate" },
     skills: [{ type: String, default: "No skills provided yet" }],
     experience: [
       {
@@ -128,6 +128,7 @@ export const recruiterProfileSchema = new mongoose.Schema(
         facebook: { type: String, default: "" },
       },
     },
+    role: { type: String, default: "recruiter" },
     jobListings: {
       type: [
         {

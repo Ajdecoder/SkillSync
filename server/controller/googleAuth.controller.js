@@ -8,7 +8,6 @@ export const GoogleLogin = async (req, res) => {
     try {
         const { token, role } = req.body;
 
-
         // Verify Google token
         const googleResponse = await axios.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${token}`);
 

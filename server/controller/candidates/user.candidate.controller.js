@@ -62,10 +62,11 @@ export const CandidateRegister = async (req, res) => {
   const { name, email, password, role } = req.body;
 
   try {
-    const existingCandidate = await Candidate.findOne({ email });
+    const existingCandidate = await CandidateProfileCollection.findOne({ email });
     if (existingCandidate) {
-      return res.status(400).json({ message: "Email already registered" });
+      return res.status(400).json({ message: "Candidate already exists. Please log in instead of signing up." });
     }
+
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -136,8 +137,8 @@ export const JobApply = async (req, res) => {
   }
 
   try {
-    const opportunity = await OpportunityCollection.findById(opportunityId); 
-    
+    const opportunity = await OpportunityCollection.findById(opportunityId);
+
     if (!opportunity) {
       return res.status(404).json({ message: "Opportunity not found." });
     }
@@ -164,13 +165,13 @@ export const RevertApplication = async (req, res) => {
   }
 
   try {
-    const opportunity = await OpportunityCollection.findById(opportunityId); 
-    
+    const opportunity = await OpportunityCollection.findById(opportunityId);
+
     if (!opportunity) {
       return res.status(404).json({ message: "Opportunity not found." });
     }
 
-    const getIndexofId =  opportunity.candidatesApplied.indexOf(userId);
+    const getIndexofId = opportunity.candidatesApplied.indexOf(userId);
     opportunity.candidatesApplied.splice(getIndexofId);
     await opportunity.save();
 

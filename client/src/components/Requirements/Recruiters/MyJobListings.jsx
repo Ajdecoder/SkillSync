@@ -28,6 +28,7 @@ export const MyJobListings = () => {
     const fetchJobs = async () => {
       try {
         const recruiterProfile = await getUserProfileByEmail(recruiterEmail);
+        console.log(recruiterProfile)
         const recruiterId = recruiterProfile?.data?.recruiterProfile?._id;
 
 
