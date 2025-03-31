@@ -34,6 +34,8 @@ export const UserProfile = () => {
     `${PORT_CLIENT}/api/user/profile/account/user/email/${currentUser?.email}`
   );
 
+  console.log("Fetched Profile Data:", fetchedProfileData);
+
   // If user is not logged in, navigate and return null (ensuring hooks run first)
   useEffect(() => {
     if (!currentUser) {
