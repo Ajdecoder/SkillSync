@@ -19,22 +19,21 @@ export const MyJobListings = () => {
   const [selectedApplicants, setSelectedApplicants] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
-  const { loggedInUser, google_auth } = useAuth();
+  const { loggedInUser, googleUser } = useAuth();
 
-  const currentUser = loggedInUser || google_auth;
-  const recruiterEmail = currentUser.email || currentUser.email;
-
+  const currentUser = loggedInUser || googleUser;
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const recruiterProfile = await getUserProfileByEmail(recruiterEmail);
+        const recruiterProfile = await getUserProfileByEmail(currentUser.email);
         console.log(recruiterProfile)
         const recruiterId = recruiterProfile?.data?.recruiterProfile?._id;
 
 
         // No need to wait for state update, use recruiterId directly
         const response = await jobListeningsByRecruiter(recruiterId);
-        setJobs(response.data.Addedopportunities || []);
+        console.log(response)
+        setJobs(response?.data?.Addedopportunities || []);
       } catch (err) {
         setError("Error fetching job listings.");
         console.error("Error in fetchJobs:", err);
@@ -44,7 +43,7 @@ export const MyJobListings = () => {
     };
 
     fetchJobs();
-  }, [recruiterEmail]); // Fetch data when recruiterEmail changes
+  }, [currentUser]); // Fetch data when currentUser changes
 
   const handleDeleteJob = async (jobId) => {
     try {
@@ -113,7 +112,7 @@ export const MyJobListings = () => {
           </motion.p>
         )}
 
-        {jobs.length === 0 ? (
+        {jobs?.length === 0 ? (
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -129,7 +128,7 @@ export const MyJobListings = () => {
             className="space-y-4"
           >
             <AnimatePresence>
-              {jobs.map((job) => (
+              {jobs?.map((job) => (
                 <motion.li
                   key={job._id}
                   variants={itemVariants}
@@ -269,7 +268,6 @@ export const MyJobListings = () => {
           </motion.ul>
         )}
 
-        {/* ... rest of the component ... */}
 
         <AnimatePresence>
           {showModal && (

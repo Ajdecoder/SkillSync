@@ -37,13 +37,17 @@
 
   .trends-header {
     height: 10rem !important;
-    display: flex; 
+    display: flex;
   }
 
-  .dynamic-graph{
-   font-size: smaller !important;
+  .dynamic-graph {
+    font-size: smaller !important;
   }
 
+  .chatbot {
+    height: 80vh !important;
+    width: 65vw !important;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -94,5 +98,9 @@
     display: flex;
     padding: 1rem !important;
     align-content: center;
+  }
+  .chatbot{
+    height: 75vh !important;
+    width: 75vw !important;
   }
 }

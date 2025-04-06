@@ -36,14 +36,19 @@ export const GoogleLogin = async (req, res) => {
                 await user.save();
 
                 // Create Candidate Profile
-                const candidateProfile = new CandidateUserProfile({
+                let candidateProfile = await CandidateUserProfile.findOne({
                     candidateInfo: user._id,
-                    email,
-                    name,
-                    role,
-                });
-
-                await candidateProfile.save();
+                  });
+                  if (!candidateProfile) {
+                    candidateProfile = new CandidateUserProfile({
+                      candidateInfo: user._id,
+                      email,
+                      name,
+                      role,
+                    });
+              
+                    await candidateProfile.save();
+                  }
 
                 user.candidateProfile = candidateProfile._id; // Link profile to user
                 await user.save();
@@ -81,7 +86,6 @@ export const GoogleLogin = async (req, res) => {
             { expiresIn: '7d' }
         );
 
-        res.cookie("jwttoken", authToken, { httpOnly: true });
 
         res.status(200).json({
             message: user.isNew ? "Registered & Logged in Successfully" : "Logged in Successfully",
