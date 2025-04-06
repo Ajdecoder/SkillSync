@@ -1,7 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
-import axios from "axios";
-import "./chatbot.css";
-import { PORT_CLIENT } from "../../commonClient";
+import React, { useEffect, useState } from "react";
 import { getChatResponse, getUserProfileByEmail } from "../../services/api";
 import { motion } from "framer-motion";
 import { useLenis } from "@studio-freight/react-lenis";
@@ -14,14 +11,14 @@ export const ChatBot = () => {
       id: 1,
       sender: "ChatGuru",
       time: "11:46",
-      text: "That's awesome. I think our users will really appreciate the improvements.",
-      status: "Delivered ✔",
+      text: "Hello User",
       alignment: "center",
     },
   ]);
   const [inputText, setInputText] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [chat, setChat] = useState(false);
 
   const { loggedInUser, googleUser } = useAuth();
 
@@ -29,7 +26,9 @@ export const ChatBot = () => {
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      const profile = await getUserProfileByEmail(currentUser.email);
+      if (!currentUser?.email) return
+      const email = currentUser?.email;
+      const profile = await getUserProfileByEmail(email);
       setUserId(profile?.data?.candidateProfile?._id);
     };
     fetchUserProfile();
@@ -92,6 +91,17 @@ export const ChatBot = () => {
       "To post a job, go to the 'Add Opportunity' page and fill in the details.",
     "How to update my profile?":
       "Go to your dashboard, click on 'Edit Profile', and make changes.",
+    "How do I apply for a job?":
+      "Find a job that matches your skills on the Talent Search page and click 'Apply'.",
+    "Is SkillSync free to use?":
+      "Yes, SkillSync is free for professionals. Employers may have premium features for enhanced hiring options.",
+    "How does SkillSync ensure job authenticity?":
+      "We verify employers and job postings to minimize fraudulent activities.",
+
+    "How do I report a suspicious job post?":
+      "Click on the 'Report' button next to the job posting and provide details about the issue.",
+    "Does SkillSync offer customer support?":
+      "Yes, you can reach out to our support team via the 'Contact Us' page.",
   };
 
   // Send predefined message
@@ -118,21 +128,23 @@ export const ChatBot = () => {
           sender: "ChatGuru",
           time: new Date().toLocaleTimeString(),
           text: predefinedAnswer,
-          status: "Delivered ✔",
           alignment: "left",
         };
 
         setInputText("");
         setMessages((prevMessages) => [...prevMessages, botMessage]);
+        setChat(true); // Set chat to true to show chat messages
       }, 1000); // Delay of 1 second
     } else {
       // Handle non-predefined messages
       sendMessage(message);
+      setChat(true); // Set chat to true to show chat messages
     }
   };
 
   // Send user input message
   const sendMessage = async (message) => {
+    setChat(true); // Set 
     setInputText("");
 
     if (message.trim() === "") return;
@@ -150,7 +162,7 @@ export const ChatBot = () => {
 
     try {
       const response = await getChatResponse({ text: message, id: userId });
-      console.log(response);
+
       const fullText = response.data.response; // Full response text
       let words = fullText.split(" ");
       let botMessage = {
@@ -230,7 +242,7 @@ export const ChatBot = () => {
           exit={{ opacity: 0, y: 20 }}
           drag
           dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-          className="fixed bottom-[1em] right-[.5em] w-[400px] h-[600px] bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl z-[1000] flex flex-col border border-white/20"
+          className="chatbot fixed bottom-[1em] right-[.5em] w-[400px] h-[600px] bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl z-[1000] flex flex-col border border-white/20"
         >
           {/* Gradient Header */}
           <div className="bg-gradient-to-r from-purple-600 to-blue-500 p-4 rounded-t-2xl flex justify-between items-center">
@@ -249,61 +261,70 @@ export const ChatBot = () => {
           </div>
 
           {/* Predefined Questions */}
-          <div className="p-4 flex gap-2 overflow-x-auto scrollbar-hide">
-            {Object.keys(predefinedResponses).map((question) => (
-              <motion.button
-                key={question}
-                whileHover={{ y: -2 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={() => handlePredefinedMessage(question)}
-                className="px-3 py-2 bg-white/10 text-purple-600 text-sm font-medium rounded-full border border-purple-100 hover:border-purple-200 hover:bg-purple-50 transition-colors whitespace-nowrap"
-              >
-                {question}
-              </motion.button>
-            ))}
-          </div>
-
-          {/* Chat Messages Container */}
-          <div
-            className="flex-1 p-4 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-purple-200 scrollbar-track-transparent"
-            style={{ height: "400px" }}
-          >
-            {messages.map((message) => (
-              <motion.div
-                key={message.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className={`flex ${
-                  message.alignment === "right"
-                    ? "justify-end"
-                    : "justify-start"
-                }`}
-              >
-                <div
-                  className={`max-w-[80%] rounded-2xl p-3 ${
+          {/* Predefined Questions - Card Style */}
+          {!chat ? (
+            <div className="p-4 grid grid-cols-2 gap-3">
+              {Object.keys(predefinedResponses).map((question) => (
+                <motion.button
+                  key={question}
+                  whileHover={{ y: -2, scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => handlePredefinedMessage(question)}
+                  className="min-w-full p-4 bg-white text-left rounded-xl border border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition-all shadow-sm hover:shadow-md"
+                >
+                  <div className="flex items-start gap-2">
+                    <div className="mt-0.5 text-purple-600">
+                      <i className="fa-regular fa-comment-dots text-sm" />
+                    </div>
+                    <span className="text-sm font-medium text-gray-700 hover:text-purple-800">
+                      {question}
+                    </span>
+                  </div>
+                </motion.button>
+              ))}
+            </div>
+          ) : (
+            <div
+              className="flex-1 p-4 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-purple-200 scrollbar-track-transparent"
+              style={{ height: "400px" }}
+            >
+              {messages.map((message) => (
+                <motion.div
+                  key={message.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className={`flex ${
                     message.alignment === "right"
-                      ? "bg-gradient-to-br from-purple-600 to-blue-500 text-white"
-                      : message.alignment === "center"
-                      ? "bg-gray-100 text-gray-600 text-center"
-                      : "bg-gray-50 border border-gray-100"
+                      ? "justify-end"
+                      : "justify-start"
                   }`}
                 >
-                  <div className="flex items-center justify-between gap-2 mb-1.5">
-                    <span className="text-xs font-semibold">
-                      {message.sender}
-                    </span>
-                    <span className="text-xs opacity-70">{message.time}</span>
+                  <div
+                    className={`max-w-[80%] rounded-2xl p-3 ${
+                      message.alignment === "right"
+                        ? "bg-gradient-to-br from-purple-600 to-blue-500 text-white"
+                        : message.alignment === "center"
+                        ? "bg-gray-100 text-gray-600 text-center"
+                        : "bg-gray-50 border border-gray-100"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between gap-2 mb-1.5">
+                      <span className="text-xs font-semibold">
+                        {message.sender}
+                      </span>
+                      <span className="text-xs opacity-70">{message.time}</span>
+                    </div>
+                    <p className="text-sm leading-relaxed">{message.text}</p>
+                    <div className="mt-1.5 flex justify-end">
+                      <span className="text-[0.6rem] opacity-70">
+                        {message.status}
+                      </span>
+                    </div>
                   </div>
-                  <p className="text-sm leading-relaxed">{message.text}</p>
-                  <div className="mt-1.5 flex justify-end">
-                    <span className="text-[0.6rem] opacity-70">
-                      {message.status}
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
 
           {/* Enhanced Input Area */}
           <div className="p-4 pt-2 border-t border-gray-100">
