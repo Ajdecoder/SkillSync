@@ -11,13 +11,19 @@ import { Spinner } from "../../common/loadingSpinner/spinner";
 import { getAllCandidateProfiles } from "../../../services/api";
 
 const Recent = ({ filterCategory, filteredProgrammers, programmers }) => {
-  console.log(filterCategory, filteredProgrammers, programmers);
+
+ 
   const { loggedInUser, googleUser } = useAuth();
   const navigate = useNavigate();
   const [talentsError, setTalentsError] = useState(null);
   const [talentsLoading, setTalentsLoading] = useState(true);
   const [opportunities, setOpportunities] = useState([]);
   const [talents, setTalents] = useState([]);
+
+  useEffect(() => {
+    console.log(filterCategory, filteredProgrammers, programmers);
+  }, [filterCategory, filteredProgrammers, programmers]);
+
 
   const {
     data: opportunitiesData,

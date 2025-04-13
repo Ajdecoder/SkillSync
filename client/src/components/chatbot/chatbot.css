@@ -53,3 +53,18 @@
 .chatbot-messages {
   min-height: 0;
 }
+
+/* Add this CSS to ensure proper positioning */
+.fixed-bottom {
+  position: fixed; /* Ensure it's fixed to the bottom */
+  bottom: 6rem; /* Adjust this value as needed to ensure it appears below the header */
+  right: 6rem; /* Adjust the distance from the right side */
+  z-index: 1000; /* Make sure it's above other content */
+}
+
+.chat-container {
+  position: fixed;
+  bottom: 24px;
+  right: 6px;
+  z-index: 1001; /* Ensure it is above other content */
+}

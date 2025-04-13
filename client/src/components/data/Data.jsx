@@ -99,8 +99,8 @@ export const navExpandCAndidate = [
     path: "requirements/bookmarked-jobs",
   },
   {
-    text: "Manage Job Preferences",
-    path: "requirements/job-preferences",
+    text: "Resume Builder",
+    path: "requirements/resume-builder",
   },
   {
     text: "Market Trends",

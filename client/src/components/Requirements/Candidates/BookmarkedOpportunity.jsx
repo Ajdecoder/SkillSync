@@ -36,7 +36,7 @@ export const BookmarkedOpportunity = () => {
 
     const fetchBookmarkedOpportunities = async () => {
       try {
-        const response = await getUserProfileByEmail(currentUser.email);
+        const response = await getUserProfileByEmail(currentUser?.email);
         console.log(response);
         const bookmarks =
           response?.data?.candidateProfile?.OpportunityBookmarks || [];
@@ -78,7 +78,7 @@ export const BookmarkedOpportunity = () => {
       showToast("Failed to remove bookmark.", "error");
 
       // Revert the UI update if the API call fails
-      const response = await getUserProfileByEmail(currentUser.email);
+      const response = await getUserProfileByEmail(currentUser?.email);
       const bookmarks =
         response?.data?.candidateProfile?.OpportunityBookmarks || [];
       setBookmarkedOpportunities(bookmarks);

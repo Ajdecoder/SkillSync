@@ -4,6 +4,7 @@ import { AddOpportunitySchema } from "../model/RecruiterModals/AddOpportunityMod
 import { candidateProfileSchema, recruiterProfileSchema } from "../model/UserProfileModal.js";
 import { userSchema } from "../model/userModal.js";
 import { BookMarkSchema } from "../model/CandidateModals/BookMarksModal.js";
+import blogSchema from "../model/blogs.js";
 
 dotenv.config();
 
@@ -32,4 +33,5 @@ export const Recruiter = connect.model("Recruiter", userSchema, "RecruiterCollec
 export const CandidateUserProfile = connect.model("CandidateUserProfile", candidateProfileSchema, "CandidateProfileCollection");
 export const RecruiterUserProfile = connect.model("RecruiterUserProfile", recruiterProfileSchema, "RecruiterProfileCollection");
 export const Bookmars = connect.model("Bookmarks", BookMarkSchema, "BookmarksCollection");
+export const Blogs = connect.model("Blogs", blogSchema, "BlogsCollection");
   

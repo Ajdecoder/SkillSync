@@ -54,7 +54,7 @@ const OpportunityConnectPage = () => {
       setJobPoster(companyData?.recruiterDetails?._id);
       console.log(companyData?.recruiterDetails?._id);
       try {
-        const user = await getUserProfileByEmail(currentUser.email);
+        const user = await getUserProfileByEmail(currentUser?.email);
         setUserId(user.data.candidateProfile._id);
         setBookmark(
           user.data.candidateProfile.OpportunityBookmarks.some(
@@ -67,10 +67,10 @@ const OpportunityConnectPage = () => {
       }
     };
 
-    if (currentUser.email) {
+    if (currentUser?.email) {
       fetchUserProfile();
     }
-  }, [currentUser.email, post_id, companyData]);
+  }, [currentUser?.email, post_id, companyData]);
 
   const handleJobApply = async () => {
     if (!userId || !companyData?._id) return;
@@ -83,7 +83,7 @@ const OpportunityConnectPage = () => {
         action: "application_received",
         payload: {
           jobTitle: companyData?.title,
-          candidateName: currentUser.name,
+          candidateName: currentUser?.name,
           userId,
           opportunityId: companyData?._id,
           recruiterId: jobPoster,

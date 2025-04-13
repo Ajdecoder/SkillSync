@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { getChatResponse, getUserProfileByEmail } from "../../services/api";
 import { motion } from "framer-motion";
-import { useLenis } from "@studio-freight/react-lenis";
 import { useAuth } from "../context/AuthContext";
 
 export const ChatBot = () => {
@@ -9,170 +8,151 @@ export const ChatBot = () => {
     {
       id: 1,
       sender: "ChatGuru",
-      time: "11:46",
-      text: "Hello User",
-      alignment: "center",
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      text: "Hello! I'm your SkillSync assistant. How can I help you today?",
+      alignment: "left",
     },
   ]);
   const [inputText, setInputText] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [userId, setUserId] = useState(null);
-  const [chat, setChat] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const [quickQuestionsVisible, setQuickQuestionsVisible] = useState(true);
 
   const { loggedInUser, googleUser } = useAuth();
   const currentUser = loggedInUser || googleUser;
-  const lenis = useLenis();
+  const chatContainerRef = useRef(null);
+  const messagesEndRef = useRef(null);
 
   const predefinedResponses = {
     "What is SkillSync?":
       "SkillSync connects businesses with skilled professionals for flexible work opportunities.",
     "How to post a job?":
-      "To post a job, go to the 'Add Opportunity' page and fill in the details.",
+      "To post a job, go to the 'Add Opportunity' page and fill in the details. You'll need to provide job title, description, requirements, and compensation details.",
     "How to update my profile?":
-      "Go to your dashboard, click on 'Edit Profile', and make changes.",
+      "Go to your dashboard, click on 'Edit Profile', and make your changes. Don't forget to save your updates!",
     "How do I apply for a job?":
-      "Find a job that matches your skills on the Talent Search page and click 'Apply'.",
+      "Find a job that matches your skills on the Talent Search page, review the details, and click 'Apply'. You may need to submit a resume or portfolio.",
     "Is SkillSync free to use?":
-      "Yes, SkillSync is free for professionals. Employers may have premium features for enhanced hiring options.",
-    "How does SkillSync ensure job authenticity?":
-      "We verify employers and job postings to minimize fraudulent activities.",
-    "How do I report a suspicious job post?":
-      "Click on the 'Report' button next to the job posting and provide details about the issue.",
-    "Does SkillSync offer customer support?":
-      "Yes, you can reach out to our support team via the 'Contact Us' page.",
+      "Yes, SkillSync is completely free for professionals. Employers have access to basic features for free with optional premium upgrades.",
   };
 
   useEffect(() => {
-    const fetchUserProfile = async () => {
+    const fetchProfile = async () => {
       if (!currentUser?.email) return;
-      const email = currentUser.email;
-      const profile = await getUserProfileByEmail(email);
-      setUserId(profile?.data?.candidateProfile?._id);
+      try {
+        const profile = await getUserProfileByEmail(currentUser.email);
+        setUserId(profile?.data?.candidateProfile?._id);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
     };
-    fetchUserProfile();
+    fetchProfile();
   }, [currentUser]);
 
   useEffect(() => {
-    const chatContainer = document.querySelector(".chatbot-container");
-    const handleMouseEnter = () => lenis?.stop();
-    const handleMouseLeave = () => lenis?.start();
-    const handleWheel = (event) => event.stopPropagation();
+    scrollToBottom();
+  }, [messages]);
 
-    if (chatContainer) {
-      chatContainer.addEventListener("mouseenter", handleMouseEnter);
-      chatContainer.addEventListener("mouseleave", handleMouseLeave);
-      chatContainer.addEventListener("wheel", handleWheel, { passive: false });
-    }
-
-    return () => {
-      chatContainer?.removeEventListener("mouseenter", handleMouseEnter);
-      chatContainer?.removeEventListener("mouseleave", handleMouseLeave);
-      chatContainer?.removeEventListener("wheel", handleWheel);
-    };
-  }, [lenis]);
-
-  const handlePredefinedMessage = (message) => {
-    setInputText(message);
-
-    const userMessage = {
-      id: messages.length + 1,
-      sender: "You",
-      time: new Date().toLocaleTimeString(),
-      text: message,
-      status: "Sent ✔",
-      alignment: "right",
-    };
-
-    setMessages((prev) => [...prev, userMessage]);
-    const predefinedAnswer = predefinedResponses[message];
-
-    if (predefinedAnswer) {
-      setTimeout(() => {
-        const botMessage = {
-          id: messages.length + 2,
-          sender: "ChatGuru",
-          time: new Date().toLocaleTimeString(),
-          text: predefinedAnswer,
-          alignment: "left",
-        };
-        setInputText("");
-        setMessages((prev) => [...prev, botMessage]);
-        setChat(true);
-      }, 1000);
-    } else {
-      sendMessage(message);
-      setChat(true);
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
-  const sendMessage = async (message) => {
-    if (message.trim() === "") return;
-    setChat(true);
-    setInputText("");
+  const handleQuickQuestion = (question) => {
+    setQuickQuestionsVisible(false);
+    handleMessageSend(question);
+  };
 
+  const handleMessageSend = async (text) => {
+    if (!text.trim()) return;
+    
+    // Add user message
     const userMessage = {
-      id: messages.length + 1,
+      id: Date.now(),
       sender: "You",
-      time: new Date().toLocaleTimeString(),
-      text: message,
-      status: "Sent ✔",
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      text: text.trim(),
       alignment: "right",
     };
+    setMessages(prev => [...prev, userMessage]);
+    setInputText("");
+    
+    // Check for predefined response
+    const predefinedReply = predefinedResponses[text];
+    if (predefinedReply) {
+      setIsTyping(true);
+      setTimeout(() => {
+        const botReply = {
+          id: Date.now() + 1,
+          sender: "ChatGuru",
+          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          text: predefinedReply,
+          alignment: "left",
+        };
+        setMessages(prev => [...prev, botReply]);
+        setIsTyping(false);
+      }, 1000);
+      return;
+    }
 
-    setMessages((prev) => [...prev, userMessage]);
-
+    // Handle custom queries
+    setIsTyping(true);
     try {
-      const response = await getChatResponse({ text: message, id: userId });
-      const fullText = response.data.response;
-      console.log("fullText:", fullText);
-      const words = fullText.split(" ");
-      const botMessage = {
-        id: messages.length + 2,
+      const response = await getChatResponse({ text, id: userId });
+      const words = response.data.response.split(" ");
+      const botId = Date.now() + 1;
+
+      // Initial empty message
+      setMessages(prev => [...prev, {
+        id: botId,
         sender: "ChatGuru",
-        time: new Date().toLocaleTimeString(),
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         text: "",
-        status: "Typing...",
         alignment: "left",
-      };
+      }]);
 
-      setMessages((prev) => [...prev, botMessage]);
-
-      words.forEach((word, index) => {
+      // Typewriter effect
+      words.forEach((word, idx) => {
         setTimeout(() => {
-          setMessages((prev) =>
-            prev.map((msg) =>
-              msg.id === botMessage.id
-                ? {
-                    ...msg,
-                    text: msg.text + " " + word,
-                    status: "Delivered ✔",
-                  }
+          setMessages(prev =>
+            prev.map(msg =>
+              msg.id === botId 
+                ? { ...msg, text: msg.text + (idx > 0 ? " " : "") + word } 
                 : msg
             )
           );
-        }, index * 88);
+          if (idx === words.length - 1) {
+            setIsTyping(false);
+          }
+        }, idx * 50);
       });
-    } catch (error) {
-      console.error("Chat Error:", error);
-      const errorMsg = {
-        id: messages.length + 2,
+    } catch (err) {
+      console.error("Chat error:", err);
+      setMessages(prev => [...prev, {
+        id: Date.now() + 1,
         sender: "ChatGuru",
-        time: new Date().toLocaleTimeString(),
-        text: "Sorry, something went wrong. Please try again.",
-        status: "Error",
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        text: "I'm having trouble connecting right now. Please try again later.",
         alignment: "left",
-      };
-      setMessages((prev) => [...prev, errorMsg]);
+      }]);
+      setIsTyping(false);
     }
   };
 
   return (
-    <>
+    <div className="fixed bottom-6 right-6 z-50">
       <motion.button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          setIsOpen(!isOpen);
+          if (!isOpen) {
+            setQuickQuestionsVisible(true);
+          }
+        }}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        className="fixed bottom-5 right-5 z-50 w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-tr from-blue-500 to-purple-600 shadow-lg hover:shadow-xl"
+        className="w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-tr from-blue-500 to-purple-600 shadow-lg relative top-0"
       >
         {isOpen ? (
           <i className="fa-solid fa-xmark text-white text-xl" />
@@ -184,108 +164,145 @@ export const ChatBot = () => {
             <span className="text-2xl">💬</span>
           </motion.div>
         )}
+        {!isOpen && messages.length > 1 && (
+          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+            {messages.length - 1}
+          </span>
+        )}
       </motion.button>
 
       {isOpen && (
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 20 }}
-          className="chatbot-container fixed bottom-[1em] right-[.5em] w-[400px] h-[600px] bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl z-[1000] flex flex-col border border-white/20"
+          initial={{ opacity: 0, y: 20, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: 20, scale: 0.9 }}
+          className="fixed bottom-4 right-6 w-[90vw] max-w-md h-[36rem] max-h-[60rem] bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl z-[1000] flex flex-col border border-gray-200 overflow-hidden "
+          data-lenis-prevent
         >
           <div className="bg-gradient-to-r from-purple-600 to-blue-500 p-4 rounded-t-2xl flex justify-between items-center">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center">
-                <i className="fa-regular fa-comment-dots text-white" />
+              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                <i className="fa-regular fa-comment-dots text-white text-lg" />
               </div>
-              <h2 className="text-white font-semibold text-lg">ChatGuru</h2>
+              <div>
+                <h2 className="text-white font-semibold text-lg">ChatGuru</h2>
+                <p className="text-xs text-white/80">
+                  {isTyping ? "Typing..." : "Online"}
+                </p>
+              </div>
             </div>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="p-1.5 hover:bg-white/10 rounded-full transition-colors"
-            >
-              <i className="fa-solid fa-minimize text-white/80 text-sm" />
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setMessages([messages[0]])}
+                className="p-2 text-white/80 hover:text-white"
+                title="Clear chat"
+              >
+                <i className="fa-solid fa-trash-can text-sm" />
+              </button>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="p-2 text-white/80 hover:text-white"
+                title="Minimize"
+              >
+                <i className="fa-solid fa-minimize text-sm" />
+              </button>
+            </div>
           </div>
 
-          {!chat ? (
-            <div className="p-4 grid grid-cols-2 gap-3">
-              {Object.keys(predefinedResponses).map((question,i) => (
-                <motion.button
-                  key={i}
-                  whileHover={{ y: -2, scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => handlePredefinedMessage(question)}
-                  className="min-w-full p-4 bg-white text-left rounded-xl border border-gray-200 hover:border-purple-300 hover:bg-purple-50 transition-all shadow-sm hover:shadow-md"
-                >
-                  <div className="flex items-start gap-2">
-                    <div className="mt-0.5 text-purple-600">
-                      <i className="fa-regular fa-comment-dots text-sm" />
-                    </div>
-                    <span className="text-sm font-medium text-gray-700 hover:text-purple-800">
-                      {question}
-                    </span>
-                  </div>
-                </motion.button>
-              ))}
-            </div>
-          ) : (
-            <div className="flex-1 p-4 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-purple-200 scrollbar-track-transparent">
-              {messages.map((message,i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`flex ${
-                    message.alignment === "right"
-                      ? "justify-end"
-                      : "justify-start"
+          <div 
+            ref={chatContainerRef}
+            className="flex-1 p-4 overflow-y-auto space-y-3 scrollbar-thin scrollbar-thumb-gray-300"
+            data-lenis-prevent
+          >
+            {messages.map((msg) => (
+              <motion.div
+                key={msg.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className={`flex ${msg.alignment === "right" ? "justify-end" : "justify-start"}`}
+              >
+                <div
+                  className={`max-w-[80%] px-4 py-3 rounded-2xl ${msg.alignment === "right"
+                    ? "bg-blue-100 rounded-br-none"
+                    : "bg-gray-100 rounded-bl-none"
                   }`}
                 >
-                  <div
-                    className={`max-w-xs px-4 py-2 rounded-lg shadow ${
-                      message.alignment === "right"
-                        ? "bg-blue-100"
-                        : "bg-purple-100"
-                    }`}
-                  >
-                    <p className="text-sm text-gray-800 whitespace-pre-wrap">
-                      {message.text}
+                  {msg.alignment === "left" && (
+                    <p className="text-xs font-medium text-purple-600 mb-1">
+                      {msg.sender}
                     </p>
-                    <div className="text-[10px] text-gray-400 text-right mt-1">
-                      {message.time}
-                    </div>
+                  )}
+                  <p className="text-gray-800 whitespace-pre-wrap">
+                    {msg.text}
+                  </p>
+                  <p className={`text-[10px] text-gray-500 mt-1 ${msg.alignment === "right" ? "text-right" : "text-left"}`}>
+                    {msg.time}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+            {isTyping && (
+              <div className="flex justify-start">
+                <div className="bg-gray-100 px-4 py-3 rounded-2xl rounded-bl-none max-w-[80%]">
+                  <div className="flex space-x-1">
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }} />
+                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }} />
                   </div>
-                </motion.div>
-              ))}
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+
+          {quickQuestionsVisible && messages.length <= 1 && (
+            <div className="px-4 pb-3">
+              <div className="text-xs text-gray-500 mb-2 px-2">
+                Quick questions:
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                {Object.keys(predefinedResponses).map((q, i) => (
+                  <motion.button
+                    key={i}
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => handleQuickQuestion(q)}
+                    className="text-left p-3 bg-white border border-gray-200 rounded-lg hover:border-purple-300 hover:bg-purple-50 transition-all text-xs"
+                  >
+                    {q}
+                  </motion.button>
+                ))}
+              </div>
             </div>
           )}
 
-          <div className="p-3 border-t bg-white rounded-b-2xl">
+          <div className="p-3 border-t border-gray-200 bg-white">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                handlePredefinedMessage(inputText);
+                handleMessageSend(inputText);
               }}
               className="flex items-center gap-2"
             >
               <input
                 type="text"
-                placeholder="Type a message..."
-                className="flex-1 p-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
+                placeholder="Type your message..."
+                className="flex-1 p-3 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-200 focus:border-purple-400"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
+                disabled={isTyping}
               />
               <button
                 type="submit"
-                className="bg-purple-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-purple-700"
+                disabled={!inputText.trim() || isTyping}
+                className="bg-purple-600 text-white p-3 rounded-lg hover:bg-purple-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
               >
-                Send
+                <i className="fa-solid fa-paper-plane" />
               </button>
             </form>
           </div>
         </motion.div>
       )}
-    </>
+    </div>
   );
 };

@@ -86,9 +86,10 @@ export const RegCandidate = () => {
       navigate("/");
     } catch (error) {
       if (error.response) {
-        if (error.response.data && error.response.data.error) {
-          const errorMessage = error.response.data.error[0].message;
+        if (error.response.data && error.response.data.errors) {
+          const errorMessage = error.response.data.errors[0].message;
           setToastMessage(errorMessage);
+          console.log(toastMessage);
           setToastType("error");
         } else {
           setToastMessage(

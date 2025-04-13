@@ -25,7 +25,7 @@ export const MyJobListings = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const recruiterProfile = await getUserProfileByEmail(currentUser.email);
+        const recruiterProfile = await getUserProfileByEmail(currentUser?.email);
         console.log(recruiterProfile)
         const recruiterId = recruiterProfile?.data?.recruiterProfile?._id;
 
