@@ -176,7 +176,7 @@ export const ChatBot = () => {
           initial={{ opacity: 0, y: 20, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.9 }}
-          className="fixed bottom-4 right-6 w-[90vw] max-w-md h-[36rem] max-h-[60rem] bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl z-[1000] flex flex-col border border-gray-200 overflow-hidden "
+          className="fixed bottom-3 right-3 w-[90vw] max-w-md h-[36rem] max-h-[60rem] bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl z-[1000] flex flex-col border border-gray-200 overflow-hidden "
           data-lenis-prevent
         >
           <div className="bg-gradient-to-r from-purple-600 to-blue-500 p-4 rounded-t-2xl flex justify-between items-center">
@@ -276,13 +276,13 @@ export const ChatBot = () => {
             </div>
           )}
 
-          <div className="p-3 border-t border-gray-200 bg-white">
+          <div className="p-1 border-t border-gray-200 bg-white">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 handleMessageSend(inputText);
               }}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 m-0"
             >
               <input
                 type="text"
