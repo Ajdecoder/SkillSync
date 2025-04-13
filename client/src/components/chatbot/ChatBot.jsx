@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { getChatResponse, getUserProfileByEmail } from "../../services/api";
 import { motion } from "framer-motion";
 import { useLenis } from "@studio-freight/react-lenis";
-import { FaForward } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
 
 export const ChatBot = () => {
@@ -21,68 +20,8 @@ export const ChatBot = () => {
   const [chat, setChat] = useState(false);
 
   const { loggedInUser, googleUser } = useAuth();
-
   const currentUser = loggedInUser || googleUser;
-
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      if (!currentUser?.email) return
-      const email = currentUser?.email;
-      const profile = await getUserProfileByEmail(email);
-      setUserId(profile?.data?.candidateProfile?._id);
-    };
-    fetchUserProfile();
-  }, []);
-
-  useEffect(() => {
-    const chatContainer = document.querySelector(".chatbot-container");
-
-    if (chatContainer) {
-      chatContainer.addEventListener(
-        "wheel",
-        (event) => {
-          event.stopPropagation(); // Stop event bubbling to the page
-        },
-        { passive: false }
-      );
-    }
-
-    return () => {
-      chatContainer?.removeEventListener("wheel", (event) =>
-        event.stopPropagation()
-      );
-    };
-  }, []);
-
-  const lenis = useLenis(); // Get Lenis instance
-
-  useEffect(() => {
-    const chatContainer = document.querySelector(".chatbot-container");
-    if (chatContainer) {
-      chatContainer.addEventListener("mouseenter", () => lenis?.stop());
-      chatContainer.addEventListener("mouseleave", () => lenis?.start());
-    }
-    return () => {
-      chatContainer?.removeEventListener("mouseenter", () => lenis?.stop());
-      chatContainer?.removeEventListener("mouseleave", () => lenis?.start());
-    };
-  }, [lenis]);
-
-  useEffect(() => {
-    const chatContainer = document.querySelector(".chatbot-container");
-    if (chatContainer) {
-      chatContainer.addEventListener(
-        "wheel",
-        (event) => event.stopPropagation(),
-        { passive: false }
-      );
-    }
-    return () => {
-      chatContainer?.removeEventListener("wheel", (event) =>
-        event.stopPropagation()
-      );
-    };
-  }, []);
+  const lenis = useLenis();
 
   const predefinedResponses = {
     "What is SkillSync?":
@@ -97,57 +36,43 @@ export const ChatBot = () => {
       "Yes, SkillSync is free for professionals. Employers may have premium features for enhanced hiring options.",
     "How does SkillSync ensure job authenticity?":
       "We verify employers and job postings to minimize fraudulent activities.",
-
     "How do I report a suspicious job post?":
       "Click on the 'Report' button next to the job posting and provide details about the issue.",
     "Does SkillSync offer customer support?":
       "Yes, you can reach out to our support team via the 'Contact Us' page.",
   };
 
-  // Send predefined message
-  const handlePredefinedMessage = (message) => {
-    setInputText(message); // Set input field to predefined question
-
-    const userMessage = {
-      id: messages.length + 1,
-      sender: "You ",
-      time: new Date().toLocaleTimeString(),
-      text: message,
-      status: "Sent ✔",
-      alignment: "right",
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      if (!currentUser?.email) return;
+      const email = currentUser.email;
+      const profile = await getUserProfileByEmail(email);
+      setUserId(profile?.data?.candidateProfile?._id);
     };
+    fetchUserProfile();
+  }, [currentUser]);
 
-    setMessages((prevMessages) => [...prevMessages, userMessage]);
+  useEffect(() => {
+    const chatContainer = document.querySelector(".chatbot-container");
+    const handleMouseEnter = () => lenis?.stop();
+    const handleMouseLeave = () => lenis?.start();
+    const handleWheel = (event) => event.stopPropagation();
 
-    // Check for predefined answer
-    const predefinedAnswer = predefinedResponses[message];
-    if (predefinedAnswer) {
-      setTimeout(() => {
-        const botMessage = {
-          id: messages.length + 2,
-          sender: "ChatGuru",
-          time: new Date().toLocaleTimeString(),
-          text: predefinedAnswer,
-          alignment: "left",
-        };
-
-        setInputText("");
-        setMessages((prevMessages) => [...prevMessages, botMessage]);
-        setChat(true); // Set chat to true to show chat messages
-      }, 1000); // Delay of 1 second
-    } else {
-      // Handle non-predefined messages
-      sendMessage(message);
-      setChat(true); // Set chat to true to show chat messages
+    if (chatContainer) {
+      chatContainer.addEventListener("mouseenter", handleMouseEnter);
+      chatContainer.addEventListener("mouseleave", handleMouseLeave);
+      chatContainer.addEventListener("wheel", handleWheel, { passive: false });
     }
-  };
 
-  // Send user input message
-  const sendMessage = async (message) => {
-    setChat(true); // Set 
-    setInputText("");
+    return () => {
+      chatContainer?.removeEventListener("mouseenter", handleMouseEnter);
+      chatContainer?.removeEventListener("mouseleave", handleMouseLeave);
+      chatContainer?.removeEventListener("wheel", handleWheel);
+    };
+  }, [lenis]);
 
-    if (message.trim() === "") return;
+  const handlePredefinedMessage = (message) => {
+    setInputText(message);
 
     const userMessage = {
       id: messages.length + 1,
@@ -158,47 +83,86 @@ export const ChatBot = () => {
       alignment: "right",
     };
 
-    setMessages((prevMessages) => [...prevMessages, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
+    const predefinedAnswer = predefinedResponses[message];
+
+    if (predefinedAnswer) {
+      setTimeout(() => {
+        const botMessage = {
+          id: messages.length + 2,
+          sender: "ChatGuru",
+          time: new Date().toLocaleTimeString(),
+          text: predefinedAnswer,
+          alignment: "left",
+        };
+        setInputText("");
+        setMessages((prev) => [...prev, botMessage]);
+        setChat(true);
+      }, 1000);
+    } else {
+      sendMessage(message);
+      setChat(true);
+    }
+  };
+
+  const sendMessage = async (message) => {
+    if (message.trim() === "") return;
+    setChat(true);
+    setInputText("");
+
+    const userMessage = {
+      id: messages.length + 1,
+      sender: "You",
+      time: new Date().toLocaleTimeString(),
+      text: message,
+      status: "Sent ✔",
+      alignment: "right",
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
 
     try {
       const response = await getChatResponse({ text: message, id: userId });
-
-      const fullText = response.data.response; // Full response text
-      let words = fullText.split(" ");
-      let botMessage = {
+      const fullText = response.data.response;
+      console.log("fullText:", fullText);
+      const words = fullText.split(" ");
+      const botMessage = {
         id: messages.length + 2,
         sender: "ChatGuru",
         time: new Date().toLocaleTimeString(),
-        text: "", // Start empty, words will be appended
+        text: "",
         status: "Typing...",
         alignment: "left",
       };
 
-      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      setMessages((prev) => [...prev, botMessage]);
 
       words.forEach((word, index) => {
         setTimeout(() => {
-          setMessages((prevMessages) =>
-            prevMessages.map((msg) =>
+          setMessages((prev) =>
+            prev.map((msg) =>
               msg.id === botMessage.id
-                ? { ...msg, text: msg.text + " " + word, status: "Delivered ✔" }
+                ? {
+                    ...msg,
+                    text: msg.text + " " + word,
+                    status: "Delivered ✔",
+                  }
                 : msg
             )
           );
-        }, index * 88); // Delay each word by 200ms
+        }, index * 88);
       });
-      setInputText("");
     } catch (error) {
-      console.error("Error fetching response:", error);
-      const errorMessage = {
+      console.error("Chat Error:", error);
+      const errorMsg = {
         id: messages.length + 2,
-        er: "ChatGuru",
+        sender: "ChatGuru",
         time: new Date().toLocaleTimeString(),
-        text: "Sorry, I couldn't process your request. Please try again.",
+        text: "Sorry, something went wrong. Please try again.",
         status: "Error",
         alignment: "left",
       };
-      setMessages((prevMessages) => [...prevMessages, errorMessage]);
+      setMessages((prev) => [...prev, errorMsg]);
     }
   };
 
@@ -208,19 +172,7 @@ export const ChatBot = () => {
         onClick={() => setIsOpen(!isOpen)}
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        style={{
-          position: "fixed",
-          bottom: " 1.2em",
-          right: "1.3em",
-          zIndex: 1000,
-          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-          borderRadius: "50%",
-          width: "50px",
-          height: "50px",
-          boxShadow: "0 8px 32px rgba(0,0,0,0.2)",
-          cursor: "pointer",
-        }}
-        className="flex items-center justify-center transition-all duration-300 hover:shadow-xl"
+        className="fixed bottom-5 right-5 z-50 w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-tr from-blue-500 to-purple-600 shadow-lg hover:shadow-xl"
       >
         {isOpen ? (
           <i className="fa-solid fa-xmark text-white text-xl" />
@@ -234,17 +186,13 @@ export const ChatBot = () => {
         )}
       </motion.button>
 
-      {/* Enhanced Chatbot Window */}
       {isOpen && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
-          drag
-          dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
-          className="chatbot fixed bottom-[1em] right-[.5em] w-[400px] h-[600px] bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl z-[1000] flex flex-col border border-white/20"
+          className="chatbot-container fixed bottom-[1em] right-[.5em] w-[400px] h-[600px] bg-white/95 backdrop-blur-lg rounded-2xl shadow-2xl z-[1000] flex flex-col border border-white/20"
         >
-          {/* Gradient Header */}
           <div className="bg-gradient-to-r from-purple-600 to-blue-500 p-4 rounded-t-2xl flex justify-between items-center">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center">
@@ -260,13 +208,11 @@ export const ChatBot = () => {
             </button>
           </div>
 
-          {/* Predefined Questions */}
-          {/* Predefined Questions - Card Style */}
           {!chat ? (
             <div className="p-4 grid grid-cols-2 gap-3">
-              {Object.keys(predefinedResponses).map((question) => (
+              {Object.keys(predefinedResponses).map((question,i) => (
                 <motion.button
-                  key={question}
+                  key={i}
                   whileHover={{ y: -2, scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => handlePredefinedMessage(question)}
@@ -284,13 +230,10 @@ export const ChatBot = () => {
               ))}
             </div>
           ) : (
-            <div
-              className="flex-1 p-4 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-purple-200 scrollbar-track-transparent"
-              style={{ height: "400px" }}
-            >
-              {messages.map((message) => (
+            <div className="flex-1 p-4 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-purple-200 scrollbar-track-transparent">
+              {messages.map((message,i) => (
                 <motion.div
-                  key={message.id}
+                  key={i}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className={`flex ${
@@ -300,25 +243,17 @@ export const ChatBot = () => {
                   }`}
                 >
                   <div
-                    className={`max-w-[80%] rounded-2xl p-3 ${
+                    className={`max-w-xs px-4 py-2 rounded-lg shadow ${
                       message.alignment === "right"
-                        ? "bg-gradient-to-br from-purple-600 to-blue-500 text-white"
-                        : message.alignment === "center"
-                        ? "bg-gray-100 text-gray-600 text-center"
-                        : "bg-gray-50 border border-gray-100"
+                        ? "bg-blue-100"
+                        : "bg-purple-100"
                     }`}
                   >
-                    <div className="flex items-center justify-between gap-2 mb-1.5">
-                      <span className="text-xs font-semibold">
-                        {message.sender}
-                      </span>
-                      <span className="text-xs opacity-70">{message.time}</span>
-                    </div>
-                    <p className="text-sm leading-relaxed">{message.text}</p>
-                    <div className="mt-1.5 flex justify-end">
-                      <span className="text-[0.6rem] opacity-70">
-                        {message.status}
-                      </span>
+                    <p className="text-sm text-gray-800 whitespace-pre-wrap">
+                      {message.text}
+                    </p>
+                    <div className="text-[10px] text-gray-400 text-right mt-1">
+                      {message.time}
                     </div>
                   </div>
                 </motion.div>
@@ -326,27 +261,28 @@ export const ChatBot = () => {
             </div>
           )}
 
-          {/* Enhanced Input Area */}
-          <div className="p-4 pt-2 border-t border-gray-100">
-            <div className="relative flex items-center gap-2">
+          <div className="p-3 border-t bg-white rounded-b-2xl">
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handlePredefinedMessage(inputText);
+              }}
+              className="flex items-center gap-2"
+            >
               <input
                 type="text"
+                placeholder="Type a message..."
+                className="flex-1 p-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && sendMessage(inputText)}
-                placeholder="Ask me anything..."
-                className="w-full pl-4 pr-12 py-3 bg-white border border-gray-200 rounded-full shadow-sm focus:outline-none focus:border-purple-300 focus:ring-2 focus:ring-purple-100 transition-all"
               />
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => sendMessage(inputText)}
-                disabled={inputText.trim() === ""}
-                className="absolute right-2 bg-gradient-to-br from-purple-600 to-blue-500 p-2 rounded-full shadow-sm disabled:opacity-50 disabled:pointer-events-none"
+              <button
+                type="submit"
+                className="bg-purple-600 text-white px-3 py-2 rounded-lg text-sm hover:bg-purple-700"
               >
-                <FaForward className="text-white text-sm" />
-              </motion.button>
-            </div>
+                Send
+              </button>
+            </form>
           </div>
         </motion.div>
       )}
