@@ -8,7 +8,10 @@ export const ChatBot = () => {
     {
       id: 1,
       sender: "ChatGuru",
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
       text: "Hello! I'm your SkillSync assistant. How can I help you today?",
       alignment: "left",
     },
@@ -67,18 +70,21 @@ export const ChatBot = () => {
 
   const handleMessageSend = async (text) => {
     if (!text.trim()) return;
-    
+
     // Add user message
     const userMessage = {
       id: Date.now(),
       sender: "You",
-      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
       text: text.trim(),
       alignment: "right",
     };
-    setMessages(prev => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     setInputText("");
-    
+
     // Check for predefined response
     const predefinedReply = predefinedResponses[text];
     if (predefinedReply) {
@@ -87,11 +93,14 @@ export const ChatBot = () => {
         const botReply = {
           id: Date.now() + 1,
           sender: "ChatGuru",
-          time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          time: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
           text: predefinedReply,
           alignment: "left",
         };
-        setMessages(prev => [...prev, botReply]);
+        setMessages((prev) => [...prev, botReply]);
         setIsTyping(false);
       }, 1000);
       return;
@@ -105,21 +114,27 @@ export const ChatBot = () => {
       const botId = Date.now() + 1;
 
       // Initial empty message
-      setMessages(prev => [...prev, {
-        id: botId,
-        sender: "ChatGuru",
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        text: "",
-        alignment: "left",
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: botId,
+          sender: "ChatGuru",
+          time: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+          text: "",
+          alignment: "left",
+        },
+      ]);
 
       // Typewriter effect
       words.forEach((word, idx) => {
         setTimeout(() => {
-          setMessages(prev =>
-            prev.map(msg =>
-              msg.id === botId 
-                ? { ...msg, text: msg.text + (idx > 0 ? " " : "") + word } 
+          setMessages((prev) =>
+            prev.map((msg) =>
+              msg.id === botId
+                ? { ...msg, text: msg.text + (idx > 0 ? " " : "") + word }
                 : msg
             )
           );
@@ -130,13 +145,19 @@ export const ChatBot = () => {
       });
     } catch (err) {
       console.error("Chat error:", err);
-      setMessages(prev => [...prev, {
-        id: Date.now() + 1,
-        sender: "ChatGuru",
-        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        text: "I'm having trouble connecting right now. Please try again later.",
-        alignment: "left",
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: Date.now() + 1,
+          sender: "ChatGuru",
+          time: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+          text: "I'm having trouble connecting right now. Please try again later.",
+          alignment: "left",
+        },
+      ]);
       setIsTyping(false);
     }
   };
@@ -166,7 +187,7 @@ export const ChatBot = () => {
         )}
         {!isOpen && messages.length > 1 && (
           <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-            {messages.length - 1}
+            {Math.round((messages.length - 1) / 2)}
           </span>
         )}
       </motion.button>
@@ -209,7 +230,7 @@ export const ChatBot = () => {
             </div>
           </div>
 
-          <div 
+          <div
             ref={chatContainerRef}
             className="flex-1 p-4 overflow-y-auto space-y-3 scrollbar-thin scrollbar-thumb-gray-300"
             data-lenis-prevent
@@ -219,12 +240,15 @@ export const ChatBot = () => {
                 key={msg.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className={`flex ${msg.alignment === "right" ? "justify-end" : "justify-start"}`}
+                className={`flex ${
+                  msg.alignment === "right" ? "justify-end" : "justify-start"
+                }`}
               >
                 <div
-                  className={`max-w-[80%] px-4 py-3 rounded-2xl ${msg.alignment === "right"
-                    ? "bg-blue-100 rounded-br-none"
-                    : "bg-gray-100 rounded-bl-none"
+                  className={`max-w-[80%] px-4 py-3 rounded-2xl ${
+                    msg.alignment === "right"
+                      ? "bg-blue-100 rounded-br-none"
+                      : "bg-gray-100 rounded-bl-none"
                   }`}
                 >
                   {msg.alignment === "left" && (
@@ -235,7 +259,11 @@ export const ChatBot = () => {
                   <p className="text-gray-800 whitespace-pre-wrap">
                     {msg.text}
                   </p>
-                  <p className={`text-[10px] text-gray-500 mt-1 ${msg.alignment === "right" ? "text-right" : "text-left"}`}>
+                  <p
+                    className={`text-[10px] text-gray-500 mt-1 ${
+                      msg.alignment === "right" ? "text-right" : "text-left"
+                    }`}
+                  >
                     {msg.time}
                   </p>
                 </div>
@@ -246,8 +274,14 @@ export const ChatBot = () => {
                 <div className="bg-gray-100 px-4 py-3 rounded-2xl rounded-bl-none max-w-[80%]">
                   <div className="flex space-x-1">
                     <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }} />
-                    <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }} />
+                    <div
+                      className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                      style={{ animationDelay: "0.2s" }}
+                    />
+                    <div
+                      className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                      style={{ animationDelay: "0.4s" }}
+                    />
                   </div>
                 </div>
               </div>

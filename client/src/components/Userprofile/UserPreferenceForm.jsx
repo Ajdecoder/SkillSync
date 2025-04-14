@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import "../Userprofile/Userpreference.css";
 import { updateUserProfileByEmail } from "../../services/api";
 import { useAuth } from "../context/AuthContext";
+import { Save } from "lucide-react";
+
 
 const UserPreferenceForm = ({ setUpdatedData, updatedData }) => {
   const [selectedInterests, setSelectedInterests] = useState([]);
@@ -144,9 +146,8 @@ const UserPreferenceForm = ({ setUpdatedData, updatedData }) => {
     "Subject Matter Expert (SME)",
   ]);
 
-  const { loggedInUser,googleUser } = useAuth();
+  const { loggedInUser, googleUser } = useAuth();
   const currentUser = loggedInUser || googleUser;
-
 
   const handleInterestSubmit = async () => {
     try {
@@ -260,12 +261,19 @@ const UserPreferenceForm = ({ setUpdatedData, updatedData }) => {
 
       {/* Save Button */}
       <motion.button
-        onClick={(e) => handleInterestSubmit("career interests")}
-        className="p-3 w-36 m-3 bg-sky-600 text-white rounded-lg"
+        onClick={handleInterestSubmit}
+        className="p-3 w-36 m-2 bg-sky-600 text-white rounded-lg flex items-center justify-center gap-2"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
       >
-        {isEditing ? "Saving..." : "Save"}
+        {isEditing ? (
+          "Saving..."
+        ) : (
+          <>
+            <Save className="inline w-5 h-5" />
+            Save
+          </>
+        )}
       </motion.button>
     </div>
   );
