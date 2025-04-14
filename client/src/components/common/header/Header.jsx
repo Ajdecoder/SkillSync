@@ -49,8 +49,8 @@ const Header = () => {
           path: "requirements/listed-opportunity",
         },
         {
-          text: "Manage Job Preferences",
-          path: "requirements/job-preferences",
+          text: "Resume Builder",
+          path: "requirements/resume-builder",
         },
         {
           text: "Market Trends",
@@ -159,7 +159,6 @@ const Header = () => {
         <div ref={dropdownRef} className="button">
           {currentUser ? (
             <>
-              {/* google_User Avatar */}
               <div
                 className="flex items-center space-x-3 cursor-pointer hover:scale-[0.9] transition-ease-in duration-200 "
                 onClick={() => setShowAboutUser((prev) => !prev)}
@@ -171,7 +170,7 @@ const Header = () => {
 
               {/* Dropdown Menu */}
               {showAboutUser && (
-                <div className="flex flex-col absolute top-16 right-0 bg-white border border-gray-300 shadow-md p-4 min-w-[200px] z-10 rounded-lg transition-all duration-300 ease-in-out">
+                <div className="flex flex-col absolute top-16 right-0 bg-white border border-gray-300 shadow-md p-4 min-w-[200px] rounded-lg transition-all duration-300 ease-in-out">
                   <Link
                     to="/profile/userProfile"
                     className="text-center text-2xl"

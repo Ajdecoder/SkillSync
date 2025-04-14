@@ -93,7 +93,6 @@ const Pages = () => {
                   </div>
                 ) : (
                   <>
-                    {/* Only show Header and Footer after loading */}
                     <Header />
                     <Routes>
                       {RoutesConfig({ spin, setSpin })}

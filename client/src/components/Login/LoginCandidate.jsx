@@ -65,7 +65,8 @@ export const LoginCandidate = () => {
           
         } else {
           console.log(error);
-          setToastMessage(`${error.response.data.message}`)
+          setToastMessage(`${error.response.data.errors[0].message}`)
+          console.log("toastMessage", toastMessage);
           setToastType('error')
         }
       }

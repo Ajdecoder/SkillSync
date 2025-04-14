@@ -52,7 +52,7 @@ const ScrollButton = () => {
     display: "flex",
     backgroundColor: "purple",
     color: "white",
-    zIndex: 1000,
+    zIndex: 50,
   };
 
   return (

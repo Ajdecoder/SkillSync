@@ -14,7 +14,7 @@ const RecentOpportunity = ({ handleConnectClick, addedOpportunities }) => {
   const [filters, setFilters] = useState({
     title: "",
     desc_requirement: "",
-    type: "",
+    type: "", 
     location: "",
     skills: "",
     salaryRange: "",
