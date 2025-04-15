@@ -110,7 +110,9 @@ export const ChatBot = () => {
     setIsTyping(true);
     try {
       const response = await getChatResponse({ text, id: userId });
-      const words = response.data.response.split(" ");
+      const words = response.data.response
+        .replace(/\*{1,3}(.*?)\*{1,3}/g, "$1")
+        .split(" ");
       const botId = Date.now() + 1;
 
       // Initial empty message
@@ -211,7 +213,7 @@ export const ChatBot = () => {
                   {isTyping ? "Typing..." : "Online"}
                 </p>
               </div>
-            </div> 
+            </div>
             <div className="flex gap-2">
               <button
                 onClick={() => setMessages([messages[0]])}

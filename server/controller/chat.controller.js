@@ -93,7 +93,14 @@ Return only the JSON array.`;
 const generateAIResponse = async (userMessage, apiKey) => {
   const genAI = new GoogleGenerativeAI(apiKey);
   const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
-  let aiPrompt = `You are an AI assistant for a job platform called SkillSync.\nSkillSync connects freelancers with recruiters for short-term or contract work.\nAnswer questions related to job searches, skill improvement, hiring, resume optimization, and freelance opportunities.\nHere is the user's question: "${userMessage}"`;
+  let aiPrompt = `You are an AI assistant for a job platform called SkillSync. SkillSync connects freelancers with recruiters for short-term or contract work.
+
+  Answer questions related to job searches, skill improvement, hiring, resume optimization, and freelance opportunities.
+  
+  User's question: "${userMessage}"
+  
+  Important: Do not use asterisks (*, **, ***) in your response. Instead, use visually appealing emojis to enhance formatting.`;
+
 
   const result = await model.generateContent(aiPrompt);
   return result?.response?.candidates?.[0]?.content?.parts?.map(part => part.text).join(" ") || "No response available.";
