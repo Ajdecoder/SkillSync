@@ -1,5 +1,5 @@
 import React from "react";
-import { featured } from "../../data/Data";
+import { featured } from "../../common/constants";
 import { motion } from "framer-motion";
 
 const FeaturedCard = () => {

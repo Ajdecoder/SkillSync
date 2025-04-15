@@ -1,6 +1,6 @@
 import React from "react";
 import Heading from "../../common/Heading";
-import { location } from "../../data/Data";
+import { location } from "../../common/constants";
 import "./style.css";
 
 const Location = () => {

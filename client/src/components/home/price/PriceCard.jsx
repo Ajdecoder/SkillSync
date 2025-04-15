@@ -1,5 +1,5 @@
 import React from "react";
-import { price } from "../../data/Data";
+import { price } from "../../common/constants";
 import { motion } from "framer-motion";
 
 const PriceCard = () => {

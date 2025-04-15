@@ -211,7 +211,7 @@ export const ChatBot = () => {
                   {isTyping ? "Typing..." : "Online"}
                 </p>
               </div>
-            </div>
+            </div> 
             <div className="flex gap-2">
               <button
                 onClick={() => setMessages([messages[0]])}

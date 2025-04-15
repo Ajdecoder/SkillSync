@@ -15,7 +15,7 @@ import {
   FiCalendar,
 } from "react-icons/fi";
 import { Spinner } from "../../common/loadingSpinner/spinner";
-import { filterData } from "../../data/Data";
+import { filterData } from "../../common/constants";
 import { OpportunitiesFilter } from "../../common/Filters/OpportunitiesFilter";
 import { LoginPromoPage } from "../../Login/NotLoggedIn";
 
