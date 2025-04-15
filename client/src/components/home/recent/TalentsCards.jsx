@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { FiArrowRight, FiBriefcase, FiMapPin, FiStar } from "react-icons/fi";
 import { getAllCandidateProfiles } from "../../../services/api";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { filterData } from "../../data/Data";
+import { filterData } from "../../common/constants";
 import { CandidatesFilters } from "../../common/Filters/TalentsFilter";
 
 const TalentsCard = ({ bgColor }) => {

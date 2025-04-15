@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./header.css";
-import { nav, navExpandCAndidate, navExpandRecruiter } from "../../data/Data";
+import { nav, navExpandCAndidate, navExpandRecruiter } from "../constants";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import logo from "/images/logo.png?url";

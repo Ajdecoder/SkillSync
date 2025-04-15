@@ -79,9 +79,9 @@ export const ViewCandidateInfo = () => {
     const fetchRecruiterProfile = async () => {
       try {
         const { data } = await getUserProfileByEmail(currentUser?.email);
-        setRecruiterId(data.recruiterProfile._id);
+        setRecruiterId(data.recruiterProfile?._id);
         setBookmark(
-          data.recruiterProfile.bookmarkedTalents.some(
+          data.recruiterProfile?.bookmarkedTalents.some(
             (bookmark) => bookmark._id === candidateId
           )
         );
@@ -113,7 +113,7 @@ export const ViewCandidateInfo = () => {
       // Fetch updated recruiter profile to keep data in sync
       const { data } = await getUserProfileByEmail(currentUser?.email);
       setBookmark(
-        data.recruiterProfile.bookmarkedTalents.some(
+        data.recruiterProfile?.bookmarkedTalents.some(
           (bookmark) => bookmark._id === candidateId
         )
       );

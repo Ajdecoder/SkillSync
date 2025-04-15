@@ -7,10 +7,9 @@ export const Settings = () => {
   const toggleCheckbox = (setter, value) => setter(!value);
 
   const [settings, setSettings] = useState(communication_privacy);
-  const {loggedInUser,googleUser} = useAuth();
+  const { loggedInUser, googleUser } = useAuth();
 
   const currentUser = loggedInUser || googleUser;
-
 
   const handleToggle = (index) => {
     const updatedSettings = [...settings];
@@ -60,18 +59,6 @@ export const Settings = () => {
         <div className="space-y-4">
           <div>
             <Link
-              to="/settings/manage-account"
-              className="block text-xl font-semibold text-blue-500 hover:underline"
-            >
-              Manage Account
-            </Link>
-            <p className="text-gray-700">
-              Update your account details and preferences.
-            </p>
-          </div>
-
-          <div>
-            <Link
               to="/profile/settings/change-password"
               className="block text-xl font-semibold text-blue-500 hover:underline"
             >
@@ -82,7 +69,7 @@ export const Settings = () => {
 
           <div>
             <Link
-              to="/settings/change-email"
+              to="/profile/settings/change-email"
               className="block text-xl font-semibold text-blue-500 hover:underline"
             >
               Change Email Address
@@ -98,10 +85,9 @@ export const Settings = () => {
               Delete My Account
             </Link>
             <p className="text-gray-700">
-              Permanently delete your{" "}
-              {console.log(currentUser?.role)}
+              Permanently delete your {console.log(currentUser?.role)}
               {currentUser?.role.charAt(0).toUpperCase() +
-               currentUser?.role.slice(1).toLowerCase()}{" "}
+                currentUser?.role.slice(1).toLowerCase()}{" "}
               Account
             </p>
           </div>

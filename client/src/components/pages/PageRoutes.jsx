@@ -43,6 +43,8 @@ import { UserProfile } from "../Userprofile/UserProfile.jsx";
 import NotificationPage from "../Notificationpage/Notificationpage.jsx";
 import { LoginPromoPage } from "../Login/NotLoggedIn.jsx";
 import ResumeBuilder from "../ResumeBuilder/ResumeBuilder.jsx";
+import ChangePassword from "../account/settings/ChangePass.jsx";
+import ChangeEmail from "../account/settings/ChangeEmail.jsx";
 
 // Prevent already logged-in users from accessing login/signup
 const PreventLoggedIn = ({ children }) => {
@@ -228,9 +230,14 @@ export const RoutesConfig = ({ spin, setSpin }) => [
     element={<UserProfile />}
   />,
   <Route
-    key="delete-account"
-    path="/settings/delete-account"
-    element={<DeleteAccount />}
+    key="change-password"
+    path="/profile/settings/change-password"
+    element={<ChangePassword />}
+  />,
+  <Route
+    key="change-email"
+    path="/profile/settings/change-email"
+    element={<ChangeEmail />}
   />,
   <Route
     key="notifications"

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext.jsx";
 import { useNavigate } from "react-router-dom";
 import AddOpportunityCard from "../../AddOpportunity/OpportunityCard.jsx";
-import { locations, skills } from "../../data/Data.jsx";
+import { locations, skills } from "../../common/constants.jsx";
 
 const RecentOpportunity = ({ handleConnectClick, addedOpportunities }) => {
   const { loggedInUser,googleUser } = useAuth();
