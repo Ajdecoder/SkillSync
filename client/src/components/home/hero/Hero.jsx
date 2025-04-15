@@ -5,7 +5,7 @@ import { useAuth } from "../../context/AuthContext";
 import axios from "axios";
 import { PORT_CLIENT } from "../../../commonClient";
 import Recent from "../recent/Recent";
-import { filterData } from "../../common/constants";
+import { filterData } from "../..//common/constants";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { CandidatesFilters } from "../../common/Filters/TalentsFilter";

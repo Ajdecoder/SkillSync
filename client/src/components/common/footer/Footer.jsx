@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { footer } from "../constants";
+import { footer } from "../..//common/constants";
 import "./footer.css";
 
 const Footer = () => {

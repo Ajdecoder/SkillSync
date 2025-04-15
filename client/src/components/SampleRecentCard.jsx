@@ -1,5 +1,5 @@
 import React from "react";
-import { dummyRecentCards } from "./common/constants";
+import { dummyRecentCards } from ".//common/constants";
 import { motion } from "framer-motion";
 import { FiArrowRight, FiGlobe, FiMail, FiPhone, FiDollarSign, FiUsers, FiCalendar, FiMapPin } from "react-icons/fi";
 

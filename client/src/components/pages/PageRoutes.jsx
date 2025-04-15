@@ -55,8 +55,9 @@ const PreventLoggedIn = ({ children }) => {
 
 // Role-based access protection
 const RequireRole = ({ role, children }) => {
-  const { loggedInUser } = useAuth();
-  if (loggedInUser?.role !== role) {
+  const { loggedInUser, googleUser } = useAuth();
+  const currentUser = loggedInUser || googleUser;
+  if (currentUser?.role !== role) {
     return <LoginPromoPage />;
   }
   return children;
