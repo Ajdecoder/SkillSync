@@ -20,8 +20,10 @@ export const MyJobListings = () => {
   const [showModal, setShowModal] = useState(false);
 
   const { loggedInUser, googleUser } = useAuth();
-
   const currentUser = loggedInUser || googleUser;
+
+  console.log(currentUser)
+
   useEffect(() => {
     const fetchJobs = async () => {
       try {
@@ -49,7 +51,7 @@ export const MyJobListings = () => {
     try {
       setDeleting(jobId);
       await deleteOpportunity(jobId);
-      setJobs((prevJobs) => prevJobs.filter((job) => job._id !== jobId));
+      setJobs((prevJobs) => prevJobs.filter((job) => job?._id !== jobId));
     } catch (error) {
       console.error("Error deleting job:", error);
     } finally {
@@ -112,7 +114,7 @@ export const MyJobListings = () => {
           </motion.p>
         )}
 
-        {jobs?.length === 0 ? (
+        {jobs?.length === 0 && !error ? (
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -130,7 +132,7 @@ export const MyJobListings = () => {
             <AnimatePresence>
               {jobs?.map((job) => (
                 <motion.li
-                  key={job._id}
+                  key={job?._id}
                   variants={itemVariants}
                   exit="exit"
                   transition={{ duration: 0.2 }}
@@ -139,7 +141,7 @@ export const MyJobListings = () => {
                   <div className="p-6">
                     <div className="flex items-start gap-4">
                       <img
-                        src={job.company_logo}
+                        src={job?.company_logo}
                         alt="Company logo"
                         className="w-14 h-14 rounded-lg object-cover border"
                       />
@@ -147,14 +149,14 @@ export const MyJobListings = () => {
                         <div className="flex justify-between items-start">
                           <div>
                             <h3 className="text-xl font-semibold text-gray-800">
-                              {job.title}
+                              {job?.title}
                             </h3>
                             <p className="text-gray-600 text-sm mt-1">
-                              {job.company_name} • {job.location}
+                              {job?.company_name} • {job?.location}
                             </p>
                           </div>
                           <span className="px-3 py-1 text-sm bg-blue-100 text-blue-800 rounded-full">
-                            {job.requirement_type}
+                            {job?.requirement_type}
                           </span>
                         </div>
 
@@ -173,7 +175,7 @@ export const MyJobListings = () => {
                                 d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
                               />
                             </svg>
-                            {new Date(job.createdAt).toLocaleDateString()}
+                            {new Date(job?.createdAt).toLocaleDateString()}
                           </div>
                           <div className="flex items-center text-gray-600">
                             <svg
@@ -189,15 +191,15 @@ export const MyJobListings = () => {
                                 d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"
                               />
                             </svg>
-                            ${job.salaryRange?.minSalary} - $
-                            {job.salaryRange?.maxSalary}
+                            ${job?.salaryRange?.minSalary} - $
+                            {job?.salaryRange?.maxSalary}
                           </div>
                         </div>
 
                         <div className="mt-6 flex items-center justify-between">
                           <button
                             onClick={() =>
-                              handleViewApplicants(job.candidatesApplied)
+                              handleViewApplicants(job?.candidatesApplied)
                             }
                             className="flex items-center text-blue-600 hover:text-blue-700 transition-colors"
                           >
@@ -220,16 +222,16 @@ export const MyJobListings = () => {
                                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                               />
                             </svg>
-                            {job.candidatesApplied?.length || 0} Applicants
+                            {job?.candidatesApplied?.length || 0} Applicants
                           </button>
 
                           <div className="flex space-x-3">
                             <button
-                              onClick={() => handleDeleteJob(job._id)}
-                              disabled={deleting === job._id}
+                              onClick={() => handleDeleteJob(job?._id)}
+                              disabled={deleting === job?._id}
                               className="flex items-center px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                             >
-                              {deleting === job._id ? (
+                              {deleting === job?._id ? (
                                 <>
                                   <svg
                                     className="animate-spin -ml-1 mr-3 h-5 w-5 text-red-600"

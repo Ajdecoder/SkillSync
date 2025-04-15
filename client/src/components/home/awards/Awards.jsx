@@ -1,6 +1,6 @@
 import React from "react";
 import Heading from "../../common/Heading";
-import { awards } from "../../common/constants";
+import { awards } from "../..//common/constants";
 
 const Awards = () => {
   return (

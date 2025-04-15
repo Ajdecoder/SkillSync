@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./header.css";
-import { nav, navExpandCAndidate, navExpandRecruiter } from "../constants";
+import { nav, navExpandCAndidate, navExpandRecruiter } from "../..//common/constants";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import logo from "/images/logo.png?url";
@@ -135,7 +135,7 @@ const Header = () => {
   ));
 
   return (
-    <header>
+    <header >
       <div className="flex top-header relative top-[-22px]">
         {/* Logo */}
         <div className="logo">
