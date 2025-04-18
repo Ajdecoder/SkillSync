@@ -57,7 +57,7 @@ const notifyRecruiterForNewApplication = async (payload) => {
       console.error("Invalid recruiter ID:", payload.recruiterId);
       return;
     }
-  
+
     const message = `New Application for: ${payload.jobTitle} by ${payload.candidateName}`;
     await sendNotification(payload.userId, message, "application_received", payload.recruiterId);
   } catch (error) {
@@ -65,10 +65,11 @@ const notifyRecruiterForNewApplication = async (payload) => {
   }
 };
 
-const sendNotification = async (applicantId, message, type, relatedId) => {
+const sendNotification = async (applicantId, message, type, relatedJobId) => {
+  console.log(`Sending notification to ${applicantId || relatedJobId}: ${message} of type ${type}`);
   try {
-    if (!mongoose.Types.ObjectId.isValid(relatedId)) {
-      console.error("Invalid related ID for notification:", relatedId);
+    if (!mongoose.Types.ObjectId.isValid(relatedJobId)) {
+      console.error("Invalid related ID for notification:", relatedJobId);
       return;
     }
 
@@ -76,11 +77,11 @@ const sendNotification = async (applicantId, message, type, relatedId) => {
       applicant: applicantId,
       message,
       type,
-      relatedId: new mongoose.Types.ObjectId(relatedId),
+      JobDetails: relatedJobId,
       read: false,
     });
 
-    console.log(`Notification sent: ${type} to ${applicantId}`);
+    console.log(`Notification sent: ${type} to ${applicantId || relatedJobId}`);
   } catch (error) {
     console.error("Error sending notification:", error);
   }

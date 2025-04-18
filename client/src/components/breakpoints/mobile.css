@@ -48,6 +48,12 @@
     height: 80vh !important;
     width: 65vw !important;
   }
+
+  .filter-form-container{
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
 }
 
 @media screen and (max-width: 480px) {

@@ -41,6 +41,7 @@ const NotificationPage = () => {
         animate={{ opacity: 1, y: 0 }}
         className="bg-white p-6 shadow-lg rounded-lg max-w-lg w-full"
       >
+        {console.log(selectedNotification)}
         <h3 className="text-xl font-bold mb-2">
           {selectedNotification?.message}
         </h3>

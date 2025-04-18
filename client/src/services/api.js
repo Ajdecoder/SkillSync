@@ -106,3 +106,4 @@ export const getNotifications = () =>
   API.get("/api/users/job/user/job-notifications");
 export const markNotificationAsRead = (notificationId) =>
   API.put(`/api/users/notifications/markAsRead`, { notificationId });
+
