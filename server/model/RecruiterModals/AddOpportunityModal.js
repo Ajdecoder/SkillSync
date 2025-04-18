@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 export const AddOpportunitySchema = new mongoose.Schema(
   {
+    
     title: {
       type: String,
       required: true,

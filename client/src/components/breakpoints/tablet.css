@@ -14,25 +14,30 @@
   nav {
     font-size: 0.93em;
   }
-  
+
   .price .content .box {
     width: 100% !important;
     padding: 30px;
     border-radius: 10px;
     margin-bottom: 50px;
   }
+
+  .filter-form-container {
+    display: flex;
+  }
 }
 
 @media screen and (max-width: 800px) {
   footer .container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .hero-form {
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
+    width: 90%;
   }
 
   .hero-form .inpbox {
@@ -108,7 +113,7 @@
   }
 
   .exp-icon {
-    margin-left: 33px;  
+    margin-left: 33px;
   }
 
   .dropdown-expand,
@@ -133,7 +138,7 @@
   }
   header nav .flex {
     display: none;
-  } 
+  }
   header .small {
     position: fixed;
     height: 100%;
@@ -206,14 +211,12 @@
   .log-sign {
     bottom: 0.4rem !important;
   }
-  
 }
 
 @media screen and (max-width: 955px) {
   header img {
     width: 10.8rem;
   }
-  
 
   nav {
     font-size: 0.8rem;
@@ -225,6 +228,9 @@
   }
   .small {
     position: fixed;
+  }
+  .hero-container {
+    padding: 0 10px !important;
   }
 }
 @media screen and (max-width: 750px) {
@@ -244,5 +250,4 @@
   .blog-out {
     grid-template-columns: 1fr 1fr;
   }
-  
 }

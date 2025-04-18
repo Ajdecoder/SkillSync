@@ -32,8 +32,7 @@ const CandidateProfileContent = ({ profileData, activeTab, userRole }) => {
 
     {
       activeTab === "resume" && (
-        <ResumeUpload/>
-      )}
+        <ResumeUpload/>      )}
      
       {activeTab === "skillsAndExperience" && (
         <SkillsAndExperience

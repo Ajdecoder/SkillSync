@@ -26,14 +26,6 @@ const notificationSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    relatedJob: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "JobListing",
-    },
-    relatedApplication: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Application",
-    },
   },
   {
     timestamps: true,
