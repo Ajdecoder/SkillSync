@@ -14,7 +14,7 @@ const fileFilter = (req, file, cb) => {
 };
 
 // Configure multer with file size limits and file filter
-const multerUploader = multer({ 
+const multerUploader = multer({
   storage: storage,
   fileFilter: fileFilter,
   limits: {
