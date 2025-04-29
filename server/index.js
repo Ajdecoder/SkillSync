@@ -29,9 +29,9 @@ app.use(cookieParser());
 
 app.use("/api/users", userRoutes);
 
-app.use("/api/user/profile", UserProfileRoutes);
+app.use("/api/user/profile/", UserProfileRoutes);
 
-app.use("/api/requirements", companyRoutes);
+app.use("/api/requirements/", companyRoutes);
 
 app.use("/api/chatbot/", chatBotRoutes);
 

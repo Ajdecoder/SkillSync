@@ -4,91 +4,110 @@ import bcrypt from 'bcrypt';
 import { Candidate, CandidateUserProfile, Recruiter, RecruiterUserProfile } from '../db/database.js';
 
 export const GoogleLogin = async (req, res) => {
-
     try {
         const { token, role } = req.body;
 
-        // Verify Google token
-        const googleResponse = await axios.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${token}`);
+        if (!token || !role) {
+            return res.status(400).json({ message: 'Token and role are required' });
+        }
 
-        if (!googleResponse.data) {
+        // Verify Google Token
+        const googleRes = await axios.get(`https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${token}`);
+        const googleData = googleRes.data;
+
+        if (!googleData || !googleData.email) {
             return res.status(400).json({ message: 'Invalid Google token' });
         }
 
-        const { email, name, picture, sub } = googleResponse.data; // Extract user info
+        const { email, name, picture, sub: googleId } = googleData;
+        const hashedPassword = await bcrypt.hash(googleId, 10); // Dummy password
 
-        // Check if the user already exists in Candidate or Recruiter collection
-        let user = await Candidate.findOne({ email }) || await Recruiter.findOne({ email });
+        let user = null;
+        let profile = null;
+        let profileCreated = false;
 
-        if (!user) {
-            // Auto-register the user
-            const hashedPassword = await bcrypt.hash(sub, 10); // Hash Google ID as password (not used)
+        if (role === 'candidate') {
+            user = await Candidate.findOne({ email });
+            profile = await CandidateUserProfile.findOne({ email });
 
-            if (role === 'candidate') {
-                user = new Candidate({
-                    googleId: sub,
+            // Case 1: Account missing
+            if (!user) {
+                user = await new Candidate({
+                    googleId,
                     email,
                     name,
-                    password: hashedPassword, // Dummy password
+                    password: hashedPassword,
                     role,
-                });
-
-                await user.save();
-
-                // Create Candidate Profile
-                let candidateProfile = await CandidateUserProfile.findOne({
-                    candidateInfo: user._id,
-                  });
-                  if (!candidateProfile) {
-                    candidateProfile = new CandidateUserProfile({
-                      candidateInfo: user._id,
-                      email,
-                      name,
-                      role,
-                    });
-              
-                    await candidateProfile.save();
-                  }
-
-                user.candidateProfile = candidateProfile._id; // Link profile to user
-                await user.save();
+                }).save();
             }
-            else if (role === 'recruiter') {
-                user = new Recruiter({
-                    googleId: sub,
-                    email,
-                    name,
-                    password: hashedPassword, // Dummy password
-                    role,
-                });
 
-                await user.save();
-
-                // Create Recruiter Profile
-                const recruiterProfile = new RecruiterUserProfile({
-                    recruiterInfo: user._id,
+            // Case 2: Profile missing
+            if (!profile) {
+                profile = await new CandidateUserProfile({
+                    candidateInfo: user._id,
+                    profilePicture: picture,
                     email,
                     name,
                     role,
-                });
+                }).save();
+                profileCreated = true;
+            }
 
-                await recruiterProfile.save();
-
-                user.recruiterProfile = recruiterProfile._id; // Link profile to user
+            // Ensure linkage
+            if (!user.candidateProfile) {
+                user.candidateProfile = profile._id;
                 await user.save();
             }
         }
 
-        // Generate JWT Token
+        else if (role === 'recruiter') {
+            user = await Recruiter.findOne({ email });
+            profile = await RecruiterUserProfile.findOne({ email });
+
+            // Case 1: Account missing
+            if (!user) {
+                user = await new Recruiter({
+                    googleId,
+                    email,
+                    name,
+                    password: hashedPassword,
+                    role,
+                }).save();
+            }
+
+            // Case 2: Profile missing
+            if (!profile) {
+                profile = await new RecruiterUserProfile({
+                    recruiterInfo: user._id,
+                    profilePicture: picture,
+                    email,
+                    name,
+                    role,
+                }).save();
+                profileCreated = true;
+            }
+
+            // Ensure linkage
+            if (!user.recruiterProfile) {
+                user.recruiterProfile = profile._id;
+                await user.save();
+            }
+        }
+
+        // Generate JWT
         const authToken = jwt.sign(
-            { userId: user._id, email: user.email, name: user.name, role: user.role },
+            {
+                userId: user._id,
+                email: user.email,
+                name: user.name,
+                role: user.role,
+            },
             process.env.JWT_SECRET,
             { expiresIn: '7d' }
         );
 
-
         res.status(200).json({
-            message: user.isNew ? "Registered & Logged in Successfully" : "Logged in Successfully",
+            message: profileCreated ? "Registered & Logged in Successfully" : "Logged in Successfully",
             token: authToken,
             user,
         });

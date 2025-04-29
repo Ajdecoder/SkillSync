@@ -11,6 +11,10 @@ export const candidateProfileSchema = new mongoose.Schema(
       default:
         "https://i.pinimg.com/1200x/d9/04/bb/d904bbc138e6cba76e5470df5054b106.jpg",
     },
+    profilePictureDetails: {
+      publicId: { type: String },
+      url: { type: String }
+    },
     role: { type: String, default: "candidate" },
     skills: [{ type: String, default: "No skills provided yet" }],
     experience: [
@@ -117,6 +121,10 @@ export const recruiterProfileSchema = new mongoose.Schema(
       type: String,
       default:
         "https://i.pinimg.com/1200x/d9/04/bb/d904bbc138e6cba76e5470df5054b106.jpg",
+    },
+    profilePictureDetails: {
+      publicId: { type: String },
+      url: { type: String }
     },
     companyOverview: {
       name: { type: String, default: "Company Name" },
