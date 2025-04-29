@@ -5,7 +5,7 @@ import {
 } from "../../../services/api";
 import { useAuth } from "../../context/AuthContext";
 import { motion } from "framer-motion";
-import { FaBookmark, FaBriefcase, FaUser } from "react-icons/fa";
+import { FaBookmark, FaBriefcase, FaForward, FaLink, FaUser } from "react-icons/fa";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { CiBeaker1 } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,8 @@ import useFetchData from "../../hooks/useGetDataFetch";
 import { PORT_CLIENT } from "../../../commonClient";
 import NotificationToasts from "../../common/Toast/Toast";
 import { IoReturnUpForward } from "react-icons/io5";
+import { Link } from "react-router-dom";
+import { Link as LucidLink } from "lucide-react";
 
 export const BookmarkedOpportunity = () => {
   const [bookmarkedOpportunities, setBookmarkedOpportunities] = useState([]);
@@ -20,7 +22,7 @@ export const BookmarkedOpportunity = () => {
     message: null,
     type: "success",
   });
-  const { loggedInUser,googleUser } = useAuth();
+  const { loggedInUser, googleUser } = useAuth();
   const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
 
@@ -29,7 +31,6 @@ export const BookmarkedOpportunity = () => {
   );
 
   const currentUser = loggedInUser || googleUser;
-
 
   useEffect(() => {
     if (!currentUser?.email) return;
@@ -139,11 +140,20 @@ export const BookmarkedOpportunity = () => {
                     <h3 className="text-xl font-bold text-gray-800">
                       {opportunity.title || "Unknown Title"}
                     </h3>
+                    {console.log(opportunity)}
                     <p className="text-gray-500 font-medium">
                       {opportunity.company_name || "Unknown Company"}
                     </p>
                   </div>
-                  
+
+                  <Link
+                    to={`/opportunity/connect/${opportunity._id}`}
+                    className="absolute right-4 cursor-pointer text-blue-600 hover:text-blue-800"
+                  >
+                    <FaLink className="h-5 w-5" /> 
+                  </Link>
+
+
                 </div>
                 <div className="space-y-3">
                   <div className="flex items-center gap-2 text-gray-600">

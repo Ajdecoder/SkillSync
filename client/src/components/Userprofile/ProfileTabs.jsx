@@ -2,7 +2,7 @@ import React from "react";
 
 const ProfileTabs = ({ activeTab, onTabChange, userRole }) => {
   return (
-    <nav className="profile-tabs mt-6 flex flex-wrap gap-4 text-gray-600 p-4 sm:p-6">
+    <nav className="profile-tabs mt-6 flex flex-wrap gap-4 text-gray-600 p-4 sm:p-6 justify-center">
       <button
         onClick={() => onTabChange("about")}
         className={`px-4 py-2 ${

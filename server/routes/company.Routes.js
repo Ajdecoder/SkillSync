@@ -10,8 +10,7 @@ import {
 
 const companyRouter = express.Router();
 
-import { multerUploader } from "../middleware/multer.js";
-import { uploadFile } from "../middleware/cloudinary.js";
+import multerUploader from "../middleware/multer.js";
 import notificationMiddleware from "../middleware/Notification.js";
 
 companyRouter.post("/addOpportunity", notificationMiddleware, addOpportunity);

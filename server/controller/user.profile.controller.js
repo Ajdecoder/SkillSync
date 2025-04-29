@@ -1,4 +1,20 @@
 import { CandidateUserProfile, RecruiterUserProfile } from "../db/database.js";
+import fs from "fs";
+import multerUploader from "../middleware/multer.js";
+import { v2 as cloudinary } from 'cloudinary';
+import getDataUri from "../middleware/dataUri.js";
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
+
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 /**
  * Get All Candidates
  */
@@ -95,7 +111,7 @@ export const getUserProfileByEmail = async (req, res) => {
 export const updateUserProfileByEmail = async (req, res) => {
   try {
     const { email } = req.params;
-    const {data} = req.body;
+    const { data } = req.body;
 
     // Check if the body contains data to update
     if (!Object.keys(data).length) {
@@ -257,3 +273,101 @@ export const unbookmarkTalents = async (req, res) => {
   }
 };
 
+export const UploadProfilePicture = async (req, res) => {
+  try {
+    console.log("▶ UploadProfilePicture route hit");
+
+    if (!req.file) {
+      console.log("❌ No file received");
+      return res.status(400).json({ message: "No file uploaded" });
+    }
+
+    const userId = req.params.userId;
+    const file = req.file;
+
+    console.log("✅ File received:", file.originalname, "Size:", file.size, "Type:", file.mimetype);
+    console.log("▶ User ID:", userId);
+
+    // Create a write stream to Cloudinary
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        folder: 'SkillSync/profiles',
+        resource_type: 'auto',
+        transformation: [
+          { width: 500, height: 500, crop: 'fill' },
+          { quality: 'auto' }
+        ]
+      },
+      async (error, result) => {
+        if (error) {
+          console.error("❌ Cloudinary upload error:", error);
+          return res.status(500).json({ 
+            message: "Error uploading to Cloudinary",
+            error: error.message 
+          });
+        }
+
+        console.log("✅ Cloudinary upload successful:", result.secure_url);
+
+        try {
+          // Try updating Candidate first
+          let updatedUser = await CandidateUserProfile.findByIdAndUpdate(
+            userId,
+            { 
+              profilePicture: result.secure_url,
+              'profilePictureDetails': {
+                publicId: result.public_id,
+                url: result.secure_url
+              }
+            },
+            { new: true }
+          );
+
+          // Fallback to Recruiter
+          if (!updatedUser) {
+            updatedUser = await RecruiterUserProfile.findByIdAndUpdate(
+              userId,
+              { 
+                profilePicture: result.secure_url,
+                'profilePictureDetails': {
+                  publicId: result.public_id,
+                  url: result.secure_url
+                }
+              },
+              { new: true }
+            );
+          }
+
+          if (!updatedUser) {
+            console.log("❌ User not found");
+            return res.status(404).json({ message: "User not found" });
+          }
+
+          console.log("✅ DB update successful");
+          return res.status(200).json({
+            message: "Image uploaded successfully",
+            profilePicture: result.secure_url,
+            user: updatedUser,
+          });
+        } catch (dbError) {
+          console.error("❌ DB update error:", dbError);
+          return res.status(500).json({ 
+            message: "Error updating user profile",
+            error: dbError.message 
+          });
+        }
+      }
+    );
+
+    // Write the file buffer directly to the upload stream
+    uploadStream.end(file.buffer);
+  } catch (error) {
+    console.error("❌ Server error during upload:", error);
+    return res.status(500).json({ 
+      message: "Server error during upload",
+      error: error.message 
+    });
+  }
+};
+
+  
