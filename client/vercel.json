@@ -1,18 +1,7 @@
 {
-    "headers": [
-      {
-        "source": "/(.*)",
-        "headers": [
-          {
-            "key": "Cross-Origin-Opener-Policy",
-            "value": ""
-          },
-          {
-            "key": "Cross-Origin-Embedder-Policy",
-            "value": ""
-          }
-        ]
-      }
-    ]
-  }
-  
+  "headers": [
+    {
+      "source": "/(.*)"
+    }
+  ]
+}
