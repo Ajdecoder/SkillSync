@@ -90,7 +90,7 @@ const RecentOpportunity = ({ handleConnectClick, addedOpportunities }) => {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 opportunity-card-container">
       {/* Added Opportunities Section */}
       {addedOpportunities.length > 0 && (
         <div>

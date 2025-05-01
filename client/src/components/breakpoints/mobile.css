@@ -1,4 +1,4 @@
-@media (max-width: 578px) {
+@media (max-width: 678px) {
   .grid3 {
     display: flex;
     flex-wrap: wrap;
@@ -49,11 +49,14 @@
     width: 65vw !important;
   }
 
-  .filter-form-container{
+  .filter-form-container {
     display: flex !important;
     flex-direction: column !important;
   }
 
+  .opportunity-card-container {
+    padding: 0.5rem !important;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -105,8 +108,14 @@
     padding: 1rem !important;
     align-content: center;
   }
-  .chatbot{
+  .chatbot {
     height: 75vh !important;
     width: 75vw !important;
+  }
+
+  footer .container {
+    display: flex !important;
+    flex-direction: column;
+    font-size: 1rem !important;
   }
 }
