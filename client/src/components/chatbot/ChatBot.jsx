@@ -44,8 +44,11 @@ export const ChatBot = () => {
     const fetchProfile = async () => {
       if (!currentUser?.email) return;
       try {
-        const profile = await getUserProfileByEmail(currentUser.email);
-        setUserId(profile?.data?.candidateProfile?._id);
+        const profile = await getUserProfileByEmail(currentUser?.email);
+        setUserId(
+          profile?.data?.candidateProfile?._id ||
+            profile?.data?.recruiterProfile?._id
+        );
       } catch (error) {
         console.error("Error fetching profile:", error);
       }
@@ -110,6 +113,7 @@ export const ChatBot = () => {
     setIsTyping(true);
     try {
       const response = await getChatResponse({ text, id: userId });
+      console.log("response", response.data);
       const words = response.data.response
         .replace(/\*{1,3}(.*?)\*{1,3}/g, "$1")
         .split(" ");

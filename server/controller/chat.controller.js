@@ -1,7 +1,12 @@
 import dotenv from 'dotenv';
 dotenv.config();
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { CandidateUserProfile, OpportunityCollection } from '../db/database.js';
+import { CandidateUserProfile, OpportunityCollection, RecruiterUserProfile } from '../db/database.js';
+
+// Initialize Gemini AI globally
+const geminiApiKey = process.env.GEMINI_API;
+const genAI = geminiApiKey ? new GoogleGenerativeAI(geminiApiKey) : null;
+const model = genAI?.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
 // Fetch user profile by ID
 const getUserProfile = async (userId) => {
@@ -10,7 +15,11 @@ const getUserProfile = async (userId) => {
     return null;
   }
   try {
-    return await CandidateUserProfile.findById(userId).lean();
+    let profile = await CandidateUserProfile.findById(userId).lean();
+    if (!profile) {
+      profile = await RecruiterUserProfile.findById(userId).lean();
+    }
+    return profile || null;
   } catch (err) {
     console.error("Error fetching user profile:", err);
     return null;
@@ -39,12 +48,15 @@ const findJobs = async (userProfile) => {
 };
 
 // Find candidates based on hiring criteria
-const findCandidates = async (skills) => {
+const findCandidates = async (skills, experience) => {
+  console.log(experience);
   if (!skills?.length) {
     return "No relevant candidates found. Try expanding your search criteria!";
   }
 
-  const hireQuery = { "skills": { $in: skills } };
+  const hireQuery = {
+    skills: { $in: skills },
+  };
 
   try {
     const candidates = await CandidateUserProfile.find(hireQuery).limit(5);
@@ -62,10 +74,9 @@ const findCandidates = async (skills) => {
   }
 };
 
-// Extract skills from user message using Google Generative AI
-const extractSkillsFromMessage = async (userMessage, apiKey) => {
-  const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+// Extract skills from user message
+const extractSkillsFromMessage = async (userMessage) => {
+  if (!model) return [];
 
   const extractPrompt = `
 You are a skill extraction AI. Given a sentence like "Find me a Python developer" or "I want to hire someone with React and Node.js experience",
@@ -77,10 +88,6 @@ Input: "Looking for someone skilled in React, Node.js, and MongoDB."
 Output: ["React", "Node.js", "MongoDB"]
 
 If the input contains typos or misspellings in skill names, correct them and include the corrected skills in the output.
-For example:
-Input: "Looking for a Pythn developer."
-Output: ["Python"]
-
 Now extract skills from: "${userMessage}"
 Return only the JSON array.`;
 
@@ -88,7 +95,6 @@ Return only the JSON array.`;
     const result = await model.generateContent(extractPrompt);
     let rawText = result?.response?.candidates?.[0]?.content?.parts?.map(p => p.text).join(" ") || "[]";
 
-    // Clean up JSON response
     rawText = rawText.trim();
     if (rawText.startsWith("```")) {
       rawText = rawText.replace(/```(?:json)?/gi, "").replace(/```/g, "").trim();
@@ -102,10 +108,16 @@ Return only the JSON array.`;
   }
 };
 
+const extractExperienceFromMessage = async (userMessage) => {
+
+  if (!model) return 0;
+
+  const extractPrompt = 'Your are an AI that extracts experience from a user message. Given a sentence like "I have 5 years of experience in React and Node.js", extract the number of years of experience as an integer. If no experience is mentioned, return 0.';
+}
+
 // Generate AI response for general queries
-const generateAIResponse = async (userMessage, apiKey) => {
-  const genAI = new GoogleGenerativeAI(apiKey);
-  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+const generateAIResponse = async (userMessage) => {
+  if (!model) return "AI model not initialized. Please check your API key.";
 
   const aiPrompt = `You are an AI assistant for a job platform called SkillSync. SkillSync connects freelancers with recruiters for short-term or contract work.
 
@@ -127,13 +139,13 @@ Important: Do not use asterisks (*, **, ***) in your response. Instead, use visu
 // Main SkillSync AI handler
 export const skillSyncAI = async (req, res) => {
   try {
-    const geminiApiKey = process.env.GEMINI_API;
     if (!geminiApiKey) {
       return res.status(400).json({ error: 'API key is missing in the environment variables' });
     }
 
-    const userMessage = req.body.text || "Find me a React.js job.";
+    const userMessage = req.body.text || 'Say Greetings! How can I assist you today?';
     const userId = req.body.id;
+
     const userProfile = await getUserProfile(userId);
 
     if (userMessage.toLowerCase().includes("job")) {
@@ -141,17 +153,23 @@ export const skillSyncAI = async (req, res) => {
       return res.status(200).json({ response: jobResponse });
     }
 
-    if (userMessage.toLowerCase().includes("hire") || userMessage.toLowerCase().includes("developer")) {
-      const extractedSkills = await extractSkillsFromMessage(userMessage, geminiApiKey);
-      if (extractedSkills.length === 0) {
-        return res.status(200).json({ response: "Couldn't detect any specific skill. Please try being more specific." });
+ 
+    if (["hire", "developer", "candidate"].some(k => userMessage.toLowerCase().includes(k))) {
+      const extractedSkills = await extractSkillsFromMessage(userMessage);
+
+      if (!extractedSkills.length) {
+        return res.status(200).json({
+          response: "Couldn't detect any specific skill requirements. Please specify the skills you're looking for."
+        });
       }
+
       const candidateResponse = await findCandidates(extractedSkills);
       return res.status(200).json({ response: candidateResponse });
     }
 
-    const aiResponse = await generateAIResponse(userMessage, geminiApiKey);
-    res.status(200).json({ response: aiResponse });
+
+    const aiResponse = await generateAIResponse(userMessage);
+    return res.status(200).json({ response: aiResponse });
 
   } catch (error) {
     console.error('Error in AI agent:', error.message || error);
