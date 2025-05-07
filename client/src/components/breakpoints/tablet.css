@@ -139,6 +139,9 @@
   header nav .flex {
     display: none;
   }
+
+
+
   header .small {
     position: fixed;
     height: 100%;
@@ -146,7 +149,7 @@
     display: flex;
     flex-direction: column;
     background: white;
-    margin-top: 34px;
+    top: 0;
     padding-top: 2rem;
     font-size: x-large;
   }
@@ -193,6 +196,7 @@
   header,
   .toggle {
     display: block !important;
+    z-index: 10;
   }
   .blog-out {
     grid-template-columns: 1fr !important;

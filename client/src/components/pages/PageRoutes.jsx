@@ -219,6 +219,11 @@ export const RoutesConfig = ({ spin, setSpin }) => [
       </RequireRole>
     }
   />,
+  <Route
+    key="settings/delete-account"
+    path="/settings/delete-account"
+    element={<DeleteAccount />}
+  />,
   // Shared Protected Routes (Accessible to both roles)
   <Route
     key="profile-settings"

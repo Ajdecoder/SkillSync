@@ -103,7 +103,7 @@ const Header = () => {
 
   // Render navigation items
   const navList = nav.map((item, index) => (
-    <li key={index} className="nav-item relative">
+    <li onClick={()=>setIsNavListOpen(false)} key={index} className="nav-item relative">
       <NavLink
         to={item.path}
         className={({ isActive }) =>
