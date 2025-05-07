@@ -87,9 +87,6 @@ header .toggle {
   transition: all 0.3s ease-in-out;
 }
 /* Show dropdown on hover */
-.nav-item:hover .dropdown-expand {
-  display: flex;
-}
 
 .small .dropdown-expand {
   top: -13px;

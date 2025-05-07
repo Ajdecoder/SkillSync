@@ -57,6 +57,10 @@
   .opportunity-card-container {
     padding: 0.5rem !important;
   }
+
+  .logo img{
+    width: 6rem !important;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -98,7 +102,7 @@
   }
   .chatbot-window {
     max-width: 20rem;
-  }
+  } 
   .location {
     display: none;
   }

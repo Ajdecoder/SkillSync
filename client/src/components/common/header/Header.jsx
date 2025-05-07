@@ -103,7 +103,7 @@ const Header = () => {
 
   // Render navigation items
   const navList = nav.map((item, index) => (
-    <li key={index} className="nav-item relative">
+    <li onClick={()=>setIsNavListOpen(false)} key={index} className="nav-item relative">
       <NavLink
         to={item.path}
         className={({ isActive }) =>
@@ -147,7 +147,7 @@ const Header = () => {
         {/* Navigation */}
         <nav ref={headerRef} className="nav">
           <ul
-            className={clsx(isNavListOpen ? "small overflow-scroll" : "flex")}
+            className={clsx(isNavListOpen ? "small overflow-scroll z-40" : "flex")}
           >
             {navList}
           </ul>

@@ -4,8 +4,13 @@ import { useNavigate } from "react-router-dom";
 import AddOpportunityCard from "../../AddOpportunity/OpportunityCard.jsx";
 import { locations, skills } from "../..//common/constants.jsx";
 
-const RecentOpportunity = ({ handleConnectClick, addedOpportunities }) => {
-  const { loggedInUser,googleUser } = useAuth();
+const RecentOpportunity = ({
+  handleConnectClick,
+  addedOpportunities,
+  setOpportunities,
+}) => {
+  console.log(addedOpportunities);
+  const { loggedInUser, googleUser } = useAuth();
   const currentUser = loggedInUser || googleUser;
 
   const [filteredOpportunities, setFilteredOpportunities] =
@@ -14,7 +19,7 @@ const RecentOpportunity = ({ handleConnectClick, addedOpportunities }) => {
   const [filters, setFilters] = useState({
     title: "",
     desc_requirement: "",
-    type: "", 
+    type: "",
     location: "",
     skills: "",
     salaryRange: "",
