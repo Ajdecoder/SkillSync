@@ -147,7 +147,7 @@ const Header = () => {
         {/* Navigation */}
         <nav ref={headerRef} className="nav">
           <ul
-            className={clsx(isNavListOpen ? "small overflow-scroll" : "flex")}
+            className={clsx(isNavListOpen ? "small overflow-scroll z-40" : "flex")}
           >
             {navList}
           </ul>
