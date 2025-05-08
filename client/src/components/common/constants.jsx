@@ -1,24 +1,46 @@
+import {
+  FaUserTie,
+  FaPlusCircle,
+  FaListAlt,
+  FaUsers,
+  FaChartLine,
+  FaBriefcase,
+  FaBookmark,
+  FaFileAlt,
+  FaChartBar,
+  FaHome,
+  FaClipboardList,
+  FaEnvelope,
+  FaInfoCircle,
+  FaBlog,
+} from "react-icons/fa";
+
 export const nav = [
   {
     text: "home",
     path: "/",
+    icon: <FaHome />,
   },
   {
     flag: "expand",
     text: "Requirement",
     path: "/requirements",
+    icon: <FaClipboardList />,
   },
   {
     text: "contact",
     path: "/contact",
+    icon: <FaEnvelope />,
   },
   {
     text: "about",
     path: "/about",
+    icon: <FaInfoCircle />,
   },
   {
     text: "blogs",
     path: "/blogs",
+    icon: <FaBlog />,
   },
 ];
 
@@ -64,49 +86,55 @@ export const filterData = [
   { city: "Ahmedabad", expert: "QA Engineer", expected_salary: "40000-45000" },
 ];
 
-
 export const navExpandRecruiter = [
   {
     text: "Talent Search",
     path: "requirements/hire-talent",
+    icon: <FaUserTie />,
   },
   {
     text: "Add Job Opportunity",
     path: "requirements/add-opportunity",
+    icon: <FaPlusCircle />,
   },
   {
     text: "My Job Listings",
     path: "requirements/listed-opportunity",
+    icon: <FaListAlt />,
   },
   {
     text: "Talent Pool",
-    path: "requirements/talent-pool", 
+    path: "requirements/talent-pool",
+    icon: <FaUsers />,
   },
   {
     text: "Market Trends",
     path: "requirements/market-trends",
+    icon: <FaChartLine />,
   },
 ];
 
 export const navExpandCAndidate = [
-
   {
     text: "Browse Opportunities",
     path: "requirements/browse-opportunities",
+    icon: <FaBriefcase />,
   },
   {
     text: "Bookmarked Jobs",
     path: "requirements/bookmarked-jobs",
+    icon: <FaBookmark />,
   },
   {
     text: "Resume Builder",
     path: "requirements/resume-builder",
+    icon: <FaFileAlt />,
   },
   {
     text: "Market Trends",
     path: "requirements/market-trends",
+    icon: <FaChartBar />,
   },
-  
 ];
 
 export const featured = [
@@ -719,5 +747,3 @@ export const experiences = [
   "Project Manager",
   "Mobile App Developer",
 ];
-
-

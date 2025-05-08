@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./header.css";
-import { nav, navExpandCAndidate, navExpandRecruiter } from "../..//common/constants";
+import {
+  nav,
+  navExpandCAndidate,
+  navExpandRecruiter,
+} from "../../common/constants";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import logo from "/images/logo.png?url";
@@ -12,130 +16,138 @@ import { FaRegUser } from "react-icons/fa";
 const Header = () => {
   const { loggedInUser, logout: customLogout, googleUser } = useAuth();
   const navigate = useNavigate();
-  // State management
+  const currentUser = loggedInUser || googleUser;
+
   const [isNavListOpen, setIsNavListOpen] = useState(false);
   const [showAboutUser, setShowAboutUser] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
   const [navExpand, setExpandNav] = useState([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+
   const location = useLocation();
-  const dropdownRef = useRef(null); // Ref for googleUser dropdown
-  const dropdownExpandRef = useRef(null); // Ref for Requirement dropdown
-  const headerRef = useRef(null); // Ref for header
+  const dropdownRef = useRef(null);
+  const headerRef = useRef(null);
 
-  // Determine current googleUser
-  const currentUser = loggedInUser || googleUser;
-
-  // console.log("Auth0currentUser",googleUser)
-  // console.log("CustomAuth",loggedInUser)
-
-  // Set navigation based on googleUser role
+  // Set nav expand based on role
   useEffect(() => {
     if (currentUser) {
       setExpandNav(
-        currentUser?.role === "candidate" ? navExpandCAndidate : navExpandRecruiter
+        currentUser.role === "candidate"
+          ? navExpandCAndidate
+          : navExpandRecruiter
       );
     } else {
       setExpandNav([
-        {
-          text: "Talent Search",
-          path: "requirements/hire-talent",
-        },
+        { text: "Talent Search", path: "requirements/hire-talent" },
         {
           text: "Browse Opportunities",
           path: "requirements/browse-opportunities",
         },
-        {
-          text: "My Job Listings",
-          path: "requirements/listed-opportunity",
-        },
-        {
-          text: "Resume Builder",
-          path: "requirements/resume-builder",
-        },
-        {
-          text: "Market Trends",
-          path: "requirements/market-trends",
-        },
+        { text: "My Job Listings", path: "requirements/listed-opportunity" },
+        { text: "Resume Builder", path: "requirements/resume-builder" },
+        { text: "Market Trends", path: "requirements/market-trends" },
       ]);
     }
   }, [currentUser]);
-  
 
-  // Handle screen resizing
   useEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth <= 768);
       if (window.innerWidth > 768) setIsNavListOpen(false);
     };
-
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Handle logout
   const handleLogout = () => {
-    if (currentUser) {
-      customLogout();
-      localStorage.removeItem("googleUser");
-      navigate("/");
-    }
+    customLogout();
+    localStorage.removeItem("googleUser");
+    navigate("/");
   };
 
-  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowAboutUser(false);
       }
-
-      if (
-        isSmallScreen &&
-        headerRef.current &&
-        !headerRef.current.contains(event.target)
-      ) {
+      if (headerRef.current && !headerRef.current.contains(event.target)) {
         setIsNavListOpen(false);
+        setShowDropdown(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isSmallScreen]);
+  }, []);
 
-  // Render navigation items
-  const navList = nav.map((item, index) => (
-    <li onClick={()=>setIsNavListOpen(false)} key={index} className="nav-item relative">
-      <NavLink
-        to={item.path}
-        className={({ isActive }) =>
-          clsx("reqli text-slate-500", {
-            active: isActive && !location.pathname.includes("requirement"),
-          })
-        }
+  const navList = nav.map((item, index) => {
+    const isRequirement = item.text === "Requirement";
+
+    return (
+      <li
+        key={index}
+        className="nav-item relative"
+        onClick={() => setIsNavListOpen(false)}
       >
-        {item.text}
-      </NavLink>
+        <div
+          onClick={() =>
+            isSmallScreen && isRequirement && setShowDropdown(!showDropdown)
+          }
+          onMouseEnter={() =>
+            !isSmallScreen && isRequirement && setShowDropdown(true)
+          }
+          onMouseLeave={() =>
+            !isSmallScreen && isRequirement && setShowDropdown(false)
+          }
+        >
+          <NavLink
+            to={item.path}
+            className={({ isActive }) =>
+              clsx("reqli text-slate-500", {
+                active: isActive && !location.pathname.includes("requirement"),
+              })
+            }
+          >
+            
+            {item.text}
+          </NavLink>
 
-      {item.text === "Requirement" && (
-        <div ref={dropdownExpandRef} className="dropdown-expand">
-          <ul className="dropdown">
-            {navExpand.map((subItem, subIndex) => (
-              <li key={subIndex}>
-                <NavLink
-                  to={subItem.path}
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                >
-                  {subItem.text}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
+          {isRequirement && (
+            <div
+              className={clsx("dropdown-expand", {
+                block: showDropdown,
+                hidden: !showDropdown,
+              })}
+            >
+              <ul className="dropdown justify-center">
+                {navExpand.map((subItem, subIndex) => (
+                  <li
+                    key={subIndex}
+                    className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded"
+                  >
+                    <NavLink
+                      to={subItem.path}
+                      className={({ isActive }) =>
+                        clsx(
+                          "flex items-center gap-2",
+                          isActive && "text-blue-600 font-semibold"
+                        )
+                      }
+                    >
+                      {subItem.icon}
+                      {subItem.text}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
-      )}
-    </li>
-  ));
+      </li>
+    );
+  });
 
   return (
-    <header >
+    <header>
       <div className="flex top-header relative top-[-22px]">
         {/* Logo */}
         <div className="logo">
@@ -147,20 +159,23 @@ const Header = () => {
         {/* Navigation */}
         <nav ref={headerRef} className="nav">
           <ul
-            className={clsx(isNavListOpen ? "small overflow-scroll z-40" : "flex")}
+            className={clsx(
+              isNavListOpen ? "small overflow-scroll z-40" : "flex"
+            )}
           >
             {navList}
           </ul>
         </nav>
 
+        {/* Notifications */}
         {currentUser && <NotificationButton />}
 
-        {/* google_User Section */}
+        {/* User Info */}
         <div ref={dropdownRef} className="button">
           {currentUser ? (
             <>
               <div
-                className="flex items-center space-x-3 cursor-pointer hover:scale-[0.9] transition-ease-in duration-200 "
+                className="flex items-center space-x-3 cursor-pointer hover:scale-[0.9] transition-ease-in duration-200"
                 onClick={() => setShowAboutUser((prev) => !prev)}
               >
                 <span className="inline-block bg-blue-500 text-white rounded-full p-3 text-lg font-bold">
@@ -168,22 +183,19 @@ const Header = () => {
                 </span>
               </div>
 
-              {/* Dropdown Menu */}
               {showAboutUser && (
-                <div className="flex flex-col absolute top-16 right-0 bg-white border border-gray-300 shadow-md p-4 min-w-[200px] rounded-lg transition-all duration-300 ease-in-out">
+                <div className="flex items-center flex-col absolute top-16 right-0 bg-white border border-gray-300 shadow-md p-4 min-w-[200px] rounded-lg transition-all duration-300 ease-in-out">
                   <Link
                     to="/profile/userProfile"
                     className="text-center text-2xl"
                   >
-                    <i className="fa-solid fa-googleUser">
-                      <FaRegUser />
-                    </i>
+                    <FaRegUser />
                   </Link>
                   <p className="text-sm text-gray-700 mb-2">
-                    <strong>Name:</strong> {currentUser?.name || "google_User"}
+                    <strong>Name:</strong> {currentUser?.name}
                   </p>
                   <p className="text-sm text-gray-700 mb-2">
-                    <strong>Email:</strong> {currentUser?.email || "N/A"}
+                    <strong>Email:</strong> {currentUser?.email}
                   </p>
                   <div className="flex flex-col p-2 gap-3">
                     <button
@@ -192,7 +204,6 @@ const Header = () => {
                     >
                       <i className="fa fa-sign-out mr-2"></i> Logout
                     </button>
-
                     <Link to="/profile/settings" className="text-center">
                       Settings
                     </Link>
@@ -207,7 +218,7 @@ const Header = () => {
           )}
         </div>
 
-        {/* Toggle Button */}
+        {/* Toggle */}
         <div className="toggle">
           <button
             onClick={() => setIsNavListOpen(!isNavListOpen)}
