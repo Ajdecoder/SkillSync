@@ -145,12 +145,18 @@ const Header = () => {
         >
           <ul className="dropdown">
             {navExpand.map((subItem, subIndex) => (
-              <li key={subIndex}>
+              <li
+                key={subIndex}
+                className="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 rounded"
+              >
                 <NavLink
                   to={subItem.path}
-                  className={({ isActive }) => (isActive ? "active" : "")}
+                  className={({ isActive }) =>
+                    clsx("flex items-center gap-2", isActive ? "active" : "")
+                  }
                 >
-                  {subItem.text}
+                  {subItem.icon && <span>{subItem.icon}</span>}
+                  <span>{subItem.text}</span>
                 </NavLink>
               </li>
             ))}
