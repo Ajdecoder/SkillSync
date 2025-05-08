@@ -67,6 +67,8 @@ header .toggle {
 }
 
 .dropdown-expand {
+  background: #f0f0f0 !important;
+  border: 1px solid red !important;
   justify-content: center;
   align-items: flex-start;
   flex-wrap: wrap;
