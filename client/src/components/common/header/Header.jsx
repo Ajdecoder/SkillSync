@@ -19,7 +19,7 @@ const Header = () => {
   // State management
   const [isNavListOpen, setIsNavListOpen] = useState(false);
   const [showAboutUser, setShowAboutUser] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(true);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
   const [navExpand, setExpandNav] = useState([]);
   const location = useLocation();
@@ -114,12 +114,12 @@ const Header = () => {
       key={index}
       className="nav-item relative"
       onMouseEnter={() => {
-        if (!isSmallScreen && item.text === "Requirement") {
+        if (item.text === "Requirement") {
           setShowDropdown(true);
         }
       }}
       onMouseLeave={() => {
-        if (!isSmallScreen && item.text === "Requirement") {
+        if (item.text === "Requirement") {
           setShowDropdown(false);
         }
       }}
@@ -145,18 +145,19 @@ const Header = () => {
         >
           <ul className="dropdown">
             {navExpand.map((subItem, subIndex) => (
-              <li
-                key={subIndex}
-                className="flex items-center gap-2 px-2 py-1 hover:bg-gray-100 rounded"
-              >
+              <li key={subIndex}>
                 <NavLink
                   to={subItem.path}
                   className={({ isActive }) =>
-                    clsx("flex items-center gap-2", isActive ? "active" : "")
+                    clsx("inline-block w-full px-2 py-1", isActive && "active")
                   }
                 >
-                  {subItem.icon && <span>{subItem.icon}</span>}
-                  <span>{subItem.text}</span>
+                  <span className="inline-block align-middle mr-2">
+                    {!isNavListOpen && subItem.icon}
+                  </span>
+                  <span className="inline-block align-middle">
+                    {subItem.text}
+                  </span>
                 </NavLink>
               </li>
             ))}
