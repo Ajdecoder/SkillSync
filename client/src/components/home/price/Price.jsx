@@ -6,7 +6,7 @@ import PriceCard from "./PriceCard";
 const Price = () => {
   return (
     <>
-      <section className="price">
+      <section className="price padding dark:bg-[#0f0f0f] dark:text-white">
         <div className="container">
           <Heading
             title="Select Your Package"

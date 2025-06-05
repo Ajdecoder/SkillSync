@@ -125,7 +125,6 @@
   .top-header {
     justify-content: space-around;
     position: relative;
-    top: 0;
   }
 
   header {
@@ -215,11 +214,20 @@
   .log-sign {
     bottom: 0.4rem !important;
   }
+    .profile-tabs {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .tabs-toggle-btn {
+    display: block !important;
+  }
+
 }
 
 @media screen and (max-width: 955px) {
   header img {
-    width: 10.8rem;
+    width: 5rem;
   }
 
   nav {

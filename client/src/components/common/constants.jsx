@@ -17,7 +17,7 @@ import {
 
 export const nav = [
   {
-    text: "home",
+    text: "home", 
     path: "/",
     icon: <FaHome />,
   },

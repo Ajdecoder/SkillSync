@@ -1,87 +1,95 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Pencil, X, Loader2 } from "lucide-react";
 import axios from "axios";
-import { useAuth } from "../context/AuthContext";
 import { PORT_CLIENT } from "../../commonClient";
 
 const ProfileHeader = ({ user, profileCompletion, userRole }) => {
   const [previewImage, setPreviewImage] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadError, setUploadError] = useState(null);
+  const [viewEdit, setViewEdit] = useState(false);
+
+  const fileInputRef = useRef(null);
+  const viewEditRef = useRef(null);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      // Validate file type
-      if (!file.type.startsWith('image/')) {
-        setUploadError('Please upload an image file');
-        return;
-      }
-      
-      // Validate file size (max 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        setUploadError('Image size should be less than 5MB');
-        return;
-      }
+    if (!file) return;
 
-      setUploadError(null);
-      
-      // Create a preview URL
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewImage(reader.result);
-        setIsPreviewOpen(true);
-      };
-      reader.readAsDataURL(file);
+    // File validation
+    if (!file.type.startsWith("image/")) {
+      setUploadError("Please upload a valid image file");
+      return;
     }
+
+    if (file.size > 5 * 1024 * 1024) {
+      setUploadError("Image size should be less than 5MB");
+      return;
+    }
+
+    setUploadError(null);
+    setSelectedFile(file);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setPreviewImage(reader.result);
+      setIsPreviewOpen(true);
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleImageUpload = async () => {
+    if (!selectedFile) {
+      setUploadError("No file selected");
+      return;
+    }
+
     try {
       setIsUploading(true);
       setUploadError(null);
 
-      // Get the original file from the input element
-      const fileInput = document.getElementById('avatarUpload');
-      if (!fileInput || !fileInput.files || !fileInput.files[0]) {
-        setUploadError('No file selected');
-        setIsUploading(false);
-        return;
-      }
-
-      const file = fileInput.files[0];
-      
-      // Create FormData and append the original file
       const formData = new FormData();
-      formData.append("avatar", file);
+      formData.append("avatar", selectedFile);
 
-      console.log("Uploading file:", file.name, file.type, file.size);
-
-      const uploadResponse = await axios.post(
+      const response = await axios.post(
         `${PORT_CLIENT}/api/user/profile/upload-avatar/${user?._id}`,
         formData,
         {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-          // Add timeout to prevent long-running requests
+          headers: { "Content-Type": "multipart/form-data" },
           timeout: 30000,
         }
       );
 
-      if (uploadResponse.data.profilePicture) {
-        // Update the preview with the new Cloudinary URL
-        setPreviewImage(uploadResponse.data.profilePicture);
+      if (response.data.profilePicture) {
+        setPreviewImage(response.data.profilePicture);
         setIsPreviewOpen(false);
       }
     } catch (error) {
-      console.error("Error uploading image:", error);
-      setUploadError(error.response?.data?.message || 'Failed to upload image');
+      setUploadError(
+        error.response?.data?.message || "Failed to upload image"
+      );
     } finally {
       setIsUploading(false);
     }
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (viewEditRef.current && !viewEditRef.current.contains(event.target)) {
+        setViewEdit(false);
+      }
+    };
+
+    if (viewEdit) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [viewEdit]);
 
   const imageSrc =
     previewImage ||
@@ -102,18 +110,49 @@ const ProfileHeader = ({ user, profileCompletion, userRole }) => {
               alt="Profile"
               className="w-full h-full rounded-full object-cover border-4 border-white shadow-md"
             />
-            <input
-              id="avatarUpload"
-              type="file"
-              name="avatar"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="hidden"
-            />
-            <div className="absolute inset-0 rounded-full bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-              <Pencil className="w-6 h-6 text-white" />
-            </div>
           </label>
+
+          <div
+            onClick={() => setViewEdit(!viewEdit)}
+            className="absolute inset-0 rounded-full bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 cursor-pointer"
+          >
+            <Pencil className="w-6 h-6 text-white" />
+          </div>
+
+          {viewEdit && (
+            <div
+              ref={viewEditRef}
+              className="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-white border shadow-md rounded-lg z-10 text-sm w-32"
+            >
+              <button
+                onClick={() => {
+                  setIsPreviewOpen(true);
+                  setViewEdit(false);
+                }}
+                className="w-full text-center px-4 py-2 hover:bg-gray-100"
+              >
+                👁️ View
+              </button>
+              <label
+                htmlFor="avatarUpload"
+                className="block text-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              >
+                ✏️ Edit
+              </label>
+              <input
+                id="avatarUpload"
+                type="file"
+                name="avatar"
+                accept="image/*"
+                ref={fileInputRef}
+                onChange={(e) => {
+                  handleImageChange(e);
+                  setViewEdit(false);
+                }}
+                className="hidden"
+              />
+            </div>
+          )}
         </div>
 
         <div className="flex-1 space-y-2">
@@ -155,7 +194,7 @@ const ProfileHeader = ({ user, profileCompletion, userRole }) => {
         </div>
       </div>
 
-      {/* Image Preview Modal */}
+      {/* Preview Modal */}
       {isPreviewOpen && (
         <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
           <div className="relative bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-auto">
@@ -188,7 +227,7 @@ const ProfileHeader = ({ user, profileCompletion, userRole }) => {
               </div>
             )}
             <img
-              src={imageSrc}
+              src={previewImage}
               alt="Preview"
               className="w-full object-contain rounded-2xl"
             />

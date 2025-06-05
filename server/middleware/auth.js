@@ -1,7 +1,5 @@
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 
-dotenv.config();
 
 const verifyUser = (req, res, next) => {
   const token = req.cookies.jwttoken;

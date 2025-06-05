@@ -105,7 +105,7 @@ const ManageJobs = ({
   const handleSaveChanges = (e) => {
     setEditingJobIdx(false);
     setUpdatedData(localUpdatedData);
-    handleSubmit(e)
+    handleSubmit(e);
   };
 
   return (
@@ -264,13 +264,23 @@ const ManageJobs = ({
 
                     {/* Save Button (Visible only when editing) */}
                     {isEditingJob(idx) && (
-                      <button
+                     
+                      <div className="flex items-center space-x-4 mt-4">
+                    <button
                         type="submit"
-                        className="px-4 py-2 bg-blue-600 text-white rounded-lg mt-4"
-                        onClick={(e)=>handleSaveChanges(e)}
+                        className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+                        onClick={(e) => handleSaveChanges(e)}
                       >
                         Save Changes
                       </button>
+                    <button
+                      type="button"
+                      onClick={() => setEditingJobIdx(false)}
+                      className="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg"
+                    >
+                      Cancel
+                    </button>
+                  </div>
                     )}
                   </li>
                 ))}

@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { PORT_CLIENT } from "../../../commonClient";
 import { Spinner } from "../../common/loadingSpinner/spinner";
 import { getAllCandidateProfiles } from "../../../services/api";
+import { useTheme } from "../../context/ThemeContext";
 
 const Recent = ({ filterCategory, filteredProgrammers, programmers }) => {
 
@@ -19,6 +20,8 @@ const Recent = ({ filterCategory, filteredProgrammers, programmers }) => {
   const [talentsLoading, setTalentsLoading] = useState(true);
   const [opportunities, setOpportunities] = useState([]);
   const [talents, setTalents] = useState([]);
+  const { theme, toggleTheme } = useTheme();
+
 
   useEffect(() => {
     console.log(filterCategory, filteredProgrammers, programmers);
@@ -73,7 +76,7 @@ const Recent = ({ filterCategory, filteredProgrammers, programmers }) => {
         <>
           {(loggedInUser?.role === "candidate" ||
             googleUser?.role === "candidate") && (
-            <section className="recent padding">
+            <section className="recent padding dark:bg-gray-800 dark:text-white">
               <div className="container">
                 <Heading
                   title="Newly Listed Companies"

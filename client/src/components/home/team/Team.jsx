@@ -6,7 +6,7 @@ import '../../../tailwind.css';
 
 const Team = () => {
   return (
-    <section className="team bg-gray-50 py-10">
+    <section className="team bg-gray-50 py-10 dark:bg-gray-800 dark:text-white">
       <div className="container mx-auto px-4">
         <Heading
           title="Our Team"

@@ -6,7 +6,7 @@ import "./style.css";
 const Location = () => {
   return (
     <>
-      <section className="location padding">
+      <section className="location padding dark:bg-[#0f0f0f] dark:text-white">
         <div className="container">
           <Heading
             title="Explore By Company and Location"

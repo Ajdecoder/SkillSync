@@ -168,22 +168,7 @@ export const UserProfile = () => {
             </section>
           )}
 
-          {(userRole === "recruiter" || userRole === "candidate") &&
-            activeTab === "settings" && (
-              <section className="profile-settings-section p-6 bg-white rounded-lg shadow-md">
-                <h2 className="text-xl font-semibold">Settings</h2>
-                <div className="mt-4 space-y-4">
-                  <div>
-                    <p className="font-bold">Email Notifications:</p>
-                    <p>Enabled</p>
-                  </div>
-                  <div>
-                    <p className="font-bold">Dark Mode:</p>
-                    <p>Enabled</p>
-                  </div>
-                </div>
-              </section>
-            )}
+       
 
           {userRole === "candidate" && activeTab !== "about" && (
             <CandidateProfileContent

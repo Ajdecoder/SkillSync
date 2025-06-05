@@ -6,7 +6,7 @@ import { CandidateUserProfile, OpportunityCollection, RecruiterUserProfile } fro
 // Initialize Gemini AI globally
 const geminiApiKey = process.env.GEMINI_API;
 const genAI = geminiApiKey ? new GoogleGenerativeAI(geminiApiKey) : null;
-const model = genAI?.getGenerativeModel({ model: 'gemini-1.5-flash' });
+const model = genAI?.getGenerativeModel({ model: 'gemini-2.0-flash' });
 
 // Fetch user profile by ID
 const getUserProfile = async (userId) => {
