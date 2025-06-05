@@ -1,9 +1,7 @@
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 import crypto from "crypto";
 
-dotenv.config();
 
 export const userSchema = new mongoose.Schema({
   name: { type: String },
@@ -14,8 +12,8 @@ export const userSchema = new mongoose.Schema({
     required: true,
     enum: ["recruiter", "candidate"],
   },
-  recruiterProfile:{type: mongoose.Schema.ObjectId, ref: "RecruiterUserProfile"},
-  candidateProfile:{type: mongoose.Schema.ObjectId, ref: "CandidateUserProfile"},
+  recruiterProfile: { type: mongoose.Schema.ObjectId, ref: "RecruiterUserProfile" },
+  candidateProfile: { type: mongoose.Schema.ObjectId, ref: "CandidateUserProfile" },
 });
 
 // Define a method to generate and return JWT token for a user

@@ -44,12 +44,10 @@ const OpportunityConnectPage = () => {
     `${PORT_CLIENT}/api/requirements/Companyrequirements/${post_id}`
   );
 
-
-
   const currentUser = loggedInUser || googleUser;
 
   useEffect(() => {
-    console.log(companyData)
+    console.log(companyData);
     const fetchUserProfile = async () => {
       setJobPoster(companyData?.recruiterDetails?._id);
       console.log(companyData?.recruiterDetails?._id);

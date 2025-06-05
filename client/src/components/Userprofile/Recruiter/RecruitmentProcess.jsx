@@ -8,7 +8,8 @@ const RecruitmentProcess = ({
   updatedData,
   handleSubmit,
   handleEditClick,
-  setUpdatedData, // Set updated data in parent component
+  setUpdatedData,
+  handleCancelEdit,
 }) => {
   // Function to add new interview stage or assessment type
   const handleAddItem = (field) => {
@@ -46,39 +47,45 @@ const RecruitmentProcess = ({
 
     // Remove item from the correct array (either 'interviewStages' or 'assessmentTypes')
     if (field === "interviewStages") {
-      updatedDataCopy.recruitmentProcess.interviewStages = updatedDataCopy.recruitmentProcess.interviewStages.filter(
-        (_, index) => index !== idx
-      );
+      updatedDataCopy.recruitmentProcess.interviewStages =
+        updatedDataCopy.recruitmentProcess.interviewStages.filter(
+          (_, index) => index !== idx
+        );
     } else if (field === "assessmentTypes") {
-      updatedDataCopy.recruitmentProcess.assessmentTypes = updatedDataCopy.recruitmentProcess.assessmentTypes.filter(
-        (_, index) => index !== idx
-      );
+      updatedDataCopy.recruitmentProcess.assessmentTypes =
+        updatedDataCopy.recruitmentProcess.assessmentTypes.filter(
+          (_, index) => index !== idx
+        );
     }
 
     setUpdatedData(updatedDataCopy); // Update state with the modified data
   };
 
-    // Custom input change handler for dynamic fields
-    const customHandleInputChange = (e, section, idx) => {
-      const { name, value } = e.target;
-      const updatedDataCopy = { ...updatedData };
-  
-      // Handle field values for non-array fields like description, timeline
-      if (section === "recruitmentProcess" && name !== "interviewStages" && name !== "assessmentTypes") {
-        updatedDataCopy.recruitmentProcess[name] = value;
-        setUpdatedData(updatedDataCopy);
-        return;
-      }
-  
-      // Handle array fields (e.g., interviewStages, assessmentTypes)
-      if (name.startsWith("interviewStages")) {
-        updatedDataCopy.recruitmentProcess.interviewStages[idx] = value; // Update specific interview stage
-      } else if (name.startsWith("assessmentTypes")) {
-        updatedDataCopy.recruitmentProcess.assessmentTypes[idx] = value; // Update specific assessment type
-      }
-  
-      setUpdatedData(updatedDataCopy); // Update state with new value
-    };
+  // Custom input change handler for dynamic fields
+  const customHandleInputChange = (e, section, idx) => {
+    const { name, value } = e.target;
+    const updatedDataCopy = { ...updatedData };
+
+    // Handle field values for non-array fields like description, timeline
+    if (
+      section === "recruitmentProcess" &&
+      name !== "interviewStages" &&
+      name !== "assessmentTypes"
+    ) {
+      updatedDataCopy.recruitmentProcess[name] = value;
+      setUpdatedData(updatedDataCopy);
+      return;
+    }
+
+    // Handle array fields (e.g., interviewStages, assessmentTypes)
+    if (name.startsWith("interviewStages")) {
+      updatedDataCopy.recruitmentProcess.interviewStages[idx] = value; // Update specific interview stage
+    } else if (name.startsWith("assessmentTypes")) {
+      updatedDataCopy.recruitmentProcess.assessmentTypes[idx] = value; // Update specific assessment type
+    }
+
+    setUpdatedData(updatedDataCopy); // Update state with new value
+  };
 
   return (
     <div>
@@ -95,8 +102,12 @@ const RecruitmentProcess = ({
                   <input
                     type="text"
                     name="applicationReview"
-                    value={updatedData?.recruitmentProcess?.applicationReview || ""}
-                    onChange={(e) => customHandleInputChange(e, "recruitmentProcess")}
+                    value={
+                      updatedData?.recruitmentProcess?.applicationReview || ""
+                    }
+                    onChange={(e) =>
+                      customHandleInputChange(e, "recruitmentProcess")
+                    }
                     className="border border-gray-300 p-2 rounded-lg w-full"
                     placeholder="Application Review Status"
                   />
@@ -107,7 +118,9 @@ const RecruitmentProcess = ({
                   <textarea
                     name="description"
                     value={updatedData?.recruitmentProcess?.description || ""}
-                    onChange={(e) => customHandleInputChange(e, "recruitmentProcess")}
+                    onChange={(e) =>
+                      customHandleInputChange(e, "recruitmentProcess")
+                    }
                     className="border-2 border-black p-2 rounded-lg w-full mt-2"
                     placeholder="Recruitment Process Description"
                     style={{ border: "1px solid" }}
@@ -120,7 +133,9 @@ const RecruitmentProcess = ({
                     type="text"
                     name="timeline"
                     value={updatedData?.recruitmentProcess?.timeline || ""}
-                    onChange={(e) => customHandleInputChange(e, "recruitmentProcess")}
+                    onChange={(e) =>
+                      customHandleInputChange(e, "recruitmentProcess")
+                    }
                     className="border border-gray-300 p-2 rounded-lg w-full mt-2"
                     placeholder="Timeline"
                   />
@@ -142,7 +157,9 @@ const RecruitmentProcess = ({
                           />
                           <button
                             type="button"
-                            onClick={() => handleRemoveItem("interviewStages", idx)}
+                            onClick={() =>
+                              handleRemoveItem("interviewStages", idx)
+                            }
                             className="text-red-500"
                           >
                             Remove
@@ -176,7 +193,9 @@ const RecruitmentProcess = ({
                           />
                           <button
                             type="button"
-                            onClick={() => handleRemoveItem("assessmentTypes", idx)}
+                            onClick={() =>
+                              handleRemoveItem("assessmentTypes", idx)
+                            }
                             className="text-red-500"
                           >
                             Remove
@@ -185,21 +204,22 @@ const RecruitmentProcess = ({
                       )
                     )}
                   </ul>
-                  <button
-                    type="button"
-                    onClick={() => handleAddItem("assessmentTypes")}
-                    className="px-4 py-2 bg-green-600 text-white rounded-lg mt-2"
-                  >
-                    Add Assessment Type
-                  </button>
+                  <div className="flex items-center space-x-4 mt-4">
+                    <button
+                      type="submit"
+                      className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+                    >
+                      Save Changes
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleCancelEdit("recruitmentProcess")}
+                      className="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg"
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </div>
-
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg mt-4"
-                >
-                  Save Changes
-                </button>
               </form>
             ) : (
               <div>

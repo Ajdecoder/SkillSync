@@ -4,18 +4,21 @@ const CompanyOverview = ({
   userRole,
   activeTab,
   isEditing,
+  setIsEditing,
   profileData,
   updatedData,
   handleInputChange,
   handleSubmit,
   handleEditClick,
-  setUpdatedData
+  setUpdatedData,
+  handleCancelEdit
 }) => {
   const handleSocialLinkChange = (e) => {
     const { name, value } = e.target;
-    
+
     // Ensure socialLinks is initialized
-    updatedData.companyOverview.socialLinks = updatedData.companyOverview.socialLinks || {};
+    updatedData.companyOverview.socialLinks =
+      updatedData.companyOverview.socialLinks || {};
 
     // Update the corresponding social link
     updatedData.companyOverview.socialLinks[name] = value;
@@ -73,7 +76,7 @@ const CompanyOverview = ({
                     </button>
                     <button
                       type="button"
-                      onClick={() => handleEditClick("companyOverview")}
+                      onClick={() => handleCancelEdit('companyOverview')}
                       className="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg"
                     >
                       Cancel
@@ -117,7 +120,10 @@ const CompanyOverview = ({
                     <input
                       type="url"
                       name="linkedin"
-                      value={updatedData?.companyOverview?.socialLinks?.linkedin || ""}
+                      value={
+                        updatedData?.companyOverview?.socialLinks?.linkedin ||
+                        ""
+                      }
                       onChange={handleSocialLinkChange}
                       className="border border-gray-300 p-2 rounded-lg w-full"
                       placeholder="LinkedIn URL"
@@ -127,7 +133,9 @@ const CompanyOverview = ({
                     <input
                       type="url"
                       name="twitter"
-                      value={updatedData?.companyOverview?.socialLinks?.twitter || ""}
+                      value={
+                        updatedData?.companyOverview?.socialLinks?.twitter || ""
+                      }
                       onChange={handleSocialLinkChange}
                       className="border border-gray-300 p-2 rounded-lg w-full mt-2"
                       placeholder="Twitter URL"
@@ -137,18 +145,30 @@ const CompanyOverview = ({
                     <input
                       type="url"
                       name="facebook"
-                      value={updatedData?.companyOverview?.socialLinks?.facebook || ""}
+                      value={
+                        updatedData?.companyOverview?.socialLinks?.facebook ||
+                        ""
+                      }
                       onChange={handleSocialLinkChange}
                       className="border border-gray-300 p-2 rounded-lg w-full mt-2"
                       placeholder="Facebook URL"
                     />
                   </div>
-                  <button
-                    type="submit"
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg mt-4"
-                  >
-                    Save Changes
-                  </button>
+                  <div className="flex items-center space-x-4 mt-4">
+                    <button
+                      type="submit"
+                      className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+                    >
+                      Save Changes
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleCancelEdit("socialLinks")}
+                      className="px-4 py-2 bg-gray-300 text-gray-800 rounded-lg"
+                    >
+                      Cancel
+                    </button>
+                  </div>
                 </form>
               ) : (
                 <div>

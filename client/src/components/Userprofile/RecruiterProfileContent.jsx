@@ -25,6 +25,10 @@ const RecruiterProfileContent = ({ profileData, userRole, activeTab }) => {
     setIsEditing((prev) => ({ ...prev, [section]: true }));
   };
 
+  const handleCancelEdit = (section) => {
+    setIsEditing((prev) => ({ ...prev, [section]: false }));
+  }
+
   // Handle input changes for nested fields
 
   // Handle input changes for nested fields
@@ -107,6 +111,7 @@ const RecruiterProfileContent = ({ profileData, userRole, activeTab }) => {
           userRole={userRole}
           updatedData={updatedData}
           isEditing={isEditing}
+          setIsEditing={setIsEditing}
           handleInputChange={handleInputChange}
           handleSubmit={handleSubmit}
           handleAddItem={handleAddItem}
@@ -114,6 +119,7 @@ const RecruiterProfileContent = ({ profileData, userRole, activeTab }) => {
           activeTab={activeTab}
           handleEditClick={handleEditClick}
           setUpdatedData={setUpdatedData}
+          handleCancelEdit={handleCancelEdit}
         />
       )}
 
@@ -129,6 +135,8 @@ const RecruiterProfileContent = ({ profileData, userRole, activeTab }) => {
           handleSubmit={handleSubmit}
           activeTab={activeTab}
           handleEditClick={handleEditClick}
+          handleCancelEdit={handleCancelEdit}
+
         />
       )}
 
@@ -152,6 +160,8 @@ const RecruiterProfileContent = ({ profileData, userRole, activeTab }) => {
           activeTab={activeTab}
           handleEditClick={handleEditClick}
           setUpdatedData={setUpdatedData}
+          handleCancelEdit={handleCancelEdit}
+          
         />
       )}
 

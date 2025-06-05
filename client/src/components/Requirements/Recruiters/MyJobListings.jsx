@@ -96,6 +96,14 @@ export const MyJobListings = () => {
         animate={{ opacity: 1 }}
         className="container mx-auto px-4 py-8 max-w-4xl"
       >
+        <div className="flex justify-end mb-4">
+          <span className="inline-block bg-green-400 text-blue-800 px-4 py-2 rounded-full font-medium text-sm">
+            {jobs?.length === 1
+              ? "1 job posted"
+              : `${jobs?.length} jobs posted`}
+          </span>
+        </div>
+
         <motion.h2
           initial={{ y: -20 }}
           animate={{ y: 0 }}

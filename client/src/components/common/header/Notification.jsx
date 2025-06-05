@@ -52,7 +52,7 @@ const NotificationButton = () => {
 
   return (
     <div className="relative z-40">
-      <button className="notification-button" onClick={handleBellClick}>
+      <button className="notification-button dark:text-white " onClick={handleBellClick}>
         <i className="fa-solid fa-bell text-3xl"></i>
         {unreadCount > 0 && (
           <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">

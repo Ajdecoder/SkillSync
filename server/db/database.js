@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
-import dotenv from "dotenv";
 import { AddOpportunitySchema } from "../model/RecruiterModals/AddOpportunityModal.js";
 import { candidateProfileSchema, recruiterProfileSchema } from "../model/UserProfileModal.js";
 import { userSchema } from "../model/userModal.js";
 import { BookMarkSchema } from "../model/CandidateModals/BookMarksModal.js";
 import blogSchema from "../model/blogs.js";
+import dotenv from "dotenv";
 
 dotenv.config();
 

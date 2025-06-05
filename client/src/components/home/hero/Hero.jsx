@@ -48,7 +48,7 @@ const Hero = () => {
   return (
     <>
       {loggedInUser || googleUser ? (
-        <section className="hero">
+        <section className="hero ">
           <div className="hero-image">
             <img
               className="opacity-[0.0]"
@@ -56,7 +56,7 @@ const Hero = () => {
               alt="Hero"
             />
           </div>
-          <div className="hero-container">
+          <div className="hero-container ">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -69,7 +69,7 @@ const Hero = () => {
             </motion.div>
 
             <motion.form
-              className="hero-form m-auto mt-6"
+              className="hero-form m-auto mt-6 dark:bg-gray-800 dark:text-white bg-white p-6 rounded-lg shadow-lg max-w-3xl"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1 }}

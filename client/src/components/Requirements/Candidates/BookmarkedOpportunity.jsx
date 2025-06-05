@@ -5,7 +5,13 @@ import {
 } from "../../../services/api";
 import { useAuth } from "../../context/AuthContext";
 import { motion } from "framer-motion";
-import { FaBookmark, FaBriefcase, FaForward, FaLink, FaUser } from "react-icons/fa";
+import {
+  FaBookmark,
+  FaBriefcase,
+  FaForward,
+  FaLink,
+  FaUser,
+} from "react-icons/fa";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { CiBeaker1 } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
@@ -111,6 +117,12 @@ export const BookmarkedOpportunity = () => {
             No bookmarked opportunities yet. Start exploring and save your
             favorites!
           </p>
+          <Link
+            className="bg-gray-700 p-4 mt-4 block w-60 m-auto rounded-lg hover:opacity-80"
+            to="/requirements/browse-opportunities"
+          >
+            Explore Jobs
+          </Link>
         </motion.div>
       ) : (
         <motion.ul
@@ -150,10 +162,8 @@ export const BookmarkedOpportunity = () => {
                     to={`/opportunity/connect/${opportunity._id}`}
                     className="absolute right-4 cursor-pointer text-blue-600 hover:text-blue-800"
                   >
-                    <FaLink className="h-5 w-5" /> 
+                    <FaLink className="h-5 w-5" />
                   </Link>
-
-
                 </div>
                 <div className="space-y-3">
                   <div className="flex items-center gap-2 text-gray-600">

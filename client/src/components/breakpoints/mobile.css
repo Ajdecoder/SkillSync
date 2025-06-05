@@ -58,9 +58,22 @@
     padding: 0.5rem !important;
   }
 
-  .logo img{
-    width: 6rem !important;
+  .logo img {
+    width: 5rem !important;
   }
+
+  .hero {
+    height: 120vh;
+  }
+
+  .faq{
+    height: 100% !important;
+  }
+
+  .faq h3 {
+    font-size: 1rem !important;
+  }
+
 }
 
 @media screen and (max-width: 480px) {
@@ -102,7 +115,7 @@
   }
   .chatbot-window {
     max-width: 20rem;
-  } 
+  }
   .location {
     display: none;
   }
@@ -121,5 +134,14 @@
     display: flex !important;
     flex-direction: column;
     font-size: 1rem !important;
+  }
+
+  .left-notification-plane {
+    width: 100% !important;
+    height: 100vh !important;
+  }
+
+  .right-notification-plane {
+    width: 100% !important;
   }
 }

@@ -11,15 +11,17 @@ import logo from "/images/logo.png?url";
 import clsx from "clsx";
 import "./notifications.css";
 import NotificationButton from "./Notification";
-import { FaRegUser } from "react-icons/fa";
+import { FaMoon, FaRegMoon, FaRegUser, FaSun } from "react-icons/fa";
+import { useTheme } from "../../context/ThemeContext";
 
 const Header = () => {
   const { loggedInUser, logout: customLogout, googleUser } = useAuth();
+  const { toggleTheme, theme } = useTheme(); // Assuming toggleTheme and theme are provided by AuthContext
   const navigate = useNavigate();
   // State management
   const [isNavListOpen, setIsNavListOpen] = useState(false);
   const [showAboutUser, setShowAboutUser] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(true);
+  const [showDropdown, setShowDropdown] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
   const [navExpand, setExpandNav] = useState([]);
   const location = useLocation();
@@ -169,7 +171,7 @@ const Header = () => {
 
   return (
     <header>
-      <div className="flex top-header relative top-[-22px]">
+      <div className="flex top-header relative  dark:bg-gray-800 ">
         {/* Logo */}
         <div className="logo">
           <NavLink to="/">
@@ -188,58 +190,77 @@ const Header = () => {
           </ul>
         </nav>
 
-        {currentUser && <NotificationButton />}
+        <div className="flex items-center justify-between gap-10">
+          <button
+            className={`theme-toggle bg-${
+              theme === "light" ? "white" : "black"
+            }`}
+            onClick={toggleTheme}
+            aria-label={`Switch to ${
+              theme === "light" ? "dark" : "light"
+            } mode`}
+          >
+            {theme === "light" ? (
+              <FaRegMoon size={21} />
+            ) : (
+              <FaSun size={21} color="fb8500" />
+            )}
+          </button>
 
-        {/* google_User Section */}
-        <div ref={dropdownRef} className="button">
-          {currentUser ? (
-            <>
-              <div
-                className="flex items-center space-x-3 cursor-pointer hover:scale-[0.9] transition-ease-in duration-200 "
-                onClick={() => setShowAboutUser((prev) => !prev)}
-              >
-                <span className="inline-block bg-blue-500 text-white rounded-full p-3 text-lg font-bold">
-                  {currentUser?.name?.[0]?.toUpperCase() || "U"}
-                </span>
-              </div>
+          {currentUser && <NotificationButton />}
 
-              {/* Dropdown Menu */}
-              {showAboutUser && (
-                <div className="flex flex-col absolute top-16 right-0 bg-white border border-gray-300 shadow-md p-4 min-w-[200px] rounded-lg transition-all duration-300 ease-in-out">
-                  <Link
-                    to="/profile/userProfile"
-                    className="text-center text-2xl"
-                  >
-                    <i className="fa-solid fa-googleUser">
-                      <FaRegUser />
-                    </i>
-                  </Link>
-                  <p className="text-sm text-gray-700 mb-2">
-                    <strong>Name:</strong> {currentUser?.name || "google_User"}
-                  </p>
-                  <p className="text-sm text-gray-700 mb-2">
-                    <strong>Email:</strong> {currentUser?.email || "N/A"}
-                  </p>
-                  <div className="flex flex-col p-2 gap-3">
-                    <button
-                      onClick={handleLogout}
-                      className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition-colors duration-300"
-                    >
-                      <i className="fa fa-sign-out mr-2"></i> Logout
-                    </button>
-
-                    <Link to="/profile/settings" className="text-center">
-                      Settings
-                    </Link>
-                  </div>
+          {/* google_User Section */}
+          <div ref={dropdownRef} className="button">
+            {currentUser ? (
+              <>
+                <div
+                  className="flex items-center space-x-3 cursor-pointer hover:scale-[0.9] transition-ease-in duration-200 "
+                  onClick={() => setShowAboutUser((prev) => !prev)}
+                >
+                  <span className="inline-block bg-blue-500 text-white rounded-full p-3 text-lg font-bold">
+                    {currentUser?.name?.[0]?.toUpperCase() || "U"}
+                  </span>
                 </div>
-              )}
-            </>
-          ) : (
-            <Link to="/login" className="log-sign relative">
-              <i className="fa fa-sign-in"></i> Sign in
-            </Link>
-          )}
+
+                {/* Dropdown Menu */}
+                {showAboutUser && (
+                  <div className="flex flex-col absolute top-16 right-0 bg-white border border-gray-300 shadow-md p-4 min-w-[200px] rounded-lg transition-all duration-300 ease-in-out z-[999]">
+                    <Link
+                      to="/profile/userProfile"
+                      className="text-center text-2xl"
+                    >
+                      <i className="fa-solid fa-googleUser">
+                        <FaRegUser />
+                      </i>
+                    </Link>
+                    <p className="text-sm text-gray-700 mb-2">
+                      <strong>Name:</strong>{" "}
+                      {currentUser?.name || "google_User"}
+                    </p>
+                    <p className="text-sm text-gray-700 mb-2">
+                      <strong>Email:</strong> {currentUser?.email || "N/A"}
+                    </p>
+                    <div className="flex flex-col p-2 gap-3">
+                      <button
+                        onClick={handleLogout}
+                        className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition-colors duration-300"
+                      >
+                        <i className="fa fa-sign-out mr-2"></i> Logout
+                      </button>
+
+                      <Link to="/profile/settings" className="text-center">
+                        Settings
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </>
+            ) : (
+              <Link to="/login" className="log-sign relative">
+                <i className="fa fa-sign-in"></i> Sign in
+              </Link>
+            )}
+          </div>
         </div>
 
         {/* Toggle Button */}
