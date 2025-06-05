@@ -65,6 +65,15 @@
   .hero {
     height: 120vh;
   }
+
+  .faq{
+    height: 100% !important;
+  }
+
+  .faq h3 {
+    font-size: 1rem !important;
+  }
+
 }
 
 @media screen and (max-width: 480px) {
