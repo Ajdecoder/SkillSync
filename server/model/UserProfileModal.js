@@ -21,7 +21,7 @@ export const candidateProfileSchema = new mongoose.Schema(
       {
         company: { type: String, default: "No company listed" },
         jobRole: { type: String, default: "No role specified" },
-        duration: { type: String, default: "No duration mentioned" },
+        duration: { start: { type: Date }, end: { type: Date } },
         description: { type: String, default: "No description provided" },
       },
     ],

@@ -158,7 +158,7 @@ const ProfileHeader = ({ user, profileCompletion, userRole }) => {
         <div className="flex-1 space-y-2">
           <div className="flex flex-wrap items-center gap-3">
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
-              {user?.recruiterInfo?.name || "John Doe"}
+              {user?.recruiterInfo?.name || user?.name || "John Doe"}
             </h1>
             <span className="px-3 py-1 text-xs sm:text-sm font-medium bg-blue-100 text-blue-800 rounded-full">
               {userRole === "candidate"

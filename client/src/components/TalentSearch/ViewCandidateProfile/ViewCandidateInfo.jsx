@@ -16,7 +16,7 @@ import {
   FiMail,
 } from "react-icons/fi";
 import { useAuth } from "../../context/AuthContext";
-import NotificationToasts  from "../../common/Toast/Toast";
+import NotificationToasts from "../../common/Toast/Toast";
 import HireTalentModal from "../../Requirements/Recruiters/HireTalents/HireTalentModal";
 
 export const ViewCandidateInfo = () => {
@@ -25,14 +25,12 @@ export const ViewCandidateInfo = () => {
   const [recruiterId, setRecruiterId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [bookmark, setBookmark] = useState(false);
-  const { loggedInUser,googleUser } = useAuth();
+  const { loggedInUser, googleUser } = useAuth();
   const [toastMessage, setToastMessage] = useState(null);
   const [toastType, setToastType] = useState("success");
   const [hiretalentModal, setHireTalentModal] = useState(false);
 
   const currentUser = loggedInUser || googleUser;
-  console.log(currentUser);
-
 
   // Fetch Candidate and Recruiter Profile
   useEffect(() => {
@@ -69,6 +67,7 @@ export const ViewCandidateInfo = () => {
             portfolio: data.profile.socialLinks.portfolio || "#",
           },
         });
+        console.log("Candidate Profile Data:", data.profile);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching requirement details:", error);
@@ -237,9 +236,9 @@ export const ViewCandidateInfo = () => {
 
           {/* Experience */}
           <SectionWrapper title="Experience">
-            {candidate?.experience.map((exp, idx) => (
+            {candidate?.experience?.map((exp, idx) => (
               <TimelineItem
-                key={exp._id}
+                key={exp?._id || idx}
                 title={`${exp.jobRole} at ${exp.company}`}
                 subtitle={exp.duration}
                 description={exp.description}
@@ -307,7 +306,7 @@ export const ViewCandidateInfo = () => {
           </motion.button>
           {/* Toast Notifications */}
           {toastMessage && (
-            <NotificationToasts 
+            <NotificationToasts
               message={toastMessage}
               type={toastType}
               autoClose={1500}

@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { blogPosts } from "../data/blogsData";
-import "../blog/Blog.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Spinner } from "../common/loadingSpinner/spinner";
+import {
+  FaArrowLeft,
+  FaArrowRight,
+  FaCalendarAlt,
+  FaUser,
+} from "react-icons/fa";
 
 const Blog = ({ spin, setSpin }) => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -24,14 +29,14 @@ const Blog = ({ spin, setSpin }) => {
   const handlePrev = () => {
     if (currentPage > 0) {
       setCurrentPage(currentPage - 1);
-      window.scrollTo(0, 0); 
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
   const handleNext = () => {
     if (endIndex < blogPosts.length) {
       setCurrentPage(currentPage + 1);
-      window.scrollTo(0, 0); 
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -40,89 +45,93 @@ const Blog = ({ spin, setSpin }) => {
   };
 
   return (
-    <>
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
       {spin ? (
-        <Spinner />
+        <div className="flex justify-center items-center h-screen">
+          <Spinner />
+        </div>
       ) : (
-        <div className="blog-out bg-black">
-          {currentPosts.map((data) => (
-            <div onClick={()=> handleBlogClick(data.id)} key={data.id} className="blog-post cursor-pointer">
-              <img className="rounded-md" src={data.image} alt={data.title} />
-              <h1 className="blog-title font-bold text-white">{data.title}</h1>
-              <div className="">
-                {" "}
-                <h3 className="pt-1 pb-2 text-green-600">By {data.author}</h3>
-                <p className="text-[aliceblue]" >{data.date}</p>
-              </div>  
-              <p className="pt-2 pb-2 text-violet-600 ">
-                {data.excerpt.slice(0, 100)}...
-              </p>
-              <div className="blog-content">
-                <p className="text-[#2fa1ce]" >{data.content.slice(0, 200)}...</p>
-              </div>
-              <div className="read-more-button text-white bg-gradient-to-r">
-              
-              </div>
+        <>
+          <div className="container mx-auto px-4 py-12">
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {currentPosts.map((data) => (
+                <div
+                  key={data.id}
+                  onClick={() => handleBlogClick(data.id)}
+                  className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer group"
+                >
+                  <div className="relative overflow-hidden h-48">
+                    <img
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      src={data.image}
+                      alt={data.title}
+                    />
+                  </div>
+                  <div className="p-6">
+                    <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                      {data.title}
+                    </h2>
+
+                    <div className="flex items-center text-sm text-gray-600 dark:text-gray-300 mb-4">
+                      <div className="flex items-center mr-4">
+                        <FaUser className="mr-1 text-blue-500" />
+                        <span>{data.author}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <FaCalendarAlt className="mr-1 text-blue-500" />
+                        <span>{data.date}</span>
+                      </div>
+                    </div>
+
+                    <p className="text-gray-600 dark:text-gray-300 mb-4">
+                      {data.excerpt.slice(0, 100)}...
+                    </p>
+
+                    <div className="flex items-center text-blue-600 dark:text-blue-400 font-medium">
+                      Read more
+                      <FaArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+
+            {/* Pagination */}
+            <div className="flex justify-center items-center mt-12">
+              <button
+                onClick={handlePrev}
+                disabled={currentPage === 0}
+                className={`flex items-center justify-center w-12 h-12 rounded-full mr-4 transition-colors ${
+                  currentPage === 0
+                    ? "bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed"
+                    : "bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white"
+                }`}
+              >
+                <FaArrowLeft />
+              </button>
+
+              <span className="mx-4 text-gray-700 dark:text-gray-300 font-medium">
+                Page {currentPage + 1} of{" "}
+                {Math.ceil(blogPosts.length / postsPerPage)}
+              </span>
+
+              <button
+                onClick={handleNext}
+                disabled={endIndex >= blogPosts.length}
+                className={`flex items-center justify-center w-12 h-12 rounded-full ml-4 transition-colors ${
+                  endIndex >= blogPosts.length
+                    ? "bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed"
+                    : "bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white"
+                }`}
+              >
+                <FaArrowRight />
+              </button>
+            </div>
+          </div>
+        </>
       )}
-
-      {/* Pagination buttons */}
-      {!spin && (
-        <div className="navigation-btn flex p-7 bg-black">
-          <button
-            onClick={handlePrev}
-            className={`${
-              currentPage === 0
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-blue-500 text-white hover:bg-gray-600"
-            } px-4 py-2 rounded-md font-semibold border border-red-500 transition-all duration-300`}
-            disabled={currentPage === 0}
-          >
-            <svg
-              className="w-6 h-6 text-gray-800 dark:text-white"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 10 16"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M7.293 1.707 1.707 7.293a1 1 0 0 0 0 1.414l5.586 5.586A1 1 0 0 0 9 13.586V2.414a1 1 0 0 0-1.707-.707Z"
-              />
-            </svg>
-          </button>
-
-          <span style={{ margin: "auto" , color: "white" }}>
-            {currentPage + 1} of {Math.ceil(blogPosts.length / postsPerPage)}
-          </span>
-
-          <button
-            onClick={handleNext}
-            className={`${
-              endIndex >= blogPosts.length
-                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-blue-500 text-white hover:bg-green-600"
-            } px-4 py-2 rounded-md font-semibold border border-blue-500 transition-all duration-300 ml-4`}
-            disabled={endIndex >= blogPosts.length}
-          >
-            <svg
-              className="w-6 h-6 text-gray-800 dark:text-white"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 10 16"
-            >
-              <path d="M3.414 1A2 2 0 0 0 0 2.414v11.172A2 2 0 0 0 3.414 15L9 9.414a2 2 0 0 0 0-2.828L3.414 1Z" />
-            </svg>
-          </button>
-        </div>
-      )}
-    </>
+    </div>
   );
 };
 

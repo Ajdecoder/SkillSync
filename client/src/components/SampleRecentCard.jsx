@@ -14,7 +14,7 @@ export const SampleRecentCard = () => {
   };
 
   return (
-    <div className=" p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
+    <div className=" p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 m-2">
       {dummyRecentCards.map((card, index) => {
         const {
           company_name,

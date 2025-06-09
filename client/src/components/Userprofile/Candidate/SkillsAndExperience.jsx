@@ -22,7 +22,18 @@ export const SkillsAndExperience = ({
 
     if (idx !== null) {
       const updatedSection = [...updatedData[section]];
-      updatedSection[idx][field] = value;
+      if (field === "startDate" || field === "endDate") {
+        // Handle nested duration object for experience
+        updatedSection[idx] = {
+          ...updatedSection[idx],
+          duration: {
+            ...updatedSection[idx].duration,
+            [field === "startDate" ? "start" : "end"]: value,
+          },
+        };
+      } else {
+        updatedSection[idx][field] = value;
+      }
       setUpdatedData({ ...updatedData, [section]: updatedSection });
     } else {
       setUpdatedData({ ...updatedData, [section]: value });
@@ -32,7 +43,7 @@ export const SkillsAndExperience = ({
   const handleAddEntry = (section) => {
     const newEntry =
       section === "experience"
-        ? { jobRole: "", company: "", duration: "", description: "" }
+        ? { jobRole: "", company: "", duration: { start: "", end: "" }, description: "" } // Initialize duration
         : section === "education"
         ? { degree: "", institution: "", year: "" }
         : null;
@@ -133,12 +144,31 @@ export const SkillsAndExperience = ({
                         <span className="text-blue-600">
                           {exp.company || "Unknown Company"}
                         </span>
+                        (
+                        <>
+                          {exp?.duration?.start
+                            ? `${new Date(
+                                exp.duration.start
+                              ).toLocaleDateString("en-IN", {
+                                year: "numeric",
+                                month: "short",
+                              })}`
+                            : "Start Date N/A"}{" "}
+                          -{" "}
+                          {exp?.duration?.end
+                            ? `${new Date(exp.duration.end).toLocaleDateString(
+                                "en-IN",
+                                {
+                                  year: "numeric",
+                                  month: "short",
+                                }
+                              )}`
+                            : "Present"}
+                        </>
+                        )
                       </h4>
-                      {exp.duration && (
-                        <p className="text-sm text-gray-500 mt-1">
-                          📅 {exp.duration}
-                        </p>
-                      )}
+                      {console.log(profileData)}
+
                       {exp.description && (
                         <p className="mt-2 text-gray-600">{exp.description}</p>
                       )}
@@ -192,7 +222,7 @@ export const SkillsAndExperience = ({
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-           <FaEdit/>
+            <FaEdit />
           </motion.button>
         </section>
       ) : (
@@ -266,19 +296,52 @@ export const SkillsAndExperience = ({
                           )
                         }
                       />
-                      <input
-                        className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-300"
-                        value={exp.duration}
-                        placeholder="Duration (e.g., 2020 - Present)"
-                        onChange={(e) =>
-                          handleInputChange(
-                            "experience",
-                            "duration",
-                            e.target.value,
-                            idx
-                          )
-                        }
-                      />
+
+                      {/* Date inputs in responsive grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block mb-1 text-sm text-gray-500">
+                            Start Date
+                          </label>
+                          <input
+                            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-300"
+                            type="date"
+                            // Read from exp.duration.start
+                            value={exp?.duration?.start || ""}
+                            placeholder="Start Date"
+                            onChange={(e) =>
+                              handleInputChange(
+                                "experience",
+                                "startDate", // Use "startDate" to trigger the special handling
+                                e.target.value,
+                                idx
+                              )
+                            }
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block mb-1 text-sm text-gray-500">
+                            End Date
+                          </label>
+                          <input
+                            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-300"
+                            type="date"
+                            // Read from exp.duration.end
+                            value={exp?.duration?.end || ""}
+                            placeholder="End Date"
+                            onChange={(e) =>
+                              handleInputChange(
+                                "experience",
+                                "endDate", // Use "endDate" to trigger the special handling
+                                e.target.value,
+                                idx
+                              )
+                            }
+                          />
+                        </div>
+                      </div>
+
                       <input
                         className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-300"
                         value={exp.description}
@@ -293,11 +356,13 @@ export const SkillsAndExperience = ({
                         }
                       />
                     </div>
-                    <div className="flex justify-between items-center">
+
+                    <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
                       <button
                         className="text-red-500 hover:text-red-700 flex items-center gap-1"
                         onClick={() => handleRemoveEntry("experience", idx)}
                       >
+                        {/* SVG Icon */}
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="h-4 w-4"
@@ -312,6 +377,7 @@ export const SkillsAndExperience = ({
                         </svg>
                         Remove
                       </button>
+
                       <motion.button
                         className="px-6 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
                         onClick={() => handleSaveSection("experience")}
@@ -324,6 +390,7 @@ export const SkillsAndExperience = ({
                     </div>
                   </div>
                 ))}
+
                 <button
                   className="w-full py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors flex items-center justify-center gap-2"
                   onClick={() => handleAddEntry("experience")}

@@ -117,11 +117,6 @@
     margin-left: 33px;
   }
 
-  .dropdown-expand,
-  ul > li {
-    margin-top: 13px;
-  }
-
   .top-header {
     justify-content: space-around;
     position: relative;
@@ -151,6 +146,7 @@
     padding-top: 2rem;
     font-size: x-large;
     z-index: 100;
+    left: 5rem;
   }
   header li a {
     display: inline-block;
@@ -211,10 +207,7 @@
     font-size: 12px !important;
   }
 
-  .log-sign {
-    bottom: 0.4rem !important;
-  }
-    .profile-tabs {
+  .profile-tabs {
     display: flex !important;
     flex-direction: column !important;
   }
@@ -223,13 +216,23 @@
     display: block !important;
   }
 
+  .logo {
+    display: none;
+  }
+
+  .subnav_logo {
+    display: block;
+    text-align: center;
+  }
+
+  .nav-group {
+    display: flex;
+    position: absolute;
+    right: 10px;
+  }
 }
 
 @media screen and (max-width: 955px) {
-  header img {
-    width: 5rem;
-  }
-
   nav {
     font-size: 0.8rem;
   }

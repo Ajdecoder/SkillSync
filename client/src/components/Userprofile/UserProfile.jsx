@@ -132,13 +132,14 @@ export const UserProfile = () => {
     localStorage.setItem("darkMode", JSON.stringify(darkMode));
   }, [emailNotifications, darkMode]);
 
-  if (loading) return <Spinner />;
-  if (error) return <div className="error-message">Error: {error.message}</div>;
-  if (!profileData) return <div>No profile data available</div>;
+ if (loading) return <Spinner />;
+if (error) return <div className="error-message">Error: {error.message}</div>;
+if (!profileData) return null; // Or just a placeholder
+
 
   return (
     <div>
-      <div className="profile-page-container p-6 bg-gray-100 min-h-screen">
+      <div className="profile-page-container p-6 bg-gray-100 dark:bg-gray-900 min-h-screen">
         <ProfileHeader
           user={profileData}
           profileCompletion={profileCompletion}
