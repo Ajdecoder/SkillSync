@@ -77,9 +77,7 @@
 }
 
 @media screen and (max-width: 480px) {
-  header img {
-    width: 8.8rem !important;
-  }
+ 
   header .small {
     font-size: small !important;
   }
@@ -92,9 +90,6 @@
   }
   .blog-out {
     grid-template-columns: 1fr !important;
-  }
-  .log-sign {
-    bottom: -8px !important;
   }
 
   .chatbot-toogle-btn,

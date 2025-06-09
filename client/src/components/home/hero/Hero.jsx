@@ -2,17 +2,17 @@ import React, { useState, useEffect, useMemo } from "react";
 import Heading from "../../common/Heading";
 import "./hero.css";
 import { useAuth } from "../../context/AuthContext";
-import axios from "axios";
-import { PORT_CLIENT } from "../../../commonClient";
 import Recent from "../recent/Recent";
 import { filterData } from "../..//common/constants";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { CandidatesFilters } from "../../common/Filters/TalentsFilter";
 import { OpportunitiesFilter } from "../../common/Filters/OpportunitiesFilter";
+import { FaSearch, FaUserTie, FaBriefcase } from "react-icons/fa";
 
 const Hero = () => {
   const { loggedInUser, googleUser } = useAuth();
+  const currentUser = loggedInUser || googleUser;
 
   const [programmers, setProgrammers] = useState([]);
   const [filterCategory, setFilterCategory] = useState({
@@ -47,16 +47,16 @@ const Hero = () => {
 
   return (
     <>
-      {loggedInUser || googleUser ? (
-        <section className="hero ">
+      {currentUser ? (
+        <section className="hero dark:bg-gray-900">
           <div className="hero-image">
             <img
-              className="opacity-[0.0]"
+              className="opacity-[0.0] dark:opacity-0"
               src="/images/banner.jpg"
               alt="Hero"
             />
           </div>
-          <div className="hero-container ">
+          <div className="hero-container">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -69,13 +69,12 @@ const Hero = () => {
             </motion.div>
 
             <motion.form
-              className="hero-form m-auto mt-6 dark:bg-gray-800 dark:text-white bg-white p-6 rounded-lg shadow-lg max-w-3xl"
+              className="hero-form m-auto mt-6 bg-white dark:bg-gray-800 text-gray-800 dark:text-white p-6 rounded-lg shadow-lg max-w-3xl border border-gray-200 dark:border-gray-700"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1 }}
             >
-              {loggedInUser?.role === "recruiter" ||
-              googleUser?.role === "recruiter" ? (
+              {currentUser?.role === "recruiter" ? (
                 <CandidatesFilters
                   filterCategory={filterCategory}
                   setFilterCategory={setFilterCategory}
@@ -96,8 +95,8 @@ const Hero = () => {
               )}
 
               <motion.button
-                className={`btn1 bg-[#663399] p-[1rem] mb-0 hover:bg-black text-white ${
-                  isSearching ? "opacity-50 cursor-not-allowed" : ""
+                className={`flex items-center justify-center gap-2 w-full py-3 px-4 bg-purple-600 dark:bg-purple-700 hover:bg-purple-700 dark:hover:bg-purple-800 text-white font-medium rounded-lg shadow-md transition-colors duration-300 ${
+                  isSearching ? "opacity-70 cursor-not-allowed" : ""
                 }`}
                 type="button"
                 onClick={handleClick}
@@ -110,7 +109,7 @@ const Hero = () => {
                   "Searching..."
                 ) : (
                   <>
-                    <i className="fa fa-search"></i> Search
+                    <FaSearch className="inline" /> Search
                   </>
                 )}
               </motion.button>
@@ -118,9 +117,9 @@ const Hero = () => {
           </div>
         </section>
       ) : (
-        <section className="hero-LoginPromoPage bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 text-white py-16">
+        <section className="hero-LoginPromoPage bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 dark:from-indigo-800 dark:via-purple-800 dark:to-blue-800 text-white py-16">
           <motion.div
-            className="hero-container mx-auto max-w-4xl text-center space-y-6"
+            className="hero-container mx-auto max-w-4xl text-center space-y-6 px-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
@@ -129,28 +128,28 @@ const Hero = () => {
               title="Search Your Way"
               subtitle="Whether you're looking to hire top talent or find your next job, we have the right tools to connect you with opportunities."
             />
-            <p className="text-lg md:text-xl font-light">
+            <p className="text-lg md:text-xl font-light text-white/90 dark:text-white/80">
               Discover skilled professionals or explore job opportunities that
               align with your expertise. Start your journey today!
             </p>
 
             <motion.div
-              className="mt-8 flex justify-center gap-4"
+              className="mt-8 flex flex-col sm:flex-row justify-center gap-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2, duration: 1 }}
             >
               <Link
                 to="/requirements/search"
-                className="bg-white text-indigo-600 hover:text-purple-600 font-semibold py-3 px-6 rounded-lg shadow-lg transition-all duration-300"
+                className="flex items-center justify-center gap-2 bg-white text-indigo-600 hover:text-purple-600 dark:hover:text-purple-700 font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
               >
-                Start Your Search
+                <FaUserTie /> Start Your Search
               </Link>
               <Link
                 to="/requirements/add-opportunity"
-                className="bg-transparent border-2 border-white text-white font-semibold py-3 px-6 rounded-lg hover:bg-white hover:text-indigo-600 transition-all duration-300"
+                className="flex items-center justify-center gap-2 bg-transparent border-2 border-white text-white font-semibold py-3 px-6 rounded-lg hover:bg-white hover:text-indigo-600 dark:hover:text-indigo-700 transition-all duration-300"
               >
-                Post a Job
+                <FaBriefcase /> Post a Job
               </Link>
             </motion.div>
           </motion.div>

@@ -1,15 +1,11 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "../context/AuthContext";
-import { PORT_CLIENT } from "../../commonClient";
 import { GoogleAuth } from "../Oauth/Oauth";
-import bgImage from '/images/logingPage/bg.png'
 import { loginCandidate } from "../../services/api";
-import NotificationToasts  from "../common/Toast/Toast";
-
+import NotificationToasts from "../common/Toast/Toast";
+import { FaEye, FaEyeSlash, FaUserTie, FaSignInAlt } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 
 export const LoginCandidate = () => {
   const navigate = useNavigate();
@@ -21,7 +17,7 @@ export const LoginCandidate = () => {
   });
 
   const [showPass, setShowPass] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
   const [toastType, setToastType] = useState("success");
 
@@ -39,108 +35,139 @@ export const LoginCandidate = () => {
 
   const loginUser = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
-      const res = await loginCandidate(user)
-      console.log("Logging in", res.data);
-
+      const res = await loginCandidate(user);
       loginWithJWT(res.data);
 
       if (res.status === 200) {
-        const token = res.data.token;
-        localStorage.setItem("jwttoken", token);
-
+        localStorage.setItem("jwttoken", res.data.token);
         setToastMessage("Login successful");
         setToastType("success");
-
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
+        setTimeout(() => navigate("/"), 2000);
       }
     } catch (error) {
       if (error.response) {
         if (error.response.status === 404) {
-          setToastMessage("User not registered")
-          setToastType("error");
-          
+          setToastMessage("User not registered");
         } else {
-          console.log(error);
-          setToastMessage(`${error.response.data.errors[0].message}`)
-          console.log("toastMessage", toastMessage);
-          setToastType('error')
+          setToastMessage(error.response.data.errors[0]?.message || "Login failed");
         }
+        setToastType("error");
+      } else {
+        setToastMessage("Network error. Please try again.");
+        setToastType("error");
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900 m-4">
       {/* Left Side - Login Form */}
-      <div className="w-full max-w-md p-8 m-auto bg-white rounded-lg shadow-lg">
-        <h1 className="text-3xl font-semibold text-gray-800 text-center mb-6">
-          Candidate Login
-        </h1>
-        <form onSubmit={loginUser}>
+      <div className="w-full max-w-md p-8 m-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg dark:shadow-gray-700/50">
+        <div className="text-center mb-8">
+          <FaUserTie className="mx-auto text-4xl text-blue-600 dark:text-blue-400 mb-4" />
+          <h1 className="text-3xl font-semibold text-gray-800 dark:text-white">
+            Candidate Login
+          </h1>
+          <p className="text-gray-600 dark:text-gray-300 mt-2">
+            Sign in to access your account
+          </p>
+        </div>
+
+        <form onSubmit={loginUser} className="space-y-6">
           <div className="space-y-4">
-            <input
-              type="email"
-              name="email"
-              value={user.email}
-              onChange={handleChange}
-              placeholder="Enter your email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
-              required
-            />
-            <div className="relative">
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-600 mb-1">
+                Email
+              </label>
               <input
-                type={showPass ? "text" : "password"}
-                name="password"
-                value={user.password}
+                type="email"
+                id="email"
+                name="email"
+                value={user.email}
                 onChange={handleChange}
-                placeholder="Enter your password"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+                placeholder="Enter your email"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 bg-white dark:bg-gray-700 text-gray-800 dark:text-white transition duration-200"
                 required
               />
-              <span
-                className="absolute right-4 top-2.5 text-blue-500 cursor-pointer"
-                onClick={togglePasswordVisibility}
-              >
-                {showPass ? (
-                  <i className="fa-solid fa-eye"></i>
-                ) : (
-                  <i className="fa-solid fa-eye-slash"></i>
-                )}
-              </span>
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-600 mb-1">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPass ? "text" : "password"}
+                  id="password"
+                  name="password"
+                  value={user.password}
+                  onChange={handleChange}
+                  placeholder="Enter your password"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 bg-white dark:bg-gray-700 text-gray-800 dark:text-white transition duration-200"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  className="absolute right-3 top-4 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-xl"
+                >
+                  {showPass ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
             </div>
           </div>
-          <div className="mt-6 flex justify-between items-center">
-            <button
-              type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200"
-            >
-              Login
-            </button>
-          </div>
-          <div className="mt-4 text-center text-gray-500">
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className={`w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white py-3 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 ${
+              isLoading ? "opacity-70 cursor-not-allowed" : ""
+            }`}
+          >
+            {isLoading ? (
+              "Logging in..."
+            ) : (
+              <>
+                <FaSignInAlt /> Login
+              </>
+            )}
+          </button>
+
+          <div className="text-center text-gray-600 dark:text-gray-400">
             No account?{" "}
             <button
+              type="button"
               onClick={() => navigate("/signup/candidate")}
-              className="text-blue-600 hover:underline focus:outline-none"
+              className="text-blue-600 dark:text-blue-400 hover:underline focus:outline-none"
             >
-              Signup Now
+              Sign up Now
             </button>
           </div>
-          <div className="flex items-center mt-6">
-            <div className="w-full h-px bg-gray-300"></div>
-            <span className="px-3 text-gray-500">or</span>
-            <div className="w-full h-px bg-gray-300"></div>
+
+          <div className="flex items-center my-6">
+            <div className="flex-1 h-px bg-gray-300 dark:bg-gray-600"></div>
+            <span className="px-3 text-gray-500 dark:text-gray-400">or</span>
+            <div className="flex-1 h-px bg-gray-300 dark:bg-gray-600"></div>
           </div>
-          <div className="flex justify-center mt-4" >
-            <GoogleAuth role={'candidate'} />
+
+          <div className="flex justify-center">
+            <GoogleAuth 
+              role="candidate" 
+              className="flex items-center justify-center gap-2 w-full border border-gray-300 dark:border-gray-600 py-2 px-4 rounded-md hover:bg-gray-50 dark:hover:bg-gray-700 transition duration-200"
+            >
+              <FcGoogle className="text-xl" />
+              <span>Continue with Google</span>
+            </GoogleAuth>
           </div>
         </form>
+
         {toastMessage && (
-          <NotificationToasts 
+          <NotificationToasts
             message={toastMessage}
             type={toastType}
             autoClose={1500}
@@ -151,7 +178,7 @@ export const LoginCandidate = () => {
       </div>
 
       {/* Right Side - Image */}
-      <div className="hidden md:block w-full md:w-1/2 bg-cover bg-center" 
+      <div className="hidden md:block w-full md:w-1/2 bg-cover bg-center rounded-xl"
            style={{
              backgroundImage: `url('https://static.vecteezy.com/system/resources/thumbnails/011/432/528/small/enter-login-and-password-registration-page-on-screen-sign-in-to-your-account-creative-metaphor-login-page-mobile-app-with-user-page-flat-illustration-vector.jpg')`
            }}>

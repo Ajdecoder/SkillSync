@@ -67,9 +67,7 @@ form h4 {
 }
 
 .hero-form {
-  display: flex;
   margin: 4rem 2px 0 2px;
-  align-items: center;
 }
 
 select {

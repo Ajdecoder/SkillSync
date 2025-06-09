@@ -35,7 +35,9 @@ export const AuthProvider = ({ children }) => {
       }
     }
 
-    setLoading(false);
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
   }, []);
 
   // Function to handle login with JWT

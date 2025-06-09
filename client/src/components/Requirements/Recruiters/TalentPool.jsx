@@ -21,6 +21,8 @@ const TalentPool = () => {
     industry: "",
   });
 
+  console.log("FilteredCandidates", filteredCandidates);
+
   useEffect(() => {
     fetchCandidates();
   }, []);
@@ -59,13 +61,29 @@ const TalentPool = () => {
     }
 
     if (filters.experience) {
-      filtered = filtered.filter((candidate) =>
-        filters.experience === "fresher"
-          ? candidate.experience === 0
-          : filters.experience === "mid"
-          ? candidate.experience >= 1 && candidate.experience <= 3
-          : candidate.experience > 3
-      );
+      filtered = filtered.filter((candidate) => {
+        const experiences = candidate.experience || [];
+
+        let totalMonths = 0;
+
+        experiences.forEach((exp) => {
+          if (exp.startDate) {
+            const start = new Date(exp.startDate);
+            const end = exp.endDate ? new Date(exp.endDate) : new Date(); // If still working, assume current date
+
+            const months =
+              (end.getFullYear() - start.getFullYear()) * 12 +
+              (end.getMonth() - start.getMonth());
+
+            if (months > 0) totalMonths += months;
+          }
+        });
+
+        const totalYears = totalMonths / 12;
+        const filterExp = parseFloat(filters.experience);
+
+        return Math.floor(totalYears) === filterExp;
+      });
     }
 
     if (filters.city) {
@@ -77,7 +95,8 @@ const TalentPool = () => {
     if (filters.state) {
       filtered = filtered.filter(
         (candidate) =>
-          candidate.location?.state?.toLowerCase() === filters.state.toLowerCase()
+          candidate.location?.state?.toLowerCase() ===
+          filters.state.toLowerCase()
       );
     }
     if (filters.country) {
@@ -121,8 +140,10 @@ const TalentPool = () => {
   };
 
   return (
-    <div className="p-8 max-w-7xl mx-auto dark:bg-gray-900 dark:text-gray-100">
-      <h1 className="text-3xl font-bold mb-8 text-gray-800 dark:text-gray-100">Talent Pool</h1>
+    <div className="p-8 max-w-7xl mx-auto dark:bg-gray-900 dark:text-gray-100 m-[1rem] rounded-xl">
+      <h1 className="text-3xl font-bold mb-8 text-gray-800 dark:text-gray-100">
+        Talent Pool
+      </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
         <input
@@ -146,13 +167,19 @@ const TalentPool = () => {
 
         <select
           value={filters.experience}
-          onChange={(e) => setFilters({ ...filters, experience: e.target.value })}
+          onChange={(e) =>
+            setFilters({ ...filters, experience: e.target.value })
+          }
           className="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 transition-all dark:bg-gray-800 dark:border-gray-600"
         >
-          <option value="">Experience Level</option>
-          <option value="fresher">Fresher</option>
-          <option value="mid">1-3 Years</option>
-          <option value="senior">3+ Years</option>
+          <option value="">Experience (Years)</option>
+          <option value="0">0 years (Fresher)</option>
+          <option value="1">1 year</option>
+          <option value="2">2 years</option>
+          <option value="3">3 years</option>
+          <option value="4">4 years</option>
+          <option value="5">5 years</option>
+          <option value="6">6+ years</option>
         </select>
 
         <select
@@ -177,7 +204,7 @@ const TalentPool = () => {
             >
               <div className="flex items-center gap-4 mb-4">
                 <img
-                  src={candidate.profilePicture || '/default-avatar.png'}
+                  src={candidate.profilePicture || "/default-avatar.png"}
                   alt={candidate.name}
                   className="w-16 h-16 rounded-full object-cover border-2 border-white shadow"
                 />
@@ -193,14 +220,14 @@ const TalentPool = () => {
                       {candidate.experience?.length || 0} yrs exp
                     </span>
                     <span className="text-xs text-gray-500 dark:text-gray-400">
-                      {candidate.location?.city || 'Remote'}
+                      {candidate.location?.city || "Remote"}
                     </span>
                   </div>
                 </div>
               </div>
 
               <div className="flex flex-wrap gap-2 mb-4">
-                {candidate.skills.map((skill) => (
+                {candidate?.skills?.map((skill) => (
                   <span
                     key={skill}
                     className="bg-blue-100 text-blue-800 px-3 py-1 text-xs rounded-full"
@@ -212,13 +239,18 @@ const TalentPool = () => {
 
               <div className="space-y-2 mb-4">
                 <div className="flex items-center gap-2 text-sm">
-                  <span className="text-gray-500 dark:text-gray-300">Salary:</span>
+                  <span className="text-gray-500 dark:text-gray-300">
+                    Salary:
+                  </span>
                   <span className="font-medium text-green-700 dark:text-green-400">
-                    ₹{candidate.preferences.salaryRange.min} - ₹{candidate.preferences.salaryRange.max}
+                    ₹{candidate.preferences.salaryRange.min} - ₹
+                    {candidate.preferences.salaryRange.max}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
-                  <span className="text-gray-500 dark:text-gray-300">Job Type:</span>
+                  <span className="text-gray-500 dark:text-gray-300">
+                    Job Type:
+                  </span>
                   <span className="font-medium text-purple-700 dark:text-purple-400">
                     {candidate.preferences.jobType}
                   </span>
@@ -282,18 +314,20 @@ const TalentPool = () => {
               No candidates found matching your criteria
             </div>
             <button
-              onClick={() => setFilters({
-                search: "",
-                skill: "",
-                experience: "",
-                city: "",
-                state: "",
-                country: "",
-                minSalary: "",
-                maxSalary: "",
-                jobType: "",
-                industry: "",
-              })}
+              onClick={() =>
+                setFilters({
+                  search: "",
+                  skill: "",
+                  experience: "",
+                  city: "",
+                  state: "",
+                  country: "",
+                  minSalary: "",
+                  maxSalary: "",
+                  jobType: "",
+                  industry: "",
+                })
+              }
               className="text-blue-600 hover:text-blue-700 text-sm dark:hover:text-blue-400"
             >
               Clear all filters

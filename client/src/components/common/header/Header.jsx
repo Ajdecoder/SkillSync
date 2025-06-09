@@ -7,7 +7,8 @@ import {
 } from "../..//common/constants";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import logo from "/images/logo.png?url";
+import logo from "/images/logo.png";
+import subnav_logo from "/images/subnav_logo.png";
 import clsx from "clsx";
 import "./notifications.css";
 import NotificationButton from "./Notification";
@@ -16,26 +17,20 @@ import { useTheme } from "../../context/ThemeContext";
 
 const Header = () => {
   const { loggedInUser, logout: customLogout, googleUser } = useAuth();
-  const { toggleTheme, theme } = useTheme(); // Assuming toggleTheme and theme are provided by AuthContext
+  const { toggleTheme, theme } = useTheme();
   const navigate = useNavigate();
-  // State management
   const [isNavListOpen, setIsNavListOpen] = useState(false);
   const [showAboutUser, setShowAboutUser] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
   const [navExpand, setExpandNav] = useState([]);
   const location = useLocation();
-  const dropdownRef = useRef(null); // Ref for googleUser dropdown
-  const dropdownExpandRef = useRef(null); // Ref for Requirement dropdown
-  const headerRef = useRef(null); // Ref for header
+  const dropdownRef = useRef(null);
+  const dropdownExpandRef = useRef(null);
+  const headerRef = useRef(null);
 
-  // Determine current googleUser
   const currentUser = loggedInUser || googleUser;
 
-  // console.log("Auth0currentUser",googleUser)
-  // console.log("CustomAuth",loggedInUser)
-
-  // Set navigation based on googleUser role
   useEffect(() => {
     if (currentUser) {
       setExpandNav(
@@ -69,7 +64,6 @@ const Header = () => {
     }
   }, [currentUser]);
 
-  // Handle screen resizing
   useEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth <= 768);
@@ -80,7 +74,6 @@ const Header = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Handle logout
   const handleLogout = () => {
     if (currentUser) {
       customLogout();
@@ -89,7 +82,6 @@ const Header = () => {
     }
   };
 
-  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -109,7 +101,6 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isSmallScreen]);
 
-  // Render navigation items
   const navList = nav.map((item, index) => (
     <li
       onClick={() => setIsNavListOpen(false)}
@@ -129,8 +120,9 @@ const Header = () => {
       <NavLink
         to={item.path}
         className={({ isActive }) =>
-          clsx("reqli text-slate-500", {
-            active: isActive && !location.pathname.includes("requirement"),
+          clsx("reqli text-slate-500 hover:text-slate-700 dark:text-gray-300 dark:hover:text-white", {
+            "active text-blue-600 dark:text-blue-400": 
+              isActive && !location.pathname.includes("requirement"),
           })
         }
       >
@@ -145,19 +137,22 @@ const Header = () => {
             hidden: !isSmallScreen && !showDropdown,
           })}
         >
-          <ul className="dropdown">
+          <ul className="dropdown bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
             {navExpand.map((subItem, subIndex) => (
               <li key={subIndex}>
                 <NavLink
                   to={subItem.path}
                   className={({ isActive }) =>
-                    clsx("inline-block w-full px-2 py-1", isActive && "active")
+                    clsx(
+                      "inline-block w-full p-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 ml-0",
+                      isActive && "active bg-gray-100 dark:bg-gray-700"
+                    )
                   }
                 >
                   <span className="inline-block align-middle mr-2">
                     {!isNavListOpen && subItem.icon}
                   </span>
-                  <span className="inline-block align-middle">
+                  <span className="inline-block align-middle m-0">
                     {subItem.text}
                   </span>
                 </NavLink>
@@ -170,30 +165,46 @@ const Header = () => {
   ));
 
   return (
-    <header>
-      <div className="flex top-header relative  dark:bg-gray-800 ">
+    <header className="border-[1.2px] rounded-lg dark:border-gray-700 bg-white dark:bg-gray-900 mt-1 mb-1">
+      <div className="flex top-header relative border-[1.2px] rounded-lg dark:border-gray-700 bg-white dark:bg-gray-900 h-20">
         {/* Logo */}
         <div className="logo">
           <NavLink to="/">
-            <img src={logo} alt="Logo" />
+            <img src={logo} alt="Logo" className="dark:filter dark:invert" />
           </NavLink>
         </div>
 
         {/* Navigation */}
-        <nav ref={headerRef} className="nav">
+        <nav ref={headerRef} className="relative">
+          {/* Dark Background Overlay for Mobile */}
+          {isNavListOpen && isSmallScreen && (
+            <div
+              className="fixed inset-0 bg-black/60 dark:bg-black/80 z-30"
+              onClick={() => setIsNavListOpen(false)}
+            ></div>
+          )}
+
           <ul
             className={clsx(
-              isNavListOpen ? "small overflow-scroll z-40" : "flex"
+              isNavListOpen
+                ? "small overflow-scroll z-40 rounded-t-[5%] bg-white dark:bg-gray-900"
+                : "flex"
             )}
           >
+            <img
+              className="subnav_logo hidden w-36 m-[30px]"
+              src={subnav_logo}
+              alt=""
+            />
             {navList}
           </ul>
         </nav>
 
-        <div className="flex items-center justify-between gap-10">
+        <div className="flex items-center justify-between gap-10 nav-group">
+          {/* Theme Toggle */}
           <button
-            className={`theme-toggle bg-${
-              theme === "light" ? "white" : "black"
+            className={`theme-toggle p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${
+              theme === "light" ? "text-gray-700" : "text-yellow-400"
             }`}
             onClick={toggleTheme}
             aria-label={`Switch to ${
@@ -203,18 +214,18 @@ const Header = () => {
             {theme === "light" ? (
               <FaRegMoon size={21} />
             ) : (
-              <FaSun size={21} color="fb8500" />
+              <FaSun size={21} />
             )}
           </button>
 
           {currentUser && <NotificationButton />}
 
-          {/* google_User Section */}
+          {/* User Section */}
           <div ref={dropdownRef} className="button">
             {currentUser ? (
               <>
                 <div
-                  className="flex items-center space-x-3 cursor-pointer hover:scale-[0.9] transition-ease-in duration-200 "
+                  className="flex items-center space-x-3 cursor-pointer hover:scale-[0.9] transition-ease-in duration-200"
                   onClick={() => setShowAboutUser((prev) => !prev)}
                 >
                   <span className="inline-block bg-blue-500 text-white rounded-full p-3 text-lg font-bold">
@@ -222,33 +233,36 @@ const Header = () => {
                   </span>
                 </div>
 
-                {/* Dropdown Menu */}
+                {/* User Dropdown Menu */}
                 {showAboutUser && (
-                  <div className="flex flex-col absolute top-16 right-0 bg-white border border-gray-300 shadow-md p-4 min-w-[200px] rounded-lg transition-all duration-300 ease-in-out z-[999]">
+                  <div className="flex flex-col absolute top-16 right-0 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 shadow-md p-4 min-w-[200px] rounded-lg transition-all duration-300 ease-in-out z-[999]">
                     <Link
                       to="/profile/userProfile"
-                      className="text-center text-2xl"
+                      className="text-center text-2xl text-gray-700 dark:text-gray-300"
                     >
                       <i className="fa-solid fa-googleUser">
                         <FaRegUser />
                       </i>
                     </Link>
-                    <p className="text-sm text-gray-700 mb-2">
+                    <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
                       <strong>Name:</strong>{" "}
-                      {currentUser?.name || "google_User"}
+                      {currentUser?.name || "User"}
                     </p>
-                    <p className="text-sm text-gray-700 mb-2">
+                    <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
                       <strong>Email:</strong> {currentUser?.email || "N/A"}
                     </p>
                     <div className="flex flex-col p-2 gap-3">
                       <button
                         onClick={handleLogout}
-                        className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 transition-colors duration-300"
+                        className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg transition-colors duration-300"
                       >
                         <i className="fa fa-sign-out mr-2"></i> Logout
                       </button>
 
-                      <Link to="/profile/settings" className="text-center">
+                      <Link 
+                        to="/profile/settings" 
+                        className="text-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                      >
                         Settings
                       </Link>
                     </div>
@@ -256,21 +270,24 @@ const Header = () => {
                 )}
               </>
             ) : (
-              <Link to="/login" className="log-sign relative">
-                <i className="fa fa-sign-in"></i> Sign in
+              <Link 
+                to="/login" 
+                className="log-sign relative text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
+              >
+                <i className="fa fa-sign-in mr-2"></i> Sign in
               </Link>
             )}
           </div>
-        </div>
-
-        {/* Toggle Button */}
-        <div className="toggle">
-          <button
-            onClick={() => setIsNavListOpen(!isNavListOpen)}
-            className="text-3xl"
-          >
-            <i className={isNavListOpen ? "fa fa-times" : "fa fa-bars"}></i>
-          </button>
+          
+          {/* Mobile Toggle Button */}
+          <div className="toggle">
+            <button
+              onClick={() => setIsNavListOpen(!isNavListOpen)}
+              className="text-3xl text-gray-700 dark:text-gray-300"
+            >
+              <i className={!isNavListOpen && "fa fa-bars"}></i>
+            </button>
+          </div>
         </div>
       </div>
     </header>

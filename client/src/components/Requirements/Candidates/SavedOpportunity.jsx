@@ -83,6 +83,7 @@ export const SavedOpportunity = () => {
 
   return (
     <div>
+      
       {opportunities ? (
         <OpportunitiesFilter
           filterCategory={filterCategory}
