@@ -16,6 +16,7 @@ const ProfileHeader = ({ user, profileCompletion, userRole }) => {
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    console.log("Selected file:", file);
     if (!file) return;
 
     // File validation
@@ -31,6 +32,7 @@ const ProfileHeader = ({ user, profileCompletion, userRole }) => {
 
     setUploadError(null);
     setSelectedFile(file);
+    console.log(selectedFile);
 
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -67,9 +69,7 @@ const ProfileHeader = ({ user, profileCompletion, userRole }) => {
         setIsPreviewOpen(false);
       }
     } catch (error) {
-      setUploadError(
-        error.response?.data?.message || "Failed to upload image"
-      );
+      setUploadError(error.response?.data?.message || "Failed to upload image");
     } finally {
       setIsUploading(false);
     }
@@ -92,10 +92,10 @@ const ProfileHeader = ({ user, profileCompletion, userRole }) => {
   }, [viewEdit]);
 
   const imageSrc =
-    previewImage ||
     user?.profilePicture ||
     user?.profile ||
     "https://i.pinimg.com/1200x/d9/04/bb/d904bbc138e6cba76e5470df5054b106.jpg";
+    setPreviewImage(imageSrc);
 
   return (
     <>
@@ -122,7 +122,7 @@ const ProfileHeader = ({ user, profileCompletion, userRole }) => {
           {viewEdit && (
             <div
               ref={viewEditRef}
-              className="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-white border shadow-md rounded-lg z-10 text-sm w-32"
+              className="absolute top-full mt-2 left-1/2 -translate-x-1/2 bg-white border dark:bg-black shadow-md rounded-lg z-10 text-sm w-32"
             >
               <button
                 onClick={() => {
@@ -135,7 +135,7 @@ const ProfileHeader = ({ user, profileCompletion, userRole }) => {
               </button>
               <label
                 htmlFor="avatarUpload"
-                className="block text-center px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                className="block text-center px-4 py-2 hover:bg-gray-100 cursor-pointer dark:text-white"
               >
                 ✏️ Edit
               </label>
@@ -226,11 +226,13 @@ const ProfileHeader = ({ user, profileCompletion, userRole }) => {
                 {uploadError}
               </div>
             )}
-            <img
-              src={previewImage}
-              alt="Preview"
-              className="w-full object-contain rounded-2xl"
-            />
+            {isPreviewOpen && previewImage && (
+              <img
+                src={previewImage}
+                alt="Preview"
+                className="w-full object-contain rounded-2xl"
+              />
+            )}
           </div>
         </div>
       )}

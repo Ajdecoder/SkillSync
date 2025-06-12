@@ -1,121 +1,136 @@
 import React, { useState } from "react";
 import { useForm } from "../context/AddOpportunityFromContext";
-import "./AddOpportunity.css"
-
 
 const StepOne = ({ nextStep }) => {
   const { formData, updateForm } = useForm();
-  const [error, setError] = useState(""); // State to store error message
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     updateForm({ [name]: value });
   };
 
-  // Validate that all required fields are filled
-  const verifyAllFieldsAreFilled = () => {
-    if (
-      !formData.requirement_type ||
-      !formData.title ||
-      !formData.company_name
-    ) {
-      setError("Please fill all required fields."); // Set error message
+  const validateFields = () => {
+    const requiredFields = ["requirement_type", "title", "company_name"];
+    const isValid = requiredFields.every((field) => formData[field]?.trim());
+
+    if (!isValid) {
+      setError("Please fill all required fields");
       return false;
     }
-    setError(""); // Clear error message if validation passes
+
+    setError("");
     return true;
   };
 
-  const handleNextClick = () => {
-    if (verifyAllFieldsAreFilled()) {
-      nextStep(); // Proceed to next step if validation passes
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateFields()) nextStep();
   };
 
+  // Form field configuration
+  const formFields = [
+    {
+      type: "select",
+      name: "requirement_type",
+      label: "Requirement Type",
+      required: true,
+      options: ["", "Full-Time", "Part-Time", "Contract", "Internship"],
+      placeholder: "Select requirement type",
+    },
+    {
+      type: "text",
+      name: "title",
+      label: "Title",
+      required: true,
+      placeholder: "Enter job title",
+    },
+    {
+      type: "text",
+      name: "company_name",
+      label: "Company Name",
+      required: true,
+      placeholder: "Enter company name",
+    },
+    {
+      type: "url",
+      name: "company_website",
+      label: "Company Website",
+      required: false,
+      placeholder: "Enter company website (optional)",
+    },
+  ];
+
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">
+    <div className="max-w-md mx-auto p-6 bg-white  dark:bg-gray-800 rounded-xl shadow-lg transition-colors duration-300">
+      <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
         Step 1: Basic Details
       </h2>
-      <form className="space-y-4">
-        {/* Requirement Type */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Requirement Type <span className="text-red-500">*</span>
-          </label>
-          <select
-            name="requirement_type"
-            value={formData.requirement_type}
-            onChange={handleChange}
-            required
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-          >
-            <option value="">Select requirement type</option>
-            <option value="Full-Time">Full-Time</option>
-            <option value="Part-Time">Part-Time</option>
-            <option value="Contract">Contract</option>
-            <option value="Internship">Internship</option>
-          </select>
-        </div>
 
-        {/* Title */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Title <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            required
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Enter job title"
-          />
-        </div>
+      <form onSubmit={handleSubmit} className="space-y-5">
+        {formFields.map((field) => (
+          <div key={field.name}>
+            <label className="block text-sm font-medium text-gray-700 mb-2 dark:text-black">
+              {field.label}{" "}
+              {field.required && (
+                <span className="text-red-500 dark:text-black">*</span>
+              )}
+            </label>
 
-        {/* Company Name */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Company Name <span className="text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            name="company_name"
-            value={formData.company_name}
-            onChange={handleChange}
-            required
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Enter company name"
-          />
-        </div>
+            {field.type === "select" ? (
+              <select
+                name={field.name}
+                value={formData[field.name] || ""}
+                onChange={handleChange}
+                required={field.required}
+                className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg 
+                          focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                          bg-white dark:bg-gray-700 text-gray-900 dark:text-white
+                          transition-all duration-200 shadow-sm"
+              >
+                {field.options.map((option) => (
+                  <option
+                    key={option}
+                    value={option}
+                    className="dark:bg-gray-700"
+                  >
+                    {option || field.placeholder}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <input
+                type={field.type}
+                name={field.name}
+                value={formData[field.name] || ""}
+                onChange={handleChange}
+                required={field.required}
+                placeholder={field.placeholder}
+                className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg 
+                          focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                          bg-white dark:bg-gray-700 text-gray-900 dark:text-white 
+                          placeholder-gray-500 dark:placeholder-gray-400
+                          transition-all duration-200 shadow-sm"
+              />
+            )}
+          </div>
+        ))}
 
-        {/* Company Website */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Company Website
-          </label>
-          <input
-            type="url"
-            name="company_website"
-            value={formData.company_website}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Enter company website (optional)"
-          />
-        </div>
+        {error && (
+          <div className="animate-shake text-red-500 dark:text-red-400 text-sm py-2 px-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
+            {error}
+          </div>
+        )}
 
-        {/* Error Message */}
-        {error && <p className="shake-animated text-red-500 text-sm">{error}</p>} {/* Display error */}
-
-        {/* Next Button */}
-        <div className="flex justify-end">
+        <div className="flex justify-end pt-3">
           <button
-            type="button"
-            onClick={handleNextClick}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            type="submit"
+            className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 
+                      text-white font-medium rounded-lg shadow-md
+                      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                      transition-all duration-200 transform hover:scale-[1.02]"
           >
-            Next
+            Next Step →
           </button>
         </div>
       </form>

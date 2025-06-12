@@ -1,9 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-export const CandidatesFilters = ({ filterCategory, setFilterCategory, filterData }) => {
+export const CandidatesFilters = ({
+  filterCategory,
+  setFilterCategory,
+  filterData,
+}) => {
   return (
-    <>
+    <div className="flex flex-col">
       {/* City Filter */}
       <motion.div
         className="box inpbox"
@@ -85,8 +89,7 @@ export const CandidatesFilters = ({ filterCategory, setFilterCategory, filterDat
             )
           )}
         </select>
-
       </motion.div>
-    </>
+    </div>
   );
 };

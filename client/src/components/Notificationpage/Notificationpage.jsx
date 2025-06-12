@@ -7,7 +7,7 @@ import { IoIosArrowBack } from "react-icons/io";
 
 const NotificationPage = () => {
   const { notificationId } = useParams();
-  const { notifications, markAsRead } = useNotifications();
+  const { notifications, markAsRead, notificationsLoading } = useNotifications();
   console.log(notifications);
 
   const [selectedNotificationId, setSelectedNotificationId] = useState(null);
@@ -49,7 +49,7 @@ const NotificationPage = () => {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white p-6 shadow-lg rounded-lg max-w-lg w-full"
+      className="bg-white dark:bg-gray-800 p-6 shadow-lg rounded-lg max-w-lg w-full"
     >
       {/* Back Button for mobile */}
       {isMobile && (
@@ -81,7 +81,7 @@ const NotificationPage = () => {
       {/* Job Description */}
       <div className="mb-3">
         <p className="text-sm text-gray-500">Job Description</p>
-        <p className="text-base text-gray-800">
+        <p className="text-base text-gray-800 dark:text-gray-200">
           {selectedNotification?.JobDetails?.desc_requirement ||
             "No description available"}
         </p>
@@ -90,7 +90,7 @@ const NotificationPage = () => {
       {/* Job Details */}
       <div className="mb-3">
         <p className="text-sm text-gray-500">Job Type</p>
-        <p className="text-base text-gray-800">
+        <p className="text-base text-gray-800 dark:text-gray-200">
           {selectedNotification?.JobDetails?.requirement_type ||
             "Not specified"}
         </p>
@@ -99,7 +99,7 @@ const NotificationPage = () => {
       {/* Salary */}
       <div className="mb-3">
         <p className="text-sm text-gray-500">Salary Range</p>
-        <p className="text-base text-gray-800">
+        <p className="text-base text-gray-800 dark:text-gray-200">
           {(selectedNotification?.JobDetails?.salaryRange &&
             selectedNotification?.JobDetails?.salaryRange?.minSalary +
               "-" +
@@ -111,7 +111,7 @@ const NotificationPage = () => {
       {/* Location */}
       <div className="mb-3">
         <p className="text-sm text-gray-500">Location</p>
-        <p className="text-base text-gray-800">
+        <p className="text-base text-gray-800 dark:text-gray-200">
           {selectedNotification?.JobDetails?.location || "Remote / Unspecified"}
         </p>
       </div>
@@ -119,14 +119,14 @@ const NotificationPage = () => {
       {/* Contact Info */}
       <div className="mb-3">
         <p className="text-sm text-gray-500">Contact Email</p>
-        <p className="text-base text-gray-800">
+        <p className="text-base text-gray-800 dark:text-gray-200">
           {selectedNotification?.JobDetails?.email || "No email provided"}
         </p>
       </div>
 
       <div className="mb-3">
         <p className="text-sm text-gray-500">Contact Phone</p>
-        <p className="text-base text-gray-800">
+        <p className="text-base text-gray-800 dark:text-gray-200">
           {selectedNotification?.JobDetails?.ph_no ||
             "No phone number provided"}
         </p>
@@ -135,7 +135,7 @@ const NotificationPage = () => {
       {/* Skills Required */}
       <div className="mb-3">
         <p className="text-sm text-gray-500">Required Skills</p>
-        <ul className="list-disc list-inside text-gray-800">
+        <ul className="list-disc list-inside text-gray-800 dark:text-gray-200">
           {selectedNotification?.JobDetails?.skills?.length > 0 ? (
             selectedNotification?.JobDetails.skills.map((skill, index) => (
               <li key={index}>{skill.skillName}</li>
@@ -230,7 +230,7 @@ const NotificationPage = () => {
       : renderApplicationRecieved();
   };
 
-  if (!notifications) {
+  if (notificationsLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <Spinner />
@@ -239,12 +239,11 @@ const NotificationPage = () => {
   }
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gray-100 dark:bg-gray-900">
       {/* Left: Notification List */}
       <div
-        className={`left-notification-plane w-full md:w-1/3 bg-white shadow-lg border-r p-4 overflow-auto ${
-          selectedNotificationId && isMobile ? "hidden" : "block"
-        }`}
+        className={`left-notification-plane w-full md:w-1/3 bg-white dark:bg-gray-800 shadow-lg border-r dark:border-gray-700 p-4 overflow-auto ...
+${selectedNotificationId && isMobile ? "hidden" : "block"}`}
       >
         <h2 className="text-lg font-bold mb-4">Notifications</h2>
         <div className="space-y-3">
@@ -257,8 +256,8 @@ const NotificationPage = () => {
                 transition={{ delay: index * 0.05 }}
                 className={`p-3 rounded-lg cursor-pointer border ${
                   notification.read
-                    ? "bg-green-200"
-                    : "bg-gray-200 hover:bg-gray-100"
+                    ? "bg-green-200 dark:bg-green-600"
+                    : "bg-gray-200 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600"
                 }`}
                 onClick={() => handleNotificationSelect(notification)}
               >
@@ -278,9 +277,8 @@ const NotificationPage = () => {
 
       {/* Right: Notification Details */}
       <div
-        className={`right-notification-plane w-full md:w-2/3 p-6 flex items-center justify-center ${
-          !selectedNotificationId && isMobile ? "hidden" : "block"
-        }`}
+        className={`right-notification-plane w-full md:w-2/3 p-6 flex items-center justify-center bg-white dark:bg-gray-800 text-black dark:text-white ...
+ ${!selectedNotificationId && isMobile ? "hidden" : "block"}`}
       >
         {renderNotificationDetails()}
       </div>

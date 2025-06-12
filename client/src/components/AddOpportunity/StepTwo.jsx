@@ -3,55 +3,59 @@ import { useForm } from "../context/AddOpportunityFromContext";
 
 const StepTwo = ({ nextStep, prevStep }) => {
   const { formData, updateForm } = useForm();
-  const [error, setError] = useState(""); // State to store error message
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     updateForm({ [name]: value });
   };
 
-  // Validate that all required fields are filled
-  const verifyAllFieldsAreFilled = () => {
-    if (!formData.skills || !formData.ph_no || !formData.location) {
-      setError("Please fill all required fields."); // Set error message
+  const validateFields = () => {
+    if (!formData.email?.trim()) {
+      setError("Please provide a valid email address");
       return false;
     }
-    setError(""); // Clear error message if validation passes
+    setError("");
     return true;
   };
 
-  const handleNextClick = () => {
-    if (verifyAllFieldsAreFilled()) {
-      nextStep(); // Proceed to next step if validation passes
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateFields()) nextStep();
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">
+    <div className="max-w-md mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg transition-colors duration-300">
+      <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
         Step 2: Contact Details
       </h2>
-      <form className="space-y-4">
+
+      <form onSubmit={handleSubmit} className="space-y-5">
         {/* Email */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Email
+          <label className="block text-sm font-medium text-gray-700 dark:text-black mb-2 ">
+            Email <span className="text-red-500 dark:text-black">*</span>
           </label>
           <input
             type="email"
             name="email"
-            value={formData.email}
+            value={formData.email || ""}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Enter email"
+            className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg 
+                      focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                      bg-white dark:bg-gray-700 text-gray-900 dark:text-white 
+                      placeholder-gray-500 dark:placeholder-gray-400
+                      transition-all duration-200 shadow-sm "
+            placeholder="your.email@example.com"
           />
         </div>
+
         {/* Phone Number */}
-        <div className="relative ">
-          <span className="absolute start-0 text-gray-500 dark:text-gray-400">
+        <div className="relative">
+          <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
             <svg
-              className="w-4 h-4 rtl:rotate-[270deg]"
+              className="w-4 h-4 text-gray-500 dark:text-gray-400"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
@@ -59,58 +63,70 @@ const StepTwo = ({ nextStep, prevStep }) => {
             >
               <path d="M18 13.446a3.02 3.02 0 0 0-.946-1.985l-1.4-1.4a3.054 3.054 0 0 0-4.218 0l-.7.7a.983.983 0 0 1-1.39 0l-2.1-2.1a.983.983 0 0 1 0-1.389l.7-.7a2.98 2.98 0 0 0 0-4.217l-1.4-1.4a2.824 2.824 0 0 0-4.218 0c-3.619 3.619-3 8.229 1.752 12.979C6.785 16.639 9.45 18 11.912 18a7.175 7.175 0 0 0 5.139-2.325A2.9 2.9 0 0 0 18 13.446Z" />
             </svg>
-          </span>
+          </div>
           <input
             type="tel"
             name="ph_no"
-            value={formData.ph_no}
+            value={formData.ph_no || ""}
             onChange={handleChange}
-            id="floating-phone-number"
-            className="block py-2.5 ps-8 pe-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-            placeholder=" "
+            className="w-full ps-10 px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg 
+                      focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                      bg-white dark:bg-gray-700 text-gray-900 dark:text-white 
+                      placeholder-gray-500 dark:placeholder-gray-400
+                      transition-all duration-200 shadow-sm"
+            placeholder="123-456-7890"
+            pattern="[0-9]{10}"
+            maxLength={10}
+            required
           />
-          <label
-            htmlFor="floating-phone-number"
-            className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-placeholder-shown:start-6 peer-focus:start-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
-          >
-            Phone number
-          </label>
         </div>
+
         {/* Location */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-700  mb-2 dark:text-black">
             Location
           </label>
           <input
             type="text"
             name="location"
-            value={formData.location}
+            value={formData.location || ""}
             onChange={handleChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Enter location"
+            className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg 
+                      focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                      bg-white dark:bg-gray-700 text-gray-900 dark:text-white 
+                      placeholder-gray-500 dark:placeholder-gray-400
+                      transition-all duration-200 shadow-sm"
+            placeholder="City, Country"
           />
         </div>
-        {/* Buttons */}
-        <div className="flex justify-between">
+
+        {/* Error Message */}
+        {error && (
+          <div className="animate-shake text-red-500 dark:text-red-400 text-sm py-2 px-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
+            {error}
+          </div>
+        )}
+
+        {/* Navigation Buttons */}
+        <div className="flex justify-between pt-4">
           <button
             type="button"
             onClick={prevStep}
-            className="px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2"
+            className="px-5 py-2.5 bg-gray-500 hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-500
+                      text-white font-medium rounded-lg shadow-md
+                      focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2
+                      transition-all duration-200 transform hover:scale-[1.02]"
           >
-            Previous
+            ← Previous
           </button>
-          {/* Error Message */}
-          {error && (
-            <p className="shake-animated text-red-500 text-sm">{error}</p>
-          )}{" "}
-          {/* Display error */}
           <button
-            type="button"
-            onClick={handleNextClick}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            type="submit"
+            className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 
+                      text-white font-medium rounded-lg shadow-md
+                      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                      transition-all duration-200 transform hover:scale-[1.02]"
           >
-            Next
+            Next Step →
           </button>
         </div>
       </form>

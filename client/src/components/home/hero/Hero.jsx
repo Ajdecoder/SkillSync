@@ -69,7 +69,7 @@ const Hero = () => {
             </motion.div>
 
             <motion.form
-              className="hero-form m-auto mt-6 bg-white dark:bg-gray-800 text-gray-800 dark:text-white p-6 rounded-lg shadow-lg max-w-3xl border border-gray-200 dark:border-gray-700"
+              className="hero-form m-auto mt-6 mb-6 bg-white dark:bg-gray-800 text-gray-800 dark:text-white p-6 rounded-lg shadow-lg max-w-3xl border border-gray-200 dark:border-gray-700"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1 }}
@@ -95,7 +95,7 @@ const Hero = () => {
               )}
 
               <motion.button
-                className={`flex items-center justify-center gap-2 w-full py-3 px-4 bg-purple-600 dark:bg-purple-700 hover:bg-purple-700 dark:hover:bg-purple-800 text-white font-medium rounded-lg shadow-md transition-colors duration-300 ${
+                className={`flex items-center justify-center gap-2 w-2/4 m-auto py-3 px-4 bg-purple-600 dark:bg-purple-700 hover:bg-purple-700 dark:hover:bg-purple-800 text-white font-medium rounded-lg shadow-md transition-colors duration-300 ${
                   isSearching ? "opacity-70 cursor-not-allowed" : ""
                 }`}
                 type="button"
@@ -109,7 +109,7 @@ const Hero = () => {
                   "Searching..."
                 ) : (
                   <>
-                    <FaSearch className="inline" /> Search
+                    <FaSearch className="inline " /> Search
                   </>
                 )}
               </motion.button>
