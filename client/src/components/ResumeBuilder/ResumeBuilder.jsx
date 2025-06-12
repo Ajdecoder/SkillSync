@@ -41,13 +41,13 @@ const ResumeBuilder = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-12"
+      className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-12 dark:bg-gray-800 dark:to-gray-900"
     >
       <div className="max-w-3xl mx-auto px-4">
         <motion.h1
           initial={{ y: -20 }}
           animate={{ y: 0 }}
-          className="text-3xl font-bold text-gray-800 mb-8 text-center"
+          className="text-3xl font-bold text-gray-800 mb-8 text-center dark:text-white"
         >
           Build Your Professional Resume
         </motion.h1>

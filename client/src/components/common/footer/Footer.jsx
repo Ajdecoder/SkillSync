@@ -31,7 +31,7 @@ const Footer = () => {
   return (
     <footer
       ref={footerRef}
-      className={`bg-gray-900 text-white py-8 ${isVisible ? "footer-visible" : ""}`}
+      className={`dark:bg-gray-900 text-white py-8 ${isVisible ? "footer-visible" : ""}`}
     >
       {/* Newsletter Section */}
       <div className={`footer-section ${isVisible ? "animate-slideInLeft relative top-[30px]" : ""}`}>

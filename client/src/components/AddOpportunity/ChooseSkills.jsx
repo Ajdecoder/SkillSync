@@ -73,8 +73,8 @@ export const ChooseSkills = ({ nextStep, prevStep }) => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg space-y-6">
-      <h1 className="text-2xl font-bold text-gray-800 text-center">
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg space-y-6 dark:bg-gray-800 dark:text-white">
+      <h1 className="text-2xl font-bold text-gray-800 text-center dark:text-white">
         Skills Required
       </h1>
       {/* Selected Skills */}
@@ -82,7 +82,7 @@ export const ChooseSkills = ({ nextStep, prevStep }) => {
         {selectedSkills.map((skill) => (
           <div
             key={skill.skillName}
-            className="flex items-center px-4 py-2 bg-gray-100 rounded-full shadow-sm text-sm cursor-pointer"
+            className="flex items-center px-4 py-2 bg-gray-100 rounded-full shadow-sm text-sm cursor-pointer dark:bg-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200"
             onClick={() => removeSkill(skill)}
           >
             {skill.skillName}
@@ -95,7 +95,7 @@ export const ChooseSkills = ({ nextStep, prevStep }) => {
       </div>
       {/* Skill Suggestions */}
       <div className="space-y-4">
-        <h2 className="text-lg font-medium text-gray-700">Suggested Skills</h2>
+        <h2 className="text-lg font-medium text-gray-700 dark:text-white">Suggested Skills</h2>
         <div className="flex flex-wrap gap-2">
           {skillsList.map((skill) => (
             <button
@@ -110,7 +110,7 @@ export const ChooseSkills = ({ nextStep, prevStep }) => {
       </div>
       {/* Add Custom Skill */}
       <div className="space-y-2">
-        <h2 className="text-lg font-medium text-gray-700">
+        <h2 className="text-lg font-medium text-gray-700 dark:text-white">
           Add a Custom Skill
         </h2>
         <div className="flex items-center gap-2">

@@ -62,9 +62,7 @@
     width: 5rem !important;
   }
 
-  .hero {
-    height: 120vh;
-  }
+
 
   .faq{
     height: 100% !important;
@@ -138,5 +136,10 @@
 
   .right-notification-plane {
     width: 100% !important;
+  }
+    .hero-form .inpbox {
+    display: block;
+    width: 90%;
+    margin: auto;
   }
 }

@@ -27,8 +27,8 @@ const StepThree = ({ prevStep, nextStep }) => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">Step 3: Job Details</h2>
+    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg dark:bg-gray-800 transition-colors duration-300">
+      <h2 className="text-2xl font-bold text-gray-800 mb-4 dark:text-white">Step 3: Job Details</h2>
       <form className="space-y-4">
         {/* Salary Range */}
         <div>
@@ -71,7 +71,7 @@ const StepThree = ({ prevStep, nextStep }) => {
             value={formData.desc_requirement}
             onChange={handleChange}
             rows="4"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:text-white dark:border-gray-600"
             placeholder="Enter description and requirements"
           />
         </div>

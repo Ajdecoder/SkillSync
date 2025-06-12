@@ -42,7 +42,7 @@
 
   .hero-form .inpbox {
     display: block;
-    width: 80%;
+    width: 90%;
     margin: auto;
   }
 
@@ -244,6 +244,7 @@
   .small {
     position: fixed;
   }
+  
   .hero-container {
     padding: 0 10px !important;
   }

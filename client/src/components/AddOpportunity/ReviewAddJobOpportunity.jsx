@@ -171,8 +171,8 @@ const ReviewJobOpportunity = ({ prevStep }) => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-8 bg-white shadow-lg rounded-lg mt-5 mb-5">
-      <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+    <div className="max-w-4xl mx-auto p-8 bg-white shadow-lg rounded-lg mt-5 mb-5 dark:bg-gray-800">
+      <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-white mb-6">
         {editMode ? "Edit Your Job Listing" : "Review Your Job Listing"}
       </h2>
 
