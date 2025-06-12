@@ -75,12 +75,15 @@ const StepTwo = ({ nextStep, prevStep }) => {
                       placeholder-gray-500 dark:placeholder-gray-400
                       transition-all duration-200 shadow-sm"
             placeholder="123-456-7890"
+            pattern="[0-9]{10}"
+            maxLength={10}
+            required
           />
         </div>
 
         {/* Location */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 dark:text-black">
+          <label className="block text-sm font-medium text-gray-700  mb-2 dark:text-black">
             Location
           </label>
           <input

@@ -9,7 +9,7 @@ export const WelcomeAddOpportunityPage = ({ nextStep }) => {
       exit={{ opacity: 0, y: 20 }}
       transition={{ duration: 0.5 }}
       className="flex flex-col items-center justify-center h-screen w-full 
-                 bg-gray-100 dark:bg-gradient-to-br dark:from-gray-900 dark:to-gray-800 
+                 bg-gray-100  bg-gradient-to-br from-white to-gray-400 dark:bg-gradient-to-br dark:from-gray-900 dark:to-gray-800 
                  p-6 transition-colors duration-300"
     >
       <h1 className="text-3xl font-bold mb-4 text-black dark:text-white">

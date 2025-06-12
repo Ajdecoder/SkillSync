@@ -9,6 +9,7 @@ export const NotificationsProvider = ({ children }) => {
   const currentUser = loggedInUser || googleUser;
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [notificationsLoading, setNotificationsLoading] = useState(true);
   
 
   // Fetch notifications based on the user's role
@@ -23,11 +24,13 @@ export const NotificationsProvider = ({ children }) => {
         });
         setNotifications(filtered);
         setUnreadCount(filtered.filter((n) => !n.read).length);
+        setNotificationsLoading(false);
       }
     } catch (error) {
       console.error("Error fetching notifications:", error);
       setNotifications([]);
       setUnreadCount(0);
+      setNotificationsLoading(false);
     }
   }, [currentUser]);
 
@@ -53,7 +56,7 @@ export const NotificationsProvider = ({ children }) => {
 
   return (
     <NotificationsContext.Provider
-      value={{ notifications, unreadCount, fetchNotifications, markAsRead }}
+      value={{ notifications, unreadCount, fetchNotifications, markAsRead, notificationsLoading }}
     >
       {children}
     </NotificationsContext.Provider>

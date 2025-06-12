@@ -11,14 +11,14 @@ const StepOne = ({ nextStep }) => {
   };
 
   const validateFields = () => {
-    const requiredFields = ['requirement_type', 'title', 'company_name'];
-    const isValid = requiredFields.every(field => formData[field]?.trim());
-    
+    const requiredFields = ["requirement_type", "title", "company_name"];
+    const isValid = requiredFields.every((field) => formData[field]?.trim());
+
     if (!isValid) {
       setError("Please fill all required fields");
       return false;
     }
-    
+
     setError("");
     return true;
   };
@@ -36,44 +36,47 @@ const StepOne = ({ nextStep }) => {
       label: "Requirement Type",
       required: true,
       options: ["", "Full-Time", "Part-Time", "Contract", "Internship"],
-      placeholder: "Select requirement type"
+      placeholder: "Select requirement type",
     },
     {
       type: "text",
       name: "title",
       label: "Title",
       required: true,
-      placeholder: "Enter job title"
+      placeholder: "Enter job title",
     },
     {
       type: "text",
       name: "company_name",
       label: "Company Name",
       required: true,
-      placeholder: "Enter company name"
+      placeholder: "Enter company name",
     },
     {
       type: "url",
       name: "company_website",
       label: "Company Website",
       required: false,
-      placeholder: "Enter company website (optional)"
-    }
+      placeholder: "Enter company website (optional)",
+    },
   ];
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg transition-colors duration-300">
+    <div className="max-w-md mx-auto p-6 bg-white  dark:bg-gray-800 rounded-xl shadow-lg transition-colors duration-300">
       <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
         Step 1: Basic Details
       </h2>
-      
+
       <form onSubmit={handleSubmit} className="space-y-5">
         {formFields.map((field) => (
           <div key={field.name}>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 dark:text-black">
-              {field.label} {field.required && <span className="text-red-500 dark:text-black">*</span>}
+            <label className="block text-sm font-medium text-gray-700 mb-2 dark:text-black">
+              {field.label}{" "}
+              {field.required && (
+                <span className="text-red-500 dark:text-black">*</span>
+              )}
             </label>
-            
+
             {field.type === "select" ? (
               <select
                 name={field.name}
@@ -85,9 +88,9 @@ const StepOne = ({ nextStep }) => {
                           bg-white dark:bg-gray-700 text-gray-900 dark:text-white
                           transition-all duration-200 shadow-sm"
               >
-                {field.options.map(option => (
-                  <option 
-                    key={option} 
+                {field.options.map((option) => (
+                  <option
+                    key={option}
                     value={option}
                     className="dark:bg-gray-700"
                   >

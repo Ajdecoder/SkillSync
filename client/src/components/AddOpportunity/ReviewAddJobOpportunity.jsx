@@ -23,10 +23,9 @@ const ReviewJobOpportunity = ({ prevStep }) => {
   const [payloadJobId, setPayloadJobId] = useState(null);
 
   const navigate = useNavigate();
-  const { loggedInUser,googleUser } = useAuth();
+  const { loggedInUser, googleUser } = useAuth();
 
   const currentUser = loggedInUser || googleUser;
-
 
   // Check if the form is complete or needs more data
   useEffect(() => {
@@ -150,14 +149,14 @@ const ReviewJobOpportunity = ({ prevStep }) => {
       setToastMessage("Form Submitted Successfully");
       setToastType("success");
       setIsSubmitting(false);
-      navigate('/')
+      navigate("/");
     } catch (error) {
       console.error("Error Submitting Form:", error);
       setToastMessage("Error Submitting Form");
       setToastType("error");
     } finally {
       setIsSubmitting(false);
-      navigate('/');
+      navigate("/");
     }
   };
 
@@ -167,7 +166,6 @@ const ReviewJobOpportunity = ({ prevStep }) => {
 
   const handleSaveChanges = (e) => {
     setEditMode(false); // Proceed with saving the changes
-    handleSubmit(); // Call the submit function to handle form data
   };
 
   return (
@@ -176,7 +174,7 @@ const ReviewJobOpportunity = ({ prevStep }) => {
         {editMode ? "Edit Your Job Listing" : "Review Your Job Listing"}
       </h2>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6 dark:text-white">
         {" "}
         {/* Wrapping with form */}
         {/* Job Title */}
@@ -236,7 +234,7 @@ const ReviewJobOpportunity = ({ prevStep }) => {
           <h3 className="text-xl font-semibold text-gray-700">Phone Number</h3>
           {editMode ? (
             <input
-              type="text"
+              type="number"
               value={localFormData.ph_no}
               onChange={(e) => handleInputChange("ph_no", e.target.value)}
               className="w-full border rounded p-2 text-gray-600"
@@ -277,18 +275,35 @@ const ReviewJobOpportunity = ({ prevStep }) => {
         </div>
         {/* Salary Range */}
         <div className="border-b p-4">
-          <h3 className="text-xl font-semibold text-gray-700">Salary Range</h3>
+          <h3 className="text-xl font-semibold text-gray-700 mb-2">
+            Salary Range
+          </h3>
           {editMode ? (
-            <input
-              type="text"
-              value={localFormData.salaryRange}
-              onChange={(e) => handleInputChange("salaryRange", e.target.value)}
-              className="w-full border rounded p-2 text-gray-600"
-            />
+            <div className="flex gap-4">
+              <input
+                type="number"
+                placeholder="Min Salary"
+                value={localFormData.minSalary}
+                onChange={(e) =>
+                  handleInputChange("minSalary", Number(e.target.value))
+                }
+                className="w-1/2 border rounded p-2 text-gray-600"
+                min="0"
+              />
+              <input
+                type="number"
+                placeholder="Max Salary"
+                value={localFormData.maxSalary}
+                onChange={(e) =>
+                  handleInputChange("maxSalary", Number(e.target.value))
+                }
+                className="w-1/2 border rounded p-2 text-gray-600"
+                min={localFormData.minSalary}
+              />
+            </div>
           ) : (
             <p className="text-gray-600">
-              {localFormData.minSalary || "N/A"} -
-              {localFormData.maxSalary || "N/A"}
+              ₹{localFormData.minSalary} – ₹{localFormData.maxSalary}
             </p>
           )}
         </div>
