@@ -155,7 +155,7 @@ if (!profileData) return null; // Or just a placeholder
         <div className="profile-content-container mt-6">
           {activeTab === "about" && (
             <section className="profile-about-section p-6 bg-white rounded-lg shadow-md">
-              <h2 className="text-xl font-semibold">About</h2>
+              <h2 className="text-xl font-semibold dark:text-black">About</h2>
               <div className="mt-4 space-y-4">
                 <RecruiterAboutSection
                   profileData={profileData}
