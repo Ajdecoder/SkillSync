@@ -51,7 +51,7 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
                 onChange={(e) => handleInputChange("name", e.target.value)}
               />
             ) : (
-              <p>{updatedData?.name || "Name not provided"}</p>
+              <p className='dark:text-black' >{updatedData?.name || "Name not provided"}</p>
             )}
           </div>
 
@@ -67,7 +67,7 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
                 disabled
               />
             ) : (
-              <p>{profileData?.email || "Email not provided"}</p>
+              <p className='dark:text-black' >{profileData?.email || "Email not provided"}</p>
             )}
           </div>
 
@@ -82,7 +82,7 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
                 onChange={(e) => handleInputChange("about", e.target.value)}
               />
             ) : (
-              <p>{updatedData?.about || "No bio available"}</p>
+              <p className='dark:text-black' >{updatedData?.about || "No bio available"}</p>
             )}
           </div>
 
@@ -136,7 +136,7 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
                     </div>
                   ))
                 ) : (
-                  <p>No languages provided. Click below to add one.</p>
+                  <p className='dark:text-black' >No languages provided. Click below to add one.</p>
                 )}
                 <button
                   type="button"
@@ -157,12 +157,12 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
                 {profileData?.languages && updatedData.languages.length > 0 ? (
                   updatedData.languages.map((lang, idx) => (
                     <div key={idx} className="flex">
-                      <p>{lang.language || "No language"}</p>
-                      <p>({lang.proficiency || "No proficiency"})</p>
+                      <p className='dark:text-black' >{lang.language || "No language"}</p>
+                      <p className='dark:text-black' >({lang.proficiency || "No proficiency"})</p>
                     </div>
                   ))
                 ) : (
-                  <p>No languages listed</p>
+                  <p className='dark:text-black' >No languages listed</p>
                 )}
               </>
             )}
@@ -201,7 +201,7 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
                 />
               </div>
             ) : (
-              <p>
+              <p className='dark:text-black' >
                 {`${updatedData?.location?.city || "Unknown City"}, ${
                   updatedData?.location?.state || "Unknown State"
                 }`}
