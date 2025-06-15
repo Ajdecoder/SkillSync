@@ -27,7 +27,7 @@ export const RecruiterAboutSection = ({ userRole, profileData }) => {
   };
 
   return (
-    <div>
+    <div className="dark:text-black" >
       {userRole === "recruiter" && (
         <>
           <div>

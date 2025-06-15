@@ -123,7 +123,7 @@ const PastHires = ({
                         name={`pastHires.${idx}.status`}
                         value={hire.status || ""}
                         onChange={(e) => handlePastHireInputChange(e, idx)}
-                        className="border border-gray-300 p-2 rounded-lg w-full"
+                        className="border border-gray-300 p-2 rounded-lg w-full bg-white"
                       >
                         <option value="hired">Hired</option>
                         <option value="not hired">Not Hired</option>

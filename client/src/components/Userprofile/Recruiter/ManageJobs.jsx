@@ -111,7 +111,7 @@ const ManageJobs = ({
   return (
     <div>
       {userRole === "recruiter" && activeTab === "manage-jobs" && (
-        <section className="profile-content mt-6 bg-white p-8 rounded-lg shadow-lg">
+        <section className="profile-content mt-6 bg-white p-8 rounded-lg shadow-lg dark:text-black">
           <h2 className="text-2xl font-semibold text-gray-800">
             Manage Job Listings
           </h2>

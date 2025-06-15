@@ -62,9 +62,7 @@
     width: 5rem !important;
   }
 
-
-
-  .faq{
+  .faq {
     height: 100% !important;
   }
 
@@ -72,10 +70,20 @@
     font-size: 1rem !important;
   }
 
+  body {
+    font-size: 15px !important;
+  }
+
+  .j-posting-container {
+    padding: 1rem !important;
+  }
+
+  form {
+    padding: 0.5rem !important;
+  }
 }
 
 @media screen and (max-width: 480px) {
- 
   header .small {
     font-size: small !important;
   }
@@ -137,7 +145,7 @@
   .right-notification-plane {
     width: 100% !important;
   }
-    .hero-form .inpbox {
+  .hero-form .inpbox {
     display: block;
     width: 90%;
     margin: auto;

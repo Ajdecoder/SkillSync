@@ -47,10 +47,10 @@ const TeamMembers = ({ userRole, handleSubmit, setUpdatedData ,updatedData, prof
   };
 
   return (
-    <div>
-      <h2 className="text-2xl font-semibold mb-4">Team Members</h2>
+    <div className="dark:text-black p-10" >
+      <h2 className="text-2xl font-semibold mb-4 dark:text-white">Team Members</h2>
       <form onSubmit={handleFormSubmit}>
-        <div className="space-y-4">
+        <div className="space-y-4 w-full">
           {teamMembers.map((member, idx) => (
             <div key={idx} className="border p-4 rounded-lg shadow-lg">
               {editingIndex === idx ? (

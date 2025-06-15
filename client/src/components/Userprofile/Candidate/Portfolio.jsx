@@ -56,7 +56,7 @@ export const Portfolio = ({
   return (
     <div>
       {!isEditing ? (
-        <section className="profile-content mt-6 bg-white p-6 rounded-lg shadow-md">
+        <section className="profile-content mt-6 bg-white p-6 rounded-lg shadow-md dark:text-black">
           <h2 className="text-xl font-semibold">Portfolio</h2>
           <div className="mt-4 space-y-4">
             {updatedData?.portfolio?.length > 0 ? (
@@ -88,7 +88,7 @@ export const Portfolio = ({
           </button>
         </section>
       ) : (
-        <section className="profile-content mt-6 bg-white p-6 rounded-lg shadow-md">
+        <section className="profile-content mt-6 bg-white p-6 rounded-lg shadow-md dark:text-black">
           <h2 className="text-xl font-semibold">Edit Portfolio</h2>
           <div className="mt-4 space-y-4">
             {editedPortfolio.map((portfolioItem, idx) => (
