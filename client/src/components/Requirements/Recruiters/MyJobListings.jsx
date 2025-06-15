@@ -295,9 +295,9 @@ export const MyJobListings = () => {
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: -20, opacity: 0 }}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                className="bg-white rounded-lg shadow-xl w-full max-w-2xl my-8 relative"
+                className="bg-white rounded-lg shadow-xl w-full max-w-2xl my-8 relative dark:text-black"
               >
-                <div className="p-6 border-b flex justify-between items-center sticky top-0 bg-white z-10">
+                <div className="p-6 border-b flex justify-between items-center sticky top-0 bg-white z-10 dark:text-black">
                   <h3 className="text-xl font-semibold">Applicants</h3>
                   <button
                     onClick={() => setShowModal(false)}
@@ -318,7 +318,7 @@ export const MyJobListings = () => {
                         {console.log(applicant)}
                         <li
                           key={applicant._id}
-                          className="border-b pb-2 flex flex-wrap gap-4"
+                          className="border-b pb-2 flex flex-wrap gap-4 flex-col"
                         >
                           <p>
                             <strong>Name:</strong> {applicant.name}
