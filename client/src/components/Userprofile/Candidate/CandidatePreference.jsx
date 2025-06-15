@@ -55,7 +55,7 @@ export const Candidatepreferences = ({
         updatedData={updatedData}
       />
       {!isEditing ? (
-        <section className="profile-content mt-6 bg-white p-6 rounded-lg shadow-md">
+        <section className="profile-content mt-6 bg-white p-6 rounded-lg shadow-md dark:text-black">
           <h2 className="text-xl font-semibold">💼Job Preferences</h2>
           <div className="mt-4 space-y-4">
             <div>
@@ -81,7 +81,7 @@ export const Candidatepreferences = ({
           </motion.button>
         </section>
       ) : (
-        <section className="profile-content mt-6 bg-white p-6 rounded-lg shadow-md">
+        <section className="profile-content mt-6 bg-white p-6 rounded-lg shadow-md dark:text-black">
           <h2 className="text-xl font-semibold">Edit Job Opportunities</h2>
           <div className="mt-4 space-y-4">
             <div>

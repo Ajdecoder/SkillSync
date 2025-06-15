@@ -32,7 +32,7 @@ const ResumeUpload = () => {
       transition={{ duration: 0.5 }}
       className="flex flex-col items-center p-6 bg-white shadow-lg rounded-2xl w-full max-w-md mx-auto"
     >
-      <h2 className="text-xl font-semibold mb-4">Upload Your Resume</h2>
+      <h2 className="text-xl font-semibold mb-4 dark:text-black">Upload Your Resume</h2>
       <div
         className="border-2 border-dashed border-gray-300 p-6 rounded-lg flex flex-col items-center cursor-pointer hover:bg-gray-50 transition"
         onDragOver={(e) => e.preventDefault()}

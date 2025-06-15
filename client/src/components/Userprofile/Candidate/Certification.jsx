@@ -62,8 +62,8 @@ export const Certification = ({
 
   return (
     <div>
-      <section className="profile-content mt-6 bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold">Certifications</h2>
+      <section className="profile-content mt-6 bg-white p-6 rounded-lg shadow-md dark:text-black">
+        <h2 className="text-xl font-semibold ">Certifications</h2>
         <div className="mt-4 space-y-4">
           {isEditing ? (
             <div>

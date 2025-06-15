@@ -222,12 +222,12 @@ const OpportunityConnectPage = () => {
   };
 
   return (
-    <div className="overflow-hidden min-h-screen bg-gradient-to-br from-gray-900 to-black p-8 md:p-12 flex items-center justify-center">
+    <div className="overflow-hidden min-h-screen bg-gradient-to-br from-gray-900 to-black p-8 md:p-12 flex items-center justify-center j-posting-container">
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="w-full max-w-4xl bg-gray-800/50 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-gray-700/30"
+        className="w-full max-w-4xl bg-gray-800/50 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-gray-700/30 "
       >
         {/* Header Section */}
         <div className="flex justify-between items-start mb-8">
@@ -507,7 +507,7 @@ const OpportunityConnectPage = () => {
                 {/* Team Members */}
                 <motion.div
                   variants={itemVariants}
-                  className="p-6 bg-gray-700/20 rounded-xl"
+                  className="p-6 bg-gray-700/20 rounded-xl "
                 >
                   <h3 className="text-xl font-semibold text-emerald-400 mb-4">
                     Team Members

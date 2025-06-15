@@ -42,7 +42,8 @@ const CompanyBenefits = ({
   };
 
   return (
-    <div>
+    <div className="dark:text-black " >
+
       {userRole === "recruiter" && activeTab === "companyBenefits" && (
         <section className="profile-content mt-6 bg-white p-8 rounded-lg shadow-lg">
           <h2 className="text-2xl font-semibold text-gray-800">

@@ -5,6 +5,7 @@ import { useNotifications } from "../../context/NotificationsContext";
 import { AnimatePresence, motion } from "framer-motion";
 import { FaCheckCircle } from "react-icons/fa";
 import { HiBellAlert } from "react-icons/hi2";
+import { Spinner } from "../loadingSpinner/spinner";
 
 const NotificationButton = () => {
   const [showNotifications, setShowNotifications] = useState(false);
@@ -12,8 +13,14 @@ const NotificationButton = () => {
   const { loggedInUser, google_user } = useAuth();
   const currentUser = loggedInUser || google_user;
 
-  const { notifications, unreadCount, fetchNotifications, markAsRead } =
-    useNotifications();
+  const {
+    notifications,
+    unreadCount,
+    fetchNotifications,
+    markAsRead,
+    notificationsLoading,
+  } = useNotifications();
+
   const navigate = useNavigate();
 
   // Fetch notifications on login/user change
@@ -21,7 +28,7 @@ const NotificationButton = () => {
     fetchNotifications();
   }, [currentUser, fetchNotifications]);
 
-  // Handle click outside to close notifications dropdown
+  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -40,7 +47,6 @@ const NotificationButton = () => {
   const handleNotificationClick = async (notification) => {
     try {
       if (!notification?.read) {
-        // Use markAsRead from context to handle both UI update and server call
         await markAsRead(notification?._id);
         navigate(`/notifications/${notification?._id}`);
         setShowNotifications(false);
@@ -67,7 +73,11 @@ const NotificationButton = () => {
           className="absolute bg-white shadow-lg rounded-md w-[18rem] top-12 right-[-7rem] p-4 max-h-[22rem] overflow-auto z-10 border border-gray-300 scroll-smooth"
           onWheel={(e) => e.stopPropagation()}
         >
-          {notifications && (notifications.read || notifications) ? (
+          {notificationsLoading ? (
+            <div className="flex justify-center items-center h-32">
+              <Spinner />
+            </div>
+          ) : notifications && notifications.length > 0 ? (
             <>
               <motion.ul
                 initial="hidden"
