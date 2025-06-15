@@ -324,7 +324,7 @@ export const ChatBot = () => {
             e.preventDefault();
             handleMessageSend(inputText);
           }}
-          className="flex items-center gap-2 m-0 dark:bg-gray-800"
+          className="flex flex-row items-center gap-2 m-0 dark:bg-gray-800"
         >
           <input
             type="text"
