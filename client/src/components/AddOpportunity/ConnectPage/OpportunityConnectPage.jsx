@@ -88,9 +88,6 @@ const OpportunityConnectPage = () => {
         },
       };
 
-      // Check if payload is properly formed
-      // console.log("Payload:", payload);
-
       await applyToOpportunity(payload);
       setUserHasApplied(true);
 
@@ -222,21 +219,21 @@ const OpportunityConnectPage = () => {
   };
 
   return (
-    <div className="overflow-hidden min-h-screen bg-gradient-to-br from-gray-900 to-black p-8 md:p-12 flex items-center justify-center j-posting-container">
+    <div className="overflow-hidden min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-black p-8 md:p-12 flex items-center justify-center j-posting-container">
       <motion.div
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="w-full max-w-4xl bg-gray-800/50 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-gray-700/30 "
+        className="w-full max-w-4xl bg-white/80 dark:bg-gray-800/50 backdrop-blur-lg rounded-3xl p-6 md:p-8 shadow-lg dark:shadow-2xl border border-gray-300 dark:border-gray-700/30"
       >
         {/* Header Section */}
         <div className="flex justify-between items-start mb-8">
           <motion.div variants={itemVariants}>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-emerald-600 to-cyan-600 dark:from-emerald-400 dark:to-cyan-400 bg-clip-text text-transparent">
               {company_name}
             </h1>
             <motion.p
-              className="text-xl text-gray-300 mt-2"
+              className="text-lg text-gray-700 dark:text-gray-300 mt-1"
               variants={itemVariants}
             >
               {title}
@@ -250,11 +247,11 @@ const OpportunityConnectPage = () => {
             className="text-2xl p-2 rounded-full hover:bg-gray-700/30 transition-colors"
           >
             <FiBookmark
-              className={`${
+              className={
                 bookmark
-                  ? "fill-emerald-400 stroke-emerald-400"
-                  : "text-gray-400"
-              }`}
+                  ? "fill-emerald-500 text-emerald-500 dark:fill-emerald-400 dark:text-emerald-400"
+                  : "text-gray-500 dark:text-gray-400"
+              }
             />
           </motion.button>
         </div>
@@ -263,7 +260,7 @@ const OpportunityConnectPage = () => {
         <div className="space-y-8">
           {/* Location & Type */}
           <motion.div
-            className="flex items-center gap-4 text-gray-400"
+            className="flex items-center gap-4 dark:text-gray-400"
             variants={itemVariants}
           >
             <div className="flex items-center gap-2">
@@ -284,7 +281,7 @@ const OpportunityConnectPage = () => {
 
           {/* Description */}
           <motion.div variants={itemVariants}>
-            <p className="text-gray-300 leading-relaxed">{desc_requirement}</p>
+            <p className="dark:text-gray-300 leading-relaxed">{desc_requirement}</p>
           </motion.div>
 
           {/* Skills Grid */}
@@ -296,9 +293,9 @@ const OpportunityConnectPage = () => {
               <motion.div
                 key={index}
                 variants={skillVariants}
-                className="p-2 bg-emerald-400/10 rounded-lg flex items-center justify-center gap-2"
+                className="p-2 bg-emerald-600/10 rounded-lg flex items-center justify-center gap-2"
               >
-                <span className="text-emerald-400 text-sm">
+                <span className="dark:text-emerald-400 text-sm">
                   {skill.skillName}
                 </span>
               </motion.div>
@@ -310,36 +307,43 @@ const OpportunityConnectPage = () => {
             className="grid grid-cols-1 md:grid-cols-2 gap-6"
             variants={itemVariants}
           >
-            <div className="p-6 bg-gray-700/20 rounded-xl">
-              <h3 className="text-xl font-semibold text-emerald-400 mb-4">
+            <div className="p-4 bg-gray-100 dark:bg-gray-700/20 rounded-xl">
+              <h3 className="text-lg font-semibold text-emerald-600 dark:text-emerald-400 mb-3">
                 Job Details
               </h3>
-              <div className="space-y-3 text-gray-300">
+              <div className="space-y-2 text-gray-700 dark:text-gray-300">
                 <div className="flex items-center gap-2">
-                  <FiUsers className="text-cyan-400" />
+                  <FiUsers className="text-cyan-600 dark:text-cyan-400" />
                   <span>{requirement_type}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <FiDollarSign className="text-cyan-400" />
-                  <span>{salaryRange?.maxSalary}</span>
-                  <span>{salaryRange?.minSalary}</span>
+                  <FiDollarSign className="text-cyan-600 dark:text-cyan-400" />
+                  <span>
+                    {salaryRange?.minSalary &&
+                      `${(salaryRange.minSalary / 1000).toFixed(1)}k`}
+                    {salaryRange?.maxSalary &&
+                      ` - ${(salaryRange.maxSalary / 1000).toFixed(1)}k`}
+                  </span>
                 </div>
               </div>
             </div>
 
-            <div className="p-6 bg-gray-700/20 rounded-xl">
-              <h3 className="text-xl font-semibold text-emerald-400 mb-4">
+            <div className="p-4 bg-gray-100 dark:bg-gray-700/20 rounded-xl">
+              <h3 className="text-lg font-semibold text-emerald-600 dark:text-emerald-400 mb-3">
                 Contact Info
               </h3>
-              <div className="space-y-3 text-gray-300">
+              <div className="space-y-2 text-gray-700 dark:text-gray-300">
                 <div className="flex items-center gap-2">
-                  <FiMail className="text-cyan-400" />
-                  <a href={`mailto:${email}`} className="hover:text-cyan-400">
+                  <FiMail className="text-cyan-600 dark:text-cyan-400" />
+                  <a
+                    href={`mailto:${email}`}
+                    className="hover:text-cyan-700 dark:hover:text-cyan-300"
+                  >
                     {email}
                   </a>
                 </div>
                 <div className="flex items-center gap-2">
-                  <FiPhone className="text-cyan-400" />
+                  <FiPhone className="text-cyan-600 dark:text-cyan-400" />
                   <span>{ph_no}</span>
                 </div>
               </div>
@@ -373,10 +377,10 @@ const OpportunityConnectPage = () => {
                   variants={itemVariants}
                   className="p-6 bg-gray-700/20 rounded-xl"
                 >
-                  <h3 className="text-xl font-semibold text-emerald-400 mb-4">
+                  <h3 className="text-lg font-semibold text-emerald-600 dark:text-emerald-400 mb-3">
                     Company Overview
                   </h3>
-                  <div className="space-y-3 text-gray-300">
+                  <div className="space-y-3 dark:text-gray-300">
                     <p>
                       <strong className="text-cyan-400">Name:</strong>{" "}
                       {recruiterDetails?.companyOverview?.name || "N/A"}
@@ -409,7 +413,7 @@ const OpportunityConnectPage = () => {
                   </h3>
                   <div className="flex items-center gap-2 text-gray-300">
                     <FiGlobe className="text-cyan-400" />
-                    <p>{location || "No location provided"}</p>
+                    <p className="text-black" >{location || "No location provided"}</p>
                   </div>
                 </motion.div>
 
@@ -421,7 +425,7 @@ const OpportunityConnectPage = () => {
                   <h3 className="text-xl font-semibold text-emerald-400 mb-4">
                     Recruitment Process
                   </h3>
-                  <div className="space-y-4 text-gray-300">
+                  <div className="space-y-4 dark:text-gray-300">
                     <motion.div
                       className="space-y-2"
                       initial="hidden"
@@ -474,7 +478,7 @@ const OpportunityConnectPage = () => {
                     Past Hires
                   </h3>
                   <motion.ul
-                    className="space-y-3 text-gray-300"
+                    className="space-y-3 dark:text-gray-300"
                     initial="hidden"
                     animate="visible"
                     transition={{ staggerChildren: 0.1 }}
@@ -523,10 +527,10 @@ const OpportunityConnectPage = () => {
                           variants={itemVariants}
                           className="p-4 bg-gray-700/30 rounded-lg"
                         >
-                          <p className="text-cyan-400 font-medium">
+                          <p className="dark:text-cyan-400 font-medium">
                             {member.name}
                           </p>
-                          <p className="text-gray-400 text-sm">
+                          <p className="dark:text-gray-400 text-sm">
                             {member.teamMemberRole}
                           </p>
                           <div className="mt-2 flex gap-3 text-sm">
@@ -614,7 +618,7 @@ const OpportunityConnectPage = () => {
         </div>
 
         {(userHasApplied || userHasAlreadyApplied) && (
-          <motion.h1 className="text-white p-3 mt-2 text-center table m-auto">
+          <motion.h1 className="dark:text-white p-3 mt-2 text-center table m-auto">
             Want To Revert Your Application?{" "}
             <motion.a
               className="ml-1 cursor-pointer hover:underline hover:text-red-600"
@@ -632,7 +636,7 @@ const OpportunityConnectPage = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4"
+              className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-end justify-center p-4"
             >
               <motion.div
                 initial={{ scale: 0.9 }}

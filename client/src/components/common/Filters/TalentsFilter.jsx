@@ -7,7 +7,7 @@ export const CandidatesFilters = ({
   filterData,
 }) => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col justify-center m-16">
       {/* City Filter */}
       <motion.div
         className="box inpbox"

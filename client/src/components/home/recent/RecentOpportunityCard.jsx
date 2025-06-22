@@ -1,87 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext.jsx";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import AddOpportunityCard from "../../AddOpportunity/OpportunityCard.jsx";
-import { locations, skills } from "../..//common/constants.jsx";
 
 const RecentOpportunity = ({
-  handleConnectClick,
-  addedOpportunities,
-  setOpportunities,
+  addedOpportunities = [],
+  filterdOpportunities = [],
 }) => {
-  console.log(addedOpportunities);
-  const { loggedInUser, googleUser } = useAuth();
-  const currentUser = loggedInUser || googleUser;
+  // Use filtered data if available, else fallback to all added opportunities
+  const opportunitiesToShow =
+    filterdOpportunities.length > 0 ? filterdOpportunities : addedOpportunities;
 
-  const [filteredOpportunities, setFilteredOpportunities] =
-    useState(addedOpportunities);
-
-  const [filters, setFilters] = useState({
-    title: "",
-    desc_requirement: "",
-    type: "",
-    location: "",
-    skills: "",
-    salaryRange: "",
-  });
-
-  // Filter opportunities based on selected filters
-  useEffect(() => {
-    let filtered = addedOpportunities;
-
-    // Filter by title
-    if (filters.title) {
-      filtered = filtered.filter((opportunity) =>
-        opportunity.title.toLowerCase().includes(filters.title.toLowerCase())
-      );
-    }
-
-    // Filter by description requirement
-    if (filters.desc_requirement) {
-      filtered = filtered.filter((opportunity) =>
-        opportunity.desc_requirement
-          .toLowerCase()
-          .includes(filters.desc_requirement.toLowerCase())
-      );
-    }
-
-    // Filter by type
-    if (filters.type) {
-      filtered = filtered.filter(
-        (opportunity) =>
-          opportunity.type.toLowerCase() === filters.type.toLowerCase()
-      );
-    }
-
-    // Filter by location
-    if (filters.location) {
-      filtered = filtered.filter(
-        (opportunity) =>
-          opportunity.location.toLowerCase() === filters.location.toLowerCase()
-      );
-    }
-
-    // Filter by skills
-    if (filters.skills) {
-      filtered = filtered.filter((opportunity) =>
-        opportunity.skills.some((skill) => {
-          skill.toLowerCase().includes(filters.skills.toLowerCase());
-        })
-      );
-    }
-
-    // Filter by salary range (optional if required)
-    if (filters?.salaryRange) {
-      // You can implement a specific salary range filter logic here if needed
-    }
-
-    setFilteredOpportunities(filtered);
-  }, [filters, addedOpportunities]);
+  const handleConnectClick = (opportunity, index, type) => {
+    console.log("Connect clicked:", opportunity, index, type);
+    // Implement navigation or connect logic here if needed
+  };
 
   const renderOpportunityCard = (opportunity) => {
     return (
       <AddOpportunityCard
-        key={opportunity._id} // Use unique identifier instead of index
+        key={opportunity._id}
         opportunity={opportunity}
         onConnectClick={() =>
           handleConnectClick(
@@ -96,27 +32,15 @@ const RecentOpportunity = ({
 
   return (
     <div className="space-y-8 opportunity-card-container">
-      {/* Added Opportunities Section */}
-      {addedOpportunities.length > 0 && (
-        <div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {filteredOpportunities.length > 0 ? (
-              filteredOpportunities.map((opportunity) =>
-                renderOpportunityCard(opportunity)
-              )
-            ) : (
-              <div className="text-center text-gray-500">
-                No matching opportunities found.
-              </div>
-            )}
-          </div>
+      {opportunitiesToShow.length > 0 ? (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {opportunitiesToShow.map((opportunity) =>
+            renderOpportunityCard(opportunity)
+          )}
         </div>
-      )}
-
-      {/* No Data Fallback */}
-      {addedOpportunities.length === 0 && (
+      ) : (
         <div className="text-center text-gray-500">
-          No recent posts or opportunities available.
+          No matching opportunities found.
         </div>
       )}
     </div>

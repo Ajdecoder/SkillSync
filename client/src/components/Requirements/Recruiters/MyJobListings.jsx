@@ -107,7 +107,7 @@ export const MyJobListings = () => {
         <motion.h2
           initial={{ y: -20 }}
           animate={{ y: 0 }}
-          className="text-3xl font-bold text-center mb-8 text-gray-800"
+          className="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-white"
         >
           My Job Listings
         </motion.h2>

@@ -120,10 +120,13 @@ const Header = () => {
       <NavLink
         to={item.path}
         className={({ isActive }) =>
-          clsx("reqli text-slate-500 hover:text-slate-700 dark:text-gray-300 dark:hover:text-white", {
-            "active text-blue-600 dark:text-blue-400": 
-              isActive && !location.pathname.includes("requirement"),
-          })
+          clsx(
+            "reqli text-slate-500 hover:text-slate-700 dark:text-gray-300 dark:hover:text-white",
+            {
+              "active text-blue-600 dark:text-blue-400":
+                isActive && !location.pathname.includes("requirement"),
+            }
+          )
         }
       >
         {item.text}
@@ -180,7 +183,7 @@ const Header = () => {
           {isNavListOpen && isSmallScreen && (
             <div
               className="fixed inset-0 bg-black/60 dark:bg-black/80 z-30"
-              onClick={() => setIsNavListOpen(false)}
+              onTouchStart={() => setIsNavListOpen(false)}
             ></div>
           )}
 
@@ -211,11 +214,7 @@ const Header = () => {
               theme === "light" ? "dark" : "light"
             } mode`}
           >
-            {theme === "light" ? (
-              <FaRegMoon size={21} />
-            ) : (
-              <FaSun size={21} />
-            )}
+            {theme === "light" ? <FaRegMoon size={21} /> : <FaSun size={21} />}
           </button>
 
           {currentUser && <NotificationButton />}
@@ -245,8 +244,7 @@ const Header = () => {
                       </i>
                     </Link>
                     <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                      <strong>Name:</strong>{" "}
-                      {currentUser?.name || "User"}
+                      <strong>Name:</strong> {currentUser?.name || "User"}
                     </p>
                     <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
                       <strong>Email:</strong> {currentUser?.email || "N/A"}
@@ -259,8 +257,8 @@ const Header = () => {
                         <i className="fa fa-sign-out mr-2"></i> Logout
                       </button>
 
-                      <Link 
-                        to="/profile/settings" 
+                      <Link
+                        to="/profile/settings"
                         className="text-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
                       >
                         Settings
@@ -270,15 +268,15 @@ const Header = () => {
                 )}
               </>
             ) : (
-              <Link 
-                to="/login" 
+              <Link
+                to="/login"
                 className="log-sign relative text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
               >
                 <i className="fa fa-sign-in mr-2"></i> Sign in
               </Link>
             )}
           </div>
-          
+
           {/* Mobile Toggle Button */}
           <div className="toggle">
             <button

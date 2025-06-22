@@ -30,17 +30,22 @@ const NotificationButton = () => {
 
   // Close dropdown when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setShowNotifications(false);
-      }
-    };
+  const handleClickOutside = (event) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target) &&
+      !event.target.closest(".notification-button") // ignore bell button clicks
+    ) {
+      setShowNotifications(false);
+    }
+  };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [notifications]);
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => document.removeEventListener("mousedown", handleClickOutside);
+}, []);
 
-  const handleBellClick = () => {
+
+  const handleBellClick = (e) => {
     setShowNotifications((prev) => !prev);
   };
 
@@ -86,7 +91,7 @@ const NotificationButton = () => {
                   hidden: { opacity: 0 },
                   visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
                 }}
-                className="divide-y divide-gray-100 rounded-lg shadow-lg border border-gray-100 bg-white max-w-md overflow-hidden"
+                className="divide-y divide-gray-100 rounded-lg shadow-lg border border-gray-100 bg-white max-w-md overflow-hidden pt-1"
               >
                 <AnimatePresence>
                   {notifications.map((notification) => (
@@ -100,7 +105,7 @@ const NotificationButton = () => {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => handleNotificationClick(notification)}
-                      className={`p-4 transition-all duration-200 ease-out ${
+                      className={`p-4 transition-all duration-200 ease-out dark:bg-gray-300 dark:text-black  ${
                         notification?.read
                           ? "bg-gray-50 text-gray-400"
                           : "bg-white text-gray-800 hover:bg-blue-50"
