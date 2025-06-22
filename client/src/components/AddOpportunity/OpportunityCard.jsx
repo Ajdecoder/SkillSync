@@ -11,6 +11,7 @@ import {
 } from "react-icons/fi";
 
 const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
+  console.log("Opportunity Card Data:", opportunity);
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -46,28 +47,28 @@ const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
 
   return (
     <motion.div
-      className="group relative bg-gradient-to-br from-gray-900 to-black rounded-2xl p-6 shadow-2xl hover:shadow-3xl transition-shadow duration-300 overflow-hidden"
+      key={opportunity._id}
+      className="group relative bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-black rounded-2xl p-6 shadow-lg hover:shadow-xl dark:shadow-2xl dark:hover:shadow-3xl transition-shadow duration-300 overflow-hidden border border-gray-200 dark:border-transparent"
       variants={cardVariants}
       initial="hidden"
       animate="visible"
       whileHover={{ y: -5 }}
     >
-      {/* Glow effect */}
-      <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 dark:from-emerald-500/20 dark:to-cyan-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
       <div className="relative space-y-4">
         {/* Header Section */}
         <motion.div variants={itemVariants}>
-          <h3 className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">
+          <h3 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-cyan-600 dark:from-emerald-400 dark:to-cyan-400 bg-clip-text text-transparent">
             {title}
           </h3>
           <div className="flex items-center gap-2 mt-1">
-            <FiGlobe className="text-cyan-400" />
+            <FiGlobe className="text-cyan-600 dark:text-cyan-400" />
             <a
               href={`http://${company_website}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-cyan-400 hover:text-cyan-300 transition-colors"
+              className="text-cyan-600 hover:text-cyan-700 dark:text-cyan-400 dark:hover:text-cyan-300 transition-colors"
             >
               {company_website}
             </a>
@@ -78,37 +79,48 @@ const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
         <motion.div
           className="grid grid-cols-2 md:grid-cols-3 gap-4"
           variants={itemVariants}
-          transition={{ delayChildren: 0.2, staggerChildren: 0.1 }}
+          transition={{ staggerChildren: 0.1 }}
         >
-          <div className="flex flex-col items-center gap-2">
-            <FiUsers className="text-emerald-400" />
-            <span className="text-gray-300">{candidatesApplied?.length||"0"}</span>
-          </div>
-
-          <div className="flex flex-col items-center gap-2">
-            <FiDollarSign className="text-emerald-400" />
-            <div className="flex items-center gap-1">
-              <span className="text-gray-300">
-                {(salaryRange?.minSalary / 1000).toFixed(1)}k
+          {[
+            { icon: <FiUsers />, value: candidatesApplied.length },
+            {
+              icon: <FiDollarSign />,
+              value: (
+                <span>
+                  {salaryRange?.minSalary && (
+                    <span>
+                      {(salaryRange?.minSalary / 1000).toFixed(1)}k -{" "}
+                    </span>
+                  )}
+                  {salaryRange?.maxSalary && (
+                    <span>{(salaryRange?.maxSalary / 1000).toFixed(1)}k</span>
+                  )}
+                </span>
+              ),
+            },
+            {
+              icon: <FiCalendar />,
+              value: new Date(createdAt).toLocaleDateString(),
+            },
+          ].map((item, idx) => (
+            <motion.div
+              key={idx}
+              className="flex flex-col items-center gap-1"
+              variants={itemVariants}
+            >
+              <span className="text-emerald-600 dark:text-emerald-400">
+                {item.icon}
               </span>
-              <span className="text-gray-300">-</span>
-              <span className="text-gray-300">
-                {(salaryRange?.maxSalary / 1000).toFixed(1)}k
+              <span className="text-gray-700 dark:text-gray-300 text-sm">
+                {item.value}
               </span>
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center gap-2">
-            <FiCalendar className="text-emerald-400" />
-            <span className="text-gray-300">
-              {new Date(createdAt).toLocaleDateString()}
-            </span>
-          </div>
+            </motion.div>
+          ))}
         </motion.div>
 
         {/* Description */}
         <motion.p
-          className="text-gray-400 leading-relaxed"
+          className="text-gray-600 dark:text-gray-400 leading-relaxed"
           variants={itemVariants}
         >
           {desc_requirement?.substring(0, 200) + "..." ||
@@ -121,10 +133,8 @@ const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
             {skills.map((skill, index) => (
               <motion.span
                 key={index}
-                className="px-3 py-1 bg-emerald-500/10 rounded-full text-emerald-400 text-sm"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: index * 0.1 }}
+                className="px-3 py-1 bg-emerald-500/20 dark:bg-emerald-500/10 rounded-full text-emerald-700 dark:text-emerald-400 text-sm"
+                variants={itemVariants}
               >
                 {skill.skillName}
               </motion.span>
@@ -134,21 +144,21 @@ const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
 
         {/* Contact Info */}
         <motion.div
-          className="pt-4 border-t border-gray-800 space-y-2"
+          className="pt-4 border-t border-gray-300 dark:border-gray-800 space-y-2"
           variants={itemVariants}
         >
           <div className="flex items-center gap-2">
-            <FiMail className="text-cyan-400" />
+            <FiMail className="text-cyan-600 dark:text-cyan-400" />
             <a
               href={`mailto:${email}`}
-              className="text-cyan-400 hover:text-cyan-300"
+              className="text-cyan-600 hover:text-cyan-700 dark:text-cyan-400 dark:hover:text-cyan-300"
             >
               {email}
             </a>
           </div>
           <div className="flex items-center gap-2">
-            <FiPhone className="text-cyan-400" />
-            <span className="text-gray-300">{ph_no}</span>
+            <FiPhone className="text-cyan-600 dark:text-cyan-400" />
+            <span className="text-gray-700 dark:text-gray-300">{ph_no}</span>
           </div>
         </motion.div>
 
@@ -156,7 +166,7 @@ const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
         <motion.div className="pt-6" variants={itemVariants}>
           <motion.button
             onClick={onConnectClick}
-            className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-lg hover:from-emerald-600 hover:to-cyan-600 transition-all"
+            className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-lg hover:from-emerald-600 hover:to-cyan-600 transition-all text-white"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >

@@ -16,7 +16,6 @@ header {
 .logo img {
   width: 5rem !important;
   position: absolute;
-  left: 1rem;
   top: 0.3rem;
 }
 header a {

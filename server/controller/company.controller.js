@@ -122,9 +122,10 @@ export const getOpportunitytById = async (req, res) => {
 };
 
 
+ // controllers/opportunityController.js
 export const updateOpportunity = async (req, res) => {
   try {
-    const RequirementId = req.params.id;
+    const RequirementId = req.query.id; // 🔁 using query param
     const updatedData = req.body;
 
     const updatedRequirement = await OpportunityCollection.findByIdAndUpdate(
@@ -132,16 +133,19 @@ export const updateOpportunity = async (req, res) => {
       updatedData,
       { new: true }
     );
+
     if (!updatedRequirement) {
       return res.status(404).json({ message: "Requirement not found." });
     }
+
     res.status(200).json(updatedRequirement);
     console.log("Requirement updated successfully");
   } catch (error) {
     console.error("Error updating requirement:", error);
     res.status(500).json({ message: "Error updating requirement." });
   }
-}
+};
+
 
 export const deleteOpportunity = async (req, res) => {
   try {

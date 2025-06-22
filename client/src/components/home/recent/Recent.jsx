@@ -4,35 +4,16 @@ import RecentOpportunity from "./RecentOpportunityCard";
 import { useAuth } from "../../context/AuthContext";
 import { SampleRecentCard } from "../../SampleRecentCard";
 import TalentsCard from "./TalentsCards";
-import useFetchData from "../../hooks/useGetDataFetch";
 import { useNavigate } from "react-router-dom";
-import { PORT_CLIENT } from "../../../commonClient";
 import { Spinner } from "../../common/loadingSpinner/spinner";
 import { getAllCandidateProfiles } from "../../../services/api";
-import { useTheme } from "../../context/ThemeContext";
 
-const Recent = ({ filterCategory, filteredProgrammers, programmers }) => {
-
- 
+const Recent = ({ filterCategory, filteredopportunity, opportunity }) => {
   const { loggedInUser, googleUser } = useAuth();
   const navigate = useNavigate();
   const [talentsError, setTalentsError] = useState(null);
   const [talentsLoading, setTalentsLoading] = useState(true);
-  const [opportunities, setOpportunities] = useState([]);
   const [talents, setTalents] = useState([]);
-  const { theme, toggleTheme } = useTheme();
-
-
-  useEffect(() => {
-    console.log(filterCategory, filteredProgrammers, programmers);
-  }, [filterCategory, filteredProgrammers, programmers]);
-
-
-  const {
-    data: opportunitiesData,
-    error: opportunitiesError,
-    loading: opportunitiesLoading,
-  } = useFetchData(`${PORT_CLIENT}/api/requirements/addedOpportunities`);
 
   useEffect(() => {
     const fetchCandidates = async () => {
@@ -42,32 +23,22 @@ const Recent = ({ filterCategory, filteredProgrammers, programmers }) => {
         setTalentsLoading(false);
       } catch (error) {
         console.error("Error fetching candidates:", error);
+        setTalentsError("Error loading talents");
       }
     };
 
     fetchCandidates();
   }, []);
 
-  useEffect(() => {
-    if (opportunitiesData?.Addedopportunities) {
-      setOpportunities(opportunitiesData.Addedopportunities);
-    }
-  }, [opportunitiesData]);
-
   const handleConnectClick = (item, index, type) => {
-    const post_id = opportunities[index]?._id;
+    const post_id = opportunity[index]?._id;
     navigate(`${type}/connect/${post_id}`, { state: { item } });
   };
 
-  if (loggedInUser && (opportunitiesLoading || talentsLoading))
-    return <Spinner />;
+  if ((loggedInUser || googleUser) && talentsLoading) return <Spinner />;
 
-  if (opportunitiesError || talentsError) {
-    return (
-      <div className="text-center text-red-500">
-        {opportunitiesError || talentsError}
-      </div>
-    );
+  if (talentsError) {
+    return <div className="text-center text-red-500">{talentsError}</div>;
   }
 
   return (
@@ -84,7 +55,8 @@ const Recent = ({ filterCategory, filteredProgrammers, programmers }) => {
                 />
                 <RecentOpportunity
                   handleConnectClick={handleConnectClick}
-                  addedOpportunities={opportunities}
+                  addedOpportunities={opportunity}
+                  filterdOpportunities={filteredopportunity}
                 />
               </div>
             </section>
@@ -98,7 +70,11 @@ const Recent = ({ filterCategory, filteredProgrammers, programmers }) => {
                   title="Newly Listed Talents"
                   subtitle="Explore the latest talents looking for opportunities. Stay updated with fresh talent profiles and career options."
                 />
-                <TalentsCard talents={talents} />
+                <TalentsCard
+                  talents={
+                    filteredopportunity?.length ? filteredopportunity : talents
+                  }
+                />
               </div>
             </section>
           )}

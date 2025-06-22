@@ -33,7 +33,7 @@ const HireTalentModal = ({ candidate, onClose }) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
-      <div className="bg-white p-6 rounded-xl shadow-lg w-96">
+      <div className="bg-white p-6 rounded-xl shadow-lg w-96 dark:bg-gray-700 dark:text-white">
         <h2 className="text-xl font-bold mb-4">
           Hire {candidate.name || "NA"}
         </h2>
@@ -49,7 +49,7 @@ const HireTalentModal = ({ candidate, onClose }) => {
         <select
           value={jobType}
           onChange={(e) => setJobType(e.target.value)}
-          className="border p-2 rounded w-full mb-2"
+          className="border p-2 rounded w-full mb-2 dark:bg-gray-700 dark:text-white"
         >
           <option value="">Select Job Type</option>
           <option value="Full-time">Full-time</option>

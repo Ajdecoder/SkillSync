@@ -3,18 +3,21 @@ import Heading from "../../common/Heading";
 import "./hero.css";
 import { useAuth } from "../../context/AuthContext";
 import Recent from "../recent/Recent";
-import { filterData } from "../..//common/constants";
+import { filterData } from "../../common/constants";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { CandidatesFilters } from "../../common/Filters/TalentsFilter";
 import { OpportunitiesFilter } from "../../common/Filters/OpportunitiesFilter";
 import { FaSearch, FaUserTie, FaBriefcase } from "react-icons/fa";
+import useFetchData from "../../hooks/useGetDataFetch";
+import { PORT_CLIENT } from "../../../commonClient";
+import { Spinner } from "../../common/loadingSpinner/spinner";
 
 const Hero = () => {
   const { loggedInUser, googleUser } = useAuth();
   const currentUser = loggedInUser || googleUser;
 
-  const [programmers, setProgrammers] = useState([]);
+  const [opportunities, setOpportunities] = useState([]);
   const [filterCategory, setFilterCategory] = useState({
     selectedCity: "",
     selectedExpertType: "",
@@ -23,19 +26,31 @@ const Hero = () => {
   const [error, setError] = useState(null);
   const [isSearching, setIsSearching] = useState(false);
 
-  const filteredProgrammers = useMemo(() => {
+  const {
+    data: opportunitiesData,
+    error: opportunitiesError,
+    loading: opportunitiesLoading,
+  } = useFetchData(`${PORT_CLIENT}/api/requirements/addedOpportunities`);
+
+  useEffect(() => {
+    if (opportunitiesData?.Addedopportunities) {
+      setOpportunities(opportunitiesData.Addedopportunities);
+    }
+  }, [opportunitiesData]);
+
+  const filteredOpportunities = useMemo(() => {
     const { selectedCity, selectedExpertType, selectedPriceRange } =
       filterCategory;
-    return programmers.filter((programmer) => {
+    return opportunities.filter((opportunity) => {
       return (
-        (selectedCity === "" || programmer?.address === selectedCity) &&
+        (selectedCity === "" || opportunity?.address === selectedCity) &&
         (selectedExpertType === "" ||
-          programmer?.expertType === selectedExpertType) &&
+          opportunity?.expertType === selectedExpertType) &&
         (selectedPriceRange === "" ||
-          programmer?.priceRange === selectedPriceRange)
+          opportunity?.priceRange === selectedPriceRange)
       );
     });
-  }, [programmers, filterCategory]);
+  }, [opportunities, filterCategory]);
 
   const handleClick = () => {
     setIsSearching(true);
@@ -44,6 +59,8 @@ const Hero = () => {
       setIsSearching(false);
     }, 1000);
   };
+
+  if (currentUser && opportunitiesLoading) return <Spinner />;
 
   return (
     <>
@@ -64,7 +81,7 @@ const Hero = () => {
             >
               <Heading
                 title="Search Your Way"
-                subtitle="Find new & featured programmers located in your local city."
+                subtitle="Find new & featured opportunity located in your local city."
               />
             </motion.div>
 
@@ -80,17 +97,15 @@ const Hero = () => {
                   setFilterCategory={setFilterCategory}
                   filterData={filterData}
                   setError={setError}
-                  programmers={programmers}
-                  setProgrammers={setProgrammers}
+                  opportunity={opportunities}
+                  setopportunity={setOpportunities}
                 />
               ) : (
                 <OpportunitiesFilter
                   filterCategory={filterCategory}
                   setFilterCategory={setFilterCategory}
                   filterData={filterData}
-                  setError={setError}
-                  programmers={programmers}
-                  setProgrammers={setProgrammers}
+                  showClearButton={false}
                 />
               )}
 
@@ -156,8 +171,8 @@ const Hero = () => {
         </section>
       )}
       <Recent
-        programmers={programmers}
-        filteredProgrammers={filteredProgrammers}
+        opportunity={opportunities}
+        filteredopportunity={filteredOpportunities}
         filterCategory={filterCategory}
       />
     </>
