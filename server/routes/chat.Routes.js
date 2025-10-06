@@ -1,5 +1,5 @@
 import express from 'express';
-import { skillSyncAI } from '../controller/chat.controller.js';
+import { skillSyncAI } from '../chatbot/skillSyncAI.js';
 
 const chaBotRouter = express.Router();
 

@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Configure Axios
 const API = axios.create({
-  baseURL: import.meta.env.VITE_SERVER_PORT,
+  baseURL: import.meta.env.VITE_SERVER_PORT || "http://localhost:9002",
 });
 
 // Add Authorization token
