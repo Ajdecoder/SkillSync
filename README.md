@@ -70,7 +70,7 @@ It uses **LangChain, Node.js, React, and MongoDB** to provide real-time matching
 | **Backend** | Node.js, Express.js |
 | **Database** | MongoDB, Mongoose |
 | **AI Layer** | LangChain, Google Generative AI (Gemini 2.0 Flash) |
-| **Cloud / DevOps** | AWS (S3, IAM), Docker, Cloudinary |
+| **Cloud / DevOps** | Firebase, Vercel, Render, Docker, Cloudinary |
 | **Tools** | Postman, Git/GitHub, Nodemailer, Figma |
 
 ---
