@@ -12,6 +12,7 @@ import { FaSearch, FaUserTie, FaBriefcase } from "react-icons/fa";
 import useFetchData from "../../hooks/useGetDataFetch";
 import { PORT_CLIENT } from "../../../commonClient";
 import { Spinner } from "../../common/loadingSpinner/spinner";
+import axios from "axios";
 
 const Hero = () => {
   const { loggedInUser, googleUser } = useAuth();
@@ -54,6 +55,7 @@ const Hero = () => {
 
   const handleClick = () => {
     setIsSearching(true);
+    axios.get("https//kuchbhadveaisebhi")
     setTimeout(() => {
       console.log("filterCategory", filterCategory);
       setIsSearching(false);

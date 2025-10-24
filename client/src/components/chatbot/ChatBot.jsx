@@ -113,7 +113,7 @@ export const ChatBot = () => {
     setIsTyping(true);
     try {
       const response = await getChatResponse({ text, id: userId });
-      console.log("response", response.data);
+      console.log("response", response);
       const words = response.data.response
         .replace(/\*{1,3}(.*?)\*{1,3}/g, "$1")
         .split(" ");

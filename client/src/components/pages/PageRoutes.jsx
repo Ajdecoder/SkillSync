@@ -158,7 +158,7 @@ export const RoutesConfig = ({ spin, setSpin }) => [
     path="/requirements/browse-opportunities"
     element={
       <RequireRole role="candidate">
-        <SavedOpportunity />
+        <SavedOpportunity  />
       </RequireRole>
     }
   />,

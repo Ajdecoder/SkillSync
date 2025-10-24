@@ -1,115 +1,79 @@
-# SkillSync
+# ⚡ SkillSync — AI-Powered Talent & Opportunity Matching Platform
 
-SkillSync is a dynamic platform that connects businesses with skilled professionals seeking flexible, contract-based, or freelance work opportunities. Designed to simplify and enhance the hiring process, SkillSync provides a seamless experience for both recruiters and candidates.
-
-![alt text](/client/public/image.png)
-![alt text](/client/public/image-1.png)
-![alt text](/client/public/image-2.png)
+SkillSync is a **full-stack AI-driven recruitment platform** that intelligently connects **candidates** and **employers/startups**.  
+It uses **LangChain, Node.js, React, and MongoDB** to provide real-time matching, skill extraction, and a conversational chatbot assistant.
 
 ---
 
 ## 🚀 Features
 
-### ✅ For Recruiters
-- **Post Job Opportunities**: Add project-based or contract roles.
-- **Search Talent**: Explore a rich database of skilled professionals.
-- **Recruiter Profiles**: Create and manage organization information.
-- **Review Before Post**: Preview and confirm job listings before submission.
-- **OAuth Sign-in**: Secure login via Google or LinkedIn.
+### 👤 Role-Based System
+- Separate roles for **Candidates** and **Recruiters**
+- Secure login with **JWT Authentication**
+- Role-based access control for all features
 
-### 👨‍💼 For Candidates
-- **Create Profiles**: Add skills, interests, and availability.
-- **Express Job Preferences** *(Upcoming)*: Indicate roles you're open to.
-- **Apply & Show Interest**: Interact with available opportunities.
-- **Skill Analytics Dashboard** *(Upcoming)*: Track your progress and in-demand skills.
-- **ChatBot Assistance**: AI-powered help for career or app-related queries.
+### 💼 Job & Candidate Management
+- Employers can **create, update, and delete** job postings
+- Candidates can explore jobs that match their **skills and interests**
+- Real-time filtering and smart recommendations
 
-### 🔧 Platform Features
-- **Dynamic Landing Page**: Interactive and user-centric homepage.
-- **Real-Time Notifications** *(Upcoming)*: Stay updated with instant alerts.
-- **Personalized Dashboards**: Tailored view for each user type.
-- **Authentication & Authorization**: JWT-secured routes and user data protection.
-- **AI Contract Simplifier** *(Hackathon Add-on)*: Simplifies complex job contracts into easy summaries.
+### 🤖 AI-Powered Chatbot
+- Built with **LangChain** + **Google Gemini API**
+- Understands user intent and classifies it as:
+  - `find_jobs` → when candidate looks for jobs  
+  - `find_candidates` → when recruiter wants to hire  
+  - `unauthorized` → when user tries action outside their role  
+  - `general` → for casual or unrelated queries
+- Auto skill extraction from user messages
+- Conversational tone with emojis and dynamic responses
 
----
+### 🧠 Intelligent Skill Extraction
+- Extracts **skills from messages and resumes** using NLP
+- Auto-tags both users and opportunities
+- Improves matching accuracy for recommendations
 
-## 🛠 Tech Stack
+### ✉️ Notifications & Email System
+- In-app real-time notifications with smooth animations
+- Deletable notifications
+- Planned **email alerts** for candidates and recruiters (via Nodemailer / SendGrid)
 
-### Frontend
-- React.js (v18+)
-- Tailwind CSS / Material UI / Bootstrap / Vanilla CSS
-- React Router
-- React Toastify
+### 💬 Interactive Chat UI
+- Built using **React + Vite + Tailwind CSS**
+- Beautiful animated interface with **Framer Motion**
+- Handles message history, typing states, and server errors gracefully
 
-### Backend
-- Node.js + Express.js
-- MongoDB
-- JWT (Authentication)
-- Multer (File uploads)
+### 📄 Resume & Profile System
+- Candidate profiles include resumes, extracted skills, and portfolio links
+- Validation checks for uploaded files
+- Cloud storage integration with **Cloudinary**
 
-### AI/ML Integrations
-- AI-Powered ChatBot
-- AI Contract Simplification (NLP)
-- (Planned) Smart Job & Talent Matching using ML
+### 📊 Admin / Dashboard Features
+- Dynamic tables with:
+  - Select-All + Multi Delete
+  - Drag-and-drop row reordering
+  - PDF download & WhatsApp share
+  - AI-based translation for text fields
 
-### Tools & Platforms
-- GitHub
-- Postman
-- Figma
-- Vercel / Render (Deployment)
-
----
-
-## 📦 API Overview
-
-SkillSync includes **25+ RESTful APIs** for:
-- User Authentication
-- Job Posting Management
-- Candidate Profile Handling
-- Recruiter-Candidate Matching (Planned)
-- Notification Handling *(Upcoming)*
+### ☁️ Cloud & Deployment Ready
+- Backend: Node.js + Express + MongoDB  
+- File Storage: AWS S3 / Cloudinary  
+- Frontend: React + Vite + Tailwind  
+- Deployment: **Vercel** (Frontend) + **Render/Railway** (Backend)
 
 ---
 
-## ✨ Upcoming Features
+## 🧩 Tech Stack
 
-| Feature                      | Status       |
-|-----------------------------|--------------|
-| Candidate Job Preferences   | 🟡 In Progress |
-| Skill Analytics             | 🔜 Planned    |
-| Real-Time Notifications     | 🔜 Planned    |
-| Resume Parsing              | 🔜 Planned    |
-| Auto Job Recommendations    | 🔜 Planned    |
-| Gamified Skill Badges       | 🔜 Planned    |
-| In-app Chat (Recruiter ↔ Candidate) | 🔜 Planned    |
-
----
-
-## 📸 Screenshots
-
-> Add images here when available  
-> `![Landing Page](./screenshots/landing.png)`  
-> `![Dashboard](./screenshots/dashboard.png)`
+| Category | Technologies |
+|-----------|---------------|
+| **Frontend** | React.js, Vite, Tailwind CSS, Redux, Framer Motion |
+| **Backend** | Node.js, Express.js |
+| **Database** | MongoDB, Mongoose |
+| **AI Layer** | LangChain, Google Generative AI (Gemini 2.0 Flash) |
+| **Cloud / DevOps** | Firebase, Vercel, Render, Docker, Cloudinary |
+| **Tools** | Postman, Git/GitHub, Nodemailer, Figma |
 
 ---
 
-## 🧠 Vision
-
-SkillSync aims to:
-- Democratize flexible work by enabling project-based hiring.
-- Empower candidates to showcase their evolving skills.
-- Help companies quickly discover and onboard skilled professionals.
-- Create a **community-driven platform** for growth, collaboration, and opportunity.
-
----
-
-## 🧑‍💻 Developer Info
-
-**Built by:** [Anuj Shrivastav](mailto:anujshrivastav530@gmail.com)  
-**Tech Stack:** MERN | AI Integration | Cloud-Ready | Scalable Microservices  
-**Connect:** [LinkedIn](https://linkedin.com/in/anujshrivastav530) | [GitHub](https://github.com/anujshrivastav530)
-
----
-
-## 🗂 Project Structure
+## 🧱 Folder Structure
 
