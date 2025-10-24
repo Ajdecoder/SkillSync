@@ -10,12 +10,14 @@ import {
   FiCalendar,
 } from "react-icons/fi";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
+
+const AddOpportunityCard = ({ opportunity }) => {
   useEffect(() => {
-      console.log("Opportunity Card Data:", opportunity);
+    console.log("Opportunity Card Data:", opportunity);
   }, [])
-  
+
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
@@ -32,6 +34,14 @@ const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
   const itemVariants = {
     hidden: { opacity: 0, x: -10 },
     visible: { opacity: 1, x: 0 },
+  };
+
+  const navigate = useNavigate()
+
+  const handleConnectClick = (opportunity) => {
+    navigate(`/opportunity/connect/${opportunity._id}`, {
+      state: { opportunity },
+    });
   };
 
   const {
@@ -169,7 +179,7 @@ const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
         {/* Connect Button */}
         <motion.div className="pt-6" variants={itemVariants}>
           <motion.button
-            onClick={onConnectClick}
+            onClick={() => handleConnectClick(opportunity)}
             className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-lg hover:from-emerald-600 hover:to-cyan-600 transition-all text-white"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
