@@ -150,6 +150,10 @@ const NotificationPage = () => {
       <p className="text-sm text-gray-500 mt-4">
         Posted on: {formatTime(selectedNotification?.createdAt)}
       </p>
+
+      {/* Go to job */}
+          
+      <button className="mb-4 text-xl p-2 bg-black text-white" >fdsfdsf</button>
     </motion.div>
   );
 
@@ -220,7 +224,7 @@ const NotificationPage = () => {
   );
 
   const renderNotificationDetails = () => {
-    if (!selectedNotification) {
+    if (!selectedNotification && notifications.length) {
       return (
         <p className="text-gray-500">Select a notification to view details</p>
       );

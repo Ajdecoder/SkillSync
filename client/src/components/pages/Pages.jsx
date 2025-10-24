@@ -37,7 +37,7 @@ const ScrollToTop = () => {
 
 const Pages = () => {
   const [spin, setSpin] = useState(false);
-  const [loading, setLoading] = useState(false);  
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     Aos.init({
@@ -51,12 +51,12 @@ const Pages = () => {
     const handleScroll = () => Aos.refresh();
     window.addEventListener("scroll", handleScroll);
 
-    
-    const timer = setTimeout(() => {
-      setLoading(false); 
-    }, 1500); 
 
-    
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
       clearTimeout(timer);
@@ -76,20 +76,20 @@ const Pages = () => {
         }}
       >
         <NotificationsProvider>
-        <HireFormProvider>
-          <AddOpportunityFormProvider>
+          <HireFormProvider>
+            <AddOpportunityFormProvider>
               <Router
-              future={{
-                v7_startTransition: true, 
-                v7_relativeSplatPath: true, 
-              }}
+                future={{
+                  v7_startTransition: true,
+                  v7_relativeSplatPath: true,
+                }}
               >
                 <ScrollToTop />
                 <ScrollProgress />
                 {loading ? (
-                  
+
                   <div className="loading-screen">
-                  <LoginLoading />
+                    <LoginLoading />
                   </div>
                 ) : (
                   <>
@@ -103,8 +103,8 @@ const Pages = () => {
                   </>
                 )}
               </Router>
-          </AddOpportunityFormProvider>
-        </HireFormProvider>
+            </AddOpportunityFormProvider>
+          </HireFormProvider>
         </NotificationsProvider>
       </Auth0Provider>
     </AuthProvider>

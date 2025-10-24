@@ -35,7 +35,7 @@ const StepOne = ({ nextStep }) => {
       name: "requirement_type",
       label: "Requirement Type",
       required: true,
-      options: ["", "Full-Time", "Part-Time", "Contract", "Internship"],
+      options: [ "Full-Time", "Part-Time", "Contract", "Internship"],
       placeholder: "Select requirement type",
     },
     {

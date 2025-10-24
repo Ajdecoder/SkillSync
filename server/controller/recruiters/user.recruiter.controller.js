@@ -40,7 +40,13 @@ export const RecruiterRegister = async (req, res) => {
     delete recruiterProfile.recruiterInfo.password;
 
     const token = await newRecruiter.generateToken();
-    res.cookie("jwttoken", token, { httpOnly: true });
+    res.cookie("jwttoken", token, {
+      httpOnly: true,
+      secure: true, // only over HTTPS
+      sameSite: "None", // allow cross-site cookie sharing
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
 
     res.status(201).json({
       message: "Recruiter registered successfully",
@@ -78,7 +84,13 @@ export const RecruiterLogin = async (req, res) => {
     }
 
     const token = await recruiter.generateToken();
-    res.cookie("jwttoken", token, { httpOnly: true });
+    res.cookie("jwttoken", token, {
+      httpOnly: true,
+      secure: true, // only over HTTPS
+      sameSite: "None", // allow cross-site cookie sharing
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
 
     return res.status(200).json({
       success: true,

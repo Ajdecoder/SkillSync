@@ -35,7 +35,13 @@ export const CandidateLogin = async (req, res) => {
 
     const token = await candidate.generateToken();
 
-    res.cookie("jwttoken", token, { httpOnly: true });
+    res.cookie("jwttoken", token, {
+      httpOnly: true,
+      secure: true, // only over HTTPS
+      sameSite: "None", // allow cross-site cookie sharing
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
 
     return res.status(200).json({
       success: true,
@@ -95,7 +101,13 @@ export const CandidateRegister = async (req, res) => {
 
     const token = await newCandidate.generateToken();
 
-    res.cookie("jwttoken", token, { httpOnly: true });
+    res.cookie("jwttoken", token, {
+      httpOnly: true,
+      secure: true, // only over HTTPS
+      sameSite: "None", // allow cross-site cookie sharing
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
 
     return res.status(201).json({
       message: "Candidate registered successfully",

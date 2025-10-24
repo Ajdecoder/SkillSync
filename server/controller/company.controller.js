@@ -53,13 +53,13 @@ export const addOpportunity = async (req, res) => {
   }
 };
 
-
-
 export const allOpportunitiesData = async (req, res) => {
   try {
-    const Addedopportunities = await OpportunityCollection.find().populate(
-      "candidatesApplied"
-    ).populate("recruiterDetails");
+    const Addedopportunities = await OpportunityCollection.find()
+      .populate("candidatesApplied")
+
+      .populate("recruiterDetails")
+      .lean();
     res.json({ Addedopportunities });
   } catch (error) {
     console.error("Error fetching data:", error.message);
@@ -71,7 +71,7 @@ export const allOpportunitiesData = async (req, res) => {
 
 export const jobListeningsByRecruiter = async (req, res) => {
   try {
-    const {recruiterId} = req.params;
+    const { recruiterId } = req.params;
     console.log("Running jobListeningsByRecruiter, Recruiter ID:", recruiterId);
 
     if (!recruiterId) {
@@ -122,7 +122,7 @@ export const getOpportunitytById = async (req, res) => {
 };
 
 
- // controllers/opportunityController.js
+// controllers/opportunityController.js
 export const updateOpportunity = async (req, res) => {
   try {
     const RequirementId = req.query.id; // 🔁 using query param

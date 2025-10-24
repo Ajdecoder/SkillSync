@@ -120,7 +120,6 @@ export const SavedOpportunity = () => {
           showClearButton={true}
         />
 
-        
 
         {filteredOpportunities.length === 0 ? (
           <div className=" text-center p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">

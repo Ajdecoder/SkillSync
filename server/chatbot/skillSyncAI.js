@@ -2,7 +2,7 @@ import { getUserProfile } from "./helpers/getUserProfile.js";
 import { decideActionWithRole } from "./decisions/decideAction.js";
 import { findJobs } from "./actions/findJobs.js";
 import { findCandidates } from "./actions/findCandidates.js";
-import { generateAIResponse } from "./actions/generateAIResponse.js";
+import generateAIResponse from "./actions/generateAIResponse.js";
 import { extractSkillsFromMessage } from "./helpers/extractSkills.js";
 
 export const skillSyncAI = async (req, res) => {

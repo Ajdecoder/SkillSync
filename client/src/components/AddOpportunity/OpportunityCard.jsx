@@ -9,9 +9,13 @@ import {
   FiUsers,
   FiCalendar,
 } from "react-icons/fi";
+import { useEffect } from "react";
 
 const AddOpportunityCard = ({ opportunity, onConnectClick }) => {
-  console.log("Opportunity Card Data:", opportunity);
+  useEffect(() => {
+      console.log("Opportunity Card Data:", opportunity);
+  }, [])
+  
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
