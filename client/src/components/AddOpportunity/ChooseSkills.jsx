@@ -123,6 +123,7 @@ export const ChooseSkills = ({ nextStep, prevStep }) => {
           />
           <button
             onClick={addCustomSkill}
+            onKeyDown ={addCustomSkill}
             className="px-4 py-2 bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600"
           >
             Add Skill

@@ -1,7 +1,8 @@
 import React from "react";
 import { dummyRecentCards } from ".//common/constants";
 import { motion } from "framer-motion";
-import { FiArrowRight, FiGlobe, FiMail, FiPhone, FiDollarSign, FiUsers, FiCalendar, FiMapPin } from "react-icons/fi";
+import { FiArrowRight, FiGlobe, FiMail, FiPhone, FiUsers, FiCalendar, FiMapPin } from "react-icons/fi";
+import { FaRupeeSign } from "react-icons/fa";
 
 export const SampleRecentCard = () => {
   const cardVariants = {
@@ -84,7 +85,7 @@ export const SampleRecentCard = () => {
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <FiDollarSign className="text-gray-600" />
+                  <FaRupeeSign className="text-gray-600" />
                   <span className="text-gray-700">{Status}</span>
                 </div>
               </div>

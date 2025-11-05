@@ -8,7 +8,8 @@ import { PORT_CLIENT } from "../../commonClient";
 import { GoogleAuth } from "../Oauth/Oauth";
 import bgImage from "/images/logingPage/bg.png";
 import { loginRecruiter } from "../../services/api";
-import NotificationToasts  from "../common/Toast/Toast";
+import NotificationToasts from "../common/Toast/Toast";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export const LoginRecruiter = () => {
   const navigate = useNavigate();
@@ -74,7 +75,7 @@ export const LoginRecruiter = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 to-purple-900 flex flex-col items-center justify-center p-6p-6 relative">
-  
+
       <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8 z-10">
         <h1 className="text-3xl font-semibold text-gray-800 text-center mb-6">
           Recruiter Login
@@ -87,7 +88,7 @@ export const LoginRecruiter = () => {
               value={user.email}
               onChange={handleChange}
               placeholder="Enter your email"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 bg-white dark:bg-gray-700 text-gray-800 dark:text-white transition duration-200"
               required
             />
             <div className="relative">
@@ -97,19 +98,17 @@ export const LoginRecruiter = () => {
                 value={user.password}
                 onChange={handleChange}
                 placeholder="Enter your password"
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 bg-white dark:bg-gray-700 text-gray-800 dark:text-white transition duration-200"
                 required
               />
-              <span
-                className="absolute right-4 top-2.5 text-blue-500 cursor-pointer"
+              
+              <button
+                type="button"
                 onClick={togglePasswordVisibility}
+                className="absolute right-3 top-4 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 text-xl"
               >
-                {showPass ? (
-                  <i className="fa-solid fa-eye"></i>
-                ) : (
-                  <i className="fa-solid fa-eye-slash"></i>
-                )}
-              </span>
+                {showPass ? <FaEyeSlash /> : <FaEye />}
+              </button>
             </div>
           </div>
           <div className="mt-6 flex justify-between items-center">
@@ -139,7 +138,7 @@ export const LoginRecruiter = () => {
           </div>
         </form>
         {toastMessage && (
-          <NotificationToasts 
+          <NotificationToasts
             message={toastMessage}
             type={toastType}
             autoClose={1500}

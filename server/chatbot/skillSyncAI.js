@@ -8,7 +8,7 @@ import { extractSkillsFromMessage } from "./helpers/extractSkills.js";
 export const skillSyncAI = async (req, res) => {
   try {
     const userMessage = req.body.text || "Hello!";
-    console.log(userMessage)
+    console.log("Enquiry:-",userMessage)
     const userId = req.body.id;
 
     const userProfile = await getUserProfile(userId);

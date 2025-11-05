@@ -5,17 +5,20 @@ import {
   FiGlobe,
   FiMail,
   FiPhone,
-  FiDollarSign,
   FiUsers,
   FiCalendar,
 } from "react-icons/fi";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { FaRupeeSign } from "react-icons/fa";
 
 
 const AddOpportunityCard = ({ opportunity }) => {
+
+  // console.log('opportunity is here',opportunity)
+
   useEffect(() => {
-    console.log("Opportunity Card Data:", opportunity);
+    // console.log("Opportunity Card Data:", opportunity);
   }, [])
 
   const cardVariants = {
@@ -98,7 +101,7 @@ const AddOpportunityCard = ({ opportunity }) => {
           {[
             { icon: <FiUsers />, value: candidatesApplied.length },
             {
-              icon: <FiDollarSign />,
+              icon: <FaRupeeSign />,
               value: (
                 <span>
                   {salaryRange?.minSalary && (

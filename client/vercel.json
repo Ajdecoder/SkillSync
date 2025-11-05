@@ -4,8 +4,5 @@
       "source": "/(.*)",
       "destination": "/"
     }
-  ],
-  "build": {
-    "ignoreCommand": "bash ./scripts/vercel-ignore.sh"
-  }
+  ]
 }

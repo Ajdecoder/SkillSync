@@ -165,7 +165,7 @@ const TalentsCard = ({ bgColor }) => {
                   alt={`${candidate?.name}'s profile`}
                   className="rounded-full w-28 h-28 object-cover border-4 border-emerald-400/20 hover:border-emerald-400/40 transition-all"
                   onError={(e) => {
-                    e.target.src = "https://imgs.search.brave.com/7xv-q5UEqCqUOfDiTmUOeFmpAkCfemrJAXpOLm1T9jM/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9zdGF0/aWMudmVjdGVlenku/Y29tL3N5c3RlbS9y/ZXNvdXJjZXMvdGh1/bWJuYWlscy8wMTUv/NjkzLzUzOS9zbWFs/bC9nbG9zc3ktdXNl/ci1pY29uLWJ1dHRv/bi12ZWN0b3IuanBn"
+                    e.target.src = "https://imgs.search.brave.com/pkPyTQFTOVFQw7Hki6hg6cgY5FPZ3UzkpUMsnfiuznQ/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/dmVjdG9yc3RvY2su/Y29tL2kvNTAwcC80/MS85MC9hdmF0YXIt/ZGVmYXVsdC11c2Vy/LXByb2ZpbGUtaWNv/bi1zaW1wbGUtZmxh/dC12ZWN0b3ItNTcy/MzQxOTAuanBn"
                   }}
                 />
                 {candidate?.isVerified && (
