@@ -8,7 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { Spinner } from "../../common/loadingSpinner/spinner";
 import { getAllCandidateProfiles } from "../../../services/api";
 
-const Recent = ({ filterCategory, filteredopportunity, opportunity }) => {
+const Recent = ({ filteredopportunity, opportunity }) => {
+  
   const { loggedInUser, googleUser } = useAuth();
   const navigate = useNavigate();
   const [talentsError, setTalentsError] = useState(null);
@@ -30,11 +31,6 @@ const Recent = ({ filterCategory, filteredopportunity, opportunity }) => {
     fetchCandidates();
   }, []);
 
-  const handleConnectClick = (item, index, type) => {
-    const post_id = opportunity[index]?._id;
-    navigate(`${type}/connect/${post_id}`, { state: { item } });
-  };
-
   if ((loggedInUser || googleUser) && talentsLoading) return <Spinner />;
 
   if (talentsError) {
@@ -54,7 +50,6 @@ const Recent = ({ filterCategory, filteredopportunity, opportunity }) => {
                   subtitle="Explore the latest companies seeking talent. Stay updated with fresh opportunities and potential career moves."
                 />
                 <RecentOpportunity
-                  handleConnectClick={handleConnectClick}
                   addedOpportunities={opportunity}
                   filterdOpportunities={filteredopportunity}
                 />

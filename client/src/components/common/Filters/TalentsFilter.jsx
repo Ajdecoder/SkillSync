@@ -42,7 +42,7 @@ export const CandidatesFilters = ({
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4, duration: 1 }}
       >
-        <span>Expert Type</span>
+        <span>Skills Type</span>
         <select
           value={filterCategory.selectedExpertType}
           onChange={(e) =>

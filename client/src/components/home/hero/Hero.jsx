@@ -13,6 +13,7 @@ import useFetchData from "../../hooks/useGetDataFetch";
 import { PORT_CLIENT } from "../../../commonClient";
 import { Spinner } from "../../common/loadingSpinner/spinner";
 import axios from "axios";
+import { getOpportunities } from "../../../services/api";
 
 const Hero = () => {
   const { loggedInUser, googleUser } = useAuth();
@@ -20,9 +21,10 @@ const Hero = () => {
 
   const [opportunities, setOpportunities] = useState([]);
   const [filterCategory, setFilterCategory] = useState({
-    selectedCity: "",
-    selectedExpertType: "",
-    selectedPriceRange: "",
+    skills: "",
+    location: "",
+    minSalary: "",
+    maxSalary: "",
   });
   const [error, setError] = useState(null);
   const [isSearching, setIsSearching] = useState(false);
@@ -53,14 +55,33 @@ const Hero = () => {
     });
   }, [opportunities, filterCategory]);
 
-  const handleClick = () => {
+
+  const handleSearch = () => {
     setIsSearching(true);
-    axios.get("https//kuchbhadveaisebhi")
-    setTimeout(() => {
-      console.log("filterCategory", filterCategory);
-      setIsSearching(false);
-    }, 1000);
+
+    const queryParams = {};
+
+    if (filterCategory.skills) queryParams.skills = filterCategory.skills;
+    if (filterCategory.location) queryParams.location = filterCategory.location;
+    if (filterCategory.minSalary) queryParams.minSalary = filterCategory.minSalary;
+    if (filterCategory.maxSalary) queryParams.maxSalary = filterCategory.maxSalary;
+    if (filterCategory.requirement_type)
+      queryParams.requirement_type = filterCategory.requirement_type;
+
+    console.log("📤 Sending query to backend:", queryParams);
+
+    getOpportunities(queryParams)
+      .then((res) => {
+        console.log("✅ Response:", res.data);
+        setOpportunities(res.data.Addedopportunities || []);
+        setIsSearching(false);
+      })
+      .catch((err) => {
+        console.error("❌ Error fetching opportunities:", err);
+        setIsSearching(false);
+      });
   };
+
 
   if (currentUser && opportunitiesLoading) return <Spinner />;
 
@@ -98,25 +119,21 @@ const Hero = () => {
                   filterCategory={filterCategory}
                   setFilterCategory={setFilterCategory}
                   filterData={filterData}
-                  setError={setError}
-                  opportunity={opportunities}
-                  setopportunity={setOpportunities}
                 />
               ) : (
                 <OpportunitiesFilter
-                  filterCategory={filterCategory}
-                  setFilterCategory={setFilterCategory}
-                  filterData={filterData}
-                  showClearButton={false}
+                  opportunities={opportunitiesData?.Addedopportunities || []}// array for options
+                  data={filterCategory}          // filter state
+                  setData={setFilterCategory}    // updater
                 />
+
               )}
 
               <motion.button
-                className={`flex items-center justify-center gap-2 w-2/4 m-auto py-3 px-4 bg-purple-600 dark:bg-purple-700 hover:bg-purple-700 dark:hover:bg-purple-800 text-white font-medium rounded-lg shadow-md transition-colors duration-300 ${
-                  isSearching ? "opacity-70 cursor-not-allowed" : ""
-                }`}
+                className={`flex items-center justify-center gap-2 w-2/4 m-auto py-3 px-4 bg-purple-600 dark:bg-purple-700 hover:bg-purple-700 dark:hover:bg-purple-800 text-white font-medium rounded-lg shadow-md transition-colors duration-300 ${isSearching ? "opacity-70 cursor-not-allowed" : ""
+                  }`}
                 type="button"
-                onClick={handleClick}
+                onClick={handleSearch}
                 disabled={isSearching}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

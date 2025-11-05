@@ -169,8 +169,8 @@ export const BookmarkedOpportunity = () => {
                   <div className="flex items-center gap-2 text-gray-600">
                     <FaIndianRupeeSign className="h-5 w-5 text-purple-600" />
                     <span>
-                      ₹{opportunity.salaryRange?.min ?? "N/A"} - ₹
-                      {opportunity.salaryRange?.max ?? "N/A"}
+                      ₹{opportunity.salaryRange?.minSalary ?? "N/A"} - ₹
+                      {opportunity.salaryRange?.maxSalary ?? "N/A"}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-gray-600">

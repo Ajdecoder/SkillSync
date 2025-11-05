@@ -369,9 +369,9 @@ export const UploadProfilePicture = async (req, res) => {
 };
 
 export const UploadCandidateResume = async (req, res) => {
-  try {
-    console.log("▶ UploadProfilePicture route hit");
+  console.log("▶ UploadCandidateResume route hit");
 
+  try {
     if (!req.file) {
       console.log("❌ No file received");
       return res.status(400).json({ message: "No file uploaded" });
@@ -381,53 +381,44 @@ export const UploadCandidateResume = async (req, res) => {
     const file = req.file;
 
     console.log("✅ File received:", file.originalname, "Size:", file.size, "Type:", file.mimetype);
-    console.log("▶ User ID:", userId);
 
-    // Create a write stream to Cloudinary
+    // Upload to Cloudinary
     const uploadStream = cloudinary.uploader.upload_stream(
       {
-        folder: 'SkillSync/resume',
-        resource_type: 'auto',
-        transformation: [
-          { width: 500, height: 500, crop: 'fill' },
-          { quality: 'auto' }
-        ]
+        folder: "SkillSync/resume",
+        resource_type: "raw", // auto handles PDF correctly
+        type: "upload",        // <— ensures it’s publicly accessible
+        use_filename: true,
+        unique_filename: false,
       },
       async (error, result) => {
         if (error) {
           console.error("❌ Cloudinary upload error:", error);
-          return res.status(500).json({ 
+          return res.status(500).json({
             message: "Error uploading to Cloudinary",
-            error: error.message 
+            error: error.message,
           });
         }
 
         console.log("✅ Cloudinary upload successful:", result.secure_url);
 
         try {
-          // Try updating Candidate first
+          // Update Candidate record with resume URL and name
           let updatedUser = await CandidateUserProfile.findByIdAndUpdate(
             userId,
-            { 
-              profilePicture: result.secure_url,
-              'profilePictureDetails': {
-                publicId: result.public_id,
-                url: result.secure_url
-              }
+            {
+              resume: result.secure_url,
+              resumeFileName: file.originalname,
             },
             { new: true }
           );
 
-          // Fallback to Recruiter
           if (!updatedUser) {
             updatedUser = await RecruiterUserProfile.findByIdAndUpdate(
               userId,
-              { 
-                profilePicture: result.secure_url,
-                'profilePictureDetails': {
-                  publicId: result.public_id,
-                  url: result.secure_url
-                }
+              {
+                resume: result.secure_url,
+                resumeFileName: file.originalname,
               },
               { new: true }
             );
@@ -440,27 +431,28 @@ export const UploadCandidateResume = async (req, res) => {
 
           console.log("✅ DB update successful");
           return res.status(200).json({
-            message: "Image uploaded successfully",
-            profilePicture: result.secure_url,
+            message: "Resume uploaded successfully",
+            resumeUrl: result.secure_url,
+            resumeFileName: file.originalname,
             user: updatedUser,
           });
         } catch (dbError) {
           console.error("❌ DB update error:", dbError);
-          return res.status(500).json({ 
+          return res.status(500).json({
             message: "Error updating user profile",
-            error: dbError.message 
+            error: dbError.message,
           });
         }
       }
     );
 
-    // Write the file buffer directly to the upload stream
     uploadStream.end(file.buffer);
   } catch (error) {
     console.error("❌ Server error during upload:", error);
-    return res.status(500).json({ 
+    return res.status(500).json({
       message: "Server error during upload",
-      error: error.message 
+      error: error.message,
     });
   }
 };
+

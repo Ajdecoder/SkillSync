@@ -3,6 +3,7 @@ import axios from "axios";
 // Configure Axios
 const API = axios.create({
   baseURL: import.meta.env.VITE_SERVER_PORT || "http://localhost:9002",
+  withCredentials: true
 });
 
 // Add Authorization token
@@ -44,8 +45,9 @@ export const getAllRecruitersProfiles = () =>
 
 export const addOpportunity = (data) =>
   API.post("/api/requirements/addOpportunity", data);
-export const getOpportunities = () =>
-  API.get("/api/requirements/addedOpportunities");
+export const getOpportunities = (query) =>
+  API.get("/api/requirements/addedOpportunities", { params: query });
+
 export const jobListeningsByRecruiter = (recruiterId) =>
   API.get(`/api/requirements/jobListeningsByRecruiter/${recruiterId}`);
 

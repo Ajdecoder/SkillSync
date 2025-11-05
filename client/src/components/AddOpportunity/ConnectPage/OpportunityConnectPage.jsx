@@ -161,6 +161,8 @@ const OpportunityConnectPage = () => {
     recruiterDetails,
   } = companyData;
 
+  console.log("companyData here:",companyData)
+
   const userHasAlreadyApplied = candidatesApplied?.includes(userId);
 
   const renderSkills = () => {
@@ -413,7 +415,7 @@ const OpportunityConnectPage = () => {
                   </h3>
                   <div className="flex items-center gap-2 text-gray-300">
                     <FiGlobe className="text-cyan-400" />
-                    <p className="text-black" >{location || "No location provided"}</p>
+                    <p className="text-black dark:text-gray-300" >{location || "No location provided"}</p>
                   </div>
                 </motion.div>
 

@@ -93,6 +93,7 @@ export const candidateProfileSchema = new mongoose.Schema(
       // enum: ["Closed", "Open"],
     },
     resume: { type: String, default: "" },
+    resumeFileName: {type: String, default: ""},
     volunteerExperience: [
       {
         organization: { type: String, default: "Unknown Organization" },
