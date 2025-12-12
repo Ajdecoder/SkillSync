@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
-import { AddOpportunitySchema } from "../model/RecruiterModals/AddOpportunityModal.js";
-import { candidateProfileSchema, recruiterProfileSchema } from "../model/UserProfileModal.js";
-import { userSchema } from "../model/userModal.js";
-import { BookMarkSchema } from "../model/CandidateModals/BookMarksModal.js";
-import blogSchema from "../model/blogs.js";
+import { AddOpportunitySchema } from "../models/RecruiterModels/AddOpportunity.model.js";
+import { candidateProfileSchema, recruiterProfileSchema } from "../models/UserProfile.model.js";
+import { userSchema } from "../models/user.model.js";
+import { BookMarkSchema } from "../models/CandidateModals/BookMarks.model.js";
+import blogSchema from "../models/blogs.js";
 import dotenv from "dotenv";
 
 dotenv.config();

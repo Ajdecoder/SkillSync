@@ -15,7 +15,13 @@ export const NotificationsProvider = ({ children }) => {
   // Fetch notifications based on the user's role
   const fetchNotifications = useCallback(async () => {
     try {
-      const response = await getNotifications();
+      console.log('loggin user status',currentUser)
+      if (!currentUser) {
+        setNotifications([]);
+        setUnreadCount(0);
+        setNotificationsLoading(false);
+        return;
+      }
       if (response.ok || response.status === 200) {
         const filtered = response.data.notifications.filter((notification) => {
           if (currentUser?.role === "candidate") return notification.type === "job_posted";

@@ -47,11 +47,11 @@ const ResumeUpload = ({ user }) => {
         }
       );
 
-      console.log("✅ Upload Success:", response.data);
+      console.log(" Upload Success:", response.data);
       alert("Resume uploaded successfully!");
       setFile(null);
     } catch (error) {
-      console.error("❌ Upload failed:", error);
+      console.error(" Upload failed:", error);
       alert("Error uploading resume!");
     } finally {
       setLoading(false);

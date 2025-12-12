@@ -103,7 +103,7 @@ export const GoogleLogin = async (req, res) => {
                 role: user.role,
             },
             process.env.JWT_SECRET,
-            { expiresIn: '7d' }
+            { expiresIn: '24h' }
         );
 
         res.status(200).json({

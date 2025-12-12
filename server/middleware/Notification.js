@@ -1,5 +1,5 @@
 import { CandidateUserProfile, RecruiterUserProfile } from "../db/database.js";
-import Notification from "../model/notification.js";
+import Notification from "../models/notification.js";
 import mongoose from "mongoose";
 
 const notificationMiddleware = async (req, res, next) => {

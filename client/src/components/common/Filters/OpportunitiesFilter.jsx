@@ -4,13 +4,13 @@ import { motion } from "framer-motion";
 export const OpportunitiesFilter = ({ opportunities = [], data, setData }) => {
   const RequirementOptions = ["Full-Time", "Part-Time", "Internship", "Contract"];
 
-  // ✅ Extract unique city options
+  //  Extract unique city options
   const uniqueCities = useMemo(() => {
     if (!Array.isArray(opportunities)) return [];
     return [...new Set(opportunities.map((o) => o.location).filter(Boolean))];
   }, [opportunities]);
 
-  // ✅ Extract unique skill options (handles string or object type)
+  //  Extract unique skill options (handles string or object type)
   const uniqueSkills = useMemo(() => {
     if (!Array.isArray(opportunities)) return [];
     return [
@@ -25,7 +25,7 @@ export const OpportunitiesFilter = ({ opportunities = [], data, setData }) => {
     ];
   }, [opportunities]);
 
-  // ✅ Extract min and max salary dynamically
+  //  Extract min and max salary dynamically
   const allSalaries = useMemo(() => {
     if (!Array.isArray(opportunities)) return [0, 0];
     const salaries = opportunities.flatMap((item) =>
@@ -44,12 +44,12 @@ export const OpportunitiesFilter = ({ opportunities = [], data, setData }) => {
     max: overallMax,
   });
 
-  // ✅ Reset salary range when data changes
+  //  Reset salary range when data changes
   useEffect(() => {
     setSelectedRange({ min: overallMin, max: overallMax });
   }, [overallMin, overallMax]);
 
-  // ✅ Handlers for salary sliders
+  //  Handlers for salary sliders
   const handleMinChange = (e) => {
     const value = Number(e.target.value);
     if (value <= selectedRange.max) {

@@ -76,6 +76,7 @@ export const getUserProfileById = async (req, res) => {
  * Get User Profile by Email
  */
 export const getUserProfileByEmail = async (req, res) => {
+  
   try {
     const { email } = req.params;
 
@@ -276,14 +277,14 @@ export const UploadProfilePicture = async (req, res) => {
     console.log("▶ UploadProfilePicture route hit");
 
     if (!req.file) {
-      console.log("❌ No file received");
+      console.log(" No file received");
       return res.status(400).json({ message: "No file uploaded" });
     }
 
     const userId = req.params.userId;
     const file = req.file;
 
-    console.log("✅ File received:", file.originalname, "Size:", file.size, "Type:", file.mimetype);
+    console.log(" File received:", file.originalname, "Size:", file.size, "Type:", file.mimetype);
     console.log("▶ User ID:", userId);
 
     // Create a write stream to Cloudinary
@@ -298,14 +299,14 @@ export const UploadProfilePicture = async (req, res) => {
       },
       async (error, result) => {
         if (error) {
-          console.error("❌ Cloudinary upload error:", error);
+          console.error(" Cloudinary upload error:", error);
           return res.status(500).json({ 
             message: "Error uploading to Cloudinary",
             error: error.message 
           });
         }
 
-        console.log("✅ Cloudinary upload successful:", result.secure_url);
+        console.log(" Cloudinary upload successful:", result.secure_url);
 
         try {
           // Try updating Candidate first
@@ -337,18 +338,18 @@ export const UploadProfilePicture = async (req, res) => {
           }
 
           if (!updatedUser) {
-            console.log("❌ User not found");
+            console.log(" User not found");
             return res.status(404).json({ message: "User not found" });
           }
 
-          console.log("✅ DB update successful");
+          console.log(" DB update successful");
           return res.status(200).json({
             message: "Image uploaded successfully",
             profilePicture: result.secure_url,
             user: updatedUser,
           });
         } catch (dbError) {
-          console.error("❌ DB update error:", dbError);
+          console.error(" DB update error:", dbError);
           return res.status(500).json({ 
             message: "Error updating user profile",
             error: dbError.message 
@@ -360,7 +361,7 @@ export const UploadProfilePicture = async (req, res) => {
     // Write the file buffer directly to the upload stream
     uploadStream.end(file.buffer);
   } catch (error) {
-    console.error("❌ Server error during upload:", error);
+    console.error(" Server error during upload:", error);
     return res.status(500).json({ 
       message: "Server error during upload",
       error: error.message 
@@ -373,14 +374,14 @@ export const UploadCandidateResume = async (req, res) => {
 
   try {
     if (!req.file) {
-      console.log("❌ No file received");
+      console.log(" No file received");
       return res.status(400).json({ message: "No file uploaded" });
     }
 
     const userId = req.params.userId;
     const file = req.file;
 
-    console.log("✅ File received:", file.originalname, "Size:", file.size, "Type:", file.mimetype);
+    console.log(" File received:", file.originalname, "Size:", file.size, "Type:", file.mimetype);
 
     // Upload to Cloudinary
     const uploadStream = cloudinary.uploader.upload_stream(
@@ -393,14 +394,14 @@ export const UploadCandidateResume = async (req, res) => {
       },
       async (error, result) => {
         if (error) {
-          console.error("❌ Cloudinary upload error:", error);
+          console.error(" Cloudinary upload error:", error);
           return res.status(500).json({
             message: "Error uploading to Cloudinary",
             error: error.message,
           });
         }
 
-        console.log("✅ Cloudinary upload successful:", result.secure_url);
+        console.log(" Cloudinary upload successful:", result.secure_url);
 
         try {
           // Update Candidate record with resume URL and name
@@ -425,11 +426,11 @@ export const UploadCandidateResume = async (req, res) => {
           }
 
           if (!updatedUser) {
-            console.log("❌ User not found");
+            console.log(" User not found");
             return res.status(404).json({ message: "User not found" });
           }
 
-          console.log("✅ DB update successful");
+          console.log(" DB update successful");
           return res.status(200).json({
             message: "Resume uploaded successfully",
             resumeUrl: result.secure_url,
@@ -437,7 +438,7 @@ export const UploadCandidateResume = async (req, res) => {
             user: updatedUser,
           });
         } catch (dbError) {
-          console.error("❌ DB update error:", dbError);
+          console.error(" DB update error:", dbError);
           return res.status(500).json({
             message: "Error updating user profile",
             error: dbError.message,
@@ -448,7 +449,7 @@ export const UploadCandidateResume = async (req, res) => {
 
     uploadStream.end(file.buffer);
   } catch (error) {
-    console.error("❌ Server error during upload:", error);
+    console.error(" Server error during upload:", error);
     return res.status(500).json({
       message: "Server error during upload",
       error: error.message,

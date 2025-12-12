@@ -65,10 +65,12 @@ export const CandidateLogin = async (req, res) => {
 
 // Candidate Register
 export const CandidateRegister = async (req, res) => {
+
+  console.log('ceandi reg')
   const { name, email, password, role } = req.body;
 
   try {
-    const existingCandidate = await CandidateProfileCollection.findOne({ email });
+    const existingCandidate = await CandidateUserProfile.findOne({ email });
     if (existingCandidate) {
       return res.status(400).json({ message: "Candidate already exists. Please log in instead of signing up." });
     }

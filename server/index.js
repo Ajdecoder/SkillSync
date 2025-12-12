@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 9002;
 
 const corsOptions = {
   origin: process.env.CORS_ORIGIN || "http://localhost:5173",
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   credentials: true,
 };
 
