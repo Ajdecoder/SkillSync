@@ -94,9 +94,9 @@ const CompanyOverview = ({
                     {profileData?.companyOverview?.description ||
                       "Not Provided"}
                   </p>
-                  <p>
+                  <p> 
                     <strong>Website:</strong>{" "}
-                    {profileData?.companyOverview?.website || "Not Provided"}
+                    <a className="hover:text-blue-600" href={profileData?.companyOverview?.website} target="_blank" rel="noopener noreferrer">{profileData?.companyOverview?.website || "Not Provided"}</a>
                   </p>
                   <button
                     onClick={() => handleEditClick("companyOverview")}
@@ -171,21 +171,24 @@ const CompanyOverview = ({
                   </div>
                 </form>
               ) : (
-                <div>
+                <div >
                   <p>
                     <strong>LinkedIn:</strong>{" "}
-                    {profileData?.companyOverview?.socialLinks?.linkedin ||
-                      "Not Provided"}
+                    <a className="hover:text-blue-600" href={profileData?.companyOverview?.socialLinks?.linkedin} target="_blank" rel="noopener noreferrer">
+                      {'Click Here' || "Not Provided"}
+                    </a>
                   </p>
                   <p>
                     <strong>Twitter:</strong>{" "}
-                    {profileData?.companyOverview?.socialLinks?.twitter ||
-                      "Not Provided"}
+                    <a className="hover:text-blue-600" href={profileData?.companyOverview?.socialLinks?.twitter} target="_blank" rel="noopener noreferrer">
+                      {'Click Here' || "Not Provided"}
+                    </a>
                   </p>
                   <p>
                     <strong>Facebook:</strong>{" "}
-                    {profileData?.companyOverview?.socialLinks?.facebook ||
-                      "Not Provided"}
+                    <a className="hover:text-blue-600" href={profileData?.companyOverview?.socialLinks?.facebook} target="_blank" rel="noopener noreferrer">
+                      {'Click Here' || "Not Provided"}
+                    </a>
                   </p>
                   <button
                     onClick={() => handleEditClick("socialLinks")}

@@ -7,9 +7,10 @@ import TalentsCard from "./TalentsCards";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "../../common/loadingSpinner/spinner";
 import { getAllCandidateProfiles } from "../../../services/api";
+import { LoginLoading } from "../../Login/LoginLoading";
 
-const Recent = ({ filteredopportunity, opportunity }) => {
-  
+const Recent = ({ filteredopportunity, opportunity, opportunitiesLoading }) => {
+
   const { loggedInUser, googleUser } = useAuth();
   const navigate = useNavigate();
   const [talentsError, setTalentsError] = useState(null);
@@ -37,42 +38,47 @@ const Recent = ({ filteredopportunity, opportunity }) => {
     return <div className="text-center text-red-500">{talentsError}</div>;
   }
 
+  if (opportunitiesLoading) {
+    return <Spinner />
+  }
+
   return (
     <>
       {loggedInUser || googleUser ? (
         <>
           {(loggedInUser?.role === "candidate" ||
             googleUser?.role === "candidate") && (
-            <section className="recent padding dark:bg-gray-800 dark:text-white">
-              <div className="container">
-                <Heading
-                  title="Newly Listed Companies"
-                  subtitle="Explore the latest companies seeking talent. Stay updated with fresh opportunities and potential career moves."
-                />
-                <RecentOpportunity
-                  addedOpportunities={opportunity}
-                  filterdOpportunities={filteredopportunity}
-                />
-              </div>
-            </section>
-          )}
+              <section className="recent padding dark:bg-gray-800 dark:text-white">
+                <div className="container">
+                  <Heading
+                    title="Newly Listed Companies"
+                    subtitle={`Explore the latest companies seeking talent. (${opportunity.length} opportunities)`}
+                  />
+                  <RecentOpportunity
+                  opportunitiesLoading={opportunitiesLoading}
+                    addedOpportunities={opportunity}
+                    filterdOpportunities={filteredopportunity}
+                  />
+                </div>
+              </section>
+            )}
 
           {(loggedInUser?.role === "recruiter" ||
             googleUser?.role === "recruiter") && (
-            <section className="recent padding">
-              <div className="container">
-                <Heading
-                  title="Newly Listed Talents"
-                  subtitle="Explore the latest talents looking for opportunities. Stay updated with fresh talent profiles and career options."
-                />
-                <TalentsCard
-                  talents={
-                    filteredopportunity?.length ? filteredopportunity : talents
-                  }
-                />
-              </div>
-            </section>
-          )}
+              <section className="recent padding">
+                <div className="container">
+                  <Heading
+                    title="Newly Listed Talents"
+                    subtitle="Explore the latest talents looking for opportunities. Stay updated with fresh talent profiles and career options."
+                  />
+                  <TalentsCard
+                    talents={
+                      filteredopportunity?.length ? filteredopportunity : talents
+                    }
+                  />
+                </div>
+              </section>
+            )}
         </>
       ) : (
         <SampleRecentCard />

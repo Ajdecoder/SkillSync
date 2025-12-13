@@ -9,6 +9,7 @@ import {
 } from "react-icons/fi";
 import { FaRupeeSign } from "react-icons/fa";
 import AddOpportunityCard from "../../AddOpportunity/OpportunityCard";
+import { Spinner } from "../../common/loadingSpinner/spinner";
 
 export const SavedOpportunity = ({
   filterdOpportunities = [],
@@ -42,7 +43,7 @@ export const SavedOpportunity = ({
   if (loading)
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <p>Loading opportunities...</p>
+        <Spinner/>
       </div>
     );
 

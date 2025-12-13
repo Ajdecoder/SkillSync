@@ -149,9 +149,9 @@ const NotificationButton = () => {
             </>
           ) : (
             <>
-              <p className="text-sm text-gray-500 text-center">
+              <h1 className="text-sm text-gray-500 text-center mt-1">
                 No new notifications
-              </p>
+              </h1>
               <button
                 className="block mx-auto p-1 hover:text-blue-600"
                 onClick={() => {
@@ -159,7 +159,7 @@ const NotificationButton = () => {
                   setShowNotifications(false);
                 }}
               >
-                View All
+                {notifications.length>0 && "View All"}
               </button>
             </>
           )}

@@ -1,10 +1,16 @@
 import React from "react";
 import AddOpportunityCard from "../../AddOpportunity/OpportunityCard.jsx";
+import { Spinner } from "../../common/loadingSpinner/spinner.jsx";
 
 const RecentOpportunity = ({
   addedOpportunities = [],
   filterdOpportunities = [],
+  opportunitiesLoading
 }) => {
+
+   if (opportunitiesLoading) {
+      return <Spinner />
+    }
 
   console.log(addedOpportunities,filterdOpportunities)
   // Use filtered data if available, else fallback to all added opportunities

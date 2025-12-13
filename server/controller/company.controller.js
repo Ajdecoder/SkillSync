@@ -89,10 +89,10 @@ export const allOpportunitiesData = async (req, res) => {
     if (req.query.skills) {
       const skillsArr = Array.isArray(req.query.skills)
         ? req.query.skills :
-        [req.query.location]
+        [req.query.skills]
           .map(s => s.trim())
           .filter(s => s.length > 0);
-
+      
       query["skills.skillName"] = {
         $in: skillsArr.map(s => new RegExp(`^${s}$`, "i"))
       };

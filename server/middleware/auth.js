@@ -2,8 +2,10 @@ import jwt from "jsonwebtoken";
 
 
 const verifyUser = (req, res, next) => {
-  const token = req.cookies.jwttoken;
-  if (!token) {
+    const token = 
+    req.cookies?.jwttoken ||
+    req.headers["authorization"]?.replace("Bearer ", "");
+  if (!token) { 
     return res.status(401).json({
       message: "authorization denied",
     });
@@ -15,7 +17,7 @@ const verifyUser = (req, res, next) => {
       next();
     } catch (error) {
       res.status(401).json({
-        message: "Invalid token, authorization denied",
+        message: "Invalid token, authorization denied", error: error.message,
       });
     }
   }

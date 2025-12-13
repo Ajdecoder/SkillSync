@@ -11,8 +11,6 @@ import { OpportunitiesFilter } from "../../common/Filters/OpportunitiesFilter";
 import { FaSearch, FaUserTie, FaBriefcase } from "react-icons/fa";
 import useFetchData from "../../hooks/useGetDataFetch";
 import { PORT_CLIENT } from "../../../commonClient";
-import { Spinner } from "../../common/loadingSpinner/spinner";
-import axios from "axios";
 import { getOpportunities } from "../../../services/api";
 
 const Hero = () => {
@@ -72,18 +70,15 @@ const Hero = () => {
 
     getOpportunities(queryParams)
       .then((res) => {
-        console.log("✅ Response:", res.data);
+        console.log(" Response:", res.data);
         setOpportunities(res.data.Addedopportunities || []);
         setIsSearching(false);
       })
       .catch((err) => {
-        console.error("❌ Error fetching opportunities:", err);
+        console.error(" Error fetching opportunities:", err);
         setIsSearching(false);
       });
   };
-
-
-  if (currentUser && opportunitiesLoading) return <Spinner />;
 
   return (
     <>
@@ -190,6 +185,7 @@ const Hero = () => {
         </section>
       )}
       <Recent
+        opportunitiesLoading={opportunitiesLoading}
         opportunity={opportunities}
         filteredopportunity={filteredOpportunities}
         filterCategory={filterCategory}

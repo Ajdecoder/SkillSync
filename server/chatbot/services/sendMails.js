@@ -41,8 +41,8 @@ export const sendEmails = async (candidateEmail, recruiterEmail, jobTitle) => {
       transporter.sendMail(recruiterMail),
     ]);
 
-    console.log("✅ Emails sent to both candidate and recruiter!");
+    console.log(" Emails sent to both candidate and recruiter!");
   } catch (err) {
-    console.error("❌ Error sending emails:", err);
+    console.error(" Error sending emails:", err);
   }
 };

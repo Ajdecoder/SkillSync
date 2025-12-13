@@ -27,12 +27,12 @@ Userrouter.post("/register/candidate", SignupValidation, CandidateRegister);
 Userrouter.post("/register/recruiter", SignupValidation, RecruiterRegister);  
 Userrouter.post("/account/Forgotpassword", CandidateForgotPassword);
 Userrouter.put("/candidate/opportunity/apply-to-job",notificationMiddleware, JobApply);
-Userrouter.put("/candidate/revert-application", RevertApplication); 
-Userrouter.get("/job/user/job-notifications", Notifications );
-Userrouter.get("/job/user/job-notifications/:notificationId", NotificationsById );
+Userrouter.put("/candidate/revert-application", verifyUser, RevertApplication); 
+Userrouter.get("/job/user/job-notifications", verifyUser, Notifications );
+Userrouter.get("/job/user/job-notifications/:notificationId", verifyUser, NotificationsById );
 Userrouter.put("/notifications/markAsRead",NotificationAsRead)
-// Userrouter.patch("/account/user/changeAccPassword", changeAccPassword)
-// Userrouter.post("/account/DeleteAccount", DeleteAcc);
-// Userrouter.post("/account/ResetPassword", ResetPassword);
+// Userrouter.patch("/account/user/changeAccPassword", verifyUser, changeAccPassword)
+// Userrouter.post("/account/DeleteAccount", verifyUser, DeleteAcc);
+// Userrouter.post("/account/ResetPassword", verifyUser, ResetPassword);
 
 export default Userrouter;

@@ -89,7 +89,7 @@ const Pages = () => {
                 {loading ? (
 
                   <div className="loading-screen">
-                    <LoginLoading />
+                    {/* <LoginLoading /> */}
                   </div>
                 ) : (
                   <>
