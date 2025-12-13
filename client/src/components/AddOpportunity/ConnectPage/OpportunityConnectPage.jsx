@@ -68,7 +68,7 @@ const OpportunityConnectPage = () => {
     if (currentUser?.email) {
       fetchUserProfile();
     }
-  }, [currentUser?.email, post_id, companyData]);
+  }, [post_id]);
 
   const handleJobApply = async () => {
     if (!userId || !companyData?._id) return;
@@ -523,11 +523,11 @@ const OpportunityConnectPage = () => {
                     transition={{ staggerChildren: 0.1 }}
                   >
                     {recruiterDetails?.teamMembers?.length > 0 ? (
-                      recruiterDetails.teamMembers.map((member, index) => (
+                      recruiterDetails?.teamMembers.map((member, index) => (
                         <motion.div
                           key={index}
                           variants={itemVariants}
-                          className="p-4 bg-gray-700/30 rounded-lg"
+                          className="p-4 bg-gray-700/30 rounded-lg mt-2"
                         >
                           <p className="dark:text-cyan-400 font-medium">
                             {member.name}
@@ -535,7 +535,7 @@ const OpportunityConnectPage = () => {
                           <p className="dark:text-gray-400 text-sm">
                             {member.teamMemberRole}
                           </p>
-                          <div className="mt-2 flex gap-3 text-sm">
+                          <div className="mb-2 flex gap-3 text-sm">
                             {member.github && (
                               <Link
                                 to={member.github}

@@ -9,8 +9,10 @@ import {
   FaUser,
 } from "react-icons/fa";
 
-const Blog = ({ spin, setSpin }) => {
+const Blog = () => {
   const [currentPage, setCurrentPage] = useState(0);
+  const [spin, setSpin] = useState(true);
+
   const postsPerPage = 6;
   const navigate = useNavigate();
   const startIndex = currentPage * postsPerPage;
@@ -18,13 +20,14 @@ const Blog = ({ spin, setSpin }) => {
   const currentPosts = blogPosts.slice(startIndex, endIndex);
 
   useEffect(() => {
-    setSpin();
-    const timeout = setTimeout(() => {
+    const timer = setTimeout(() => {
       setSpin(false);
-    }, 500);
+    }
+    , 1000);
 
-    return () => clearTimeout(timeout);
-  }, [currentPage, setSpin]);
+    return () => clearTimeout(timer);
+  }
+  , []);
 
   const handlePrev = () => {
     if (currentPage > 0) {
@@ -40,8 +43,9 @@ const Blog = ({ spin, setSpin }) => {
     }
   };
 
-  const handleBlogClick = (id) => {
-    navigate(`/blog/${id}`);
+  const handleBlogClick = (data) => {
+    console.log(data)
+    navigate(`/blog/${data.title.replace(/\s+/g, '-').toLowerCase()}` , { state: { blogData: data } });
   };
 
   return (
@@ -53,12 +57,12 @@ const Blog = ({ spin, setSpin }) => {
       ) : (
         <>
           <div className="container mx-auto px-4 py-12">
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {currentPosts.map((data) => (
                 <div
                   key={data.id}
-                  onClick={() => handleBlogClick(data.id)}
+                  onClick={() => handleBlogClick(data)}
                   className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 cursor-pointer group"
                 >
                   <div className="relative overflow-hidden h-48">
@@ -102,11 +106,10 @@ const Blog = ({ spin, setSpin }) => {
               <button
                 onClick={handlePrev}
                 disabled={currentPage === 0}
-                className={`flex items-center justify-center w-12 h-12 rounded-full mr-4 transition-colors ${
-                  currentPage === 0
+                className={`flex items-center justify-center w-12 h-12 rounded-full mr-4 transition-colors ${currentPage === 0
                     ? "bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed"
                     : "bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white"
-                }`}
+                  }`}
               >
                 <FaArrowLeft />
               </button>
@@ -119,11 +122,10 @@ const Blog = ({ spin, setSpin }) => {
               <button
                 onClick={handleNext}
                 disabled={endIndex >= blogPosts.length}
-                className={`flex items-center justify-center w-12 h-12 rounded-full ml-4 transition-colors ${
-                  endIndex >= blogPosts.length
+                className={`flex items-center justify-center w-12 h-12 rounded-full ml-4 transition-colors ${endIndex >= blogPosts.length
                     ? "bg-gray-200 dark:bg-gray-700 text-gray-400 cursor-not-allowed"
                     : "bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white"
-                }`}
+                  }`}
               >
                 <FaArrowRight />
               </button>

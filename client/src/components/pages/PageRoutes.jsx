@@ -64,7 +64,7 @@ const RequireRole = ({ role, children }) => {
 };
 
 // Main Config
-export const RoutesConfig = ({ spin, setSpin }) => [
+export const RoutesConfig = () => [
   // Public Routes
   <Route key="home" path="/" element={<Home />} />,
   <Route key="about" path="/about" element={<About />} />,
@@ -74,7 +74,7 @@ export const RoutesConfig = ({ spin, setSpin }) => [
   <Route
     key="blogs"
     path="/blogs"
-    element={<Blog spin={spin} setSpin={setSpin} />}
+    element={<Blog />}
   />,
   <Route key="blog-page" path="/blog/:Blogid" element={<BlogPage />} />,
   <Route key="requirements" path="/requirements" element={<Resources />} />,
@@ -158,7 +158,7 @@ export const RoutesConfig = ({ spin, setSpin }) => [
     path="/requirements/browse-opportunities"
     element={
       <RequireRole role="candidate">
-        <SavedOpportunity  />
+        <SavedOpportunity />
       </RequireRole>
     }
   />,

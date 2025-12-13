@@ -36,7 +36,6 @@ const ScrollToTop = () => {
 };
 
 const Pages = () => {
-  const [spin, setSpin] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -95,7 +94,7 @@ const Pages = () => {
                   <>
                     <Header />
                     <Routes>
-                      {RoutesConfig({ spin, setSpin })}
+                      {RoutesConfig()}
                     </Routes>
                     <ScrollButton />
                     <ChatBot />

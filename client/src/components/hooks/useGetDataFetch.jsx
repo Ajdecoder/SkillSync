@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const useFetchData = (url) => {
+  console.log('usel=====>')
   const [data, setData] = useState(null);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -10,7 +11,10 @@ const useFetchData = (url) => {
     setLoading(true);
     try {
       const response = await axios.get(url, {
-        withCredentials:true
+        withCredentials:true,
+        headers:{
+          Authorization: `Bearer ${localStorage.getItem("jwttoken")|| cookieStore.get("jwttoken")?.value || localStorage.getItem('googleUser')}`
+        }
       });
       setData(response.data || {});
       setLoading(false)

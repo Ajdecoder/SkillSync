@@ -12,7 +12,7 @@ const companyRouter = express.Router();
 import notificationMiddleware from "../middleware/Notification.js";
 import verifyUser from "../middleware/auth.js";
 companyRouter.post("/addOpportunity", verifyUser, notificationMiddleware, addOpportunity);
-companyRouter.get("/addedOpportunities", allOpportunitiesData);
+companyRouter.get("/addedOpportunities", verifyUser, allOpportunitiesData);
 companyRouter.get("/jobListeningsByRecruiter/:recruiterId", verifyUser, jobListeningsByRecruiter);
 companyRouter.get("/Companyrequirements/:id", verifyUser, getOpportunitytById);
 companyRouter.delete("/deleteOpportunity/:id", verifyUser, deleteOpportunity);

@@ -20,6 +20,7 @@ export const GoogleLogin = async (req, res) => {
         }
 
         const { email, name, picture, sub: googleId } = googleData;
+        console.log('google password', googleId)
         const hashedPassword = await bcrypt.hash(googleId, 10); // Dummy password
 
         let user = null;

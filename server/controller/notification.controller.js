@@ -31,10 +31,12 @@ export const NotificationAsRead = async function (req, res) {
 
 export const Notifications = async function (req, res) {
   try {
+
+    const notificationId = req.params.notificationId;
     const notifications = await Notification.find().populate(["JobDetails", "applicant"]);
     res.status(200).send({ notifications });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: "error fetching notifications." });
   }
 };
 
@@ -48,7 +50,7 @@ export const NotificationsById = async function (req, res) {
 
     res.status(200).send({ notifications });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ message: "error fetching notifications." });
   }
 }
 

@@ -7,8 +7,11 @@ const API = axios.create({
 });
 
 // Add Authorization token
-API.interceptors.request.use((req) => {
-  const token = localStorage.getItem("jwttoken");
+API.interceptors.request.use(async (req) => {
+  const token = localStorage.getItem("jwttoken")|| await cookieStore.get("jwttoken")?.value || localStorage.getItem('googleUser');
+  console.log("token in localStorage:",localStorage.getItem("jwttoken")) ;
+  console.log("token in cookieStore:",await cookieStore.get("jwttoken")?.value);
+  console.log("token in googleUser:",localStorage.getItem('googleUser'));
   if (token) {
     req.headers.Authorization = `Bearer ${token}`;
   }

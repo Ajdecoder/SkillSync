@@ -7,10 +7,19 @@ export const BlogPage = () => {
   const [blog, setBlog] = useState(null); // Initially null for loading state
   const { Blogid } = useParams();
 
-  const getBlog = (id) => {
-    const foundBlog = blogPosts.find((blog) => blog.id === id);
+  const getBlog = (slug) => {
+    const foundBlog = blogPosts.find((blog) => {
+      const blogSlug = blog.title
+        .toLowerCase()
+        .split(" ")
+        .join("-");
+
+      return blogSlug === slug;
+    });
+
     setBlog(foundBlog);
   };
+
 
   useEffect(() => {
     if (Blogid) {

@@ -1,5 +1,3 @@
-import React, { useEffect } from "react";
-import Lenis from "@studio-freight/lenis";
 import Awards from "./awards/Awards";
 import Featured from "./featured/Featured";
 import Hero from "./hero/Hero";
@@ -10,32 +8,7 @@ import FAQ from "../FAQ/FAQ";
 import HorizontalLogos from "../common/HorizontalComponents/HorizontalLogos";
 
 const Home = () => {
-  useEffect(() => {
-    const lenis = new Lenis({
-      smooth: true,
-      duration: 1.5,
-      easing: (t) => 1 - Math.pow(1 - t, 3),
-      wheelMultiplier: 1.2,
-      touchMultiplier: 2.5,
-      infinite: false,
-      gestureOrientation: "vertical",
-      smoothTouch: true,
-    });
 
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
- 
-    setTimeout(() => {
-      lenis.resize();
-    }, 500);
-
-    return () => {
-      lenis.destroy();
-    };
-  }, []);
 
   return (
     <>
