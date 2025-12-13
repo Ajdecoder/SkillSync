@@ -41,7 +41,7 @@ export const UserProfile = () => {
     if (!currentUser) {
       navigate("/");
     }
-  }, [currentUser, navigate]);
+  }, [currentUser]);
 
   const calculateProfileCompletion = (user, role) => {
     let filledFields = 0;
