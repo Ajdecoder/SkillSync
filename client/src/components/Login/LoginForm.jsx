@@ -35,7 +35,7 @@ const LoginForm = ({
   };
 
   return (
-    <div className="w-full max-w-md p-10 rounded-2xl bg-[#1f1b29] shadow-xl border border-[#2b2638] backdrop-blur-xl">
+    <div className="w-full max-w-md p-10 rounded-2xl bg-[#1f1b29] shadow-xl border border-[#2b2638] backdrop-blur-xl my-3">
 
       {/* Title */}
       <h1 className="text-3xl font-semibold text-center text-white mb-8">
@@ -70,7 +70,7 @@ const LoginForm = ({
           <button
             type="button"
             onClick={togglePasswordVisibility}
-            className="absolute right-4 top-3 text-gray-400 text-xl hover:text-white transition"
+            className="absolute right-4 top-5 text-gray-400 text-xl hover:text-white transition"
           >
             {showPass ? <FaEyeSlash /> : <FaEye />}
           </button>

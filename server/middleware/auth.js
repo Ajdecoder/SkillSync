@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 const verifyUser = (req, res, next) => {
     const token = 
     req.cookies?.jwttoken ||
-    req.headers["authorization"]?.replace("Bearer ", "");
+    req.headers["authorization"]?.replace("Bearer ", ""); 
     console.log('Token from request:', token.slice(0,10)+'...'); 
   if (!token) { 
     return res.status(401).json({

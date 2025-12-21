@@ -161,7 +161,7 @@ const OpportunityConnectPage = () => {
     recruiterDetails,
   } = companyData;
 
-  console.log("companyData here:",companyData)
+  console.log("companyData here:", companyData)
 
   const userHasAlreadyApplied = candidatesApplied?.includes(userId);
 
@@ -588,15 +588,25 @@ const OpportunityConnectPage = () => {
 
           {/* Apply Button */}
           <motion.div className="mt-8" variants={itemVariants}>
+            {/* Toast Notifications */}
+            {toastMessage && (
+              <NotificationToasts
+                message={toastMessage}
+                type={toastType}
+                autoClose={1500}
+                position="top-left"
+                theme="dark"
+              />
+            )}
+            
             <motion.button
               onClick={handleJobApply}
               whileHover={!userHasApplied && { scale: 1.02 }}
               whileTap={!userHasApplied && { scale: 0.98 }}
-              className={`w-full py-4 rounded-xl font-semibold transition-all ${
-                userHasApplied || userHasAlreadyApplied
+              className={`w-full py-4 rounded-xl font-semibold transition-all ${userHasApplied || userHasAlreadyApplied
                   ? "bg-emerald-400/30 text-emerald-400 cursor-not-allowed"
                   : "bg-gradient-to-r from-emerald-400 to-cyan-400 hover:from-emerald-500 hover:to-cyan-500 text-gray-900"
-              }`}
+                }`}
               disabled={userHasApplied || userHasAlreadyApplied}
             >
               {loadingApply ? (
@@ -672,17 +682,6 @@ const OpportunityConnectPage = () => {
             </motion.div>
           )}
         </AnimatePresence>
-
-        {/* Toast Notifications */}
-        {toastMessage && (
-          <NotificationToasts
-            message={toastMessage}
-            type={toastType}
-            autoClose={1500}
-            position="top-left"
-            theme="dark"
-          />
-        )}
       </motion.div>
     </div>
   );

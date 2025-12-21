@@ -45,6 +45,7 @@ export const getAllRecruiterProfiles = async (req, res) => {
 export const getUserProfileById = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log("Fetching profile for user ID:", id);
 
     // Check candidate profile
     const candidateProfile = await CandidateUserProfile.findById(id).populate([

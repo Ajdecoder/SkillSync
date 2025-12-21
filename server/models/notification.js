@@ -20,6 +20,7 @@ const notificationSchema = new mongoose.Schema(
     type: {
       type: String,
       required: true,
+      enum: ["job_posted", "application_received"],
     },
 
     read: {

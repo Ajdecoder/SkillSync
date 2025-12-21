@@ -53,13 +53,13 @@ const notifyCandidatesForNewJob = async (payload) => {
 const notifyRecruiterForNewApplication = async (payload) => {
   console.log(payload);
   try {
-    if (!mongoose.Types.ObjectId.isValid(payload.recruiterId)) {
-      console.error("Invalid recruiter ID:", payload.recruiterId);
+    if (!mongoose.Types.ObjectId.isValid(payload.userId)) {
+      console.error("Invalid recruiter ID:", payload.userId);
       return;
     }
 
     const message = `New Application for: ${payload.jobTitle} by ${payload.candidateName}`;
-    await sendNotification(payload.userId, message, "application_received", payload.recruiterId);
+    await sendNotification(payload.userId, message, "application_received", payload.jobId);
   } catch (error) {
     console.error("Error notifying recruiter:", error);
   }

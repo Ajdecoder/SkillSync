@@ -125,7 +125,7 @@ const Hero = () => {
               )}
 
               <motion.button
-                className={`flex items-center justify-center gap-2 w-2/4 m-auto py-3 px-4 bg-purple-600 dark:bg-purple-700 hover:bg-purple-700 dark:hover:bg-purple-800 text-white font-medium rounded-lg shadow-md transition-colors duration-300 ${isSearching ? "opacity-70 cursor-not-allowed" : ""
+                className={`flex items-center justify-center gap-2 w-2/4 m-auto py-3 px-4 bg-purple-600 dark:bg-purple-700 hover:bg-purple-700 dark:hover:bg-purple-800 text-white font-medium rounded-lg shadow-md transition-colors duration-300 mt-3${isSearching ? "opacity-70 cursor-not-allowed" : ""
                   }`}
                 type="button"
                 onClick={handleSearch}
