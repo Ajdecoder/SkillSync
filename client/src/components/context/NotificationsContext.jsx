@@ -22,6 +22,10 @@ export const NotificationsProvider = ({ children }) => {
         setNotificationsLoading(false);
         return;
       }
+
+      const response = await getNotifications();
+
+      
       if (response.ok || response.status === 200) {
         const filtered = response.data.notifications.filter((notification) => {
           if (currentUser?.role === "candidate") return notification.type === "job_posted";
@@ -58,7 +62,7 @@ export const NotificationsProvider = ({ children }) => {
 
   useEffect(() => {
     fetchNotifications();
-  }, [fetchNotifications]);
+  }, []);
 
   return (
     <NotificationsContext.Provider

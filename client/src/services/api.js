@@ -6,6 +6,20 @@ const API = axios.create({
   withCredentials: true
 });
 
+// Check if token exists in localStorage or cookies and add it to headers
+API.interceptors.response.use(
+  res => res,
+  err => {
+    if (err.response?.status === 401) {
+      localStorage.removeItem("jwttoken");
+      
+      window.location.href = "/login";
+    }
+    return Promise.reject(err);
+  }
+);
+
+
 // Add Authorization token
 API.interceptors.request.use(async (req) => {
   const token = localStorage.getItem("jwttoken")|| await cookieStore.get("jwttoken")?.value || localStorage.getItem('googleUser');

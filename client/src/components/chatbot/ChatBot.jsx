@@ -71,6 +71,11 @@ export const ChatBot = () => {
     handleMessageSend(question);
   };
 
+  const handleClearChat = () => {
+    setMessages([messages[0]])
+    setInputText("");
+  }
+
   const handleMessageSend = async (text) => {
     if (!text.trim()) return;
 
@@ -221,7 +226,7 @@ export const ChatBot = () => {
         </div>
         <div className="flex gap-2">
           <button
-            onClick={() => setMessages([messages[0]])}
+            onClick={() => handleClearChat()  }
             className="p-2 text-white/80 hover:text-white"
             title="Clear chat"
           >
