@@ -28,7 +28,7 @@ const Header = () => {
   const dropdownRef = useRef(null);
   const dropdownExpandRef = useRef(null);
   const headerRef = useRef(null);
-
+  const [confirmlogout, setConfirmLogout] = useState(false)
   const currentUser = loggedInUser || googleUser;
 
   useEffect(() => {
@@ -75,12 +75,13 @@ const Header = () => {
   }, []);
 
   const handleLogout = () => {
-    if (currentUser) {
-      customLogout();
-      localStorage.removeItem("googleUser");
-      navigate("/");
-    }
+    customLogout();
+    localStorage.removeItem("googleUser");
+    setConfirmLogout(false);
+    setShowAboutUser(false);
+    navigate("/");
   };
+
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -206,13 +207,11 @@ const Header = () => {
         <div className="flex items-center justify-between gap-10 nav-group">
           {/* Theme Toggle */}
           <button
-            className={`theme-toggle p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${
-              theme === "light" ? "text-gray-700" : "text-yellow-400"
-            }`}
+            className={`theme-toggle p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${theme === "light" ? "text-gray-700" : "text-yellow-400"
+              }`}
             onClick={toggleTheme}
-            aria-label={`Switch to ${
-              theme === "light" ? "dark" : "light"
-            } mode`}
+            aria-label={`Switch to ${theme === "light" ? "dark" : "light"
+              } mode`}
           >
             {theme === "light" ? <FaRegMoon size={21} /> : <FaSun size={21} />}
           </button>
@@ -251,11 +250,36 @@ const Header = () => {
                     </p>
                     <div className="flex flex-col p-2 gap-3">
                       <button
-                        onClick={handleLogout}
+                        onClick={() => setConfirmLogout((prev => !prev))}
                         className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg transition-colors duration-300"
                       >
                         <i className="fa fa-sign-out mr-2"></i> Logout
                       </button>
+
+                      {!!confirmlogout && (
+                        <div className="absolute right-0 mx-2 w-[14.3rem] rounded-lg border border-gray-200 bg-white p-4 shadow-lg dark:border-gray-700 dark:bg-gray-800 z-50">
+                          <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
+                            Do you want to logout?
+                          </p>
+
+                          <div className="flex justify-end gap-2">
+                            <button
+                              onClick={() => setConfirmLogout(false)}
+                              className="px-3 py-1.5 text-sm rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
+                            >
+                              No
+                            </button>
+
+                            <button
+                              onClick={handleLogout}
+                              className="px-3 py-1.5 text-sm rounded-md bg-red-500 text-white hover:bg-red-700"
+                            >
+                              Yes logout
+                            </button>
+                          </div>
+                        </div>
+                      )}
+
 
                       <Link
                         to="/profile/settings"

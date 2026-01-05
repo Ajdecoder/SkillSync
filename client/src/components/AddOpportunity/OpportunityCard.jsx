@@ -14,10 +14,6 @@ import { useNavigate } from "react-router-dom";
 const AddOpportunityCard = ({ opportunity }) => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // console.log("Opportunity Card Data:", opportunity);
-  }, [opportunity]);
-
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {

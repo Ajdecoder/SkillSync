@@ -107,6 +107,13 @@ export const GoogleLogin = async (req, res) => {
             { expiresIn: '24h' }
         );
 
+        res.cookie('jwttoken', authToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'None',
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
+
         res.status(200).json({
             message: profileCreated ? "Registered & Logged in Successfully" : "Logged in Successfully",
             token: authToken,

@@ -4,11 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./Register.css";
-import { PORT_CLIENT } from "../../commonClient";
 import { useAuth } from "../context/AuthContext";
 import { GoogleAuth } from "../Oauth/Oauth";
 import { registerRecruiter } from "../../services/api";
-import NotificationToasts from "../common/Toast/Toast";
 
 export const RegRecruiter = () => {
   const navigate = useNavigate();
@@ -26,9 +24,6 @@ export const RegRecruiter = () => {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [isreEnterPasswordVisible, setIsreEnterPasswordVisible] =
     useState(false);
-
-  const [toastMessage, setToastMessage] = useState(null);
-  const [toastType, setToastType] = useState("success");
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!isPasswordVisible);
@@ -54,14 +49,14 @@ export const RegRecruiter = () => {
       !recruiter.password ||
       !recruiter.reEnterPassword
     ) {
-      setToastMessage("Please fill in all fields.");
-      setToastType("info");
+      toast.info("Please fill in all fields.");
+      
       return;
     }
 
     if (recruiter.password !== recruiter.reEnterPassword) {
-      setToastMessage("Passwords do not match.");
-      setToastType("error");
+      toast.info("Passwords do not match.");
+      
       return;
     }
 
@@ -74,8 +69,8 @@ export const RegRecruiter = () => {
         const token = response.data.token;
         localStorage.setItem("jwttoken", token);
 
-        setToastMessage("Candidate successfully Register");
-        setToastType("success");
+        toast.success("Candidate successfully Register");
+        
 
         setTimeout(() => {
           navigate("/");
@@ -83,20 +78,19 @@ export const RegRecruiter = () => {
       }
 
       localStorage.setItem("jwttoken", response.data.token);
+      
 
-      setToastMessage(response.data.message);
+      toast.dismiss(response.data.message);
 
       navigate("/");
     } catch (error) {
       if (error.response) {
-        setToastMessage(`${error.response.data.message}`);
+        toast.error(`${error.response.data.message}`);
       } else if (error.request) {
-        setToastMessage(
-          "Network Error: Please check your internet connection."
-        );
+        toast.error(`Network Error: ${error.message}`);
         console.log(error);
       } else {
-        setToastMessage("Error registering. Please try again later.");
+        toast.error("Error registering. Please try again later.");
       }
     }
   };
@@ -205,15 +199,7 @@ export const RegRecruiter = () => {
               </div>
             </form>
 
-            {toastMessage && (
-              <NotificationToasts
-                message={toastMessage}
-                type={toastType}
-                autoClose={1500}
-                position="top-right"
-                theme="dark"
-              />
-            )}
+           
           </div>
         </div>
       </div>

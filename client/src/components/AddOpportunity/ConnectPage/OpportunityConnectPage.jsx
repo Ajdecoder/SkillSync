@@ -12,7 +12,6 @@ import {
   revertBackApplication,
 } from "../../../services/api.js";
 import { useAuth } from "../../context/AuthContext.jsx";
-import NotificationToasts from "../../common/Toast/Toast.jsx";
 import {
   FiBookmark,
   FiCheckCircle,
@@ -24,6 +23,7 @@ import {
   FiPhone,
   FiUsers,
 } from "react-icons/fi";
+import { toast } from "react-toastify";
 
 const OpportunityConnectPage = () => {
   const [error, setError] = useState(null);
@@ -34,8 +34,6 @@ const OpportunityConnectPage = () => {
   const { loggedInUser, googleUser } = useAuth();
   const [userId, setUserId] = useState(null);
   const [jobPoster, setJobPoster] = useState(null);
-  const [toastMessage, setToastMessage] = useState(null);
-  const [toastType, setToastType] = useState("success");
   const [bookmark, setBookmark] = useState(false);
 
   const { post_id } = useParams();
@@ -92,15 +90,14 @@ const OpportunityConnectPage = () => {
       setUserHasApplied(true);
 
       // Set toast message on successful application
-      setToastMessage("Application submitted successfully!");
-      setToastType("success");
+      toast.success("Application submitted successfully!");
     } catch (err) {
       console.error("Error applying to the job:", err);
       setError("There was an error applying to the opportunity.");
 
       // Show error toast
-      setToastMessage("Failed to apply for the job.");
-      setToastType("error");
+      toast.error("Failed to apply for the job.");
+      
     } finally {
       setLoadingApply(false);
     }
@@ -114,8 +111,7 @@ const OpportunityConnectPage = () => {
       await revertBackApplication(userId, companyData?._id);
       setUserHasApplied(false);
 
-      setToastMessage("Application reverted successfully!");
-      setToastType("info");
+      toast.success("Application reverted successfully!");
 
       const updatedCandidates = companyData?.candidatesApplied.filter(
         (candidateId) => candidateId !== userId
@@ -124,8 +120,7 @@ const OpportunityConnectPage = () => {
       setShowRevertModal(false);
     } catch (err) {
       console.error("Error reverting application:", err);
-      setToastMessage("Failed to revert the application.");
-      setToastType("error");
+      toast.error("Failed to revert the application.");
       setError("There was an error reverting the application.");
     } finally {
       setLoadingApply(false);
@@ -178,12 +173,11 @@ const OpportunityConnectPage = () => {
       // If bookmark is false, add bookmark. Otherwise, remove bookmark.
       if (!bookmark) {
         await bookmarkOpportunity(userId, post_id); // Add bookmark
-        setToastMessage("Opportunity Bookmared!");
-        setToastType("success");
+        toast.success("Opportunity Bookmared!");
+        
       } else {
         await removeBookmarkedOpportunity(userId, post_id); // Remove bookmark
-        setToastMessage("Opportunity Unbookmared!");
-        setToastType("success");
+        toast.success("Opportunity Unbookmared!");
       }
 
       // Toggle the bookmark state after the operation
@@ -191,8 +185,7 @@ const OpportunityConnectPage = () => {
       // console.log(userId, post_id);
     } catch (error) {
       console.error("Error updating bookmark:", error);
-      setToastMessage("Failed to update bookmark.");
-      setToastType("error");
+      toast.error("Failed to update bookmark.");
     }
   };
 
@@ -587,18 +580,7 @@ const OpportunityConnectPage = () => {
           </motion.button>
 
           {/* Apply Button */}
-          <motion.div className="mt-8" variants={itemVariants}>
-            {/* Toast Notifications */}
-            {toastMessage && (
-              <NotificationToasts
-                message={toastMessage}
-                type={toastType}
-                autoClose={1500}
-                position="top-left"
-                theme="dark"
-              />
-            )}
-            
+          <motion.div className="mt-8" variants={itemVariants}>            
             <motion.button
               onClick={handleJobApply}
               whileHover={!userHasApplied && { scale: 1.02 }}

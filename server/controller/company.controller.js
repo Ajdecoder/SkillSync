@@ -86,10 +86,10 @@ export const allOpportunitiesData = async (req, res) => {
     }
 
 
-    if (req.query.skills) {
-      const skillsArr = Array.isArray(req.query.skills)
-        ? req.query.skills :
-        [req.query.skills]
+    if (req.query.skill) {
+      const skillsArr = Array.isArray(req.query.skill)
+        ? req.query.skill :
+        [req.query.skill]
           .map(s => s.trim())
           .filter(s => s.length > 0);
       

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import NotificationToasts from "../common/Toast/Toast";
 import { GoogleAuth } from "../Oauth/Oauth";
+import { toast } from "react-toastify";
 
 const LoginForm = ({
   title,
@@ -12,8 +13,6 @@ const LoginForm = ({
 }) => {
   const [user, setUser] = useState({ email: "", password: "" });
   const [showPass, setShowPass] = useState(false);
-  const [toastMessage, setToastMessage] = useState(null);
-  const [toastType, setToastType] = useState("success");
 
   const togglePasswordVisibility = () => setShowPass(!showPass);
 
@@ -26,11 +25,11 @@ const LoginForm = ({
     const result = await onSubmit(user);
 
     if (result?.status === "success") {
-      setToastType("success");
-      setToastMessage(result.message);
+      
+      toast.success(result.message);
     } else {
-      setToastType("error");
-      setToastMessage(result?.message || "Login failed");
+      
+      toast.error(result?.message || "Login failed");
     }
   };
 
@@ -109,17 +108,6 @@ const LoginForm = ({
         {/* Google Auth */}
         <GoogleAuth role={googleRole} />
       </form>
-
-      {/* Toast */}
-      {toastMessage && (
-        <NotificationToasts
-          message={toastMessage}
-          type={toastType}
-          autoClose={1500}
-          position="top-right"
-          theme="dark"
-        />
-      )}
     </div>
   );
 };

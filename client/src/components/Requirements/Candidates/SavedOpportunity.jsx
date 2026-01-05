@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { PORT_CLIENT } from "../../../commonClient";
 import useFetchData from "../../hooks/useGetDataFetch";
-import { motion } from "framer-motion";
-import {
-  FiGlobe,
-  FiMail,
-  FiPhone,
-} from "react-icons/fi";
-import { FaRupeeSign } from "react-icons/fa";
 import AddOpportunityCard from "../../AddOpportunity/OpportunityCard";
 import { Spinner } from "../../common/loadingSpinner/spinner";
 
@@ -69,7 +62,7 @@ export const SavedOpportunity = ({
     console.log("opportunitiestoshow",opportunitiesToShow)
 
   return (
-    <div className="space-y-8 opportunity-card-container">
+    <div className="space-y-11 mt-6 opportunity-card-container">
       {opportunitiesToShow.length > 0 ? (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mx-4">
           {opportunitiesToShow.map((opportunity) =>

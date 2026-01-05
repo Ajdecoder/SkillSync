@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "../context/AddOpportunityFromContext";
-import axios from "axios";
-import { PORT_CLIENT } from "../../commonClient";
-import { toast, ToastContainer } from "react-toastify";
 import { addOpportunity, getUserProfileByEmail } from "../../services/api";
-import NotificationToasts from "../common/Toast/Toast";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { toast } from "react-toastify";
 
 const ReviewJobOpportunity = ({ prevStep }) => {
   const { formData, updateForm } = useForm();
@@ -17,8 +14,6 @@ const ReviewJobOpportunity = ({ prevStep }) => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isFormValid, setIsFormValid] = useState(false);
-  const [toastMessage, setToastMessage] = useState(null);
-  const [toastType, setToastType] = useState("success");
   const [payloadRecruiterId, setPayloadRecruiterId] = useState(null);
   const [payloadJobId, setPayloadJobId] = useState(null);
 
@@ -105,8 +100,7 @@ const ReviewJobOpportunity = ({ prevStep }) => {
       !desc_requirement ||
       !skills.length
     ) {
-      setToastMessage("Please fill in all required fields.");
-      setToastType("info");
+      toast.error("Please fill in all required fields.");
       return;
     }
 
@@ -146,14 +140,12 @@ const ReviewJobOpportunity = ({ prevStep }) => {
         },
       };
       await addOpportunity(updatedPayload);
-      setToastMessage("Form Submitted Successfully");
-      setToastType("success");
+      toast.success("Job Opportunity Added Successfully!");
       setIsSubmitting(false);
       navigate("/");
     } catch (error) {
       console.error("Error Submitting Form:", error);
-      setToastMessage("Error Submitting Form");
-      setToastType("error");
+      toast.error("Error Submitting Form");
     } finally {
       setIsSubmitting(false);
       navigate("/");
@@ -409,15 +401,7 @@ const ReviewJobOpportunity = ({ prevStep }) => {
           )}
         </div>
       </form>
-      {toastMessage && (
-        <NotificationToasts
-          message={toastMessage}
-          type={toastType}
-          autoClose={1500}
-          position="top-right"
-          theme="dark"
-        />
-      )}
+     
     </div>
   );
 };

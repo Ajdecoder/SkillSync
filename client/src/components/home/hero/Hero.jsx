@@ -11,33 +11,77 @@ import { OpportunitiesFilter } from "../../common/Filters/OpportunitiesFilter";
 import { FaSearch, FaUserTie, FaBriefcase } from "react-icons/fa";
 import useFetchData from "../../hooks/useGetDataFetch";
 import { PORT_CLIENT } from "../../../commonClient";
-import { getOpportunities } from "../../../services/api";
+import { getAllCandidateProfiles, getOpportunities } from "../../../services/api";
 
 const Hero = () => {
   const { loggedInUser, googleUser } = useAuth();
   const currentUser = loggedInUser || googleUser;
 
   const [opportunities, setOpportunities] = useState([]);
-  const [filterCategory, setFilterCategory] = useState({
-    skills: "",
+  const [candidates, setCandidates] = useState([]);
+  const initialFilters = {
+    skills: [],
     location: "",
     minSalary: "",
     maxSalary: "",
-  });
+    availability: "",
+    workEnvironment: "",
+  };
+
+  const [filterCategory, setFilterCategory] = useState(initialFilters);
+
+  const handleClearFilters = (e) => {
+    e.preventDefault()
+    setFilterCategory(initialFilters);
+
+  };
+
   const [error, setError] = useState(null);
   const [isSearching, setIsSearching] = useState(false);
+
+  let role = currentUser?.role
+
+
+  const opportunitiesUrl =
+    role === "candidate"
+      ? `${PORT_CLIENT}/api/requirements/addedOpportunities`
+      : null;
+
+  const candidatesUrl =
+    role === "recruiter"
+      ? `${PORT_CLIENT}/api/user/profile/account/users/user/candidates`
+      : null;
+
 
   const {
     data: opportunitiesData,
     error: opportunitiesError,
     loading: opportunitiesLoading,
-  } = useFetchData(`${PORT_CLIENT}/api/requirements/addedOpportunities`);
+  } = useFetchData(opportunitiesUrl);
+
+  const {
+    data: candidatesData,
+    error: candidatesError,
+    loading: candidatesLoading,
+  } = useFetchData(candidatesUrl);
+
+
+
+
+  // console.log('getting candidatedata in hero', candidatesData)
 
   useEffect(() => {
-    if (opportunitiesData?.Addedopportunities) {
+
+
+    if (role === "recruiter" && candidatesData?.candidates) {
+      setCandidates(candidatesData.candidates);
+    }
+
+    if (role === "candidate" && opportunitiesData?.Addedopportunities) {
       setOpportunities(opportunitiesData.Addedopportunities);
     }
-  }, [opportunitiesData]);
+  }, [role, candidatesData, opportunitiesData]);
+
 
   const filteredOpportunities = useMemo(() => {
     const { selectedCity, selectedExpertType, selectedPriceRange } =
@@ -53,13 +97,54 @@ const Hero = () => {
     });
   }, [opportunities, filterCategory]);
 
+  const filteredCandidates = useMemo(() => {
+    const { location, skills, availabilityStatus } = filterCategory;
 
-  const handleSearch = () => {
+    return candidates.filter(candidate => {
+      const cityMatch =
+        !location ||
+        candidate?.location?.city
+          ?.toLowerCase()
+          .includes(location.toLowerCase());
+
+      const skillMatch =
+        !skills?.length ||
+        skills.some(skill =>
+          candidate?.skills?.some(cSkill =>
+            cSkill.toLowerCase() === skill.toLowerCase()
+          )
+        );
+
+      const availabilityMatch =
+        !availabilityStatus ||
+        candidate?.availabilityStatus === availabilityStatus;
+
+      return cityMatch && skillMatch && availabilityMatch;
+    });
+  }, [candidates, filterCategory]);
+
+
+
+  const handleSearch = (role) => {
+    console.log("role in handleSearch", role);
     setIsSearching(true);
 
     const queryParams = {};
 
-    if (filterCategory.skills) queryParams.skills = filterCategory.skills;
+    // Handle skills differently based on role
+    if (filterCategory.skills && filterCategory.skills.length > 0) {
+      if (role === "recruiter") {
+        // Comma-separated string for recruiter
+        queryParams.skill = filterCategory.skills.join(',');
+      } else {
+        // Array → will become repeated params (skill=A&skill=B) in axios
+        queryParams.skill = filterCategory.skills;
+      }
+    }
+
+    console.log("Final axios params object:", queryParams);
+
+    // Other filters (same for both roles)
     if (filterCategory.location) queryParams.location = filterCategory.location;
     if (filterCategory.minSalary) queryParams.minSalary = filterCategory.minSalary;
     if (filterCategory.maxSalary) queryParams.maxSalary = filterCategory.maxSalary;
@@ -68,22 +153,35 @@ const Hero = () => {
 
     console.log("📤 Sending query to backend:", queryParams);
 
-    getOpportunities(queryParams)
-      .then((res) => {
-        console.log(" Response:", res.data);
-        setOpportunities(res.data.Addedopportunities || []);
-        setIsSearching(false);
-      })
-      .catch((err) => {
-        console.error(" Error fetching opportunities:", err);
-        setIsSearching(false);
-      });
+    if (role === "candidate") {
+      getOpportunities(queryParams)
+        .then((res) => {
+          console.log("Candidate Response:", res.data);
+          setOpportunities(res.data.Addedopportunities || []);
+          setIsSearching(false);
+        })
+        .catch((err) => {
+          console.error("Error fetching opportunities:", err);
+          setIsSearching(false);
+        });
+    } else if (role === "recruiter") {
+      getAllCandidateProfiles(queryParams)
+        .then((res) => {
+          console.log("Recruiter Response:", res.data);
+          setCandidates(res.data.candidates || []);
+          setIsSearching(false);
+        })
+        .catch((err) => {
+          console.error("Error fetching candidates:", err);
+          setIsSearching(false);
+        });
+    }
   };
 
   return (
     <>
       {currentUser ? (
-        <section className="hero dark:bg-gray-900">
+        <section className="hero dark:bg-red-900 ">
           <div className="hero-image">
             <img
               className="opacity-[0.0] dark:opacity-0"
@@ -97,10 +195,13 @@ const Hero = () => {
               animate={{ opacity: 1 }}
               transition={{ duration: 1 }}
             >
-              <Heading
+              {currentUser.role === "recruiter" ? <Heading
+                title="Search Your Way"
+                subtitle="Find new & featured talents located in your local region."
+              /> : <Heading
                 title="Search Your Way"
                 subtitle="Find new & featured opportunity located in your local city."
-              />
+              />}
             </motion.div>
 
             <motion.form
@@ -111,24 +212,26 @@ const Hero = () => {
             >
               {currentUser?.role === "recruiter" ? (
                 <CandidatesFilters
-                  filterCategory={filterCategory}
-                  setFilterCategory={setFilterCategory}
-                  filterData={filterData}
+                  candidates={candidates || []} // array for options
+                  data={filterCategory}          // filter state
+                  setData={setFilterCategory}    // updater
+                  onClear={handleClearFilters}
                 />
               ) : (
                 <OpportunitiesFilter
-                  opportunities={opportunitiesData?.Addedopportunities || []}// array for options
+                  opportunities={opportunities || []}// array for options
                   data={filterCategory}          // filter state
-                  setData={setFilterCategory}    // updater
+                  setData={setFilterCategory}
+                  onClear={handleClearFilters}    // updater
                 />
 
               )}
 
               <motion.button
-                className={`flex items-center justify-center gap-2 w-2/4 m-auto py-3 px-4 bg-purple-600 dark:bg-purple-700 hover:bg-purple-700 dark:hover:bg-purple-800 text-white font-medium rounded-lg shadow-md transition-colors duration-300 mt-3${isSearching ? "opacity-70 cursor-not-allowed" : ""
+                className={`flex items-center justify-center gap-2 w-2/4 m-auto py-3 px-4 bg-purple-600 dark:bg-purple-700 hover:bg-purple-700 dark:hover:bg-purple-800 text-white font-medium rounded-lg shadow-md transition-colors duration-300 mt-4 ${isSearching && "opacity-70 cursor-not-allowed"
                   }`}
                 type="button"
-                onClick={handleSearch}
+                onClick={() => handleSearch(currentUser?.role)}
                 disabled={isSearching}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -185,10 +288,15 @@ const Hero = () => {
         </section>
       )}
       <Recent
-        opportunitiesLoading={opportunitiesLoading}
+        loading={opportunitiesLoading || candidatesLoading}
         opportunity={opportunities}
         filteredopportunity={filteredOpportunities}
         filterCategory={filterCategory}
+        candidates={candidates}
+        filteredcandidates={filteredCandidates}
+        opportunitiesError={opportunitiesError}
+        candidatesError={candidatesError}
+        
       />
     </>
   );

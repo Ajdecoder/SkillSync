@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { jwttokenDecode } from "../utils/decode";
 import { LoginLoading } from "../Login/LoginLoading";
+import { logoutUser } from "../../services/api";
 
 const AuthContext = createContext();
 
@@ -59,6 +60,7 @@ export const AuthProvider = ({ children }) => {
     setGoogleUser(null);
     localStorage.removeItem("jwttoken");
     localStorage.removeItem("googleUser");
+    logoutUser()
   };
 
   return (
