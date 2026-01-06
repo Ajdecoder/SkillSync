@@ -19,12 +19,103 @@ cloudinary.config({
 
 export const getAllCandidateProfiles = async (req, res) => {
   try {
-    const users = await CandidateUserProfile.find();
-    res.status(200).json({ candidates: users });
+    const {
+      skill,
+      location,
+      minSalary,
+      maxSalary,
+      jobType,
+      workEnvironment,
+      availabilityStatus,
+    } = req.query;
+
+    const query = {};
+
+    // =========================
+    // LOCATION (city, state, country)
+    // supports: Mumbai | Mumbai,Maharashtra | Mumbai,Maharashtra,India
+    // =========================
+    if (location) {
+      const parts = location.split(",").map(v => v.trim());
+
+      if (parts[0]) {
+        query["location.city"] = new RegExp(`^${parts[0]}$`, "i");
+      }
+      if (parts[1]) {
+        query["location.state"] = new RegExp(`^${parts[1]}$`, "i");
+      }
+      if (parts[2]) {
+        query["location.country"] = new RegExp(`^${parts[2]}$`, "i");
+      }
+    }
+
+    if (skill) {
+      const skill = req.query.skill.trim();
+
+      if (skill) {
+        const escaped = skill.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+        query.skills = new RegExp(`^${escaped}$`, 'i');
+      }
+    }
+
+    // =========================
+    // SALARY RANGE (preferences.salaryRange)
+    // =========================
+    if (minSalary) {
+      query["preferences.salaryRange.max"] = {
+        $gte: Number(minSalary),
+      };
+    }
+
+    if (maxSalary) {
+      query["preferences.salaryRange.min"] = {
+        $lte: Number(maxSalary),
+      };
+    }
+
+    // =========================
+    // JOB TYPE
+    // =========================
+    if (jobType) {
+      query["preferences.jobType"] = new RegExp(`^${jobType}$`, "i");
+    }
+
+    // =========================
+    // WORK ENVIRONMENT
+    // =========================
+    if (workEnvironment) {
+      query.workEnvironment = new RegExp(`^${workEnvironment}$`, "i");
+    }
+
+    // =========================
+    // AVAILABILITY
+    // =========================
+    if (availabilityStatus) {
+      query.availabilityStatus = new RegExp(
+        `^${availabilityStatus}$`,
+        "i"
+      )
+    }
+
+    console.log("Final Mongo Query:", query);
+
+    const candidates = await CandidateUserProfile.find(query);
+
+    res.status(200).json({
+      candidates,
+      length: candidates.length,
+    });
   } catch (error) {
-    console.log(error);
+    console.error("Error fetching candidates:", error);
+    res.status(500).json({
+      message: "Failed to fetch candidates",
+    });
   }
 };
+
+
+
 
 /**
  * Get All Recruiters
@@ -33,7 +124,7 @@ export const getAllCandidateProfiles = async (req, res) => {
 export const getAllRecruiterProfiles = async (req, res) => {
   try {
     const users = await RecruiterUserProfile.find();
-    res.status(200).json({ recruiters: users });
+    res.status(200).json({ recruiters: users, length: users.length });
   } catch (error) {
     console.log(error);
   }
@@ -77,7 +168,7 @@ export const getUserProfileById = async (req, res) => {
  * Get User Profile by Email
  */
 export const getUserProfileByEmail = async (req, res) => {
-  
+
   try {
     const { email } = req.params;
 
@@ -301,9 +392,9 @@ export const UploadProfilePicture = async (req, res) => {
       async (error, result) => {
         if (error) {
           console.error(" Cloudinary upload error:", error);
-          return res.status(500).json({ 
+          return res.status(500).json({
             message: "Error uploading to Cloudinary",
-            error: error.message 
+            error: error.message
           });
         }
 
@@ -313,7 +404,7 @@ export const UploadProfilePicture = async (req, res) => {
           // Try updating Candidate first
           let updatedUser = await CandidateUserProfile.findByIdAndUpdate(
             userId,
-            { 
+            {
               profilePicture: result.secure_url,
               'profilePictureDetails': {
                 publicId: result.public_id,
@@ -327,7 +418,7 @@ export const UploadProfilePicture = async (req, res) => {
           if (!updatedUser) {
             updatedUser = await RecruiterUserProfile.findByIdAndUpdate(
               userId,
-              { 
+              {
                 profilePicture: result.secure_url,
                 'profilePictureDetails': {
                   publicId: result.public_id,
@@ -351,9 +442,9 @@ export const UploadProfilePicture = async (req, res) => {
           });
         } catch (dbError) {
           console.error(" DB update error:", dbError);
-          return res.status(500).json({ 
+          return res.status(500).json({
             message: "Error updating user profile",
-            error: dbError.message 
+            error: dbError.message
           });
         }
       }
@@ -363,9 +454,9 @@ export const UploadProfilePicture = async (req, res) => {
     uploadStream.end(file.buffer);
   } catch (error) {
     console.error(" Server error during upload:", error);
-    return res.status(500).json({ 
+    return res.status(500).json({
       message: "Server error during upload",
-      error: error.message 
+      error: error.message
     });
   }
 };

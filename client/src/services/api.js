@@ -1,4 +1,6 @@
 import axios from "axios";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 // Configure Axios
 const API = axios.create({
@@ -6,26 +8,39 @@ const API = axios.create({
   withCredentials: true
 });
 
-// Check if token exists in localStorage or cookies and add it to headers
+let isSessionExpiredHandled = false;
+
 API.interceptors.response.use(
   res => res,
   err => {
-    if (err.response?.status === 401) {
+    const isLoginApi = err.config?.url?.includes("/login");
+
+    if (
+      err.response?.status === 401 &&
+      !isLoginApi
+    ) {
       localStorage.removeItem("jwttoken");
+      API.post("/api/users/logout");
+      toast.error("Your session has expired. Please login again.");
       
-      window.location.href = "/login";
+      setTimeout(() => {
+        window.location.replace = "/login";
+      }, 3000);
     }
+
     return Promise.reject(err);
   }
 );
 
 
+
+
 // Add Authorization token
 API.interceptors.request.use(async (req) => {
-  const token = localStorage.getItem("jwttoken")|| await cookieStore.get("jwttoken")?.value || localStorage.getItem('googleUser');
-  console.log("token in localStorage:",localStorage.getItem("jwttoken")) ;
-  console.log("token in cookieStore:",await cookieStore.get("jwttoken")?.value);
-  console.log("token in googleUser:",localStorage.getItem('googleUser'));
+  const token = localStorage.getItem("jwttoken") || await cookieStore.get("jwttoken")?.value || localStorage.getItem('googleUser');
+  console.log("token in localStorage:", localStorage.getItem("jwttoken"));
+  console.log("token in cookieStore:", await cookieStore.get("jwttoken")?.value);
+  console.log("token in googleUser:", localStorage.getItem('googleUser'));
   if (token) {
     req.headers.Authorization = `Bearer ${token}`;
   }
@@ -44,6 +59,7 @@ export const registerRecruiter = (data) =>
   API.post("/api/users/register/recruiter", data);
 export const forgotPassword = (data) =>
   API.post("/api/users/account/Forgotpassword", data);
+export const logoutUser = () => API.post("/api/users/logout");
 
 /* ========== Profile APIs ========== */
 
@@ -53,8 +69,8 @@ export const getUserProfileById = (id) =>
   API.get(`/api/user/profile/account/user/id/${id}`);
 export const updateUserProfileByEmail = (email, data) =>
   API.put(`/api/user/profile/account/users/update/email/${email}`, { data });
-export const getAllCandidateProfiles = () =>
-  API.get("/api/user/profile/account/users/user/candidates");
+export const getAllCandidateProfiles = (query) =>
+  API.get("/api/user/profile/account/users/user/candidates", { params: query });
 export const getAllRecruitersProfiles = () =>
   API.get("/api/user/profile/account/users/user/recruiters");
 

@@ -2,6 +2,7 @@ import React from "react";
 import Heading from "../../common/Heading";
 import "./price.css";
 import PriceCard from "./PriceCard";
+import { price } from "../../common/constants";
 
 const Price = () => {
   return (
@@ -14,7 +15,11 @@ const Price = () => {
             titleClassName="text-3xl font-bold text-center mb-4 dark:text-white"
             subtitleClassName="text-lg text-gray-600 text-center mb-8 dark:text-gray-300"
           />
-          <PriceCard />
+          {
+            price.map((item,index)=>{
+              <PriceCard key={index} best={item.best} plan={item.plan} list={item.list} package_price={item.package_price} ptext={item.ptext} />
+            })
+          }
         </div>
       </section>
     </>

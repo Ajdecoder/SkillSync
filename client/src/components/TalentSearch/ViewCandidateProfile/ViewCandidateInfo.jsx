@@ -18,6 +18,7 @@ import {
 import { useAuth } from "../../context/AuthContext";
 import NotificationToasts from "../../common/Toast/Toast";
 import HireTalentModal from "../../Requirements/Recruiters/HireTalents/HireTalentModal";
+import { toast } from "react-toastify";
 
 export const ViewCandidateInfo = () => {
   const { candidateId } = useParams();
@@ -26,8 +27,6 @@ export const ViewCandidateInfo = () => {
   const [loading, setLoading] = useState(true);
   const [bookmark, setBookmark] = useState(false);
   const { loggedInUser, googleUser } = useAuth();
-  const [toastMessage, setToastMessage] = useState(null);
-  const [toastType, setToastType] = useState("success");
   const [hiretalentModal, setHireTalentModal] = useState(false);
 
   const currentUser = loggedInUser || googleUser;
@@ -100,13 +99,12 @@ export const ViewCandidateInfo = () => {
     try {
       if (!bookmark) {
         await bookmarkTalent(recruiterId, candidateId);
-        setToastMessage("Bookmark added successfully!");
+        toast.success("Bookmark added successfully!");
       } else {
         await removeBookmarkedTalent(recruiterId, candidateId);
-        setToastMessage("Bookmark removed successfully!");
+        toast.success("Bookmark removed successfully!");
       }
 
-      setToastType("success");
       setBookmark(!bookmark);
 
       // Fetch updated recruiter profile to keep data in sync
@@ -118,8 +116,7 @@ export const ViewCandidateInfo = () => {
       );
     } catch (error) {
       console.error("Error bookmarking candidate:", error);
-      setToastMessage("Something went wrong!");
-      setToastType("error");
+      toast.error("Something went wrong!");
     }
   };
 
@@ -304,16 +301,6 @@ export const ViewCandidateInfo = () => {
           >
             Hire Now
           </motion.button>
-          {/* Toast Notifications */}
-          {toastMessage && (
-            <NotificationToasts
-              message={toastMessage}
-              type={toastType}
-              autoClose={1500}
-              position="top-left"
-              theme="dark"
-            />
-          )}
         </div>
       </motion.div>
 

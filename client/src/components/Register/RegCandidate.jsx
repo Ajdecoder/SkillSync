@@ -26,8 +26,6 @@ export const RegCandidate = () => {
   const [isPasswordVisible, setPasswordVisible] = useState(false);
   const [isreEnterPasswordVisible, setIsreEnterPasswordVisible] =
     useState(false);
-  const [toastMessage, setToastMessage] = useState(null);
-  const [toastType, setToastType] = useState("success");
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!isPasswordVisible);
@@ -52,14 +50,12 @@ export const RegCandidate = () => {
       !candidate.password ||
       !candidate.reEnterPassword
     ) {
-      setToastMessage("Please fill in all fields.");
-      setToastType("info");
+      toast.info("Please fill in all fields.");
       return;
     }
 
     if (candidate.password !== candidate.reEnterPassword) {
-      setToastMessage("Passwords do not match.");
-      setToastType("error");
+      toast.info("Passwords do not match.");
       return;
     }
 
@@ -72,8 +68,7 @@ export const RegCandidate = () => {
         const token = response.data.token;
         localStorage.setItem("jwttoken", token);
 
-        toastMessage("Candidate successfully Register");
-        setToastType("success");
+        toast.success("Candidate successfully Register");
 
         setTimeout(() => {
           navigate("/");
@@ -82,24 +77,20 @@ export const RegCandidate = () => {
 
       console.log("printing token from regcandi", response.data); // Log the response here
       localStorage.setItem("jwttoken", response.data.token);
-      toastMessage(response.data.message);
+      toast.success(response.data.message);
       navigate("/");
     } catch (error) {
       if (error.response) {
         if (error.response.data && error.response.data.errors) {
           const errorMessage = error.response.data.errors[0].message;
-          setToastMessage(errorMessage);
-          console.log(toastMessage);
-          setToastType("error");
+          toast.error(errorMessage);
         } else {
-          setToastMessage(
+          toast.error(
             `${error.response.data.message || "Something went wrong"}`
           );
-          setToastType("error");
         }
       } else {
-        toastMessage("Network error. Please try again later.");
-        setToastType("error");
+        toast.error("Network error. Please try again later.");
       }
     }
   };
@@ -208,15 +199,6 @@ export const RegCandidate = () => {
         
           </div>
         </form>
-        {toastMessage && (
-          <NotificationToasts 
-            message={toastMessage}
-            type={toastType}
-            autoClose={1500}
-            position="top-right"
-            theme="dark"
-          />
-        )}
       </div>
     </div>
   );

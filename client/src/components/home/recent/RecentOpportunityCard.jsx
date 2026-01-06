@@ -12,7 +12,7 @@ const RecentOpportunity = ({
       return <Spinner />
     }
 
-  console.log(addedOpportunities,filterdOpportunities)
+  // console.log(addedOpportunities,filterdOpportunities)
   // Use filtered data if available, else fallback to all added opportunities
     const opportunitiesToShow =
       filterdOpportunities.length > 0 ? filterdOpportunities : addedOpportunities;

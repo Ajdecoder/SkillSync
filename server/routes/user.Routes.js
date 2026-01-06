@@ -24,13 +24,27 @@ const Userrouter = express.Router();
 Userrouter.post("/login/candidate", LoginValidation, CandidateLogin);
 Userrouter.post("/login/recruiter", LoginValidation, RecruiterLogin);
 Userrouter.post("/register/candidate", SignupValidation, CandidateRegister);
-Userrouter.post("/register/recruiter", SignupValidation, RecruiterRegister);  
+Userrouter.post("/register/recruiter", SignupValidation, RecruiterRegister);
 Userrouter.post("/account/Forgotpassword", CandidateForgotPassword);
-Userrouter.put("/candidate/opportunity/apply-to-job",verifyUser ,notificationMiddleware, JobApply);
-Userrouter.put("/candidate/revert-application", verifyUser, RevertApplication); 
-Userrouter.get("/job/user/job-notifications", verifyUser, Notifications );
-Userrouter.get("/job/user/job-notifications/:notificationId", verifyUser, NotificationsById );
-Userrouter.put("/notifications/markAsRead",NotificationAsRead)
+Userrouter.put("/candidate/opportunity/apply-to-job", verifyUser, notificationMiddleware, JobApply);
+Userrouter.put("/candidate/revert-application", verifyUser, RevertApplication);
+Userrouter.get("/job/user/job-notifications", verifyUser, Notifications);
+Userrouter.get("/job/user/job-notifications/:notificationId", verifyUser, NotificationsById);
+Userrouter.put("/notifications/markAsRead", NotificationAsRead)
+Userrouter.post("/logout", (req, res) => {
+  res.clearCookie("jwttoken", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+  }
+    ,
+    "");
+
+  return res.status(200).json({
+    message: "Logged out successfully",
+  });
+});
+
 // Userrouter.patch("/account/user/changeAccPassword", verifyUser, changeAccPassword)
 // Userrouter.post("/account/DeleteAccount", verifyUser, DeleteAcc);
 // Userrouter.post("/account/ResetPassword", verifyUser, ResetPassword);

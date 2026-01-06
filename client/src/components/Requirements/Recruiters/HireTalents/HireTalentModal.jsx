@@ -8,8 +8,6 @@ const HireTalentModal = ({ candidate, onClose }) => {
   const [salaryOffered, setSalaryOffered] = useState("");
   const [startDate, setStartDate] = useState("");
   const [message, setMessage] = useState("");
-  const [toastMessage, setToastMessage] = useState(null);
-  const [toastType, setToastType] = useState("success");
 
   const handleSubmit = async () => {
     try {
