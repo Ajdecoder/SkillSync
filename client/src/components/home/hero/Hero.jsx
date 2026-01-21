@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useMemo } from "react";
-import Heading from "../../common/Heading";
-import "./hero.css";
+import Heading from "../../common/Heading"; // Use the updated Heading I gave you earlier!
+// import "./hero.css"; // Bhai isko hata dena, ab hum pure Tailwind use kar rahe hain
 import { useAuth } from "../../context/AuthContext";
 import Recent from "../recent/Recent";
-import { filterData } from "../../common/constants";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { CandidatesFilters } from "../../common/Filters/TalentsFilter";
 import { OpportunitiesFilter } from "../../common/Filters/OpportunitiesFilter";
-import { FaSearch, FaUserTie, FaBriefcase } from "react-icons/fa";
+import { FaSearch, FaUserTie, FaBriefcase, FaArrowRight } from "react-icons/fa";
 import useFetchData from "../../hooks/useGetDataFetch";
 import { PORT_CLIENT } from "../../../commonClient";
 import { getAllCandidateProfiles, getOpportunities } from "../../../services/api";
@@ -31,16 +30,12 @@ const Hero = () => {
   const [filterCategory, setFilterCategory] = useState(initialFilters);
 
   const handleClearFilters = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setFilterCategory(initialFilters);
-
   };
 
-  const [error, setError] = useState(null);
   const [isSearching, setIsSearching] = useState(false);
-
-  let role = currentUser?.role
-
+  let role = currentUser?.role;
 
   const opportunitiesUrl =
     role === "candidate"
@@ -52,252 +47,228 @@ const Hero = () => {
       ? `${PORT_CLIENT}/api/user/profile/account/users/user/candidates`
       : null;
 
-
-  const {
-    data: opportunitiesData,
-    error: opportunitiesError,
-    loading: opportunitiesLoading,
-  } = useFetchData(opportunitiesUrl);
-
-  const {
-    data: candidatesData,
-    error: candidatesError,
-    loading: candidatesLoading,
-  } = useFetchData(candidatesUrl);
-
-
-
-
-  // console.log('getting candidatedata in hero', candidatesData)
+  const { data: opportunitiesData, loading: opportunitiesLoading, error: opportunitiesError } = useFetchData(opportunitiesUrl);
+  const { data: candidatesData, loading: candidatesLoading, error: candidatesError } = useFetchData(candidatesUrl);
 
   useEffect(() => {
-
-
     if (role === "recruiter" && candidatesData?.candidates) {
       setCandidates(candidatesData.candidates);
     }
-
     if (role === "candidate" && opportunitiesData?.Addedopportunities) {
       setOpportunities(opportunitiesData.Addedopportunities);
     }
   }, [role, candidatesData, opportunitiesData]);
 
-
   const filteredOpportunities = useMemo(() => {
-    const { selectedCity, selectedExpertType, selectedPriceRange } =
-      filterCategory;
+    const { selectedCity, selectedExpertType, selectedPriceRange } = filterCategory;
     return opportunities.filter((opportunity) => {
       return (
-        (selectedCity === "" || opportunity?.address === selectedCity) &&
-        (selectedExpertType === "" ||
-          opportunity?.expertType === selectedExpertType) &&
-        (selectedPriceRange === "" ||
-          opportunity?.priceRange === selectedPriceRange)
+        (selectedCity === "" || !selectedCity || opportunity?.address === selectedCity) &&
+        (selectedExpertType === "" || !selectedExpertType || opportunity?.expertType === selectedExpertType) &&
+        (selectedPriceRange === "" || !selectedPriceRange || opportunity?.priceRange === selectedPriceRange)
       );
     });
   }, [opportunities, filterCategory]);
 
   const filteredCandidates = useMemo(() => {
     const { location, skills, availabilityStatus } = filterCategory;
-
-    return candidates.filter(candidate => {
-      const cityMatch =
-        !location ||
-        candidate?.location?.city
-          ?.toLowerCase()
-          .includes(location.toLowerCase());
-
-      const skillMatch =
-        !skills?.length ||
-        skills.some(skill =>
-          candidate?.skills?.some(cSkill =>
-            cSkill.toLowerCase() === skill.toLowerCase()
-          )
-        );
-
-      const availabilityMatch =
-        !availabilityStatus ||
-        candidate?.availabilityStatus === availabilityStatus;
-
+    return candidates.filter((candidate) => {
+      const cityMatch = !location || candidate?.location?.city?.toLowerCase().includes(location.toLowerCase());
+      const skillMatch = !skills?.length || skills.some((skill) => candidate?.skills?.some((cSkill) => cSkill.toLowerCase() === skill.toLowerCase()));
+      const availabilityMatch = !availabilityStatus || candidate?.availabilityStatus === availabilityStatus;
       return cityMatch && skillMatch && availabilityMatch;
     });
   }, [candidates, filterCategory]);
 
-
-
   const handleSearch = (role) => {
-    console.log("role in handleSearch", role);
     setIsSearching(true);
-
     const queryParams = {};
-
-    // Handle skills differently based on role
     if (filterCategory.skills && filterCategory.skills.length > 0) {
       if (role === "recruiter") {
-        // Comma-separated string for recruiter
-        queryParams.skill = filterCategory.skills.join(',');
+        queryParams.skill = filterCategory.skills.join(",");
       } else {
-        // Array → will become repeated params (skill=A&skill=B) in axios
         queryParams.skill = filterCategory.skills;
       }
     }
-
-    console.log("Final axios params object:", queryParams);
-
-    // Other filters (same for both roles)
     if (filterCategory.location) queryParams.location = filterCategory.location;
     if (filterCategory.minSalary) queryParams.minSalary = filterCategory.minSalary;
     if (filterCategory.maxSalary) queryParams.maxSalary = filterCategory.maxSalary;
-    if (filterCategory.requirement_type)
-      queryParams.requirement_type = filterCategory.requirement_type;
-
-    console.log("📤 Sending query to backend:", queryParams);
+    if (filterCategory.requirement_type) queryParams.requirement_type = filterCategory.requirement_type;
 
     if (role === "candidate") {
       getOpportunities(queryParams)
         .then((res) => {
-          console.log("Candidate Response:", res.data);
           setOpportunities(res.data.Addedopportunities || []);
           setIsSearching(false);
         })
         .catch((err) => {
-          console.error("Error fetching opportunities:", err);
+          console.error(err);
           setIsSearching(false);
         });
     } else if (role === "recruiter") {
       getAllCandidateProfiles(queryParams)
         .then((res) => {
-          console.log("Recruiter Response:", res.data);
           setCandidates(res.data.candidates || []);
           setIsSearching(false);
         })
         .catch((err) => {
-          console.error("Error fetching candidates:", err);
+          console.error(err);
           setIsSearching(false);
         });
     }
   };
 
+  // --- UI SECTION START ---
   return (
     <>
       {currentUser ? (
-        <section className="hero dark:bg-red-900 ">
-          <div className="hero-image">
-            <img
-              className="opacity-[0.0] dark:opacity-0"
-              src="/images/banner.jpg"
-              alt="Hero"
+        // 1. LOGGED IN VIEW (Glassmorphism Style)
+        <section className="relative w-full min-h-[600px] flex items-center justify-center py-20 overflow-hidden bg-gray-50 dark:bg-gray-900">
+            
+          {/* Background Image with Overlay */}
+          <div className="absolute inset-0 z-0">
+             <img
+              src="/images/banner.jpg" // Ensure this image is high quality
+              alt="Background"
+              className="w-full h-full object-cover opacity-20 dark:opacity-10"
             />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-50 dark:to-gray-900"></div>
           </div>
-          <div className="hero-container">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1 }}
-            >
-              {currentUser.role === "recruiter" ? <Heading
-                title="Search Your Way"
-                subtitle="Find new & featured talents located in your local region."
-              /> : <Heading
-                title="Search Your Way"
-                subtitle="Find new & featured opportunity located in your local city."
-              />}
-            </motion.div>
 
-            <motion.form
-              className="hero-form m-auto mt-6 mb-6 bg-white dark:bg-gray-800 text-gray-800 dark:text-white p-6 rounded-lg shadow-lg max-w-3xl border border-gray-200 dark:border-gray-700"
-              initial={{ opacity: 0, y: 50 }}
+          <div className="relative z-10 w-full max-w-5xl px-4 mx-auto text-center space-y-8">
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1 }}
+              transition={{ duration: 0.8 }}
             >
-              {currentUser?.role === "recruiter" ? (
-                <CandidatesFilters
-                  candidates={candidates || []} // array for options
-                  data={filterCategory}          // filter state
-                  setData={setFilterCategory}    // updater
-                  onClear={handleClearFilters}
+              {currentUser.role === "recruiter" ? (
+                <Heading
+                  title="Discover Top Talent"
+                  subtitle="Find the perfect candidates in your region with our advanced AI-driven search."
+                  align="center"
                 />
               ) : (
-                <OpportunitiesFilter
-                  opportunities={opportunities || []}// array for options
-                  data={filterCategory}          // filter state
-                  setData={setFilterCategory}
-                  onClear={handleClearFilters}    // updater
+                <Heading
+                  title="Find Your Dream Job"
+                  subtitle="Explore new opportunities tailored to your skills and preferences."
+                  align="center"
                 />
-
               )}
+            </motion.div>
 
-              <motion.button
-                className={`flex items-center justify-center gap-2 w-2/4 m-auto py-3 px-4 bg-purple-600 dark:bg-purple-700 hover:bg-purple-700 dark:hover:bg-purple-800 text-white font-medium rounded-lg shadow-md transition-colors duration-300 mt-4 ${isSearching && "opacity-70 cursor-not-allowed"
-                  }`}
-                type="button"
-                onClick={() => handleSearch(currentUser?.role)}
-                disabled={isSearching}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8, duration: 1 }}
-              >
-                {isSearching ? (
-                  "Searching..."
+            {/* Glassmorphism Filter Container */}
+            <motion.div
+              className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border border-white/20 dark:border-gray-700 p-8 rounded-2xl shadow-2xl mx-auto"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <form className="space-y-6">
+                {currentUser?.role === "recruiter" ? (
+                  <CandidatesFilters
+                    candidates={candidates || []}
+                    data={filterCategory}
+                    setData={setFilterCategory}
+                    onClear={handleClearFilters}
+                  />
                 ) : (
-                  <>
-                    <FaSearch className="inline " /> Search
-                  </>
+                  <OpportunitiesFilter
+                    opportunities={opportunities || []}
+                    data={filterCategory}
+                    setData={setFilterCategory}
+                    onClear={handleClearFilters}
+                  />
                 )}
-              </motion.button>
-            </motion.form>
+
+                <div className="pt-4">
+                    <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className={`w-full sm:w-1/2 mx-auto flex items-center justify-center gap-3 py-4 px-8 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-lg font-bold rounded-xl shadow-lg transition-all ${
+                        isSearching ? "opacity-70 cursor-wait" : ""
+                    }`}
+                    type="button"
+                    onClick={() => handleSearch(currentUser?.role)}
+                    disabled={isSearching}
+                    >
+                    {isSearching ? (
+                        "Searching..."
+                    ) : (
+                        <>
+                        <FaSearch /> Search Now
+                        </>
+                    )}
+                    </motion.button>
+                </div>
+              </form>
+            </motion.div>
           </div>
         </section>
       ) : (
-        <section className="hero-LoginPromoPage bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 dark:from-indigo-800 dark:via-purple-800 dark:to-blue-800 text-white py-16">
+        // 2. GUEST VIEW (Modern Landing Page Style)
+        <section className="relative w-full py-24 lg:py-32 bg-gray-900 overflow-hidden">
+            {/* Abstract Background Shapes */}
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
+                <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-purple-600/20 blur-[100px]"></div>
+                <div className="absolute top-[40%] -right-[10%] w-[40%] h-[60%] rounded-full bg-blue-600/20 blur-[120px]"></div>
+            </div>
+
           <motion.div
-            className="hero-container mx-auto max-w-4xl text-center space-y-6 px-4"
+            className="relative z-10 container mx-auto px-4 text-center space-y-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1 }}
           >
-            <Heading
-              title="Search Your Way"
-              subtitle="Whether you're looking to hire top talent or find your next job, we have the right tools to connect you with opportunities."
-            />
-            <p className="text-lg md:text-xl font-light text-white/90 dark:text-white/80">
-              Discover skilled professionals or explore job opportunities that
-              align with your expertise. Start your journey today!
-            </p>
+            <div className="max-w-3xl mx-auto space-y-6">
+                <h1 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 tracking-tight">
+                    Search Your Way
+                </h1>
+                <p className="text-xl text-gray-300 font-light leading-relaxed">
+                    Whether you're looking to hire top talent or find your next job, we connect you with the right opportunities using smart technology.
+                </p>
+            </div>
 
             <motion.div
-              className="mt-8 flex flex-col sm:flex-row justify-center gap-4"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2, duration: 1 }}
+              className="flex flex-col sm:flex-row items-center justify-center gap-6 mt-12"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
             >
               <Link
-                to="/requirements/search"
-                className="flex items-center justify-center gap-2 bg-white text-indigo-600 hover:text-purple-600 dark:hover:text-purple-700 font-semibold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                to="/login"
+                className="group relative px-8 py-4 bg-white text-gray-900 font-bold rounded-full overflow-hidden shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] transition-all"
               >
-                <FaUserTie /> Start Your Search
+                <span className="relative z-10 flex items-center gap-2">
+                    <FaUserTie className="text-purple-600" /> Start Searching
+                </span>
+                <div className="absolute inset-0 bg-gray-100 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></div>
               </Link>
+
               <Link
                 to="/requirements/add-opportunity"
-                className="flex items-center justify-center gap-2 bg-transparent border-2 border-white text-white font-semibold py-3 px-6 rounded-lg hover:bg-white hover:text-indigo-600 dark:hover:text-indigo-700 transition-all duration-300"
+                className="group flex items-center gap-2 px-8 py-4 bg-transparent border border-gray-600 text-white font-medium rounded-full hover:border-purple-500 hover:text-purple-400 transition-all"
               >
-                <FaBriefcase /> Post a Job
+                 <FaBriefcase /> Post a Job
+                 <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
           </motion.div>
         </section>
       )}
-      <Recent
-        loading={opportunitiesLoading || candidatesLoading}
-        opportunity={opportunities}
-        filteredopportunity={filteredOpportunities}
-        filterCategory={filterCategory}
-        candidates={candidates}
-        filteredcandidates={filteredCandidates}
-        opportunitiesError={opportunitiesError}
-        candidatesError={candidatesError}
-        
-      />
+
+      {/* Recent Section - Just ensuring props pass correctly */}
+      <div className="bg-gray-50 dark:bg-gray-950">
+        <Recent
+            loading={opportunitiesLoading || candidatesLoading}
+            opportunity={opportunities}
+            filteredopportunity={filteredOpportunities}
+            filterCategory={filterCategory}
+            candidates={candidates}
+            filteredcandidates={filteredCandidates}
+            opportunitiesError={opportunitiesError}
+            candidatesError={candidatesError}
+        />
+      </div>
     </>
   );
 };

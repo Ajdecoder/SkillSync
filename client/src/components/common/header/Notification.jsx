@@ -21,12 +21,14 @@ const NotificationButton = () => {
     notificationsLoading,
   } = useNotifications();
 
+  console.log(notifications)
+
   const navigate = useNavigate();
 
   // Fetch notifications on login/user change
   useEffect(() => {
     fetchNotifications();
-  }, [currentUser, fetchNotifications]);
+  }, [currentUser]);
 
   // Close dropdown when clicking outside
   useEffect(() => {

@@ -23,9 +23,6 @@ const About = () => {
               to push boundaries and make a difference, one success story at a
               time.
             </main>
-            <button className="btn2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-800 text-white py-2 px-6 rounded-lg shadow-lg mt-6 transition-colors">
-              Learn More About Us
-            </button>
           </div>
           <div className="right row md:w-1/2 h-80">
             <img

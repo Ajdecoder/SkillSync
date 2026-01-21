@@ -21,6 +21,7 @@ const data = [
   { name: "June", jobPostings: 300, talentSearches: 240, activeUsers: 200 },
   { name: "July", jobPostings: 350, talentSearches: 280, activeUsers: 230 },
   { name: "August", jobPostings: 400, talentSearches: 320, activeUsers: 270 },
+
   {
     name: "September",
     jobPostings: 450,
@@ -54,12 +55,12 @@ const MyChart = () => (
           tickLine={{ stroke: "#888888" }}
           axisLine={{ stroke: "#888888", strokeWidth: 1 }}
         />
-        <YAxis 
+        <YAxis
           tick={{ fill: "#888888" }}
           tickLine={{ stroke: "#888888" }}
           axisLine={{ stroke: "#888888" }}
         />
-        <Tooltip 
+        <Tooltip
           contentStyle={{
             backgroundColor: 'rgba(31, 41, 55, 0.9)',
             borderColor: '#4b5563',
@@ -67,7 +68,7 @@ const MyChart = () => (
             color: '#ffffff'
           }}
         />
-        <Legend 
+        <Legend
           wrapperStyle={{
             color: '#888888',
             paddingTop: '20px'
@@ -112,14 +113,16 @@ const MarketTrends = () => {
   return (
     <div className="min-h-full bg-gray-100 dark:bg-gray-900 flex flex-col items-center px-6 py-10">
       {/* Header Section */}
-      <header className="trends-header text-center mb-10">
-        <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-4 p-3">
-          Market Trends
-        </h1>
-        <p className="text-gray-600 dark:text-gray-300 text-lg">
-          Stay updated with the latest market insights and trends shaping the
-          future.
-        </p>
+      <header className="trends-header text-center m-10">
+        <div className="min-w-full">
+          <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-4 p-3">
+            Market Trends
+          </h1>
+          <p className="text-gray-600 dark:text-gray-300 text-lg">
+            Stay updated with the latest market insights and trends shaping the
+            future.
+          </p>
+        </div>
       </header>
 
       {/* Trends Section */}

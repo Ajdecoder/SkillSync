@@ -166,7 +166,7 @@ export const CandidatesFilters = ({ candidates = [], data, setData, onClear }) =
 
       </motion.div>
 
-{/* Clear Button */}
+      {/* Clear Button */}
       <button
         type="button"
         onClick={onClear}

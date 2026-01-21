@@ -13,7 +13,7 @@ const Blog = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [spin, setSpin] = useState(true);
 
-  const postsPerPage = 6;
+  const postsPerPage = 12;
   const navigate = useNavigate();
   const startIndex = currentPage * postsPerPage;
   const endIndex = startIndex + postsPerPage;

@@ -87,7 +87,7 @@ const Footer = () => {
 
       {/* Legal Section */}
       <div className="footer-section legal text-center text-gray-500 dark:text-gray-400 relative bottom-[-30px] text-sm">
-        <span>© 2024. Designed By Ajdecoder.</span>
+        <span>© {new Date().getFullYear()}. Designed By Ajdecoder.</span>
       </div>
     </footer>
   );

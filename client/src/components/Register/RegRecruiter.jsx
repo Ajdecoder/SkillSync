@@ -1,19 +1,18 @@
-import { React, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import "./Register.css";
+import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
-import { GoogleAuth } from "../Oauth/Oauth";
 import { registerRecruiter } from "../../services/api";
+import RegisterForm from "./RegisterForm";
 
 export const RegRecruiter = () => {
   const navigate = useNavigate();
-
   const { loginWithJWT } = useAuth();
 
-  const [recruiter, setRecruiter] = useState({
+  const [loading, setLoading] = useState(false);
+  const [showPass, setShowPass] = useState(false);
+
+  const [user, setUser] = useState({
     name: "",
     email: "",
     password: "",
@@ -21,188 +20,55 @@ export const RegRecruiter = () => {
     role: "recruiter",
   });
 
-  const [isPasswordVisible, setPasswordVisible] = useState(false);
-  const [isreEnterPasswordVisible, setIsreEnterPasswordVisible] =
-    useState(false);
-
-  const togglePasswordVisibility = () => {
-    setPasswordVisible(!isPasswordVisible);
-  };
-
-  const toggleisreEnterPasswordVisible = () => {
-    setIsreEnterPasswordVisible(!isreEnterPasswordVisible);
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setRecruiter((prevrecruiter) => ({
-      ...prevrecruiter,
-      [name]: value,
-    }));
+    setUser((prev) => ({ ...prev, [name]: value }));
   };
 
-  const register = async (e) => {
-    e.preventDefault();
-    if (
-      !recruiter.name ||
-      !recruiter.email ||
-      !recruiter.password ||
-      !recruiter.reEnterPassword
-    ) {
-      toast.info("Please fill in all fields.");
-      
-      return;
-    }
+  const togglePasswordVisibility = () => {
+    setShowPass((prev) => !prev);
+  };
 
-    if (recruiter.password !== recruiter.reEnterPassword) {
-      toast.info("Passwords do not match.");
-      
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (user.password !== user.reEnterPassword) {
+      toast.error("Passwords do not match");
       return;
     }
 
     try {
-      const response = await registerRecruiter(recruiter);
+      setLoading(true);
+      const res = await registerRecruiter(user);
 
-      loginWithJWT(response.data);
+      loginWithJWT(res.data);
+      localStorage.setItem("jwttoken", res.data.token);
 
-      if (response.status === 200) {
-        const token = response.data.token;
-        localStorage.setItem("jwttoken", token);
-
-        toast.success("Candidate successfully Register");
-        
-
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
-      }
-
-      localStorage.setItem("jwttoken", response.data.token);
-      
-
-      toast.dismiss(response.data.message);
+      toast.success("Recruiter registered successfully");
 
       navigate("/");
-    } catch (error) {
-      if (error.response) {
-        toast.error(`${error.response.data.message}`);
-      } else if (error.request) {
-        toast.error(`Network Error: ${error.message}`);
-        console.log(error);
-      } else {
-        toast.error("Error registering. Please try again later.");
-      }
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Registration failed");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div>
-      <div>
-        <div className="p-5 bg-gradient-to-r from-blue-500 to-purple-600 min-h-screen flex items-center justify-center">
-          <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8 border-2 border-gray-200">
-            <h1 className="text-3xl font-semibold text-gray-800 text-center mb-6">
-              Register As Recruiter
-            </h1>
-            <form onSubmit={register}>
-              <div className="space-y-4">
-                <input
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  type="text"
-                  placeholder="Enter your name"
-                  name="name"
-                  value={recruiter.name}
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  type="email"
-                  placeholder="Enter your email"
-                  name="email"
-                  value={recruiter.email}
-                  onChange={handleChange}
-                  required
-                />
+    <div className="flex min-h-screen items-center justify-center bg-[#1f1b29]">
 
-                <div className="relative">
-                  <input
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    type={isPasswordVisible ? "text" : "password"}
-                    placeholder="Enter your password"
-                    name="password"
-                    value={recruiter.password}
-                    onChange={handleChange}
-                    required
-                  />
-                  <span
-                    className="absolute right-4 top-2.5 text-blue-500 cursor-pointer"
-                    onClick={togglePasswordVisibility}
-                  >
-                    {isPasswordVisible ? (
-                      <i className="fa-regular fa-eye-slash"></i>
-                    ) : (
-                      <i className="fa-solid fa-eye"></i>
-                    )}
-                  </span>
-                </div>
+      <RegisterForm
+        title="Register as Recruiter"
+        user={user}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        loading={loading}
+        showPass={showPass}
+        togglePasswordVisibility={togglePasswordVisibility}
+        redirectToLogin={() => navigate("/login/recruiter")}
+        googleRole="recruiter"
+      />
 
-                <div className="relative">
-                  <input
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    type={isreEnterPasswordVisible ? "text" : "password"}
-                    placeholder="Re-enter your password"
-                    name="reEnterPassword"
-                    value={recruiter.reEnterPassword}
-                    onChange={handleChange}
-                    required
-                  />
-                  <span
-                    className="absolute right-4 top-2.5 text-blue-500 cursor-pointer"
-                    onClick={toggleisreEnterPasswordVisible}
-                  >
-                    {isreEnterPasswordVisible ? (
-                      <i className="fa-regular fa-eye-slash"></i>
-                    ) : (
-                      <i className="fa-solid fa-eye"></i>
-                    )}
-                  </span>
-                </div>
-              </div>
-
-              <div className="mt-6">
-                <button
-                  type="submit"
-                  className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:bg-gradient-to-l text-white py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200"
-                >
-                  Sign Up
-                </button>
-              </div>
-
-              <div className="mt-4 text-center text-gray-500">
-                Already have an account?{" "}
-                <button
-                  onClick={() => navigate("/login/recruiter")}
-                  className="text-blue-600 hover:underline focus:outline-none"
-                >
-                  Login Now
-                </button>
-              </div>
-
-              <div className="flex items-center mt-6">
-                <div className="w-full h-px bg-gray-300"></div>
-                <span className="px-3 text-gray-500">or</span>
-                <div className="w-full h-px bg-gray-300"></div>
-              </div>
-
-              <div className="flex justify-center mt-4">
-                <GoogleAuth role={"recruiter"} />
-              </div>
-            </form>
-
-           
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

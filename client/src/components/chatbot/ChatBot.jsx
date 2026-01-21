@@ -334,7 +334,7 @@ export const ChatBot = () => {
           <input
             type="text"
             placeholder="Type your message..."
-            className="flex-1 p-3 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-200 dark:focus:ring-purple-700"
+            className={`flex-1 p-3 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-purple-200 dark:focus:ring-purple-700 ${isTyping && "cursor-not-allowed"}`}
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             disabled={isTyping}
