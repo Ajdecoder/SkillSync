@@ -1,79 +1,93 @@
+import React from "react";
 import { motion } from "framer-motion";
-import { FaRocket, FaTrophy, FaUsers, FaChartLine, FaLock } from 'react-icons/fa';
+import { FaTrophy, FaUsers, FaChartLine, FaLock, FaArrowRight } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
+import Heading from "../common/Heading";
 
 export const LoginPromoPage = () => {
   const navigate = useNavigate();
 
   const features = [
-    { icon: <FaTrophy />, title: "Access Exclusive Opportunities", color: "bg-purple-500" },
-    { icon: <FaChartLine />, title: "Track Your Career Growth", color: "bg-blue-500" },
-    { icon: <FaUsers />, title: "Connect with Top Recruiters", color: "bg-green-500" },
+    { 
+      icon: <FaTrophy className="text-purple-600" />, 
+      title: "Exclusive Access", 
+      desc: "Get early access to premium job listings before they go public.",
+      borderColor: "border-purple-200 dark:border-purple-900" 
+    },
+    { 
+      icon: <FaChartLine className="text-blue-600" />, 
+      title: "Career Tracking", 
+      desc: "Visualize your application progress and skill growth analytics.",
+      borderColor: "border-blue-200 dark:border-blue-900" 
+    },
+    { 
+      icon: <FaUsers className="text-green-600" />, 
+      title: "Direct Networking", 
+      desc: "Message recruiters directly and skip the long application queues.",
+      borderColor: "border-green-200 dark:border-green-900" 
+    },
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 to-purple-900 text-white flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex flex-col items-center justify-center p-6 transition-colors duration-300">
       
+      {/* Header Section */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="text-center mb-12"
+        className="max-w-3xl text-center my-8"
       >
-        <div className="text-6xl mb-6"><FaLock /></div>
-        <h1 className="text-5xl font-bold mb-4">
-          You're Missing Out! 🔐
-        </h1>
-        <p className="text-xl text-blue-200 max-w-2xl mx-auto">
-          Log in to unlock powerful features, track your career progress, and connect with top industry professionals.
-        </p>
+        <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 mb-6">
+          <FaLock size={28} />
+        </div>
+        
+        <Heading 
+          title="Unlock the Full Experience" 
+          subtitle="You're seeing a limited view. Join thousands of professionals and take the next big step in your career journey."
+        />
       </motion.div>
 
-      <motion.div 
-        className="grid md:grid-cols-3 gap-8 mb-16"
-        initial="hidden"
-        animate="visible"
-        variants={{
-          hidden: { opacity: 0 },
-          visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.2 }
-          }
-        }}
-      >
+      {/* Features Grid - More Precise & Card-based */}
+      <div className="grid md:grid-cols-3 gap-6 w-full max-w-6xl mt-12 mb-16">
         {features.map((feature, index) => (
           <motion.div
             key={index}
-            variants={{
-              hidden: { opacity: 0, y: 30 },
-              visible: { opacity: 1, y: 0 }
-            }}
-            whileHover={{ y: -10 }}
-            className={`p-8 rounded-2xl backdrop-blur-lg bg-white/10 hover:bg-white/20 transition-all`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+            className={`p-8 bg-white dark:bg-gray-900 border ${feature.borderColor} rounded-2xl shadow-sm hover:shadow-md transition-all duration-300`}
           >
-            <div className={`${feature.color} w-14 h-14 rounded-xl flex items-center justify-center mb-4 mx-auto`}>
+            <div className="w-12 h-12 rounded-lg bg-gray-50 dark:bg-gray-800 flex items-center justify-center mb-6">
               {feature.icon}
             </div>
-            <h3 className="text-2xl font-bold mb-2">{feature.title}</h3>
-            <p className="text-blue-200">Sign in to take advantage of this feature.</p>
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
+              {feature.title}
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
+              {feature.desc}
+            </p>
           </motion.div>
         ))}
-      </motion.div>
+      </div>
 
+      {/* Action Area */}
       <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 100 }}
-        className="relative"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
+        className="flex flex-col items-center gap-4 mb-8"
       >
-        <div className="absolute inset-0 bg-white/20 blur-2xl rounded-full animate-pulse" />
         <button
           onClick={() => navigate("/login")}
-          className="relative bg-gradient-to-r from-yellow-400 to-orange-400 px-16 py-5 rounded-full
-          text-purple-900 font-bold text-xl hover:scale-105 transition-transform"
+          className="group flex items-center gap-3 bg-gray-900 dark:bg-white text-white dark:text-gray-900 px-10 py-4 rounded-xl font-bold text-lg hover:bg-gray-800 dark:hover:bg-gray-100 transition-all shadow-xl"
         >
-          Log in to Unlock
+          Sign In to Unlock
+          <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
         </button>
+        
+        <p className="text-sm text-gray-500 dark:text-gray-500">
+          Don't have an account? <span className="text-purple-600 font-medium cursor-pointer hover:underline" onClick={() => navigate("/signup")}>Create one for free</span>
+        </p>
       </motion.div>
 
     </div>

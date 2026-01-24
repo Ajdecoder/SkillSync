@@ -1,31 +1,11 @@
-# str = 'anuj shrivastav'
-# print(f'Hello, {str}!')
+# a = 'anuj shrivastav'
+# print(a)
+# print(a.split(' '))
 
-# num = 5
-# num+= 1
-# num+=2
+# print(a.replace('a', 'A'))
 
-# print(num)
-'''
-for i in range(5):
-    print(i)
-    '''
-# class Person:
-#     def sum(a, b, ):
-#         return a + b
-#     def sum(a, b, c):
-#         return a + b + c
-# print(Person.sum(5, 10, 15))
+# print(a[0:4]+'1')
 
-class Vehicle:
-    def __init__(self, name, max_speed):
-        print(type(self))
-        self.name = name
-        self.max_speed = max_speed
-
-    def display(self):
-        print(f'Vehicle Name: {self.name}, Max Speed: {self.max_speed} km/h')
-
-car = Vehicle('Toyota', 180)
-car.display()
-
+a = "hello"
+a = a.capitalize()
+print(a)

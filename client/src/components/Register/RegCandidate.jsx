@@ -1,21 +1,18 @@
-import { React, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import "./Register.css";
-import { PORT_CLIENT } from "../../commonClient";
+import { toast } from "react-toastify";
 import { useAuth } from "../context/AuthContext";
-import { GoogleAuth } from "../Oauth/Oauth";
 import { registerCandidate } from "../../services/api";
-import NotificationToasts  from "../common/Toast/Toast";
+import RegisterForm from "./RegisterForm";
 
 export const RegCandidate = () => {
   const navigate = useNavigate();
-
   const { loginWithJWT } = useAuth();
 
-  const [candidate, setCandidate] = useState({
+  const [loading, setLoading] = useState(false);
+  const [showPass, setShowPass] = useState(false);
+
+  const [user, setUser] = useState({
     name: "",
     email: "",
     password: "",
@@ -23,183 +20,67 @@ export const RegCandidate = () => {
     role: "candidate",
   });
 
-  const [isPasswordVisible, setPasswordVisible] = useState(false);
-  const [isreEnterPasswordVisible, setIsreEnterPasswordVisible] =
-    useState(false);
-
-  const togglePasswordVisibility = () => {
-    setPasswordVisible(!isPasswordVisible);
-  };
-  const toggleisreEnterPasswordVisible = () => {
-    setIsreEnterPasswordVisible(!isreEnterPasswordVisible);
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setCandidate((prevcandidate) => ({
-      ...prevcandidate,
-      [name]: value,
-    }));
+    setUser((prev) => ({ ...prev, [name]: value }));
   };
 
-  const register = async (e) => {
+  const togglePasswordVisibility = () => {
+    setShowPass((prev) => !prev);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (
-      !candidate.name ||
-      !candidate.email ||
-      !candidate.password ||
-      !candidate.reEnterPassword
+      !user.name ||
+      !user.email ||
+      !user.password ||
+      !user.reEnterPassword
     ) {
-      toast.info("Please fill in all fields.");
+      toast.info("Please fill in all fields");
       return;
     }
 
-    if (candidate.password !== candidate.reEnterPassword) {
-      toast.info("Passwords do not match.");
+    if (user.password !== user.reEnterPassword) {
+      toast.error("Passwords do not match");
       return;
     }
 
     try {
-      const response = await registerCandidate(candidate);
+      setLoading(true);
+      const res = await registerCandidate(user);
 
-      loginWithJWT(response.data);
+      loginWithJWT(res.data);
+      localStorage.setItem("jwttoken", res.data.token);
 
-      if (response.status === 200) {
-        const token = response.data.token;
-        localStorage.setItem("jwttoken", token);
-
-        toast.success("Candidate successfully Register");
-
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
-      }
-
-      console.log("printing token from regcandi", response.data); // Log the response here
-      localStorage.setItem("jwttoken", response.data.token);
-      toast.success(response.data.message);
+      toast.success("Candidate registered successfully");
       navigate("/");
-    } catch (error) {
-      if (error.response) {
-        if (error.response.data && error.response.data.errors) {
-          const errorMessage = error.response.data.errors[0].message;
-          toast.error(errorMessage);
-        } else {
-          toast.error(
-            `${error.response.data.message || "Something went wrong"}`
-          );
-        }
-      } else {
-        toast.error("Network error. Please try again later.");
-      }
+    } catch (err) {
+      const msg =
+        err.response?.data?.errors?.[0]?.message ||
+        err.response?.data?.message ||
+        "Registration failed";
+
+      toast.error(msg);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="p-5 bg-gradient-to-r from-blue-500 to-purple-600 min-h-screen flex items-center justify-center">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-xl p-8 space-y-6">
-        <h1 className="text-3xl font-semibold text-gray-800 text-center mb-6">
-          Register As Candidate
-        </h1>
-        <form onSubmit={register} className="space-y-4">
-          <div>
-            <input
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              type="text"
-              placeholder="Enter your name"
-              name="name"
-              value={candidate.name}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <input
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              type="email"
-              placeholder="Enter your email"
-              name="email"
-              value={candidate.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="relative">
-            <input
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              type={isPasswordVisible ? "text" : "password"}
-              placeholder="Enter your password"
-              name="password"
-              value={candidate.password}
-              onChange={handleChange}
-              required
-            />
-            <span
-              className="absolute right-4 top-3 text-blue-500 cursor-pointer"
-              onClick={togglePasswordVisibility}
-            >
-              {isPasswordVisible ? (
-                <i className="fa-regular fa-eye-slash"></i>
-              ) : (
-                <i className="fa-solid fa-eye"></i>
-              )}
-            </span>
-          </div>
-
-          <div className="relative">
-            <input
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              type={isreEnterPasswordVisible ? "text" : "password"}
-              placeholder="Re-enter your password"
-              name="reEnterPassword"
-              value={candidate.reEnterPassword}
-              onChange={handleChange}
-              required
-            />
-            <span
-              className="absolute right-4 top-3 text-blue-500 cursor-pointer"
-              onClick={toggleisreEnterPasswordVisible}
-            >
-              {isreEnterPasswordVisible ? (
-                <i className="fa-regular fa-eye-slash"></i>
-              ) : (
-                <i className="fa-solid fa-eye"></i>
-              )}
-            </span>
-          </div>
-
-          <div className="flex justify-center">
-            <button
-              type="submit"
-              className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
-            >
-              Sign Up
-            </button>
-          </div>
-
-          <div className="mt-4 text-center text-gray-600">
-            Already have an account?{" "}
-            <button
-              onClick={() => navigate("/login/candidate")}
-              className="text-blue-600 hover:underline"
-            >
-              Login Now
-            </button>
-          </div>
-
-          <div className="flex items-center mt-6">
-            <div className="w-full h-px bg-gray-300"></div>
-            <span className="px-3 text-gray-500">or</span>
-            <div className="w-full h-px bg-gray-300"></div>
-          </div>
-
-          <div className="flex justify-center mt-4">
-                    <GoogleAuth role={'candidate'} />
-        
-          </div>
-        </form>
-      </div>
+    <div className="flex min-h-screen items-center justify-center bg-[#1f1b29]">
+      <RegisterForm
+        title="Register as Candidate"
+        user={user}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+        loading={loading}
+        showPass={showPass}
+        togglePasswordVisibility={togglePasswordVisibility}
+        redirectToLogin={() => navigate("/login/candidate")}
+        googleRole="candidate"
+      />
     </div>
   );
 };

@@ -30,7 +30,7 @@ export const LoginRecruiter = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
+    <div className="flex min-h-screen items-center justify-center bg-[#1f1b29]">
       <LoginForm
         title="Recruiter Login"
         googleRole="recruiter"

@@ -15,11 +15,21 @@ const Price = () => {
             titleClassName="text-3xl font-bold text-center mb-4 dark:text-white"
             subtitleClassName="text-lg text-gray-600 text-center mb-8 dark:text-gray-300"
           />
-          {
-            price.map((item,index)=>{
-              <PriceCard key={index} best={item.best} plan={item.plan} list={item.list} package_price={item.package_price} ptext={item.ptext} />
-            })
-          }
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10 p-3">            {price?.map((item, index) => {
+            return (
+              <PriceCard
+                key={index}
+                best={item.best}
+                plan={item.plan}
+                list={item.list}
+                package_price={item.package_price}
+                ptext={item.ptext}
+              />
+            );
+          })}
+          </div>
+
         </div>
       </section>
     </>

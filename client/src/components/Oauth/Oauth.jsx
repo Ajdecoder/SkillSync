@@ -60,7 +60,7 @@ export const GoogleAuth = ({ role }) => {
         <GoogleLogin
           onSuccess={handleLoginSuccess}
           onError={() => console.error("Login Failed")}
-          
+          text="continue_with"
         />
       )}
     </GoogleOAuthProvider>
