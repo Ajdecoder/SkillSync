@@ -22,7 +22,7 @@ API.interceptors.response.use(
       localStorage.removeItem("jwttoken");
       API.post("/api/users/logout");
       toast.error("Your session has expired. Please login again.");
-      
+
       setTimeout(() => {
         window.location.replace = "/login";
       }, 3000);
@@ -31,8 +31,6 @@ API.interceptors.response.use(
     return Promise.reject(err);
   }
 );
-
-
 
 
 // Add Authorization token
@@ -79,7 +77,12 @@ export const getAllRecruitersProfiles = () =>
 export const addOpportunity = (data) =>
   API.post("/api/requirements/addOpportunity", data);
 export const getOpportunities = (query) =>
-  API.get("/api/requirements/addedOpportunities", { params: query });
+  API.get("/api/requirements/addedOpportunities", {
+    params: query,
+    paramsSerializer: {
+      indexes: null
+    },
+  });
 
 export const jobListeningsByRecruiter = (recruiterId) =>
   API.get(`/api/requirements/jobListeningsByRecruiter/${recruiterId}`);

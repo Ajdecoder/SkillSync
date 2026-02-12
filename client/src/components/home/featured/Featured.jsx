@@ -11,7 +11,7 @@ const Featured = () => {
           <Heading
             title="Our Features"
             subtitle="---> We Do Best Than You Wish <---"
-            titleClassName="text-white"
+            titleClassName="text-green-500"
             subtitleClassName="text-white"
           />
           <FeaturedCard />

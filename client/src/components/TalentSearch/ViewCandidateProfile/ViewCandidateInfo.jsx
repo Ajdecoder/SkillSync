@@ -29,6 +29,7 @@ export const ViewCandidateInfo = () => {
   const { loggedInUser, googleUser } = useAuth();
   const [hiretalentModal, setHireTalentModal] = useState(false);
 
+
   const currentUser = loggedInUser || googleUser;
 
   // Fetch Candidate and Recruiter Profile
@@ -44,23 +45,23 @@ export const ViewCandidateInfo = () => {
           experience: data.profile.experience.length
             ? data.profile.experience
             : [
-                {
-                  JobRole: "No experience",
-                  company: "N/A",
-                  duration: "N/A",
-                  description: "No experience details available.",
-                },
-              ],
+              {
+                JobRole: "No experience",
+                company: "N/A",
+                duration: "N/A",
+                description: "No experience details available.",
+              },
+            ],
           education: data.profile.education.length
             ? data.profile.education
             : [
-                {
-                  degree: "No education details",
-                  institution: "N/A",
-                  year: "N/A",
-                },
-              ],
-          socialLinks: {
+              {
+                degree: "No education details",
+                institution: "N/A",
+                year: "N/A",
+              },
+            ],
+          socialLinks: {  
             linkedin: data.profile.socialLinks.linkedin || "#",
             github: data.profile.socialLinks.github || "#",
             portfolio: data.profile.socialLinks.portfolio || "#",
@@ -187,11 +188,10 @@ export const ViewCandidateInfo = () => {
             className="text-2xl m-5 p-2 float-end rounded-full hover:bg-gray-700/30 transition-colors"
           >
             <FiBookmark
-              className={`${
-                bookmark
+              className={`${bookmark
                   ? "fill-emerald-400 stroke-emerald-400"
                   : "text-gray-400"
-              }`}
+                }`}
             />
           </motion.button>
         </div>

@@ -9,6 +9,7 @@ import { Spinner } from "../../common/loadingSpinner/spinner";
 import { RxCross1 } from "react-icons/rx";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import { toast } from "react-toastify";
 
 export const MyJobListings = () => {
   const [jobs, setJobs] = useState([]);
@@ -52,7 +53,7 @@ export const MyJobListings = () => {
       await deleteOpportunity(jobId);
       setJobs((prevJobs) => prevJobs.filter((job) => job?._id !== jobId));
     } catch (error) {
-      console.error("Error deleting job:", error);
+      toast.error("Error deleting job:", error);
     } finally {
       setDeleting(null);
     }

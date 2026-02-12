@@ -105,7 +105,8 @@ const AddOpportunityCard = ({ opportunity }) => {
           <div>
             <FiCalendar className="mx-auto text-emerald-600" />
             <p className="text-sm">
-              {new Date(createdAt).toLocaleDateString()}
+              {console.log(console.log(createdAt))}
+              {new Date(createdAt).toDateString()}
             </p>
           </div>
         </motion.div>

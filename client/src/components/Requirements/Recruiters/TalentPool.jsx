@@ -23,6 +23,8 @@ const TalentPool = () => {
 
   console.log("FilteredCandidates", filteredCandidates);
 
+  
+
   useEffect(() => {
     fetchCandidates();
   }, []);

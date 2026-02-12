@@ -1,12 +1,13 @@
 import dotenv from "dotenv";
-import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
+import { ChatGroq } from "@langchain/groq";
 
 dotenv.config();
-const geminiApiKey = process.env.GEMINI_API;
-if (!geminiApiKey) throw new Error("GEMINI_API key is missing in .env");
 
-export const llm = new ChatGoogleGenerativeAI({
-  apiKey: geminiApiKey,
-  model: "gemini-2.0-flash",
+const groqApiKey = process.env.GROQ_API_KEY;
+if (!groqApiKey) throw new Error("GROQ_API_KEY is missing in .env");
+
+export const llm = new ChatGroq({
+  apiKey: groqApiKey,
+  model: "llama-3.1-8b-instant",
   temperature: 0.3,
 });
