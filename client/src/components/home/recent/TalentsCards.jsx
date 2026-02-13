@@ -30,6 +30,8 @@ const TalentCard = ({ talent }) => {
     experience = 0,
   } = talent;
 
+  console.log('skills array here:',skills)
+
   const city = location?.city || "Remote / Not specified";
 
   const handleViewProfile = () => {
@@ -38,6 +40,7 @@ const TalentCard = ({ talent }) => {
   };
 
   const renderSkill = (skill) => {
+    // console.log('got skills in renderskills',skill)
     if (typeof skill === "object" && skill !== null) {
       return skill.skillName || skill.name || "Unknown Skill";
     }

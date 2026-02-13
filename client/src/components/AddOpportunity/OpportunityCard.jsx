@@ -12,6 +12,9 @@ import { FaRupeeSign } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
 const AddOpportunityCard = ({ opportunity }) => {
+
+  console.log('opportunity data:', opportunity)
+
   const navigate = useNavigate();
 
   const cardVariants = {
@@ -44,7 +47,11 @@ const AddOpportunityCard = ({ opportunity }) => {
     salaryRange,
     candidatesApplied,
     createdAt,
+    updatedAt,
   } = opportunity;
+
+  const availableDate = createdAt || updatedAt
+  const formattedDate = new Date(availableDate)?.toLocaleDateString()
 
   return (
     <motion.div
@@ -105,8 +112,11 @@ const AddOpportunityCard = ({ opportunity }) => {
           <div>
             <FiCalendar className="mx-auto text-emerald-600" />
             <p className="text-sm">
-              {console.log(console.log(createdAt))}
-              {new Date(createdAt).toDateString()}
+              {console.log("typeof createdAt:", typeof createdAt)}
+              {
+                availableDate ? new Date(formattedDate).toLocaleDateString()
+                  : "N/A"
+              }
             </p>
           </div>
         </motion.div>

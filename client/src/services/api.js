@@ -14,17 +14,17 @@ API.interceptors.response.use(
   res => res,
   err => {
     const isLoginApi = err.config?.url?.includes("/login");
+    console.log('isloginapi status:',isLoginApi)
 
     if (
       err.response?.status === 401 &&
       !isLoginApi
     ) {
       localStorage.removeItem("jwttoken");
-      API.post("/api/users/logout");
       toast.error("Your session has expired. Please login again.");
 
       setTimeout(() => {
-        window.location.replace = "/login";
+        isSessionExpiredHandled && (window.location.href = "/login");
       }, 3000);
     }
 

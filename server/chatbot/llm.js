@@ -5,7 +5,7 @@ import { messages } from "./services/prompt.js";
 
 export const llmWithTools = new ChatGroq({
   apiKey: process.env.GROQ_API_KEY,
-  model: "llama-3.1-8b-instant",
+  model: "llama-3.3-70b-versatile",
   temperature: 0.2,
   prompt: messages
 }).bindTools([

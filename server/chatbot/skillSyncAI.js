@@ -14,11 +14,13 @@ export const skillSyncAI = async (req, res) => {
     const userProfile =
       (await getUserProfile(userId)) || { role: "guest", skills: [] };
 
-    console.log(userProfile)
+    console.log("bot got profile here:", userProfile)
 
-    const userSkills = userProfile.skills.map(
+    const userSkills = (userProfile?.skills || []).map(
       (s) => s.skillName || s
     );
+
+    console.log("bot got skills here:", userSkills)
 
     const formattedMessages = await messages.formatMessages({
       usermessage: userMessage

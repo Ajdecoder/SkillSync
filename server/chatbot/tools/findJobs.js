@@ -44,6 +44,9 @@ export const findJobsTool = tool(
 
 export const findJobsByRoleTool = tool(
   async (input) => {
+    
+    console.log('input: ', input)
+
     let role = "";
     let skills = [];
 

@@ -366,6 +366,7 @@ export const SkillsAndExperience = ({
   const [saving, setSaving] = useState(false);
 
   const handleInputChange = (section, field, value, idx = null) => {
+    console.log('runs',section, field, value, idx)
     if (section === "skills") {
       setUpdatedData({
         ...updatedData,
