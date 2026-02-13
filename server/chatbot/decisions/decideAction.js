@@ -1,50 +1,58 @@
 import { llm } from "../services/llmService.js";
 import parseJSON from "../helpers/parseJSON.js";
+import { SystemMessage, HumanMessage } from "@langchain/core/messages";
+import { safeInvoke } from "../../utils/safeInvoke.js";
 
 export const decideAction = async (userMessage) => {
-  const prompt = `
+  const messages = [
+    new SystemMessage(`
 You are a decision-making AI for SkillSync.
-Classify this user message into one of:
-- "find_jobs" → if user wants jobs
-- "find_candidates" → if user wants to hire
-- "general" → all other queries
 
-Also extract relevant skills if action = "find_candidates".
+Detect intent and extract filters.
 
-Return ONLY a JSON object like:
-{ "action": "find_jobs" }
-or
-{ "action": "find_candidates" }
-or
-{ "action": "general" }
+Actions:
+- find_jobs_by_role → when role/title is mentioned
+- find_jobs_by_skill → when skills/tech is mentioned
+- find_candidates
+- general
 
-User message: "${userMessage}"
-  `;
+Return ONLY JSON.
+    `),
+    new HumanMessage(userMessage),
+  ];
+
   try {
-    const result = await llm.invoke(prompt);
-    return parseJSON(result.content, { action: "general", skills: [] });
+    const result = await safeInvoke(messages);
+    return parseJSON(result.content, { action: "general" });
   } catch (err) {
     console.error("Decision error:", err);
-    return { action: "general", skills: [] };
+    return { action: "general" };
   }
 };
+
 
 export const decideActionWithRole = async (userMessage, userProfile) => {
   const decision = await decideAction(userMessage);
 
-  let finalDecision = { action: "general", message: "Your request could not be processed." };
-
-  if (decision.action === "find_jobs") {
-    finalDecision =
-      userProfile.role === "candidate"
-        ? decision
-        : { action: "unauthorized", message: "Only candidates can search for jobs." };
-  } else if (decision.action === "find_candidates") {
-    finalDecision =
-      userProfile.role === "recruiter"
-        ? decision
-        : { action: "unauthorized", message: "Only employers can hire candidates." };
+  if (
+    decision.action.startsWith("find_jobs") &&
+    userProfile.role !== "candidate"
+  ) {
+    return {
+      action: "unauthorized",
+      message: "Only candidates can search for jobs."
+    };
   }
 
-  return finalDecision;
+  if (
+    decision.action === "find_candidates" &&
+    userProfile.role !== "recruiter"
+  ) {
+    return {
+      action: "unauthorized",
+      message: "Only recruiters can search candidates."
+    };
+  }
+
+  return decision;
 };

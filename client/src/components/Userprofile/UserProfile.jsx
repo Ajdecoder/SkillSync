@@ -169,8 +169,6 @@ if (!profileData) return null; // Or just a placeholder
             </section>
           )}
 
-       
-
           {userRole === "candidate" && activeTab !== "about" && (
             <CandidateProfileContent
               userRole={userRole}

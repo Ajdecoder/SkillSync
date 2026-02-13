@@ -96,7 +96,7 @@ const Hero = () => {
     if (filterCategory.requirement_type) queryParams.requirement_type = filterCategory.requirement_type;
 
     if (role === "candidate") {
-      getOpportunities(queryParams)
+      getOpportunities(queryParams,)
         .then((res) => {
           setOpportunities(res.data.Addedopportunities || []);
           setIsSearching(false);
@@ -135,7 +135,7 @@ const Hero = () => {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-50 dark:to-gray-900"></div>
           </div>
 
-          <div className="relative z-10 w-full max-w-5xl px-4 mx-auto text-center space-y-8">
+          <div className="relative z-10 max-w-5xl px-4 mx-auto text-center space-y-8 w-[70%]">
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}

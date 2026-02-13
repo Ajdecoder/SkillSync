@@ -270,6 +270,7 @@ const OpportunityConnectPage = () => {
             </div>
             <div className="flex items-center gap-2">
               <FiClock className="text-cyan-400" />
+              {console.log("Created at",createdAt)}
               <span>{new Date(createdAt).toLocaleDateString()}</span>
             </div>
           </motion.div>
