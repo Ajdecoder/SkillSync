@@ -1,12 +1,14 @@
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
+import { access } from "fs";
 
 
 export const userSchema = new mongoose.Schema({
   name: { type: String },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  refreshToken: { type: String },
   role: {
     type: String,
     required: true,
@@ -33,6 +35,23 @@ userSchema.methods.generateToken = async function () {
     );
   } catch (err) {
     console.error("JWT token generation error:", err);
+    throw err;
+  }
+};
+
+userSchema.methods.generateRefreshToken = async function () {
+  try {
+    return jwt.sign(
+      {
+        userId: this._id.toString(),
+      },
+      process.env.JWT_REFRESH_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
+  } catch (err) {
+    console.error("Refresh token generation error:", err);
     throw err;
   }
 };

@@ -31,7 +31,8 @@ export const skillSyncAI = async (req, res) => {
 
     if (response.tool_calls?.length) {
       const { name, args } = response.tool_calls[0];
-      console.log(name, args)
+
+      console.log('Tool name:', name, 'Tool args:', args)
 
       let toolResult = "";
 
@@ -49,9 +50,11 @@ export const skillSyncAI = async (req, res) => {
 
       if (name === "find_candidates") {
         toolResult = await findCandidatesTool.invoke({
-          skills: args?.skills || [],
+          skills: args?.skills?.length ? args.skills : userSkills,
         });
       }
+
+      console.log("Tool result:", toolResult)
 
       return res.status(200).json({
         response: toolResult,

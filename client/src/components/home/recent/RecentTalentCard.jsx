@@ -8,7 +8,7 @@ const RecentTalentCard = ({
   TalentsLoading=false
 }) => {
 
-  console.log("addedTalents:", addedTalents);
+  // console.log("addedTalents:", addedTalents);
 // console.log("filterdTalents:", filterdTalents);
 // console.log("TalentsLoading:", TalentsLoading);
 
@@ -21,10 +21,10 @@ const RecentTalentCard = ({
   const TalentsToShow =
     filterdTalents.length > 0 ? filterdTalents : addedTalents;
 
-    console.log('recentrale',addedTalents)
+    // console.log('recentrale',addedTalents)
 
   const renderTalentCard = (talent) => {
-    console.log('renderTalentCard talents', talent)
+    // console.log('renderTalentCard talents', talent)
     return (
       <TalentsCard
         key={talent?._id}

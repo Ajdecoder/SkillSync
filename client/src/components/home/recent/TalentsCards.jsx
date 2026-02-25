@@ -30,9 +30,14 @@ const TalentCard = ({ talent }) => {
     experience = 0,
   } = talent;
 
-  console.log('skills array here:',skills)
+  // console.log('skills array here:',skills)
 
-  const city = location?.city || "Remote / Not specified";
+  const city = location?.city || "Not specified";
+  const state = location?.state || "Not specified";
+  const country = location?.country || "Not specified";
+  console.log('i got city',city)
+  console.log('i got state',state)
+  console.log('i got country',country)
 
   const handleViewProfile = () => {
     if (!_id) return;

@@ -15,6 +15,8 @@ export const findCandidatesTool = tool(
         .limit(5)
         .lean();
 
+        console.log("Candidates found:", candidates);
+
       if (!candidates.length) {
         return "No relevant candidates found. Try expanding your search criteria!";
       }
@@ -37,7 +39,7 @@ export const findCandidatesTool = tool(
     description:
       "Find suitable candidates based on a list of required skills",
     schema: z.object({
-      skills: z.array(z.string()).describe("List of skills to search candidates for")
+      skills: z.array(z.string().toLowerCase()).describe("List of skills to search candidates for")
     })
   }
 );

@@ -49,15 +49,19 @@ export const getAllCandidateProfiles = async (req, res) => {
       }
     }
 
-    if (skill) {
-      const skill = req.query.skill.trim();
+    if (skill && typeof skill === "string") {
+      const trimmedSkill = skill.trim();
 
-      if (skill) {
-        const escaped = skill.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      if (trimmedSkill) {
+        const escaped = trimmedSkill.replace(
+          /[.*+?^${}()|[\]\\]/g,
+          "\\$&"
+        );
 
-        query.skills = new RegExp(`^${escaped}$`, 'i');
+        query.skills = new RegExp(`^${escaped}$`, "i");
       }
     }
+
 
     // =========================
     // SALARY RANGE (preferences.salaryRange)
