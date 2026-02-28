@@ -40,19 +40,19 @@ const ExperienceDisplay = ({ experience }) => (
                 (
                 {exp.duration.start
                   ? `${new Date(exp.duration.start).toLocaleDateString(
-                      "en-IN",
-                      {
-                        year: "numeric",
-                        month: "short",
-                      }
-                    )}`
+                    "en-IN",
+                    {
+                      year: "numeric",
+                      month: "short",
+                    }
+                  )}`
                   : "Start Date N/A"}{" "}
                 -{" "}
                 {exp.duration.end
                   ? `${new Date(exp.duration.end).toLocaleDateString("en-IN", {
-                      year: "numeric",
-                      month: "short",
-                    })}`
+                    year: "numeric",
+                    month: "short",
+                  })}`
                   : "Present"}
                 )
               </>
@@ -100,37 +100,75 @@ const EducationDisplay = ({ education }) => (
   </div>
 );
 
-const EditSkills = ({ skills, onChange, onSave, saving }) => (
-  <div className="space-y-4">
-    <h3 className="text-lg font-semibold text-gray-700">Skills</h3>
-    <textarea
-      className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-500 transition-all"
-      value={skills?.join(", ") || ""}
-      placeholder="e.g., JavaScript, React, Node.js"
-      onChange={(e) => onChange("skills", null, e.target.value)}
-      rows="3"
-    />
-    <div className="flex justify-end gap-3">
-      <motion.button
-        className="px-6 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
-        onClick={onSave}
-        disabled={saving}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        {saving ? "Saving..." : "Save Skills"}
-      </motion.button>
+const EditSkills = ({ skills = [], onChange }) => {
+  const [input, setInput] = useState("");
+
+  const addSkill = () => {
+    const trimmed = input.trim();
+    if (!trimmed) return;
+
+    if (!skills.includes(trimmed)) {
+      const updatedSkills = [...skills, trimmed];
+      onChange("skills", null, updatedSkills);
+    }
+
+    setInput("");
+  };
+
+  const removeSkill = (skillToRemove) => {
+    const updatedSkills = skills.filter(
+      (skill) => skill !== skillToRemove
+    );
+    onChange("skills", null, updatedSkills);
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      addSkill();
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      <h3 className="text-lg font-semibold text-gray-700">Skills</h3>
+
+      {/* Chips Container */}
+      <div className="flex flex-wrap gap-2 p-3 border rounded-lg">
+        {skills.map((skill, index) => (
+          <span
+            key={index}
+            className="flex items-center gap-2 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm"
+          >
+            {skill}
+            <button
+              onClick={() => removeSkill(skill)}
+              className="text-blue-500 hover:text-red-500"
+            >
+              ✕
+            </button>
+          </span>
+        ))}
+
+        {/* Input */}
+        <input
+          type="text"
+          className="flex-1 outline-none min-w-[120px]"
+          value={input}
+          placeholder="Add skill..."
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
+        />
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const EditExperience = ({
   experience,
   onChange,
   onAdd,
   onRemove,
-  onSave,
-  saving,
 }) => {
   const formatDateForInput = (isoString) => {
     if (!isoString) return "";
@@ -229,15 +267,6 @@ const EditExperience = ({
         ))}
 
         <div className="flex flex-row-reverse center justify-between items-center gap-4">
-          <motion.button
-            className="px-6 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 block "
-            onClick={onSave}
-            disabled={saving}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {saving ? "Saving..." : "Save Experience"}
-          </motion.button>
 
           <button
             className=" text-blue-600 hover:bg-blue-50 rounded-lg transition-colors flex items-center justify-center gap-2"
@@ -268,8 +297,6 @@ const EditEducation = ({
   onChange,
   onAdd,
   onRemove,
-  onSave,
-  saving,
 }) => (
   <div className="space-y-4">
     <h3 className="text-lg font-semibold text-gray-700">Education</h3>
@@ -324,15 +351,7 @@ const EditEducation = ({
       ))}
 
       <div className="flex flex-row-reverse center justify-between items-center gap-4">
-        <motion.button
-          className="px-6 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
-          onClick={onSave}
-          disabled={saving}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          {saving ? "Saving..." : "Save Education"}
-        </motion.button>
+
 
         <button
           className=" text-blue-600 hover:bg-blue-50 rounded-lg transition-colors flex items-center justify-center gap-2"
@@ -366,46 +385,56 @@ export const SkillsAndExperience = ({
   const [saving, setSaving] = useState(false);
 
   const handleInputChange = (section, field, value, idx = null) => {
-    console.log('runs',section, field, value, idx)
+
     if (section === "skills") {
-      setUpdatedData({
-        ...updatedData,
-        skills: value.split(", ").filter((skill) => skill.trim() !== ""),
-      });
+      setUpdatedData((prev) => ({
+        ...prev,
+        skills: Array.isArray(value) ? value : [],
+      }));
       return;
     }
 
+
     if (idx !== null) {
-      const updatedSection = [...updatedData[section]];
-      if (field === "startDate" || field === "endDate") {
-        updatedSection[idx] = {
-          ...updatedSection[idx],
-          duration: {
-            ...updatedSection[idx].duration,
-            [field === "startDate" ? "start" : "end"]: value,
-          },
+      setUpdatedData((prev) => {
+        const updatedSection = [...prev[section]];
+
+        if (field === "startDate" || field === "endDate") {
+          updatedSection[idx] = {
+            ...updatedSection[idx],
+            duration: {
+              ...updatedSection[idx].duration,
+              [field === "startDate" ? "start" : "end"]: value,
+            },
+          };
+        } else {
+          updatedSection[idx] = {
+            ...updatedSection[idx],
+            [field]: value,
+          };
+        }
+
+        return {
+          ...prev,
+          [section]: updatedSection,
         };
-      } else {
-        updatedSection[idx][field] = value;
-      }
-      setUpdatedData({ ...updatedData, [section]: updatedSection });
-    } else {
-      setUpdatedData({ ...updatedData, [section]: value });
+      });
     }
   };
+
 
   const handleAddEntry = (section) => {
     const newEntry =
       section === "experience"
         ? {
-            jobRole: "",
-            company: "",
-            duration: { start: "", end: "" },
-            description: "",
-          }
+          jobRole: "",
+          company: "",
+          duration: { start: "", end: "" },
+          description: "",
+        }
         : section === "education"
-        ? { degree: "", institution: "", year: "" }
-        : null;
+          ? { degree: "", institution: "", year: "" }
+          : null;
 
     if (newEntry) {
       setUpdatedData({
@@ -540,6 +569,14 @@ export const SkillsAndExperience = ({
               whileTap={{ scale: 0.95 }}
             >
               Cancel
+            </motion.button>
+            <motion.button
+              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              onClick={() => handleSaveSection("skills")}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Save Changes
             </motion.button>
           </div>
         </section>

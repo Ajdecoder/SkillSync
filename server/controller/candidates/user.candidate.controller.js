@@ -35,6 +35,8 @@ export const CandidateLogin = async (req, res) => {
 
     const token = await candidate.generateToken();
 
+    const refreshToken = await candidate.generateRefreshToken();
+
     res.cookie("jwttoken", token, {
       httpOnly: true,
       secure: true, // only over HTTPS

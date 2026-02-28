@@ -37,7 +37,7 @@ export const findJobsTool = tool(
       skills: z
         .array(z.string())
         .optional()
-        .describe("List of skills to search jobs for")
+        .describe("List of all skills to search jobs for")
     })
   }
 );
@@ -85,7 +85,7 @@ export const findJobsByRoleTool = tool(
     description: "Find jobs by role or skills",
     schema: z.object({
       role: z.string().optional(),
-      skills: z.array(z.string()).optional()
+      skills: z.array(z.string()).optional().describe("List of skills to search for, optional if role is provided")
     })
   }
 );

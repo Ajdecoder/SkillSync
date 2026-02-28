@@ -199,11 +199,25 @@ export const CandidateAboutSection = ({ profileData, userRole, onUpdate }) => {
                     })
                   }
                 />
+                <input
+                  style={{ border: "0.5px solid" }}
+                  className="w-[35%] p-3 rounded-md focus:ring focus:ring-blue-300"
+                  type="text"
+                  placeholder="Country"
+                  value={updatedData?.location?.country || ""}
+                  onChange={(e) =>
+                    handleInputChange("location", {
+                      ...updatedData.location,
+                      country: e.target.value,
+                    })
+                  }
+                />
               </div>
             ) : (
               <p className='dark:text-black' >
                 {`${updatedData?.location?.city || "Unknown City"}, ${
                   updatedData?.location?.state || "Unknown State"
+                }, ${updatedData?.location?.country || "Unknown Country"
                 }`}
               </p>
             )}
