@@ -9,13 +9,18 @@ export const CandidatesFilters = ({ candidates = [], data, setData, onClear }) =
   console.log('data log', data)
   console.log('setData log', setData)
 
-  // 🏙️ Unique cities
-  const cities = useMemo(() => {
-    return [...new Set(
-      candidates
-        .map(c => c.location?.city)
-        .filter(Boolean)
-    )];
+  const locations = useMemo(() => {
+    return [
+      ...new Set(
+        candidates
+          .map(c =>
+            c.location
+              ? `${c.location.city}, ${c.location.state}, ${c.location.country}`
+              : null
+          )
+          .filter(Boolean)
+      ),
+    ];
   }, [candidates]);
 
   // 🧠 Unique skills
@@ -71,15 +76,21 @@ export const CandidatesFilters = ({ candidates = [], data, setData, onClear }) =
       {/* Location */}
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
         <label className="dark:text-gray-200">
-          City/Region
+          Location
         </label>
         <select
-          value={data?.city || ""}
-          onChange={(e) => setData(p => ({ ...p, city: e.target.value }))}
-          className="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white p-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"        >
-          <option value="">All Cities</option>
-          {cities.map(city => (
-            <option key={city} value={city}>{city}</option>
+          value={data?.location || ""}
+          onChange={(e) =>
+            setData((p) => ({ ...p, location: e.target.value }))
+          }
+          className="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white p-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        >
+          <option value="">All Locations</option>
+
+          {locations.map((loc) => (
+            <option key={loc} value={loc}>
+              {loc}
+            </option>
           ))}
         </select>
       </motion.div>

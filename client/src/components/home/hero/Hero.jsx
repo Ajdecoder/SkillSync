@@ -20,11 +20,11 @@ const Hero = () => {
   const [candidates, setCandidates] = useState([]);
   const initialFilters = {
     skills: [],
-    location: "",
     minSalary: "",
     maxSalary: "",
     availability: "",
     workEnvironment: "",
+    city: ""
   };
 
   const [filterCategory, setFilterCategory] = useState(initialFilters);
@@ -32,6 +32,12 @@ const Hero = () => {
   const handleClearFilters = (e) => {
     e.preventDefault();
     setFilterCategory(initialFilters);
+    if (role === "recruiter" && candidatesData?.candidates) {
+      setCandidates(candidatesData.candidates);
+    }
+    if (role === "candidate" && opportunitiesData?.Addedopportunities) {
+      setOpportunities(opportunitiesData.Addedopportunities);
+    }
   };
 
   const [isSearching, setIsSearching] = useState(false);
@@ -90,6 +96,7 @@ const Hero = () => {
         queryParams.skill = filterCategory.skills;
       }
     }
+    console.log(filterCategory, 'flksjdflk')
     if (filterCategory.location) queryParams.location = filterCategory.location;
     if (filterCategory.minSalary) queryParams.minSalary = filterCategory.minSalary;
     if (filterCategory.maxSalary) queryParams.maxSalary = filterCategory.maxSalary;
@@ -124,10 +131,10 @@ const Hero = () => {
       {currentUser ? (
         // 1. LOGGED IN VIEW (Glassmorphism Style)
         <section className="relative w-full min-h-[600px] flex items-center justify-center py-20 overflow-hidden bg-gray-50 dark:bg-gray-900">
-            
+
           {/* Background Image with Overlay */}
           <div className="absolute inset-0 z-0">
-             <img
+            <img
               src="/images/banner.jpg" // Ensure this image is high quality
               alt="Background"
               className="w-full h-full object-cover opacity-20 dark:opacity-10"
@@ -181,24 +188,23 @@ const Hero = () => {
                 )}
 
                 <div className="pt-4">
-                    <motion.button
+                  <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className={`w-full sm:w-1/2 mx-auto flex items-center justify-center gap-3 py-4 px-8 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-lg font-bold rounded-xl shadow-lg transition-all ${
-                        isSearching ? "opacity-70 cursor-wait" : ""
-                    }`}
+                    className={`mx-auto flex items-center justify-center gap-3 py-4 px-8 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-lg font-bold rounded-xl shadow-lg transition-all ${isSearching ? "opacity-70 cursor-wait" : ""
+                      }`}
                     type="button"
                     onClick={() => handleSearch(currentUser?.role)}
                     disabled={isSearching}
-                    >
+                  >
                     {isSearching ? (
-                        "Searching..."
+                      "Searching..."
                     ) : (
-                        <>
+                      <>
                         <FaSearch /> Search Now
-                        </>
+                      </>
                     )}
-                    </motion.button>
+                  </motion.button>
                 </div>
               </form>
             </motion.div>
@@ -207,11 +213,11 @@ const Hero = () => {
       ) : (
         // 2. GUEST VIEW (Modern Landing Page Style)
         <section className="relative w-full py-24 lg:py-32 bg-gray-900 overflow-hidden">
-            {/* Abstract Background Shapes */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
-                <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-purple-600/20 blur-[100px]"></div>
-                <div className="absolute top-[40%] -right-[10%] w-[40%] h-[60%] rounded-full bg-blue-600/20 blur-[120px]"></div>
-            </div>
+          {/* Abstract Background Shapes */}
+          <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
+            <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-purple-600/20 blur-[100px]"></div>
+            <div className="absolute top-[40%] -right-[10%] w-[40%] h-[60%] rounded-full bg-blue-600/20 blur-[120px]"></div>
+          </div>
 
           <motion.div
             className="relative z-10 container mx-auto px-4 text-center space-y-8"
@@ -220,12 +226,12 @@ const Hero = () => {
             transition={{ duration: 1 }}
           >
             <div className="max-w-3xl mx-auto space-y-6">
-                <h1 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 tracking-tight">
-                    Search Your Way
-                </h1>
-                <p className="text-xl text-gray-300 font-light leading-relaxed">
-                    Whether you're looking to hire top talent or find your next job, we connect you with the right opportunities using smart technology.
-                </p>
+              <h1 className="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 tracking-tight">
+                Search Your Way
+              </h1>
+              <p className="text-xl text-gray-300 font-light leading-relaxed">
+                Whether you're looking to hire top talent or find your next job, we connect you with the right opportunities using smart technology.
+              </p>
             </div>
 
             <motion.div
@@ -239,7 +245,7 @@ const Hero = () => {
                 className="group relative px-8 py-4 bg-white text-gray-900 font-bold rounded-full overflow-hidden shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] transition-all"
               >
                 <span className="relative z-10 flex items-center gap-2">
-                    <FaUserTie className="text-purple-600" /> Start Searching
+                  <FaUserTie className="text-purple-600" /> Start Searching
                 </span>
                 <div className="absolute inset-0 bg-gray-100 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></div>
               </Link>
@@ -248,8 +254,8 @@ const Hero = () => {
                 to="/requirements/add-opportunity"
                 className="group flex items-center gap-2 px-8 py-4 bg-transparent border border-gray-600 text-white font-medium rounded-full hover:border-purple-500 hover:text-purple-400 transition-all"
               >
-                 <FaBriefcase /> Post a Job
-                 <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
+                <FaBriefcase /> Post a Job
+                <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>
           </motion.div>
@@ -259,14 +265,14 @@ const Hero = () => {
       {/* Recent Section - Just ensuring props pass correctly */}
       <div className="bg-gray-50 dark:bg-gray-950">
         <Recent
-            loading={opportunitiesLoading || candidatesLoading}
-            opportunity={opportunities}
-            filteredopportunity={filteredOpportunities}
-            filterCategory={filterCategory}
-            candidates={candidates}
-            filteredcandidates={filteredCandidates}
-            opportunitiesError={opportunitiesError}
-            candidatesError={candidatesError}
+          loading={opportunitiesLoading || candidatesLoading}
+          opportunity={opportunities}
+          filteredopportunity={filteredOpportunities}
+          filterCategory={filterCategory}
+          candidates={candidates}
+          filteredcandidates={filteredCandidates}
+          opportunitiesError={opportunitiesError}
+          candidatesError={candidatesError}
         />
       </div>
     </>

@@ -76,6 +76,7 @@ export const findJobsByRoleTool = tool(
     }
 
     const jobs = await OpportunityCollection.find(query).limit(5).lean();
+    console.log('all retrieved jobs from db:',jobs)
     if (!jobs.length) return "No relevant jobs found.";
 
     return jobs.map(j => `🔹 ${j.title} at ${j.company_name} (${j.location})`).join("\n");

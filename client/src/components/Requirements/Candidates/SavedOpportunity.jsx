@@ -62,7 +62,7 @@ export const SavedOpportunity = ({
     console.log("opportunitiestoshow",opportunitiesToShow)
 
   return (
-    <div className="space-y-11 mt-6 opportunity-card-container">
+    <div className="space-y-11 m-6 opportunity-card-container">
       {opportunitiesToShow.length > 0 ? (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mx-4">
           {opportunitiesToShow.map((opportunity) =>

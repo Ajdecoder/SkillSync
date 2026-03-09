@@ -36,6 +36,7 @@ export const getAllCandidateProfiles = async (req, res) => {
     // supports: Mumbai | Mumbai,Maharashtra | Mumbai,Maharashtra,India
     // =========================
     if (location) {
+      console.log('location is',location)
       const parts = location.split(",").map(v => v.trim());
 
       if (parts[0]) {
