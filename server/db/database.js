@@ -34,4 +34,3 @@ export const CandidateUserProfile = connect.model("CandidateUserProfile", candid
 export const RecruiterUserProfile = connect.model("RecruiterUserProfile", recruiterProfileSchema, "RecruiterProfileCollection");
 export const Bookmars = connect.model("Bookmarks", BookMarkSchema, "BookmarksCollection");
 export const Blogs = connect.model("Blogs", blogSchema, "BlogsCollection");
-  

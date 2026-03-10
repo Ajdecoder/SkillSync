@@ -252,7 +252,7 @@ const ProfileHeader = ({ user, profileCompletion, userRole }) => {
               <img
                 src={previewImage || imageSrc}
                 alt="Preview"
-                className="w-full h-auto max-h-[80vh] object-contain rounded-lg"
+                className="h-auto max-h-[80vh] object-contain rounded-lg"
                 onError={(e) => {
                   e.target.src = "https://i.pinimg.com/1200x/d9/04/bb/d904bbc138e6cba76e5470df5054b106.jpg";
                 }}

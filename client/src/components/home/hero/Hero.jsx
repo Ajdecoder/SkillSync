@@ -24,7 +24,9 @@ const Hero = () => {
     maxSalary: "",
     availability: "",
     workEnvironment: "",
-    city: ""
+    city: "",
+    availabilityStatus : "",
+    workEnvironment : ""
   };
 
   const [filterCategory, setFilterCategory] = useState(initialFilters);
@@ -101,6 +103,8 @@ const Hero = () => {
     if (filterCategory.minSalary) queryParams.minSalary = filterCategory.minSalary;
     if (filterCategory.maxSalary) queryParams.maxSalary = filterCategory.maxSalary;
     if (filterCategory.requirement_type) queryParams.requirement_type = filterCategory.requirement_type;
+    if (filterCategory.availability) queryParams.availabilityStatus = filterCategory.availability
+    if(filterCategory.workEnvironment) queryParams.requirement_type = filterCategory.workEnvironment
 
     if (role === "candidate") {
       getOpportunities(queryParams,)

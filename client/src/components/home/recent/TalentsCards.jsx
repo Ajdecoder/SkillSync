@@ -35,6 +35,7 @@ const TalentCard = ({ talent }) => {
   const city = location?.city || "Not specified";
   const state = location?.state || "Not specified";
   const country = location?.country || "Not specified";
+
   console.log('i got city',city)
   console.log('i got state',state)
   console.log('i got country',country)
@@ -53,8 +54,9 @@ const TalentCard = ({ talent }) => {
   };
 
   const formatExperience = (exp) => {
+    console.log('here is exp',exp)
     if (!exp || exp === 0) return "Fresher";
-    if (exp <= 3) return `Mid Level • ${exp} year${exp > 1 ? "s" : ""}`;
+    if (exp <= 3) return `Mid Level${exp > 1 ? "s" : ""}`;
     return `Senior`;
   };
 
