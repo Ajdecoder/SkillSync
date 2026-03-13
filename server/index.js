@@ -14,8 +14,15 @@ const app = express();
 app.use(express.static("public"));
 const PORT = process.env.PORT || 9002;
 
+const allowedOrigins = [
+  process.env.CORS_ORIGIN,
+  "http://localhost:5173",
+  "http://localhost:5174",
+  "http://localhost:5175"
+].filter(Boolean);
+
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN || "http://localhost:5173",
+  origin: allowedOrigins,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   credentials: true,
 };

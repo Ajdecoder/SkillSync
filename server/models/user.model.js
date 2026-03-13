@@ -12,7 +12,7 @@ export const userSchema = new mongoose.Schema({
   role: {
     type: String,
     required: true,
-    enum: ["recruiter", "candidate"],
+    enum: ["recruiter", "candidate", "admin"],
   },
   recruiterProfile: { type: mongoose.Schema.ObjectId, ref: "RecruiterUserProfile" },
   candidateProfile: { type: mongoose.Schema.ObjectId, ref: "CandidateUserProfile" },

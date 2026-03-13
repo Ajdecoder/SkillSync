@@ -83,6 +83,10 @@ export const getOpportunities = (query) =>
       indexes: null
     },
   });
+export const updateOpportunity = (data) =>
+  API.put("/api/requirements/updateOpportunity", data);
+
+/* ========== joblisting APIs ========== */
 
 export const jobListeningsByRecruiter = (recruiterId) =>
   API.get(`/api/requirements/jobListeningsByRecruiter/${recruiterId}`);

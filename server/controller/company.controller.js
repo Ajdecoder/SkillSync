@@ -17,9 +17,9 @@ export const addOpportunity = async (req, res) => {
     location,
     maxSalary,
     minSalary,
-    desc_requirement,
+    desc_Opportunity,
     skills,
-    requirement_type,
+    Opportunity_type,
     recruiterDetails,
   } = payload;
 
@@ -37,9 +37,9 @@ export const addOpportunity = async (req, res) => {
         minSalary,
         maxSalary
       },
-      desc_requirement,
+      desc_Opportunity,
       skills,
-      requirement_type,
+      Opportunity_type,
       recruiterDetails
     });
 
@@ -71,8 +71,8 @@ export const allOpportunitiesData = async (req, res) => {
       query["salaryRange.minSalary"] = { $lte: Number(req.query.maxSalary) };
     }
 
-    if (req.query.requirement_type) {
-      query["requirement_type"] = req.query.requirement_type;
+    if (req.query.Opportunity_type) {
+      query["Opportunity_type"] = req.query.Opportunity_type;
     }
 
     if (req.query.location) {
@@ -147,22 +147,22 @@ export const getOpportunitytById = async (req, res) => {
 
 
   try {
-    const RequirementId = req.params.id;
+    const OpportunityId = req.params.id;
 
 
-    const getRequirementFromAddOpportunity =
-      await OpportunityCollection.findById(RequirementId).populate("recruiterDetails");;
+    const getOpportunityFromAddOpportunity =
+      await OpportunityCollection.findById(OpportunityId).populate("recruiterDetails");;
 
 
-    if (!getRequirementFromAddOpportunity) {
-      return res.status(404).json({ message: "Requirement not found" });
+    if (!getOpportunityFromAddOpportunity) {
+      return res.status(404).json({ message: "Opportunity not found" });
     }
 
-    res.status(200).json(getRequirementFromAddOpportunity);
+    res.status(200).json(getOpportunityFromAddOpportunity);
   } catch (error) {
-    console.error("Error fetching requirement:", error.message);
+    console.error("Error fetching Opportunity:", error.message);
     res.status(500).json({
-      message: "An error occurred while fetching the requirement.",
+      message: "An error occurred while fetching the Opportunity.",
     });
   }
 };
@@ -171,39 +171,39 @@ export const getOpportunitytById = async (req, res) => {
 // controllers/opportunityController.js
 export const updateOpportunity = async (req, res) => {
   try {
-    const RequirementId = req.query.id; // 🔁 using query param
+    const OpportunityId = req.query.id;
     const updatedData = req.body;
 
-    const updatedRequirement = await OpportunityCollection.findByIdAndUpdate(
-      RequirementId,
+    const updatedOpportunity = await OpportunityCollection.findByIdAndUpdate(
+      OpportunityId,
       updatedData,
       { new: true }
     );
 
-    if (!updatedRequirement) {
-      return res.status(404).json({ message: "Requirement not found." });
+    if (!updatedOpportunity) {
+      return res.status(404).json({ message: "Opportunity not found." });
     }
 
-    res.status(200).json(updatedRequirement);
-    console.log("Requirement updated successfully");
+    res.status(200).json(updatedOpportunity);
+    console.log("Opportunity updated successfully");
   } catch (error) {
-    console.error("Error updating requirement:", error);
-    res.status(500).json({ message: "Error updating requirement." });
+    console.error("Error updating Opportunity:", error);
+    res.status(500).json({ message: "Error updating Opportunity." });
   }
 };
 
 
 export const deleteOpportunity = async (req, res) => {
   try {
-    const RequirementId = req.params.id;
-    const deletedRequirement = await OpportunityCollection.findByIdAndDelete(RequirementId);
-    if (!deletedRequirement) {
-      return res.status(404).json({ message: "Requirement not found." });
+    const OpportunityId = req.params.id;
+    const deletedOpportunity = await OpportunityCollection.findByIdAndDelete(OpportunityId);
+    if (!deletedOpportunity) {
+      return res.status(404).json({ message: "Opportunity not found." });
     }
-    res.status(200).json({ message: "Requirement deleted successfully." });
+    res.status(200).json({ message: "Opportunity deleted successfully." });
   } catch (error) {
-    console.error("Error deleting requirement:", error);
-    res.status(500).json({ message: "Error deleting requirement." });
+    console.error("Error deleting Opportunity:", error);
+    res.status(500).json({ message: "Error deleting Opportunity." });
   }
 }
 

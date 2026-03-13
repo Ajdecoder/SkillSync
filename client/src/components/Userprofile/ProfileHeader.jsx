@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Pencil, X, Loader2 } from "lucide-react";
 import axios from "axios";
 import { PORT_CLIENT } from "../../commonClient";
+import { toast } from "react-toastify";
 
 const ProfileHeader = ({ user, profileCompletion, userRole }) => {
   const [previewImage, setPreviewImage] = useState(null);
@@ -30,6 +31,8 @@ const ProfileHeader = ({ user, profileCompletion, userRole }) => {
       return;
     }
 
+   
+
     setUploadError(null);
     setSelectedFile(file);
 
@@ -42,6 +45,11 @@ const ProfileHeader = ({ user, profileCompletion, userRole }) => {
   };
 
   const handleImageUpload = async () => {
+
+     if(uploadError){
+      toast.error(uploadError,{ autoClose: 2000, position:'top-left' })
+    }
+
     if (!selectedFile) {
       setUploadError("No file selected");
       return;
@@ -60,6 +68,7 @@ const ProfileHeader = ({ user, profileCompletion, userRole }) => {
         {
           headers: { "Content-Type": "multipart/form-data" },
           timeout: 30000,
+          withCredentials:true
         }
       );
 
@@ -238,19 +247,12 @@ const ProfileHeader = ({ user, profileCompletion, userRole }) => {
               )}
             </div>
 
-            {/* Error message */}
-            {uploadError && (
-              <div className="absolute top-16 right-4 bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded z-10">
-                {uploadError}
-              </div>
-            )}
-
             {/* Image preview */}
             <div className="p-4">
               <img
                 src={previewImage || imageSrc}
                 alt="Preview"
-                className="w-full h-auto max-h-[80vh] object-contain rounded-lg"
+                className="h-auto max-h-[80vh] object-contain rounded-lg"
                 onError={(e) => {
                   e.target.src = "https://i.pinimg.com/1200x/d9/04/bb/d904bbc138e6cba76e5470df5054b106.jpg";
                 }}

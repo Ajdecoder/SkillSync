@@ -10,6 +10,7 @@ import { PORT_CLIENT } from "../../commonClient";
 import { Spinner } from "../common/loadingSpinner/spinner";
 import { CandidateAboutSection } from "./Candidate/AboutSection";
 import { RecruiterAboutSection } from "./Recruiter/AboutSection";
+import { toast } from "react-toastify";
 
 export const UserProfile = () => {
   const [activeTab, setActiveTab] = useState("about");
@@ -132,9 +133,11 @@ export const UserProfile = () => {
     localStorage.setItem("darkMode", JSON.stringify(darkMode));
   }, [emailNotifications, darkMode]);
 
- if (loading) return <Spinner />;
-if (error) return <div className="error-message">Error: {error.message}</div>;
-if (!profileData) return null; // Or just a placeholder
+  if (loading) return <Spinner />;
+  if (error) {
+    toast.error(error)
+  };
+  if (!profileData) return null; // Or just a placeholder
 
 
   return (

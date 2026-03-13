@@ -38,7 +38,7 @@ export const BlogPage = () => {
   return (
     <div className="max-w-3xl mx-auto my-8 p-6 bg-white rounded-lg shadow-xl">
       {/* Blog Image */}
-      <div className="relative rounded-lg overflow-hidden">
+      <div className="relative rounded-lg overflow-hidden bg">
         <img
           src={blog.image}
           alt={blog.title}

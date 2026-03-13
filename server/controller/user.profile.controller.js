@@ -36,6 +36,7 @@ export const getAllCandidateProfiles = async (req, res) => {
     // supports: Mumbai | Mumbai,Maharashtra | Mumbai,Maharashtra,India
     // =========================
     if (location) {
+      console.log('location is', location)
       const parts = location.split(",").map(v => v.trim());
 
       if (parts[0]) {
@@ -206,19 +207,19 @@ export const getUserProfileByEmail = async (req, res) => {
 export const updateUserProfileByEmail = async (req, res) => {
   try {
     const { email } = req.params;
-    const { data } = req.body;
+    const data = req.body.data || req.body;
 
-    // Check if the body contains data to update
-    if (!Object.keys(data).length) {
+    if (!data || Object.keys(data).length === 0) {
       return res.status(400).json({ message: "No update data provided" });
     }
 
-    // Update in both candidate and recruiter profiles
+    // Try updating candidate profile
     const updatedCandidateProfile = await CandidateUserProfile.findOneAndUpdate(
       { email },
-      data,
+      { $set: data },
       { new: true }
     );
+
     if (updatedCandidateProfile) {
       return res.status(200).json({
         message: "Candidate profile updated successfully",
@@ -226,11 +227,13 @@ export const updateUserProfileByEmail = async (req, res) => {
       });
     }
 
+    // Try updating recruiter profile
     const updatedRecruiterProfile = await RecruiterUserProfile.findOneAndUpdate(
       { email },
-      data,
+      { $set: data },
       { new: true }
     );
+
     if (updatedRecruiterProfile) {
       return res.status(200).json({
         message: "Recruiter profile updated successfully",
@@ -238,15 +241,18 @@ export const updateUserProfileByEmail = async (req, res) => {
       });
     }
 
-    return res.status(404).json({ message: "User profile not found" });
+    return res.status(404).json({
+      message: "User profile not found",
+    });
+
   } catch (error) {
     console.error("Error updating user profile:", error);
-    return res
-      .status(500)
-      .json({ message: "Error updating user profile", error: error.message });
+    return res.status(500).json({
+      message: "Error updating user profile",
+      error: error.message,
+    });
   }
 };
-
 /**
  * Bookmark Opportunites
  */

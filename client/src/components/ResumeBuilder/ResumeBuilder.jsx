@@ -41,7 +41,7 @@ const ResumeBuilder = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 py-12 dark:bg-gray-800 dark:to-gray-900"
+      className="min-h-screen bg-gradient-to-br from-gray-50 to-green-300 py-12 dark:bg-gray-800 dark:to-gray-900"
     >
       <div className="max-w-3xl mx-auto px-4">
         <motion.h1
@@ -54,7 +54,7 @@ const ResumeBuilder = () => {
 
         <motion.form
           onSubmit={handleSubmit}
-          className="space-y-6 bg-white rounded-xl p-8 shadow-lg"
+          className="space-y-6 bg-gray-400 rounded-xl p-8 shadow-lg dark:bg-green-200"
           variants={formVariants}
           initial="hidden"
           animate="visible"
@@ -68,7 +68,7 @@ const ResumeBuilder = () => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-black dark:text-black"
               placeholder="John Doe"
             />
           </motion.div>

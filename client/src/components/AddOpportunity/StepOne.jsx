@@ -62,7 +62,7 @@ const StepOne = ({ nextStep }) => {
   ];
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white  dark:bg-gray-800 rounded-xl shadow-lg transition-colors duration-300">
+    <div className="max-w-md mx-auto p-6  dark:bg-gray-800 rounded-xl shadow-lg transition-colors duration-300 bg-[#d3d3d3]">
       <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
         Step 1: Basic Details
       </h2>
@@ -70,10 +70,10 @@ const StepOne = ({ nextStep }) => {
       <form onSubmit={handleSubmit} className="space-y-5">
         {formFields.map((field) => (
           <div key={field.name}>
-            <label className="block text-sm font-medium text-gray-700 mb-2 dark:text-black">
-              {field.label}{" "}
+            <label className="text-sm font-medium text-gray-700 mb-2 dark:text-white flex gap-1">
+              <h2 className="text-gray-700 mb-2 dark:text-white" >{field.label}{" "}</h2>
               {field.required && (
-                <span className="text-red-500 dark:text-black">*</span>
+                <span className="text-red-500 dark:text-white">*</span>
               )}
             </label>
 

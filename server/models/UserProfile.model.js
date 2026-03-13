@@ -282,3 +282,23 @@ export const recruiterProfileSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+export const adminProfileSchema = new mongoose.Schema(
+  {
+    adminInfo: { type: mongoose.Schema.ObjectId, ref: "Admin" },
+    name: { type: String },
+    email: { type: String, unique: true },
+    profilePicture: {
+      type: String,
+      default:
+        "https://i.pinimg.com/1200x/d9/04/bb/d904bbc138e6cba76e5470df5054b106.jpg",
+    },
+    profilePictureDetails: {
+      publicId: { type: String },
+      url: { type: String }
+    },
+    role: { type: String, default: "admin" },
+  },
+  { timestamps: true }
+);
+
