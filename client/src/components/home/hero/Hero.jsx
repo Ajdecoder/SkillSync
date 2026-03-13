@@ -24,7 +24,6 @@ const Hero = () => {
     maxSalary: "",
     availability: "",
     workEnvironment: "",
-    city: "",
     availabilityStatus : "",
     workEnvironment : ""
   };
@@ -146,7 +145,7 @@ const Hero = () => {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-50 dark:to-gray-900"></div>
           </div>
 
-          <div className="relative z-10 max-w-5xl px-4 mx-auto text-center space-y-8 w-[70%]">
+          <div className="relative z-10 max-w-5xl px-4 mx-auto text-center space-y-8">
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -169,7 +168,7 @@ const Hero = () => {
 
             {/* Glassmorphism Filter Container */}
             <motion.div
-              className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border border-white/20 dark:border-gray-700 p-8 rounded-2xl shadow-2xl mx-auto"
+              className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-lg border border-white/20 dark:border-gray-700 p-4 rounded-2xl shadow-2xl mx-auto"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}

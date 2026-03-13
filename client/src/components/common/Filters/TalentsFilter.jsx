@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import SkillsChips from "./SkillsChips";
+import LocationDropdown from "./Location";
 
 export const CandidatesFilters = ({ candidates = [], data, setData, onClear }) => {
 
@@ -78,21 +79,26 @@ export const CandidatesFilters = ({ candidates = [], data, setData, onClear }) =
         <label className="dark:text-gray-200">
           Location
         </label>
-        <select
+        {/* <select
           value={data?.location || ""}
           onChange={(e) =>
             setData((p) => ({ ...p, location: e.target.value }))
           }
-          className="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white p-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full sm:w-[60%] rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white p-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 "
         >
-          <option value="">All Locations</option>
-
           {locations.map((loc) => (
-            <option key={loc} value={loc}>
-              {loc}
-            </option>
+            <ul className="bg-black w-4 text-xs" key={loc} value={loc}>
+              <li>{loc}</li>
+            </ul>
           ))}
-        </select>
+        </select> */}
+        <LocationDropdown
+          allLocations={locations}
+           onChange={(e) =>
+            setData((p) => ({ ...p, location: e.target.value }))
+          }
+          selectedLocation={data.location}
+        />
       </motion.div>
 
       {/* Skills */}

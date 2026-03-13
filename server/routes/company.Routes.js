@@ -7,10 +7,10 @@ import {
   jobListeningsByRecruiter,
   updateOpportunity,
 } from "../controller/company.controller.js";
-
-const companyRouter = express.Router();
 import notificationMiddleware from "../middleware/Notification.js";
 import verifyUser from "../middleware/auth.js";
+
+const companyRouter = express.Router();
 
 companyRouter.get("/addedOpportunities", allOpportunitiesData);
 companyRouter.use(verifyUser)

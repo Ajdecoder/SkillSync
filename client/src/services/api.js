@@ -84,7 +84,7 @@ export const getOpportunities = (query) =>
     },
   });
 export const updateOpportunity = (data) =>
-  API.post("/api/requirements/updateOpportunity", data);
+  API.put("/api/requirements/updateOpportunity", data);
 
 /* ========== joblisting APIs ========== */
 

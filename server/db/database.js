@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { AddOpportunitySchema } from "../models/RecruiterModels/AddOpportunity.model.js";
-import { candidateProfileSchema, recruiterProfileSchema } from "../models/UserProfile.model.js";
+import { adminProfileSchema, candidateProfileSchema, recruiterProfileSchema } from "../models/UserProfile.model.js";
 import { userSchema } from "../models/user.model.js";
 import { BookMarkSchema } from "../models/CandidateModals/BookMarks.model.js";
 import blogSchema from "../models/blogs.js";
@@ -30,7 +30,9 @@ export const OpportunityCollection = connect.model(
 
 export const Candidate = connect.model("Candidate", userSchema, "CandidateCollection");
 export const Recruiter = connect.model("Recruiter", userSchema, "RecruiterCollection");
+export const Admin = connect.model("Admin", userSchema, "AdminCollection");
 export const CandidateUserProfile = connect.model("CandidateUserProfile", candidateProfileSchema, "CandidateProfileCollection");
 export const RecruiterUserProfile = connect.model("RecruiterUserProfile", recruiterProfileSchema, "RecruiterProfileCollection");
+export const adminUserProfile = connect.model("AdminUserProfile", adminProfileSchema, "AdminProfileCollection");
 export const Bookmars = connect.model("Bookmarks", BookMarkSchema, "BookmarksCollection");
 export const Blogs = connect.model("Blogs", blogSchema, "BlogsCollection");
