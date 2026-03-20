@@ -36,9 +36,9 @@ const TalentCard = ({ talent }) => {
   const state = location?.state || "Not specified";
   const country = location?.country || "Not specified";
 
-  console.log('i got city',city)
-  console.log('i got state',state)
-  console.log('i got country',country)
+  // console.log('i got city',city)
+  // console.log('i got state',state)
+  // console.log('i got country',country)
 
   const handleViewProfile = () => {
     if (!_id) return;
@@ -54,7 +54,7 @@ const TalentCard = ({ talent }) => {
   };
 
   const formatExperience = (exp) => {
-    console.log('here is exp',exp)
+    // console.log('here is exp',exp)
     if (!exp || exp === 0) return "Fresher";
     if (exp <= 3) return `Mid Level${exp > 1 ? "s" : ""}`;
     return `Senior`;

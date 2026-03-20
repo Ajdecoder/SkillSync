@@ -18,15 +18,29 @@ const Hero = () => {
 
   const [opportunities, setOpportunities] = useState([]);
   const [candidates, setCandidates] = useState([]);
-  const initialFilters = {
+  const candidateFilters = {
     skills: [],
     minSalary: "",
     maxSalary: "",
     availability: "",
+    availabilityStatus: "",
     workEnvironment: "",
-    availabilityStatus : "",
-    workEnvironment : ""
   };
+
+  const recruiterFilters = {
+    skills: [],
+    minSalary: "",
+    maxSalary: "",
+    location: [],
+    experience: "",
+    jobType: "",
+    workEnvironment: "",
+  };
+
+  const initialFilters =
+  currentUser.role === "candidate"
+    ? candidateFilters
+    : recruiterFilters
 
   const [filterCategory, setFilterCategory] = useState(initialFilters);
 
@@ -103,7 +117,7 @@ const Hero = () => {
     if (filterCategory.maxSalary) queryParams.maxSalary = filterCategory.maxSalary;
     if (filterCategory.requirement_type) queryParams.requirement_type = filterCategory.requirement_type;
     if (filterCategory.availability) queryParams.availabilityStatus = filterCategory.availability
-    if(filterCategory.workEnvironment) queryParams.requirement_type = filterCategory.workEnvironment
+    if (filterCategory.workEnvironment) queryParams.requirement_type = filterCategory.workEnvironment
 
     if (role === "candidate") {
       getOpportunities(queryParams,)

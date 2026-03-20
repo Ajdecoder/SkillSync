@@ -6,9 +6,8 @@ import LocationDropdown from "./Location";
 export const CandidatesFilters = ({ candidates = [], data, setData, onClear }) => {
 
 
-  console.log('candiates log', candidates)
+  // console.log('candiates log', candidates)
   console.log('data log', data)
-  console.log('setData log', setData)
 
   const locations = useMemo(() => {
     return [
@@ -79,19 +78,6 @@ export const CandidatesFilters = ({ candidates = [], data, setData, onClear }) =
         <label className="dark:text-gray-200">
           Location
         </label>
-        {/* <select
-          value={data?.location || ""}
-          onChange={(e) =>
-            setData((p) => ({ ...p, location: e.target.value }))
-          }
-          className="w-full sm:w-[60%] rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white p-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 "
-        >
-          {locations.map((loc) => (
-            <ul className="bg-black w-4 text-xs" key={loc} value={loc}>
-              <li>{loc}</li>
-            </ul>
-          ))}
-        </select> */}
         <LocationDropdown
           allLocations={locations}
            onChange={(e) =>
@@ -104,7 +90,7 @@ export const CandidatesFilters = ({ candidates = [], data, setData, onClear }) =
       {/* Skills */}
       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
         <label className=" dark:text-gray-200">Skill</label>
-        {console.log('got skills here ', candidates.map((sk) => sk.skills))}
+        {/* {console.log('got skills here ', candidates.map((sk) => sk.skills))} */}
         <SkillsChips
           allSkills={skills}          // all available skills
           selectedSkills={data.skills} // selected bullets
