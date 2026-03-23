@@ -25,12 +25,12 @@ export const Settings = () => {
 
       {/* Communication and Privacy Settings */}
       <section className="space-y-6">
-        <h2 className="text-2xl font-semibold text-gray-800">
+        <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
           Communication and Privacy
         </h2>
 
         <div>
-          <label className="block text-lg font-medium text-gray-700">
+          <label className="block text-lg font-medium text-gray-700 dark:text-white">
             Email and Notification Settings
           </label>
 
@@ -41,11 +41,11 @@ export const Settings = () => {
                   type="checkbox"
                   checked={setting.checked}
                   onChange={() => handleToggle(index)}
-                  className="h-5 w-5 text-blue-500 border-gray-300 rounded"
+                  className="h-5 w-5  text-blue-500 border-gray-300 rounded  dark:text-white"
                 />
-                <span className="ml-3 text-gray-700">{setting.label}</span>
+                <span className="ml-3 text-gray-700  dark:text-white">{setting.label}</span>
               </div>
-              <p className="text-gray-500 text-sm pl-8">
+              <p className="text-gray-500 text-sm pl-8  dark:text-white">
                 {setting.description}
               </p>
             </div>
@@ -64,7 +64,7 @@ export const Settings = () => {
             >
               Change Password
             </Link>
-            <p className="text-gray-700">Change your account password.</p>
+            <p className="text-gray-700 dark:text-white">Change your account password.</p>
           </div>
 
           <div>
@@ -74,7 +74,7 @@ export const Settings = () => {
             >
               Change Email Address
             </Link>
-            <p className="text-gray-700">Update your email address.</p>
+            <p className="text-gray-700 dark:text-white">Update your email address.</p>
           </div>
 
           <div>
@@ -84,8 +84,8 @@ export const Settings = () => {
             >
               Delete My Account
             </Link>
-            <p className="text-gray-700">
-              Permanently delete your {console.log(currentUser?.role)}
+            <p className="text-gray-700 dark:text-white">
+              Permanently delete your
               {currentUser?.role.charAt(0).toUpperCase() +
                 currentUser?.role.slice(1).toLowerCase()}{" "}
               Account

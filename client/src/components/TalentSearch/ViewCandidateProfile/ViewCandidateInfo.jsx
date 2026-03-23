@@ -61,7 +61,7 @@ export const ViewCandidateInfo = () => {
                 year: "N/A",
               },
             ],
-          socialLinks: {  
+          socialLinks: {
             linkedin: data.profile.socialLinks.linkedin || "#",
             github: data.profile.socialLinks.github || "#",
             portfolio: data.profile.socialLinks.portfolio || "#",
@@ -189,8 +189,8 @@ export const ViewCandidateInfo = () => {
           >
             <FiBookmark
               className={`${bookmark
-                  ? "fill-emerald-400 stroke-emerald-400"
-                  : "text-gray-400"
+                ? "fill-emerald-400 stroke-emerald-400"
+                : "text-gray-400"
                 }`}
             />
           </motion.button>
@@ -293,14 +293,16 @@ export const ViewCandidateInfo = () => {
           </motion.div>
 
           {/* Hire Now Button */}
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full mt-8 bg-gradient-to-r from-sky-500 to-indigo-500 text-white py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-shadow"
-            onClick={() => setHireTalentModal(true)}
-          >
-            Hire Now
-          </motion.button>
+          <div className="flex justify-center w-full">
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-1/2 mt-8 bg-gradient-to-r from-sky-500 to-indigo-500 text-white py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-shadow"
+              onClick={() => setHireTalentModal(true)}
+            >
+              Hire Now
+            </motion.button>
+          </div>
         </div>
       </motion.div>
 
