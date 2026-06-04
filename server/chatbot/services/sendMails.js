@@ -2,16 +2,16 @@ import nodemailer from "nodemailer";
 
 export const sendEmails = async (candidateEmail, recruiterEmail, jobTitle) => {
   try {
-    // 1️⃣ Create transporter
+    
     const transporter = nodemailer.createTransport({
-      service: "gmail", // or use SMTP config if you’re using another provider
+      service: "gmail", 
       auth: {
-        user: process.env.EMAIL_USER, // your Gmail ID
-        pass: process.env.EMAIL_PASS, // app password (not your Gmail password)
+        user: process.env.EMAIL_USER, 
+        pass: process.env.EMAIL_PASS, 
       },
     });
 
-    // 2️⃣ Create mail options for candidate
+    
     const candidateMail = {
       from: process.env.EMAIL_USER,
       to: candidateEmail,
@@ -23,7 +23,7 @@ export const sendEmails = async (candidateEmail, recruiterEmail, jobTitle) => {
       `,
     };
 
-    // 3️⃣ Create mail options for recruiter
+    
     const recruiterMail = {
       from: process.env.EMAIL_USER,
       to: recruiterEmail,
@@ -35,7 +35,7 @@ export const sendEmails = async (candidateEmail, recruiterEmail, jobTitle) => {
       `,
     };
 
-    // 4️⃣ Send both emails simultaneously
+    
     await Promise.all([
       transporter.sendMail(candidateMail),
       transporter.sendMail(recruiterMail),

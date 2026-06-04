@@ -16,6 +16,8 @@ export const GoogleAuth = ({ role }) => {
 
 
   const handleLoginSuccess = async (response) => {
+
+    console.log(response,'it give res')
     try {
       const res = await axios.post(
         `${PORT_CLIENT}/auth/google`,
@@ -51,7 +53,7 @@ export const GoogleAuth = ({ role }) => {
           <button
             onClick={handleLogout}
             type="button"
-            className="text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-500/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 mb-2"
+            className="inline-flex items-center bg-red-500 hover:bg-red-600 me-2 mb-2 px-5 py-2.5 rounded-lg focus:outline-none focus:ring-4 focus:ring-red-500/50 font-medium text-white text-sm text-center"
           >
             Logout
           </button>
