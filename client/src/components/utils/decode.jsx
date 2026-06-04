@@ -5,18 +5,19 @@ export const jwttokenDecode = (token) => {
 
   try {
     const decoded = jwtDecode(token);
-    const currentTime = Date.now() / 1000;
 
-    if (decoded.exp < currentTime) {
+    console.log("data of decoded token", decoded);
+    const currentTime = Date.now() / 1000;
+    const expiryTime = decoded.exp;
+
+    if (currentTime > expiryTime) {
       localStorage.removeItem("jwttoken");
-      window.location.href = "/login";
       return null;
     }
 
     return decoded;
   } catch (error) {
     localStorage.removeItem("jwttoken");
-    window.location.href = "/login";
     return null;
   }
 };

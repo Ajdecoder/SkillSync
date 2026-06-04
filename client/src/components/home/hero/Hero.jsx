@@ -109,12 +109,13 @@ const Hero = () => {
 
   const filteredCandidates = useMemo(() => {
     const { location, skills, availabilityStatus } = filterCategory;
+    console.log("Filtering candidates with:", { location, skills, availabilityStatus });
     return candidates.filter((candidate) => {
       const cityMatch =
-        !location ||
-        candidate?.location?.city
-          ?.toLowerCase()
-          .includes(location.toLowerCase());
+  !location?.length ||
+  candidate?.location?.city
+    ?.toLowerCase()
+    .includes(location[0]?.toLowerCase() || "");
       const skillMatch =
         !skills?.length ||
         skills.some((skill) =>
