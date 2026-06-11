@@ -1,44 +1,48 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
 // Configure Axios
 const API = axios.create({
   baseURL: import.meta.env.VITE_SERVER_PORT || "http://localhost:9002",
-  withCredentials: true
+  withCredentials: true,
 });
 
 let isSessionExpiredHandled = false;
 
 API.interceptors.response.use(
-  res => res,
-  err => {
+  (res) => res,
+  (err) => {
     const isLoginApi = err.config?.url?.includes("/login");
-    console.log('isloginapi status:',isLoginApi)
+    console.log("isloginapi status:", isLoginApi);
 
-    if (
-      err.response?.status === 401 &&
-      !isLoginApi
-    ) {
-      localStorage.removeItem("jwttoken");
-      toast.error("Your session has expired. Please login again.");
+  if (err.response?.status === 401 && !isLoginApi) {
+  localStorage.removeItem("jwttoken");
 
-      setTimeout(() => {
-        isSessionExpiredHandled && (window.location.href = "/login");
-      }, 3000);
-    }
+  if (!isSessionExpiredHandled) {
+    isSessionExpiredHandled = true;
+
+    toast.error("Your session has expired. Please login again.");
+    
+  }
+}
 
     return Promise.reject(err);
-  }
+  },
 );
-
 
 // Add Authorization token
 API.interceptors.request.use(async (req) => {
-  const token = localStorage.getItem("jwttoken") || await cookieStore.get("jwttoken")?.value || localStorage.getItem('googleUser');
+  const token =
+    localStorage.getItem("jwttoken") ||
+    (await cookieStore.get("jwttoken")?.value) ||
+    localStorage.getItem("googleUser");
   console.log("token in localStorage:", localStorage.getItem("jwttoken"));
-  console.log("token in cookieStore:", await cookieStore.get("jwttoken")?.value);
-  console.log("token in googleUser:", localStorage.getItem('googleUser'));
+  console.log(
+    "token in cookieStore:",
+    await cookieStore.get("jwttoken")?.value,
+  );
+  console.log("token in googleUser:", localStorage.getItem("googleUser"));
   if (token) {
     req.headers.Authorization = `Bearer ${token}`;
   }
@@ -80,7 +84,7 @@ export const getOpportunities = (query) =>
   API.get("/api/requirements/addedOpportunities", {
     params: query,
     paramsSerializer: {
-      indexes: null
+      indexes: null,
     },
   });
 export const updateOpportunity = (data) =>
@@ -88,10 +92,10 @@ export const updateOpportunity = (data) =>
 
 /* ========== joblisting APIs ========== */
 
-export const jobListeningsByRecruiter = (recruiterId) =>
-  API.get(`/api/requirements/jobListeningsByRecruiter/${recruiterId}`);
-
-
+export const jobListeningsByRecruiter = (recruiterId) => {
+  console.log("got rec id in api.js", recruiterId);
+  return API.get(`/api/requirements/jobListeningsByRecruiter/${recruiterId}`);
+};
 
 export const getOpportunityById = (id) =>
   API.get(`/api/requirements/Companyrequirements/${id}`);
@@ -114,7 +118,6 @@ export const bookmarkOpportunity = (userId, post_id) =>
     post_id,
   });
 export const removeBookmarkedOpportunity = (userId, post_id) =>
-
   API.delete("/api/bookmark/opportunity/job/unbookmark-opportunity", {
     data: { userId, post_id },
   });
@@ -135,8 +138,6 @@ export const removeBookmarkedTalent = (recruiterId, candidateId) =>
     data: { recruiterId, candidateId },
   });
 
-
-
 /* ========== Chat APIs ========== */
 
 export const getChatResponse = (data) =>
@@ -148,4 +149,3 @@ export const getNotifications = () =>
   API.get("/api/users/job/user/job-notifications");
 export const markNotificationAsRead = (notificationId) =>
   API.put(`/api/users/notifications/markAsRead`, { notificationId });
-

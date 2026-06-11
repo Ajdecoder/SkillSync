@@ -14,6 +14,7 @@ import "./notifications.css";
 import NotificationButton from "./Notification";
 import { FaMoon, FaRegMoon, FaRegUser, FaSun } from "react-icons/fa";
 import { useTheme } from "../../context/ThemeContext";
+import UserDropdown from "./UserDropdown";
 
 const Header = () => {
   const { loggedInUser, logout: customLogout, googleUser } = useAuth();
@@ -106,7 +107,7 @@ const Header = () => {
     <li
       onClick={() => setIsNavListOpen(false)}
       key={index}
-      className="nav-item relative"
+      className="relative nav-item"
       onMouseEnter={() => {
         if (item.text === "Requirement") {
           setShowDropdown(true);
@@ -122,7 +123,7 @@ const Header = () => {
         to={item.path}
         className={({ isActive }) =>
           clsx(
-            "reqli text-slate-500 hover:text-slate-700 dark:text-gray-300 dark:hover:text-white",
+            "text-slate-500 hover:text-slate-700 dark:hover:text-white dark:text-gray-300 reqli",
             {
               "active text-blue-600 dark:text-blue-400":
                 isActive && !location.pathname.includes("requirement"),
@@ -141,22 +142,22 @@ const Header = () => {
             hidden: !isSmallScreen && !showDropdown,
           })}
         >
-          <ul className="dropdown bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-lg">
+          <ul className="bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 dropdown">
             {navExpand.map((subItem, subIndex) => (
               <li key={subIndex}>
                 <NavLink
                   to={subItem.path}
                   className={({ isActive }) =>
                     clsx(
-                      "inline-block w-full p-2 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 ml-0",
+                      "inline-block hover:bg-gray-100 dark:hover:bg-gray-700 ml-0 p-2 w-full text-gray-700 dark:text-gray-300",
                       isActive && "active bg-gray-100 dark:bg-gray-700"
                     )
                   }
                 >
-                  <span className="inline-block align-middle mr-2">
+                  <span className="inline-block mr-2 align-middle">
                     {!isNavListOpen && subItem.icon}
                   </span>
-                  <span className="inline-block align-middle m-0">
+                  <span className="inline-block m-0 align-middle">
                     {subItem.text}
                   </span>
                 </NavLink>
@@ -169,12 +170,12 @@ const Header = () => {
   ));
 
   return (
-    <header className="border-[1.2px] rounded-lg dark:border-gray-700 bg-white dark:bg-gray-900 mt-1 mb-1">
-      <div className="flex top-header relative border-[1.2px] rounded-lg dark:border-gray-700 bg-white dark:bg-gray-900 h-20">
+    <header className="bg-white dark:bg-gray-900 mt-1 mb-1 border-[1.2px] dark:border-gray-700 rounded-lg">
+      <div className="top-header relative flex bg-white dark:bg-gray-900 border-[1.2px] dark:border-gray-700 rounded-lg h-20">
         {/* Logo */}
         <div className="logo">
           <NavLink to="/">
-            <img src={logo} alt="Logo" className="dark:filter dark:invert" />
+            <img src={logo} alt="Logo" className="dark:invert dark:filter" />
           </NavLink>
         </div>
 
@@ -183,7 +184,7 @@ const Header = () => {
           {/* Dark Background Overlay for Mobile */}
           {isNavListOpen && isSmallScreen && (
             <div
-              className="fixed inset-0 bg-black/60 dark:bg-black/80 z-30"
+              className="z-30 fixed inset-0 bg-black/60 dark:bg-black/80"
               onTouchStart={() => setIsNavListOpen(false)}
             ></div>
           )}
@@ -196,7 +197,7 @@ const Header = () => {
             )}
           >
             <img
-              className="subnav_logo hidden w-36 m-[30px]"
+              className="hidden m-[30px] w-36 subnav_logo"
               src={subnav_logo}
               alt=""
             />
@@ -204,7 +205,7 @@ const Header = () => {
           </ul>
         </nav>
 
-        <div className="flex items-center justify-between gap-10 nav-group">
+        <div className="nav-group flex justify-between items-center gap-10">
           {/* Theme Toggle */}
           <button
             className={`theme-toggle p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors ${theme === "light" ? "text-gray-700" : "text-yellow-400"
@@ -223,80 +224,23 @@ const Header = () => {
             {currentUser ? (
               <>
                 <div
-                  className="flex items-center space-x-3 cursor-pointer hover:scale-[0.9] transition-ease-in duration-200"
+                  className="flex items-center space-x-3 hover:scale-[0.9] transition-ease-in duration-200 cursor-pointer"
                   onClick={() => setShowAboutUser((prev) => !prev)}
                 >
-                  <span className="inline-block bg-blue-500 text-white rounded-full p-3 text-lg font-bold">
+                  <span className="inline-block bg-blue-500 p-3 rounded-full font-bold text-white text-lg">
                     {currentUser?.name?.[0]?.toUpperCase() || "U"}
                   </span>
                 </div>
 
                 {/* User Dropdown Menu */}
-                {showAboutUser && (
-                  <div className="flex flex-col absolute top-16 right-0 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 shadow-md p-4 min-w-[200px] rounded-lg transition-all duration-300 ease-in-out z-[999]">
-                    <Link
-                      to="/profile/userProfile"
-                      className="text-center text-2xl text-gray-700 dark:text-gray-300"
-                    >
-                      <i className="fa-solid fa-googleUser">
-                        <FaRegUser />
-                      </i>
-                    </Link>
-                    <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                      <strong>Name:</strong> {currentUser?.name || "User"}
-                    </p>
-                    <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                      <strong>Email:</strong> {currentUser?.email || "N/A"}
-                    </p>
-                    <div className="flex flex-col p-2 gap-3">
-                      <button
-                        onClick={() => setConfirmLogout((prev => !prev))}
-                        className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg transition-colors duration-300"
-                      >
-                        <i className="fa fa-sign-out mr-2"></i> Logout
-                      </button>
-
-                      {!!confirmlogout && (
-                        <div className="absolute right-0 mx-2 w-[14.3rem] rounded-lg border border-gray-200 bg-white p-4 shadow-lg dark:border-gray-700 dark:bg-gray-800 z-50">
-                          <p className="text-sm text-gray-700 dark:text-gray-300 mb-3">
-                            Do you want to logout?
-                          </p>
-
-                          <div className="flex justify-end gap-2">
-                            <button
-                              onClick={() => setConfirmLogout(false)}
-                              className="px-3 py-1.5 text-sm rounded-md border border-gray-300 text-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
-                            >
-                              No
-                            </button>
-
-                            <button
-                              onClick={handleLogout}
-                              className="px-3 py-1.5 text-sm rounded-md bg-red-500 text-white hover:bg-red-700"
-                            >
-                              Yes logout
-                            </button>
-                          </div>
-                        </div>
-                      )}
-
-
-                      <Link
-                        to="/profile/settings"
-                        className="text-center text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
-                      >
-                        Settings
-                      </Link>
-                    </div>
-                  </div>
-                )}
+               <UserDropdown confirmlogout={confirmlogout} currentUser={currentUser} handleLogout={handleLogout} setConfirmLogout={setConfirmLogout} showAboutUser={showAboutUser}  />
               </>
             ) : (
               <Link
                 to="/login"
-                className="log-sign relative text-gray-700 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-400"
+                className="relative text-gray-700 hover:text-blue-600 dark:hover:text-blue-400 dark:text-gray-300 log-sign"
               >
-                <i className="fa fa-sign-in mr-2"></i> Sign in
+                <i className="mr-2 fa fa-sign-in"></i> Sign in
               </Link>
             )}
           </div>
@@ -305,7 +249,7 @@ const Header = () => {
           <div className="toggle">
             <button
               onClick={() => setIsNavListOpen(!isNavListOpen)}
-              className="text-3xl text-gray-700 dark:text-gray-300"
+              className="text-gray-700 dark:text-gray-300 text-3xl"
             >
               <i className={!isNavListOpen && "fa fa-bars"}></i>
             </button>

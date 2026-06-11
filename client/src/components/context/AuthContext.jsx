@@ -15,8 +15,12 @@ export const AuthProvider = ({ children }) => {
   //   console.log("Google User from localStorage:", googleUser);
 
   useEffect(() => {
-    const token = localStorage.getItem("jwttoken");
+    const jwttoken = localStorage.getItem("jwttoken");
     const googleUserToken = localStorage.getItem("googleUser");
+
+    const token = jwttoken || googleUserToken;
+
+    console.log("got token here", token);
 
     if (token) {
       try {
@@ -24,15 +28,6 @@ export const AuthProvider = ({ children }) => {
       } catch (error) {
         console.error("Error decoding JWT token:", error);
         localStorage.removeItem("jwttoken");
-      }
-    }
-
-    if (googleUserToken) {
-      try {
-        setGoogleUser(jwttokenDecode(googleUserToken));
-      } catch (error) {
-        console.error("Error decoding Google token:", error);
-        localStorage.removeItem("googleUser");
       }
     }
 
@@ -60,7 +55,7 @@ export const AuthProvider = ({ children }) => {
     setGoogleUser(null);
     localStorage.removeItem("jwttoken");
     localStorage.removeItem("googleUser");
-    logoutUser()
+    logoutUser();
   };
 
   return (
@@ -72,8 +67,7 @@ export const AuthProvider = ({ children }) => {
         loginWithGoogle,
         logout,
         loading,
-      }}
-    >
+      }}>
       {!loading ? children : <LoginLoading />}
     </AuthContext.Provider>
   );

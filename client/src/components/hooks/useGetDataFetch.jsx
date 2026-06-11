@@ -13,7 +13,7 @@ const useFetchData = (url) => {
       const response = await axios.get(url, {
         withCredentials:true,
         headers:{
-          Authorization: `Bearer ${localStorage.getItem("jwttoken")|| cookieStore.get("jwttoken")?.value || localStorage.getItem('googleUser')}`
+          Authorization: `Bearer ${localStorage.getItem("jwttoken") || localStorage.getItem('googleUser')}`
         }
       });
       setData(response.data || {});
