@@ -45,6 +45,8 @@ import { LoginPromoPage } from "../Login/NotLoggedIn.jsx";
 import ResumeBuilder from "../ResumeBuilder/ResumeBuilder.jsx";
 import ChangePassword from "../account/settings/ChangePass.jsx";
 import ChangeEmail from "../account/settings/ChangeEmail.jsx";
+import ForgotPassword from "../forgotPassword/forgotPassword.jsx";
+import ResetPassword from "../forgotPassword/resetPassword.jsx";
 
 // Prevent already logged-in users from accessing login/signup
 const PreventLoggedIn = ({ children }) => {
@@ -254,5 +256,15 @@ export const RoutesConfig = () => [
     key="notification-details"
     path="/notifications/:notificationId"
     element={<NotificationPage />}
+  />,
+  <Route
+    key="forgot-password"
+    path="/forgot-password"
+    element={<ForgotPassword />}
+  />,
+  <Route
+    key="reset-password"
+    path="/reset-password"
+    element={<ResetPassword />}
   />,
 ];

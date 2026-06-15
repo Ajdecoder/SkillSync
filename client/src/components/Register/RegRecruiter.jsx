@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { useAuth } from "../context/AuthContext";
 import { registerRecruiter } from "../../services/api";
 import RegisterForm from "./RegisterForm";
@@ -48,14 +48,16 @@ export const RegRecruiter = () => {
 
       navigate("/");
     } catch (err) {
-      toast.error(err.response?.data?.message || "Registration failed");
+      console.log('err here',err.response.data.errors[0].message)
+      toast.error(err.response.data.errors[0].message || "Registration failed");
+      
     } finally {
       setLoading(false);
-    }
+    } 
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#1f1b29]">
+    <div className="flex justify-center items-center bg-[#1f1b29] min-h-screen">
 
       <RegisterForm
         title="Register as Recruiter"

@@ -37,11 +37,10 @@ Userrouter.put("/notifications/markAsRead", NotificationAsRead)
 Userrouter.post("/logout", (req, res) => {
   res.clearCookie("jwttoken", {
     httpOnly: true,
-    secure: true,
-    sameSite: "strict",
-  }
-    ,
-    "");
+    secure: process.env.NODE_ENV === "production",
+    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+  });
 
   return res.status(200).json({
     message: "Logged out successfully",

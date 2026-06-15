@@ -58,8 +58,8 @@ const FAQ = () => {
   const [activeIndex, setActiveIndex] = useState(null);
 
   return (
-    <div className="faq mx-auto p-10 dark:bg-gray-800 w-full  border">
-      <h2 className="text-3xl font-extrabold text-center mb-8 text-blue-700 ">
+    <div className="dark:bg-gray-800 mx-auto p-10 border w-full faq">
+      <h2 className="mb-8 font-extrabold text-blue-700 text-3xl text-center">
         Frequently Asked Questions
       </h2>
       <div className="space-y-4">
@@ -69,8 +69,7 @@ const FAQ = () => {
             question={faq.question}
             answer={faq.answer}
             isOpen={activeIndex === index}
-            onMouseEnter={() => setActiveIndex(index)}
-            onMouseLeave={() => setActiveIndex(null)}
+            onclick={() => setActiveIndex((prev) => (prev === index ? null : index))}
           />
         ))}
       </div>
@@ -78,17 +77,16 @@ const FAQ = () => {
   );
 };
 
-const FAQItem = ({ question, answer, isOpen, onMouseEnter, onMouseLeave }) => {
+const FAQItem = ({ question, answer, isOpen, onclick }) => {
   return (
     <div
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      onClick={onclick}
       className={`border border-gray-300 rounded-lg shadow-md transition-all duration-300 ${isOpen ? "bg-blue-50 dark:bg-zinc-900" : "bg-white dark:bg-zinc-800"
         }`}
     >
       {/* Question */}
       <div className="flex justify-between items-center p-4 cursor-pointer">
-        <h3 className="font-semibold text-lg text-gray-800 dark:text-gray-200">
+        <h3 className="font-semibold text-gray-800 dark:text-gray-200 text-lg">
           {question}
         </h3>
 

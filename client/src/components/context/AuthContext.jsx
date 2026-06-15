@@ -10,57 +10,66 @@ export const AuthProvider = ({ children }) => {
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Handle googleUser from JWT token
-
-  //   console.log("Google User from localStorage:", googleUser);
-
-  useEffect(() => {
-    const token = localStorage.getItem("jwttoken");
-    const googleUserToken = localStorage.getItem("googleUser");
-
-    if (token) {
-      try {
-        setLoggedInUser(jwttokenDecode(token));
-      } catch (error) {
-        console.error("Error decoding JWT token:", error);
-        localStorage.removeItem("jwttoken");
-      }
-    }
-
-    if (googleUserToken) {
-      try {
-        setGoogleUser(jwttokenDecode(googleUserToken));
-      } catch (error) {
-        console.error("Error decoding Google token:", error);
-        localStorage.removeItem("googleUser");
-      }
-    }
-
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
-
-  // Function to handle login with JWT
-  const loginWithJWT = (userDetails) => {
-    localStorage.setItem("jwttoken", userDetails.token);
-    setLoggedInUser(jwttokenDecode(userDetails.token));
-  };
-
-  // Function to handle login with Google
-  const loginWithGoogle = (googleUser) => {
-    localStorage.setItem("googleUser", googleUser.token);
-    setGoogleUser(jwttokenDecode(googleUser));
-    console.log(googleUser);
-  };
-
-  // Logout function
   const logout = () => {
     setLoggedInUser(null);
     setGoogleUser(null);
+
     localStorage.removeItem("jwttoken");
     localStorage.removeItem("googleUser");
-    logoutUser()
+
+    logoutUser();
+  };
+
+  useEffect(() => {
+    const jwtToken = localStorage.getItem("jwttoken");
+    const googleToken = localStorage.getItem("googleUser");
+
+    const token = jwtToken || googleToken;
+
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const decodedUser = jwttokenDecode(token);
+
+      setLoggedInUser(decodedUser);
+
+      if (googleToken) {
+        setGoogleUser(decodedUser);
+      }
+    } catch (error) {
+      console.error("Error decoding token:", error);
+
+      localStorage.removeItem("jwttoken");
+      localStorage.removeItem("googleUser");
+
+      setLoggedInUser(null);
+      setGoogleUser(null);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const loginWithJWT = (userDetails) => {
+    const token = userDetails.token;
+
+    localStorage.setItem("jwttoken", token);
+
+    const decodedUser = jwttokenDecode(token);
+    setLoggedInUser(decodedUser);
+  };
+
+  const loginWithGoogle = (googleUser) => {
+    const token = googleUser.token;
+
+    localStorage.setItem("googleUser", token);
+
+    const decodedUser = jwttokenDecode(token);
+
+    setGoogleUser(decodedUser);
+    setLoggedInUser(decodedUser); // important
   };
 
   return (
@@ -79,5 +88,4 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Custom hook to access authentication context
 export const useAuth = () => useContext(AuthContext);

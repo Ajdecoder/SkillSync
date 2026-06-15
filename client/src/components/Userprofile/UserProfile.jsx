@@ -32,7 +32,7 @@ export const UserProfile = () => {
     loading,
     error,
   } = useFetchData(
-    `${PORT_CLIENT}/api/user/profile/account/user/email/${currentUser?.email}`
+    `${PORT_CLIENT}/api/user/profile/email/${currentUser?.email}`
   );
 
   console.log("Fetched Profile Data:", fetchedProfileData);

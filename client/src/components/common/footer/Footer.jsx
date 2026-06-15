@@ -90,6 +90,7 @@ const Footer = () => {
                     className="text-gray-600 dark:text-gray-400
                 hover:text-green-500 dark:hover:text-green-400
                 cursor-pointer transition"
+                    onClick={() => (window.location.href = `${items.url}`)}
                   >
                     {items.list}
                   </li>

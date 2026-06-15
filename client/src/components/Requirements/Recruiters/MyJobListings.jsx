@@ -29,8 +29,8 @@ export const MyJobListings = () => {
       try {
         const recruiterProfile = await getUserProfileByEmail(currentUser?.email);
         console.log(recruiterProfile)
-        const recruiterId = recruiterProfile?.data?.recruiterProfile?._id;
-
+        const recruiterId = currentUser?.userId;
+        console.log('recruiterid in myjoblist',recruiterId)
 
         // No need to wait for state update, use recruiterId directly
         const response = await jobListeningsByRecruiter(recruiterId);
@@ -94,10 +94,10 @@ export const MyJobListings = () => {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="container mx-auto px-4 py-8 max-w-4xl"
+        className="mx-auto px-4 py-8 max-w-4xl container"
       >
         <div className="flex justify-end mb-4">
-          <span className="inline-block bg-green-400 text-blue-800 px-4 py-2 rounded-full font-medium text-sm">
+          <span className="inline-block bg-green-400 px-4 py-2 rounded-full font-medium text-blue-800 text-sm">
             {jobs?.length === 1
               ? "1 job posted"
               : `${jobs?.length} jobs posted`}
@@ -107,7 +107,7 @@ export const MyJobListings = () => {
         <motion.h2
           initial={{ y: -20 }}
           animate={{ y: 0 }}
-          className="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-white"
+          className="mb-8 font-bold text-gray-800 dark:text-white text-3xl text-center"
         >
           My Job Listings
         </motion.h2>
@@ -116,7 +116,7 @@ export const MyJobListings = () => {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center text-red-500 mb-4"
+            className="mb-4 text-red-500 text-center"
           >
             {error}
           </motion.p>
@@ -126,7 +126,7 @@ export const MyJobListings = () => {
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="text-center text-gray-600 text-lg"
+            className="text-gray-600 text-lg text-center"
           >
             You haven't posted any jobs yet.
           </motion.p>
@@ -144,34 +144,34 @@ export const MyJobListings = () => {
                   variants={itemVariants}
                   exit="exit"
                   transition={{ duration: 0.2 }}
-                  className="group bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow"
+                  className="group bg-white shadow-md hover:shadow-lg rounded-xl transition-shadow"
                 >
                   <div className="p-6">
                     <div className="flex items-start gap-4">
                       <img
                         src={job?.company_logo}
                         alt="Company logo"
-                        className="w-14 h-14 rounded-lg object-cover border"
+                        className="border rounded-lg w-14 h-14 object-cover"
                       />
                       <div className="flex-1">
                         <div className="flex justify-between items-start">
                           <div>
-                            <h3 className="text-xl font-semibold text-gray-800">
+                            <h3 className="font-semibold text-gray-800 text-xl">
                               {job?.title}
                             </h3>
-                            <p className="text-gray-600 text-sm mt-1">
+                            <p className="mt-1 text-gray-600 text-sm">
                               {job?.company_name} • {job?.location}
                             </p>
                           </div>
-                          <span className="px-3 py-1 text-sm bg-blue-100 text-blue-800 rounded-full">
+                          <span className="bg-blue-100 px-3 py-1 rounded-full text-blue-800 text-sm">
                             {job?.requirement_type}
                           </span>
                         </div>
 
-                        <div className="mt-4 grid grid-cols-2 gap-4 text-sm">
+                        <div className="gap-4 grid grid-cols-2 mt-4 text-sm">
                           <div className="flex items-center text-gray-600">
                             <svg
-                              className="w-5 h-5 mr-2 text-gray-400"
+                              className="mr-2 w-5 h-5 text-gray-400"
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -187,7 +187,7 @@ export const MyJobListings = () => {
                           </div>
                           <div className="flex items-center text-gray-600">
                             <svg
-                              className="w-5 h-5 mr-2 text-gray-400"
+                              className="mr-2 w-5 h-5 text-gray-400"
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -204,7 +204,7 @@ export const MyJobListings = () => {
                           </div>
                         </div>
 
-                        <div className="mt-6 flex items-center justify-between">
+                        <div className="flex justify-between items-center mt-6">
                           <button
                             onClick={() =>
                               handleViewApplicants(job?.candidatesApplied)
@@ -212,7 +212,7 @@ export const MyJobListings = () => {
                             className="flex items-center text-blue-600 hover:text-blue-700 transition-colors"
                           >
                             <svg
-                              className="w-5 h-5 mr-2"
+                              className="mr-2 w-5 h-5"
                               fill="none"
                               stroke="currentColor"
                               viewBox="0 0 24 24"
@@ -237,12 +237,12 @@ export const MyJobListings = () => {
                             <button
                               onClick={() => handleDeleteJob(job?._id)}
                               disabled={deleting === job?._id}
-                              className="flex items-center px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                              className="flex items-center hover:bg-red-50 px-4 py-2 rounded-lg text-red-600 transition-colors"
                             >
                               {deleting === job?._id ? (
                                 <>
                                   <svg
-                                    className="animate-spin -ml-1 mr-3 h-5 w-5 text-red-600"
+                                    className="mr-3 -ml-1 w-5 h-5 text-red-600 animate-spin"
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
                                     viewBox="0 0 24 24"
@@ -287,7 +287,7 @@ export const MyJobListings = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               variants={modalVariants}
-              className="fixed inset-0 z-50   flex items-start justify-center p-4 "
+              className="z-50 fixed inset-0 flex justify-center items-start p-4"
               style={{ position: "fixed", top: window.scrollY + "px" }}
             >
               <motion.div
@@ -295,10 +295,10 @@ export const MyJobListings = () => {
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: -20, opacity: 0 }}
                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                className="bg-white rounded-lg shadow-xl w-full max-w-2xl my-8 relative dark:text-black"
+                className="relative bg-white shadow-xl my-8 rounded-lg w-full max-w-2xl dark:text-black"
               >
-                <div className="p-6 border-b flex justify-between items-center sticky top-0 bg-white z-10 dark:text-black">
-                  <h3 className="text-xl font-semibold">Applicants</h3>
+                <div className="top-0 z-10 sticky flex justify-between items-center bg-white p-6 border-b dark:text-black">
+                  <h3 className="font-semibold text-xl">Applicants</h3>
                   <button
                     onClick={() => setShowModal(false)}
                     className="text-gray-500 hover:text-gray-700 text-2xl leading-none"
@@ -313,12 +313,12 @@ export const MyJobListings = () => {
                     selectedApplicants.map((applicant) => (
                       <div
                         key={applicant._id}
-                        className="p-4 mb-4 bg-gray-50 rounded-lg last:mb-0"
+                        className="bg-gray-50 mb-4 last:mb-0 p-4 rounded-lg"
                       >
                         {console.log(applicant)}
                         <li
                           key={applicant._id}
-                          className="border-b pb-2 flex flex-wrap gap-4 flex-col"
+                          className="flex flex-col flex-wrap gap-4 pb-2 border-b"
                         >
                           <p>
                             <strong>Name:</strong> {applicant.name}
@@ -345,7 +345,7 @@ export const MyJobListings = () => {
                       </div>
                     ))
                   ) : (
-                    <div className="text-center py-8 text-gray-500">
+                    <div className="py-8 text-gray-500 text-center">
                       No applicants yet
                     </div>
                   )}

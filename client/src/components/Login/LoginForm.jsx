@@ -3,6 +3,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import NotificationToasts from "../common/Toast/Toast";
 import { GoogleAuth } from "../Oauth/Oauth";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const LoginForm = ({
   title,
@@ -25,19 +26,19 @@ const LoginForm = ({
     const result = await onSubmit(user);
 
     if (result?.status === "success") {
-      
+
       toast.success(result.message);
     } else {
-      
+
       toast.error(result?.message || "Login failed");
     }
   };
 
   return (
-    <div className="w-full max-w-md p-10 rounded-2xl bg-[#1f1b29] shadow-xl border border-[#2b2638] backdrop-blur-xl my-3">
+    <div className="bg-[#1f1b29] shadow-xl backdrop-blur-xl my-3 p-10 border border-[#2b2638] rounded-2xl w-full max-w-md">
 
       {/* Title */}
-      <h1 className="text-3xl font-semibold text-center text-white mb-8">
+      <h1 className="mb-8 font-semibold text-white text-3xl text-center">
         {title}
       </h1>
 
@@ -50,7 +51,7 @@ const LoginForm = ({
           onChange={handleChange}
           value={user.email}
           placeholder="Enter your email"
-          className="w-full px-4 py-3 bg-[#2b2638] border border-[#3a334a] rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 outline-none transition"
+          className="bg-[#2b2638] px-4 py-3 border border-[#3a334a] rounded-lg outline-none focus:ring-2 focus:ring-purple-500 w-full text-white transition placeholder-gray-400"
           required
         />
 
@@ -62,37 +63,36 @@ const LoginForm = ({
             onChange={handleChange}
             value={user.password}
             placeholder="Enter your password"
-            className="w-full px-4 py-3 bg-[#2b2638] border border-[#3a334a] rounded-lg text-white placeholder-gray-400 focus:ring-2 focus:ring-purple-500 outline-none transition"
+            className="bg-[#2b2638] px-4 py-3 border border-[#3a334a] rounded-lg outline-none focus:ring-2 focus:ring-purple-500 w-full text-white transition placeholder-gray-400"
             required
           />
 
           <button
             type="button"
             onClick={togglePasswordVisibility}
-            className="absolute right-4 top-5 text-gray-400 text-xl hover:text-white transition"
+            className="top-5 right-4 absolute text-gray-400 hover:text-white text-xl transition"
           >
             {showPass ? <FaEyeSlash /> : <FaEye />}
           </button>
         </div>
-
+        <Link to={'/forgot-password'} className="flex justify-end hover:underline text-sm text-gray-400" >Forgot Password ?</Link>
         {/* Submit Button */}
         <button
           type="submit"
           disabled={loading}
-          className={`w-full bg-purple-600 hover:bg-purple-700 transition text-white py-3 rounded-lg font-medium ${
-            loading ? "opacity-70 cursor-not-allowed" : ""
-          }`}
+          className={`w-full bg-purple-600 hover:bg-purple-700 transition text-white py-3 rounded-lg font-medium ${loading ? "opacity-70 cursor-not-allowed" : ""
+            }`}
         >
           {loading ? "Logging in..." : "Login"}
         </button>
 
         {/* Signup */}
-        <p className="text-center text-gray-400 text-sm">
+        <p className="text-gray-400 text-sm text-center">
           Don’t have an account?
           <button
             onClick={redirectToSignup}
             type="button"
-            className="text-purple-400 ml-1 hover:underline"
+            className="ml-1 text-purple-400 hover:underline"
           >
             Sign up now
           </button>
@@ -100,9 +100,9 @@ const LoginForm = ({
 
         {/* Divider */}
         <div className="flex items-center gap-4 my-6 text-gray-500 text-sm">
-          <div className="flex-1 h-px bg-gray-700" />
+          <div className="flex-1 bg-gray-700 h-px" />
           or
-          <div className="flex-1 h-px bg-gray-700" />
+          <div className="flex-1 bg-gray-700 h-px" />
         </div>
 
         {/* Google Auth */}
