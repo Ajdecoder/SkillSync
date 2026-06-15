@@ -39,8 +39,8 @@ export const CandidateLogin = async (req, res) => {
 
     res.cookie("jwttoken", token, {
       httpOnly: true,
-      secure: true, // only over HTTPS
-      sameSite: "None", // allow cross-site cookie sharing
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 

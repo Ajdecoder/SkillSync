@@ -35,13 +35,8 @@ API.interceptors.response.use(
 API.interceptors.request.use(async (req) => {
   const token =
     localStorage.getItem("jwttoken") ||
-    (await cookieStore.get("jwttoken")?.value) ||
     localStorage.getItem("googleUser");
   console.log("token in localStorage:", localStorage.getItem("jwttoken"));
-  console.log(
-    "token in cookieStore:",
-    await cookieStore.get("jwttoken")?.value,
-  );
   console.log("token in googleUser:", localStorage.getItem("googleUser"));
   if (token) {
     req.headers.Authorization = `Bearer ${token}`;
@@ -66,15 +61,15 @@ export const logoutUser = () => API.post("/api/users/logout");
 /* ========== Profile APIs ========== */
 
 export const getUserProfileByEmail = (email) =>
-  API.get(`/api/user/profile/account/user/email/${email}`);
+  API.get(`/api/user/profile/email/${email}`);
 export const getUserProfileById = (id) =>
-  API.get(`/api/user/profile/account/user/id/${id}`);
+  API.get(`/api/user/profile/email/id/${id}`);
 export const updateUserProfileByEmail = (email, data) =>
-  API.put(`/api/user/profile/account/users/update/email/${email}`, { data });
+  API.put(`/api/user/profile/emails/update/email/${email}`, { data });
 export const getAllCandidateProfiles = (query) =>
-  API.get("/api/user/profile/account/users/user/candidates", { params: query });
+  API.get("/api/user/profile/emails/user/candidates", { params: query });
 export const getAllRecruitersProfiles = () =>
-  API.get("/api/user/profile/account/users/user/recruiters");
+  API.get("/api/user/profile/emails/user/recruiters");
 
 /* ========== Opportunities APIs ========== */
 

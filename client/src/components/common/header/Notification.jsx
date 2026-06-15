@@ -64,11 +64,11 @@ const NotificationButton = () => {
   };
 
   return (
-    <div className="relative z-40">
+    <div className="z-40 relative">
       <button className="notification-button" onClick={handleBellClick}>
-        <i className="fa-solid fa-bell text-3xl"></i>
+        <i className="text-3xl fa-solid fa-bell"></i>
         {unreadCount > 0 && (
-          <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
+          <span className="top-0 right-0 absolute flex justify-center items-center bg-red-500 rounded-full w-4 h-4 text-white text-xs">
             {unreadCount}
           </span>
         )}
@@ -77,7 +77,7 @@ const NotificationButton = () => {
       {showNotifications && (
         <div
           ref={dropdownRef}
-          className="absolute bg-white shadow-lg rounded-md w-[18rem] top-12 right-[-7rem] p-4 max-h-[22rem] overflow-auto z-10 border border-gray-300 scroll-smooth"
+          className="top-12 right-[-7rem] z-10 absolute bg-white shadow-lg p-4 border border-gray-300 rounded-md w-[18rem] max-h-[22rem] overflow-auto scroll-smooth"
           onWheel={(e) => e.stopPropagation()}
         >
           {notificationsLoading ? (
@@ -93,7 +93,7 @@ const NotificationButton = () => {
                   hidden: { opacity: 0 },
                   visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
                 }}
-                className="divide-y divide-gray-100 rounded-lg shadow-lg border border-gray-100 bg-white max-w-md overflow-hidden pt-1"
+                className="bg-white shadow-lg pt-1 border border-gray-100 rounded-lg divide-y divide-gray-100 max-w-md overflow-hidden"
               >
                 <AnimatePresence>
                   {notifications.map((notification) => (
@@ -120,7 +120,7 @@ const NotificationButton = () => {
                           ) : (
                             <div className="relative">
                               <HiBellAlert className="w-5 h-5 text-blue-500 animate-pulse" />
-                              <div className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full animate-ping" />
+                              <div className="top-0 right-0 absolute bg-red-500 rounded-full w-2 h-2 animate-ping" />
                             </div>
                           )}
                         </div>
@@ -132,7 +132,7 @@ const NotificationButton = () => {
                         <motion.div
                           initial={{ scaleX: 0 }}
                           animate={{ scaleX: 1 }}
-                          className="h-1 bg-blue-200 mt-2 rounded-full"
+                          className="bg-blue-200 mt-2 rounded-full h-1"
                         />
                       )}
                     </motion.li>
@@ -140,7 +140,7 @@ const NotificationButton = () => {
                 </AnimatePresence>
               </motion.ul>
               <button
-                className="block mx-auto p-1 hover:text-blue-600 mt-2 dark:text-blue-400"
+                className="block mx-auto mt-2 p-1 hover:text-blue-600 dark:text-blue-400"
                 onClick={() => {
                   navigate("/notifications");
                   setShowNotifications(false);
@@ -151,7 +151,7 @@ const NotificationButton = () => {
             </>
           ) : (
             <>
-              <h1 className="text-sm text-gray-500 text-center mt-1">
+              <h1 className="mt-1 text-gray-500 text-sm text-center">
                 No new notifications
               </h1>
               <button
