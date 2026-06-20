@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const useFetchData = (url) => {
-  console.log('usel=====>',url)
+  console.log('usel=====>', url)
   const [data, setData] = useState(null);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -11,9 +11,9 @@ const useFetchData = (url) => {
     setLoading(true);
     try {
       const response = await axios.get(url, {
-        withCredentials:true,
-        headers:{
-          Authorization: `Bearer ${localStorage.getItem("jwttoken") || localStorage.getItem('googleUser')}`
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken") || localStorage.getItem('googleUser')}`
         }
       });
       setData(response.data || {});
@@ -33,7 +33,7 @@ const useFetchData = (url) => {
     }
   }, [url]);
 
-  return { data, error, loading , setError };
+  return { data, error, loading, setError };
 };
 
 export default useFetchData;

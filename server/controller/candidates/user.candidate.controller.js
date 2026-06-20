@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { Candidate, OpportunityCollection } from "../../db/database.js";
 import { CandidateUserProfile } from "../../db/database.js";
+import { cookieOptions } from "../../utils/cookiesConfig.js";
 
 // Candidate Login
 export const CandidateLogin = async (req, res) => {
@@ -37,12 +38,7 @@ export const CandidateLogin = async (req, res) => {
 
     const refreshToken = await candidate.generateRefreshToken();
 
-    res.cookie("jwttoken", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    });
+    res.cookie("authToken", token, cookieOptions);
 
 
     return res.status(200).json({
@@ -105,12 +101,7 @@ export const CandidateRegister = async (req, res) => {
 
     const token = await newCandidate.generateToken();
 
-    res.cookie("jwttoken", token, {
-      httpOnly: true,
-      secure: true, // only over HTTPS
-      sameSite: "None", // allow cross-site cookie sharing
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    });
+    res.cookie("authToken", token, cookieOptions);
 
 
     return res.status(201).json({

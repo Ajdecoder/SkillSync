@@ -14,15 +14,15 @@ export const AuthProvider = ({ children }) => {
     setLoggedInUser(null);
     setGoogleUser(null);
 
-    localStorage.removeItem("jwttoken");
-    localStorage.removeItem("googleUser");
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("authToken");
 
     logoutUser();
   };
 
   useEffect(() => {
-    const jwtToken = localStorage.getItem("jwttoken");
-    const googleToken = localStorage.getItem("googleUser");
+    const jwtToken = localStorage.getItem("authToken");
+    const googleToken = localStorage.getItem("authToken");
 
     const token = jwtToken || googleToken;
 
@@ -42,8 +42,8 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error("Error decoding token:", error);
 
-      localStorage.removeItem("jwttoken");
-      localStorage.removeItem("googleUser");
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("authToken");
 
       setLoggedInUser(null);
       setGoogleUser(null);
@@ -55,7 +55,7 @@ export const AuthProvider = ({ children }) => {
   const loginWithJWT = (userDetails) => {
     const token = userDetails.token;
 
-    localStorage.setItem("jwttoken", token);
+    localStorage.setItem("authToken", token);
 
     const decodedUser = jwttokenDecode(token);
     setLoggedInUser(decodedUser);
@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }) => {
   const loginWithGoogle = (googleUser) => {
     const token = googleUser.token;
 
-    localStorage.setItem("googleUser", token);
+    localStorage.setItem("authToken", token);
 
     const decodedUser = jwttokenDecode(token);
 

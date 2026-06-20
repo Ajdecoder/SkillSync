@@ -52,7 +52,7 @@ export const RegCandidate = () => {
       const res = await registerCandidate(user);
 
       loginWithJWT(res.data);
-      localStorage.setItem("jwttoken", res.data.token);
+      localStorage.setItem("authToken", res.data.token);
 
       toast.success("Candidate registered successfully");
       navigate("/");

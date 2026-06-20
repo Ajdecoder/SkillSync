@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  addManyOpportunities,
   addOpportunity,
   allOpportunitiesData,
   deleteOpportunity,
@@ -13,6 +14,7 @@ import verifyUser from "../middleware/auth.js";
 const companyRouter = express.Router();
 
 companyRouter.get("/addedOpportunities", allOpportunitiesData);
+companyRouter.post("/addedOpportunities/bulk", addManyOpportunities);
 companyRouter.use(verifyUser)
 
 companyRouter.post("/addOpportunity", notificationMiddleware, addOpportunity);

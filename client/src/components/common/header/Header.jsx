@@ -77,7 +77,7 @@ const Header = () => {
 
   const handleLogout = () => {
     customLogout();
-    localStorage.removeItem("googleUser");
+    localStorage.removeItem("authToken");
     setConfirmLogout(false);
     setShowAboutUser(false);
     navigate("/");
@@ -142,14 +142,14 @@ const Header = () => {
             hidden: !isSmallScreen && !showDropdown,
           })}
         >
-          <ul className="bg-white dark:bg-gray-800 shadow-lg border border-gray-200 dark:border-gray-700 dropdown">
+          <ul className="bg-white dark:bg-gray-800 shadow-lg dropdown">
             {navExpand.map((subItem, subIndex) => (
               <li key={subIndex}>
                 <NavLink
                   to={subItem.path}
                   className={({ isActive }) =>
                     clsx(
-                      "inline-block hover:bg-gray-100 dark:hover:bg-gray-700 ml-0 p-2 w-full text-gray-700 dark:text-gray-300",
+                      "inline-block hover:bg-gray-100 dark:hover:bg-gray-700 ml-0 p w-full text-gray-700 dark:text-gray-300",
                       isActive && "active bg-gray-100 dark:bg-gray-700"
                     )
                   }
@@ -224,16 +224,16 @@ const Header = () => {
             {currentUser ? (
               <>
                 <div
-                  className="flex items-center space-x-3 hover:scale-[0.9] transition-ease-in duration-200 cursor-pointer"
+                  className="flex items-center space-x-3 w-full hover:scale-[0.9] transition-ease-in duration-200 cursor-pointer"
                   onClick={() => setShowAboutUser((prev) => !prev)}
                 >
-                  <span className="inline-block bg-blue-500 p-3 rounded-full font-bold text-white text-lg">
+                  <span className="inline-block bg-blue-500 p-3 rounded-full w-full font-bold text-white text-lg">
                     {currentUser?.name?.[0]?.toUpperCase() || "U"}
                   </span>
                 </div>
 
                 {/* User Dropdown Menu */}
-               <UserDropdown confirmlogout={confirmlogout} currentUser={currentUser} handleLogout={handleLogout} setConfirmLogout={setConfirmLogout} showAboutUser={showAboutUser}  />
+                <UserDropdown confirmlogout={confirmlogout} currentUser={currentUser} handleLogout={handleLogout} setConfirmLogout={setConfirmLogout} showAboutUser={showAboutUser} />
               </>
             ) : (
               <Link

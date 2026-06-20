@@ -1,4 +1,5 @@
 import express from "express";
+import { cookieOptions } from "../utils/cookiesConfig.js";
 
 import verifyUser from "../middleware/auth.js";
 import {
@@ -35,12 +36,7 @@ Userrouter.get("/job/user/job-notifications", Notifications);
 Userrouter.get("/job/user/job-notifications/:notificationId", NotificationsById);
 Userrouter.put("/notifications/markAsRead", NotificationAsRead)
 Userrouter.post("/logout", (req, res) => {
-  res.clearCookie("jwttoken", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-  });
+  res.clearCookie("authToken", cookieOptions);
 
   return res.status(200).json({
     message: "Logged out successfully",

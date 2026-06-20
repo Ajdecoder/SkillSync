@@ -44,6 +44,7 @@ const ResumeUpload = ({ user }) => {
         {
           headers: { "Content-Type": "multipart/form-data" },
           timeout: 30000,
+          withCredentials: true,
         }
       );
 

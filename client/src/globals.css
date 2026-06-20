@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: #0071e3;
+  --primaryHover: #06c;
+  --primary-foreground: #ffffff;
+  --secondary: #f4f6f7;
+  --secondary-foreground: #111827;
+  --border: #e5e7eb;
+  --ring: #60a5fa;
+  --skeleton-start: #e3e3e3;
+  --skeleton-middle: #fafafa;
+  --icon: #000000;
+  --popover: #ffffff;
+  --popover-foreground: #171717;
+  --accent: #f1f5f9;
+  --accent-foreground: #171717;
+  --sidebar: hsl(0 0% 98%);
+  --sidebar-foreground: hsl(240 5.3% 26.1%);
+  --sidebar-primary: hsl(240 5.9% 10%);
+  --sidebar-primary-foreground: hsl(0 0% 98%);
+  --sidebar-accent: hsl(240 4.8% 95.9%);
+  --sidebar-accent-foreground: hsl(240 5.9% 10%);
+  --sidebar-border: hsl(220 13% 91%);
+  --sidebar-ring: hsl(217.2 91.2% 59.8%);
+}
+
+@layer utilities {
+  .bg-background {
+    background-color: var(--background);
+  }
+
+  .bg-secondary {
+    background-color: var(--secondary);
+  }
+
+  .text-foreground {
+    color: var(--foreground);
+  }
+
+  .text-secondary-foreground {
+    color: var(--secondary-foreground);
+  }
+
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
+
+  .bg-primaryHover {
+    background-color: var(--color-primaryHover);
+  }
+
+  .text-primary {
+    color: var(--color-primary);
+  }
+
+  .text-primaryHover {
+    color: var(--color-primaryHover);
+  }
+
+  .border-color {
+    border-color: var(--border);
+  }
+
+  .icon-color {
+    border-color: var(--icon);
+  }
+}

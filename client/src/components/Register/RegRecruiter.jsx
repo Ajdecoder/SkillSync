@@ -42,18 +42,18 @@ export const RegRecruiter = () => {
       const res = await registerRecruiter(user);
 
       loginWithJWT(res.data);
-      localStorage.setItem("jwttoken", res.data.token);
+      localStorage.setItem("authToken", res.data.token);
 
       toast.success("Recruiter registered successfully");
 
       navigate("/");
     } catch (err) {
-      console.log('err here',err.response.data.errors[0].message)
+      console.log('err here', err.response.data.errors[0].message)
       toast.error(err.response.data.errors[0].message || "Registration failed");
-      
+
     } finally {
       setLoading(false);
-    } 
+    }
   };
 
   return (

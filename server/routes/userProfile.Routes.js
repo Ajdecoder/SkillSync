@@ -21,8 +21,8 @@ UserProfileRouter.post("/upload-avatar/:userId", imageUploader, UploadProfilePic
 UserProfileRouter.post("/upload-resume/:userId", resumeUploader, UploadCandidateResume);
 UserProfileRouter.get("/email/:email", getUserProfileByEmail);
 UserProfileRouter.get("/id/:id", getUserProfileById);
-UserProfileRouter.get("/user/candidates", getAllCandidateProfiles);
-UserProfileRouter.get("/user/recruiters", getAllRecruiterProfiles);
-UserProfileRouter.put("/user/update/email/:email", updateUserProfileByEmail);
+UserProfileRouter.get("/candidates", getAllCandidateProfiles);
+UserProfileRouter.get("/recruiters", getAllRecruiterProfiles);
+UserProfileRouter.put("/update/email/:email", updateUserProfileByEmail);
 
 export default UserProfileRouter;

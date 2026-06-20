@@ -66,7 +66,7 @@ const Hero = () => {
 
   const candidatesUrl =
     role === "recruiter"
-      ? `${PORT_CLIENT}/api/user/profile/account/users/user/candidates`
+      ? `${PORT_CLIENT}/api/user/profile/candidates`
       : null;
 
   const {
@@ -112,10 +112,10 @@ const Hero = () => {
     console.log("Filtering candidates with:", { location, skills, availabilityStatus });
     return candidates.filter((candidate) => {
       const cityMatch =
-  !location?.length ||
-  candidate?.location?.city
-    ?.toLowerCase()
-    .includes(location[0]?.toLowerCase() || "");
+        !location?.length ||
+        candidate?.location?.city
+          ?.toLowerCase()
+          .includes(location[0]?.toLowerCase() || "");
       const skillMatch =
         !skills?.length ||
         skills.some((skill) =>
@@ -239,9 +239,8 @@ const Hero = () => {
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className={`mx-auto flex items-center justify-center gap-3 py-4 px-8 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-lg font-bold rounded-xl shadow-lg transition-all ${
-                      isSearching ? "opacity-70 cursor-wait" : ""
-                    }`}
+                    className={`mx-auto flex items-center justify-center gap-3 py-4 px-8 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-lg font-bold rounded-xl shadow-lg transition-all ${isSearching ? "opacity-70 cursor-wait" : ""
+                      }`}
                     type="button"
                     onClick={() => handleSearch(currentUser?.role)}
                     disabled={isSearching}>

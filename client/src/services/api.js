@@ -16,16 +16,16 @@ API.interceptors.response.use(
     const isLoginApi = err.config?.url?.includes("/login");
     console.log("isloginapi status:", isLoginApi);
 
-  if (err.response?.status === 401 && !isLoginApi) {
-  localStorage.removeItem("jwttoken");
+    if (err.response?.status === 401 && !isLoginApi) {
+      localStorage.removeItem("authToken");
 
-  if (!isSessionExpiredHandled) {
-    isSessionExpiredHandled = true;
+      if (!isSessionExpiredHandled) {
+        isSessionExpiredHandled = true;
 
-    toast.error("Your session has expired. Please login again.");
-    
-  }
-}
+        toast.error("Your session has expired. Please login again.");
+
+      }
+    }
 
     return Promise.reject(err);
   },
@@ -34,10 +34,10 @@ API.interceptors.response.use(
 // Add Authorization token
 API.interceptors.request.use(async (req) => {
   const token =
-    localStorage.getItem("jwttoken") ||
-    localStorage.getItem("googleUser");
-  console.log("token in localStorage:", localStorage.getItem("jwttoken"));
-  console.log("token in googleUser:", localStorage.getItem("googleUser"));
+    localStorage.getItem("authToken") ||
+    localStorage.getItem("authToken");
+  console.log("token in localStorage:", localStorage.getItem("authToken"));
+  console.log("token in googleUser:", localStorage.getItem("authToken"));
   if (token) {
     req.headers.Authorization = `Bearer ${token}`;
   }
@@ -63,11 +63,11 @@ export const logoutUser = () => API.post("/api/users/logout");
 export const getUserProfileByEmail = (email) =>
   API.get(`/api/user/profile/email/${email}`);
 export const getUserProfileById = (id) =>
-  API.get(`/api/user/profile/email/id/${id}`);
+  API.get(`/api/user/profile/id/${id}`);
 export const updateUserProfileByEmail = (email, data) =>
-  API.put(`/api/user/profile/emails/update/email/${email}`, { data });
+  API.put(`/api/user/profile//update/email/${email}`, { data });
 export const getAllCandidateProfiles = (query) =>
-  API.get("/api/user/profile/emails/user/candidates", { params: query });
+  API.get("/api/user/profile/candidates", { params: query });
 export const getAllRecruitersProfiles = () =>
   API.get("/api/user/profile/emails/user/recruiters");
 

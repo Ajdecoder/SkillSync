@@ -24,28 +24,58 @@ export const MyJobListings = () => {
 
   console.log(currentUser)
 
-  useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        const recruiterProfile = await getUserProfileByEmail(currentUser?.email);
-        console.log(recruiterProfile)
-        const recruiterId = currentUser?.userId;
-        console.log('recruiterid in myjoblist',recruiterId)
+useEffect(() => {
+  const fetchJobs = async () => {
+    if (!currentUser?.email) {
+      setLoading(false);
+      return;
+    }
 
-        // No need to wait for state update, use recruiterId directly
-        const response = await jobListeningsByRecruiter(recruiterId);
-        console.log(response)
-        setJobs(response?.data?.Addedopportunities || []);
-      } catch (err) {
-        setError("Error fetching job listings.");
-        console.error("Error in fetchJobs:", err);
-      } finally {
-        setLoading(false);
+    try {
+      setLoading(true);
+      setError(null);
+
+      const recruiterProfileResponse = await getUserProfileByEmail(
+        currentUser.email
+      );
+
+      console.log("Recruiter profile response:", recruiterProfileResponse);
+
+      const recruiterProfile =
+        recruiterProfileResponse?.data?.profile ||
+        recruiterProfileResponse?.data?.userProfile ||
+        recruiterProfileResponse?.data?.recruiterProfile ||
+        recruiterProfileResponse?.data;
+
+      const recruiterId = recruiterProfile?._id;
+
+      console.log("Recruiter profile id:", recruiterId);
+
+      if (!recruiterId) {
+        throw new Error("Recruiter profile ID not found.");
       }
-    };
 
-    fetchJobs();
-  }, [currentUser]); // Fetch data when currentUser changes
+      const response = await jobListeningsByRecruiter(recruiterId);
+
+      console.log("Job listings response:", response);
+
+      const jobList =
+        response?.data?.Addedopportunities ||
+        response?.data?.opportunities ||
+        response?.data?.jobs ||
+        [];
+
+      setJobs(Array.isArray(jobList) ? jobList : []);
+    } catch (err) {
+      console.error("Error in fetchJobs:", err);
+      setError("Error fetching job listings.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchJobs();
+}, [currentUser?.email]);
 
   const handleDeleteJob = async (jobId) => {
     try {

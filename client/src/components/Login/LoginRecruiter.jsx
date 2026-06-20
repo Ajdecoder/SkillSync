@@ -14,7 +14,7 @@ export const LoginRecruiter = () => {
       setLoading(true);
       const res = await loginRecruiter(user);
       loginWithJWT(res.data);
-      localStorage.setItem("jwttoken", res.data.token);
+      localStorage.setItem("authToken", res.data.token);
 
       setTimeout(() => navigate("/"), 1500);
 
