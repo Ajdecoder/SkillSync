@@ -83,7 +83,9 @@ useEffect(() => {
       await deleteOpportunity(jobId);
       setJobs((prevJobs) => prevJobs.filter((job) => job?._id !== jobId));
     } catch (error) {
-      toast.error("Error deleting job:", error);
+      toast.error("Error deleting job:", error, {
+          autoClose: 1000,
+        });
     } finally {
       setDeleting(null);
     }

@@ -100,10 +100,14 @@ export const ViewCandidateInfo = () => {
     try {
       if (!bookmark) {
         await bookmarkTalent(recruiterId, candidateId);
-        toast.success("Bookmark added successfully!");
+        toast.success("Bookmark added successfully!", {
+          autoClose: 1000,
+        });
       } else {
         await removeBookmarkedTalent(recruiterId, candidateId);
-        toast.success("Bookmark removed successfully!");
+        toast.success("Bookmark removed successfully!", {
+          autoClose: 1000,
+        });
       }
 
       setBookmark(!bookmark);

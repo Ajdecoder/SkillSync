@@ -11,13 +11,13 @@ export const jwttokenDecode = (token) => {
     const expiryTime = decoded.exp;
 
     if (currentTime > expiryTime) {
-      localStorage.removeItem("authToken");
+      // localStorage.removeItem("authToken");
       return null;
     }
 
     return decoded;
   } catch (error) {
-    localStorage.removeItem("authToken");
+    // localStorage.removeItem("authToken");
     return null;
   }
 };

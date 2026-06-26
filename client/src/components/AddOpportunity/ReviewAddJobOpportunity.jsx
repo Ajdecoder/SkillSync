@@ -57,18 +57,18 @@ const ReviewJobOpportunity = ({ prevStep }) => {
   useEffect(() => {
     if (!currentUser?.email) return;
 
-    const fetchBookmarkedTalents = async () => {
+    const fetchRecruiterProfile = async () => {
       try {
-        const response = await getUserProfileByEmail(loggedInUser.email);
-        const recruiterId = response?.data?.recruiterProfile?._id || [];
+        const response = await getUserProfileByEmail(currentUser.email);
+        const recruiterId = response?.data?.recruiterProfile?._id || null;
         setPayloadRecruiterId(recruiterId);
       } catch (error) {
-        console.error("Error fetching bookmarked talents:", error);
+        console.error("Error fetching recruiter profile:", error);
       }
     };
 
-    fetchBookmarkedTalents();
-  });
+    fetchRecruiterProfile();
+  }, [currentUser?.email]);
 
   const handleSubmit = async (e) => {
     if (e) e.preventDefault(); // Prevent form submission reload
@@ -100,7 +100,9 @@ const ReviewJobOpportunity = ({ prevStep }) => {
       !desc_requirement ||
       !skills.length
     ) {
-      toast.error("Please fill in all required fields.");
+      toast.error("Please fill in all required fields.", {
+        autoClose: 1000,
+      });
       return;
     }
 
@@ -128,24 +130,17 @@ const ReviewJobOpportunity = ({ prevStep }) => {
         },
       };
 
-      const response = await addOpportunity(payload);
-      setPayloadJobId(response.data.id);
-      console.log(response.data.id);
-      console.log(payloadJobId);
-      const updatedPayload = {
-        ...payload,
-        payload: {
-          ...payload.payload,
-          jobId: response.data.id, // Include the jobId here
-        },
-      };
-      await addOpportunity(updatedPayload);
-      toast.success("Job Opportunity Added Successfully!");
-      setIsSubmitting(false);
+      addOpportunity(payload);
+
+      toast.success("Job Opportunity Added Successfully!", {
+        autoClose: 1000,
+      });
       navigate("/");
     } catch (error) {
       console.error("Error Submitting Form:", error);
-      toast.error("Error Submitting Form");
+      toast.error("Error Submitting Form", {
+        autoClose: 1000,
+      });
     } finally {
       setIsSubmitting(false);
       navigate("/");
@@ -372,19 +367,18 @@ const ReviewJobOpportunity = ({ prevStep }) => {
           {/* Submit/Save Changes Button */}
           <button
             type="button" // Prevent form submission
-            className={`${
-              editMode
+            className={`${editMode
                 ? "bg-blue-500 hover:bg-blue-600"
                 : "bg-green-500 hover:bg-green-600"
-            } text-white px-6 py-3 rounded-md shadow-md transition duration-300`}
+              } text-white px-6 py-3 rounded-md shadow-md transition duration-300`}
             onClick={editMode ? handleSaveChanges : handleSubmit} // Call respective functions
             disabled={isSubmitting}
           >
             {editMode
               ? "Save Changes"
               : isSubmitting
-              ? "Submitting..."
-              : "Submit"}
+                ? "Submitting..."
+                : "Submit"}
           </button>
 
           {/* Edit Button */}
@@ -401,7 +395,7 @@ const ReviewJobOpportunity = ({ prevStep }) => {
           )}
         </div>
       </form>
-     
+
     </div>
   );
 };

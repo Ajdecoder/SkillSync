@@ -51,6 +51,7 @@ export const CandidateLogin = async (req, res) => {
         role: candidate.role,
       },
       token,
+      refreshToken,
       profile: candidateProfile,
     });
   } catch (err) {

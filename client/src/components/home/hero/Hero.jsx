@@ -182,7 +182,7 @@ const Hero = () => {
       {currentUser ? (
         // 1. LOGGED IN VIEW (Glassmorphism Style)
         <section className="relative flex justify-center items-center bg-gray-50 dark:bg-gray-900 py-20 w-full min-h-[600px] overflow-hidden">
-          {/* Background Image with Overlay */}
+          
           <div className="z-0 absolute inset-0">
             <img
               src="/images/banner.jpg" // Ensure this image is high quality
@@ -192,7 +192,7 @@ const Hero = () => {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-50 dark:to-gray-900"></div>
           </div>
 
-          <div className="z-10 relative space-y-8 mx-auto px-4 max-w-5xl text-center">
+          <div className="z-10 relative space-y-8 mx-auto max-w-5xl text-center">
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -212,7 +212,7 @@ const Hero = () => {
               )}
             </motion.div>
 
-            {/* Glassmorphism Filter Container */}
+            
             <motion.div
               className="bg-white/80 dark:bg-gray-800/80 shadow-2xl backdrop-blur-lg mx-auto p-4 border border-white/20 dark:border-gray-700 rounded-2xl"
               initial={{ opacity: 0, scale: 0.95 }}
@@ -260,7 +260,7 @@ const Hero = () => {
       ) : (
         // 2. GUEST VIEW (Modern Landing Page Style)
         <section className="relative bg-gray-900 py-24 lg:py-32 w-full overflow-hidden">
-          {/* Abstract Background Shapes */}
+          
           <div className="top-0 left-0 z-0 absolute w-full h-full overflow-hidden">
             <div className="-top-[20%] -left-[10%] absolute bg-purple-600/20 blur-[100px] rounded-full w-[50%] h-[50%]"></div>
             <div className="top-[40%] -right-[10%] absolute bg-blue-600/20 blur-[120px] rounded-full w-[40%] h-[60%]"></div>
@@ -307,7 +307,7 @@ const Hero = () => {
         </section>
       )}
 
-      {/* Recent Section - Just ensuring props pass correctly */}
+      
       <div className="bg-gray-50 dark:bg-gray-950">
         <Recent
           loading={opportunitiesLoading || candidatesLoading}

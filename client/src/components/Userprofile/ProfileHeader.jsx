@@ -31,7 +31,7 @@ const ProfileHeader = ({ user, profileCompletion, userRole }) => {
       return;
     }
 
-   
+
 
     setUploadError(null);
     setSelectedFile(file);
@@ -46,8 +46,10 @@ const ProfileHeader = ({ user, profileCompletion, userRole }) => {
 
   const handleImageUpload = async () => {
 
-     if(uploadError){
-      toast.error(uploadError,{ autoClose: 2000, position:'top-left' })
+    if (uploadError) {
+      toast.error(uploadError, { autoClose: 2000, position: 'top-left' }, {
+        autoClose: 1000,
+      });
     }
 
     if (!selectedFile) {
@@ -68,7 +70,7 @@ const ProfileHeader = ({ user, profileCompletion, userRole }) => {
         {
           headers: { "Content-Type": "multipart/form-data" },
           timeout: 30000,
-          withCredentials:true
+          withCredentials: true
         }
       );
 
@@ -77,7 +79,7 @@ const ProfileHeader = ({ user, profileCompletion, userRole }) => {
         setPreviewImage(response.data.profilePicture);
         setIsPreviewOpen(false);
         setSelectedFile(null);
-        
+
         // You might want to call a callback to update the parent component
         // if (onProfileUpdate) onProfileUpdate(response.data);
       }
@@ -186,8 +188,8 @@ const ProfileHeader = ({ user, profileCompletion, userRole }) => {
               {userRole === "candidate"
                 ? "Job Seeker"
                 : userRole === "recruiter"
-                ? "Recruiter"
-                : "Unknown"}
+                  ? "Recruiter"
+                  : "Unknown"}
             </span>
           </div>
 

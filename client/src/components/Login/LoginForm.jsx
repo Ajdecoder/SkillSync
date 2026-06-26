@@ -27,10 +27,14 @@ const LoginForm = ({
 
     if (result?.status === "success") {
 
-      toast.success(result.message);
+      toast.success(result.message, {
+        autoClose: 1000,
+      });
     } else {
 
-      toast.error(result?.message || "Login failed");
+      toast.error(result?.message || "Login failed", {
+        autoClose: 1000,
+      });
     }
   };
 

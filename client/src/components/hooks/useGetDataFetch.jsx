@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { API } from "@/services/api";
 
 const useFetchData = (url) => {
   console.log('usel=====>', url)
@@ -10,11 +11,8 @@ const useFetchData = (url) => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(url, {
+      const response = await API.get(url, {
         withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("authToken") || localStorage.getItem('googleUser')}`
-        }
       });
       setData(response.data || {});
       setLoading(false)

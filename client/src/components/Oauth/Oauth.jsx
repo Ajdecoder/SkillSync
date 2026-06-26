@@ -24,10 +24,13 @@ export const GoogleAuth = ({ role }) => {
         {
           token: response.credential, // Google ID token
           role: role,
+        }, {
+          withCredentials: true
         }
       );
 
       const { token } = res.data;
+      console.log(token, 'it give tokenn')
       localStorage.setItem("authToken", JSON.stringify(token));
       setUser(user);
 

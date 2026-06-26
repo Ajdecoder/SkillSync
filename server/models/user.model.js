@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
-import { access } from "fs";
 
 
 export const userSchema = new mongoose.Schema({

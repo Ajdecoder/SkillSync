@@ -33,7 +33,9 @@ export const RegRecruiter = () => {
     e.preventDefault();
 
     if (user.password !== user.reEnterPassword) {
-      toast.error("Passwords do not match");
+      toast.error("Passwords do not match", {
+          autoClose: 1000,
+        });
       return;
     }
 
@@ -44,12 +46,16 @@ export const RegRecruiter = () => {
       loginWithJWT(res.data);
       localStorage.setItem("authToken", res.data.token);
 
-      toast.success("Recruiter registered successfully");
+      toast.success("Recruiter registered successfully", {
+          autoClose: 1000,
+        });
 
       navigate("/");
     } catch (err) {
       console.log('err here', err.response.data.errors[0].message)
-      toast.error(err.response.data.errors[0].message || "Registration failed");
+      toast.error(err.response.data.errors[0].message || "Registration failed", {
+          autoClose: 1000,
+        });
 
     } finally {
       setLoading(false);

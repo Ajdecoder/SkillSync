@@ -21,11 +21,15 @@ const HireTalentModal = ({ candidate, onClose }) => {
       //     message,
       //   });
 
-      toast.success("Hiring request sent!");
+      toast.success("Hiring request sent!", {
+          autoClose: 1000,
+        });
       onClose(); // Close modal after submission
     } catch (error) {
       console.error("Error sending hiring request", error);
-      toast.error("Something went wrong.");
+      toast.error("Something went wrong.", {
+          autoClose: 1000,
+        });
     }
   };
 

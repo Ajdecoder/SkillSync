@@ -135,7 +135,9 @@ export const UserProfile = () => {
 
   if (loading) return <Spinner />;
   if (error) {
-    toast.error(error)
+    toast.error(error, {
+      autoClose: 1000,
+    });
   };
   if (!profileData) return null; // Or just a placeholder
 

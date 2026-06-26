@@ -1,9 +1,10 @@
 import axios from "axios";
+import { useEffect } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // Configure Axios
-const API = axios.create({
+export const API = axios.create({
   baseURL: import.meta.env.VITE_SERVER_PORT || "http://localhost:9002",
   withCredentials: true,
 });
@@ -17,12 +18,14 @@ API.interceptors.response.use(
     console.log("isloginapi status:", isLoginApi);
 
     if (err.response?.status === 401 && !isLoginApi) {
-      localStorage.removeItem("authToken");
+      // localStorage.removeItem("authToken");
 
       if (!isSessionExpiredHandled) {
         isSessionExpiredHandled = true;
 
-        toast.error("Your session has expired. Please login again.");
+        toast.error("Your session has expired. Please login again.", {
+          autoClose: 1500,
+        });
 
       }
     }
@@ -36,8 +39,6 @@ API.interceptors.request.use(async (req) => {
   const token =
     localStorage.getItem("authToken") ||
     localStorage.getItem("authToken");
-  console.log("token in localStorage:", localStorage.getItem("authToken"));
-  console.log("token in googleUser:", localStorage.getItem("authToken"));
   if (token) {
     req.headers.Authorization = `Bearer ${token}`;
   }
@@ -47,16 +48,16 @@ API.interceptors.request.use(async (req) => {
 /* ========== Authentication APIs ========== */
 
 export const loginCandidate = (data) =>
-  API.post("/api/users/login/candidate", data);
+  API.post("/api/user/login/candidate", data);
 export const loginRecruiter = (data) =>
-  API.post("/api/users/login/recruiter", data);
+  API.post("/api/user/login/recruiter", data);
 export const registerCandidate = (data) =>
-  API.post("/api/users/register/candidate", data);
+  API.post("/api/user/register/candidate", data);
 export const registerRecruiter = (data) =>
-  API.post("/api/users/register/recruiter", data);
+  API.post("/api/user/register/recruiter", data);
 export const forgotPassword = (data) =>
-  API.post("/api/users/account/Forgotpassword", data);
-export const logoutUser = () => API.post("/api/users/logout");
+  API.post("/api/user/account/Forgotpassword", data);
+export const logoutUser = () => API.post("/api/user/logout");
 
 /* ========== Profile APIs ========== */
 
@@ -65,7 +66,7 @@ export const getUserProfileByEmail = (email) =>
 export const getUserProfileById = (id) =>
   API.get(`/api/user/profile/id/${id}`);
 export const updateUserProfileByEmail = (email, data) =>
-  API.put(`/api/user/profile//update/email/${email}`, { data });
+  API.put(`/api/user/profile/update/email/${email}`, { data });
 export const getAllCandidateProfiles = (query) =>
   API.get("/api/user/profile/candidates", { params: query });
 export const getAllRecruitersProfiles = () =>
@@ -95,9 +96,9 @@ export const jobListeningsByRecruiter = (recruiterId) => {
 export const getOpportunityById = (id) =>
   API.get(`/api/requirements/Companyrequirements/${id}`);
 export const applyToOpportunity = (payload) =>
-  API.put(`/api/users/candidate/opportunity/apply-to-job`, payload);
+  API.put(`/api/user/candidate/opportunity/apply-to-job`, payload);
 export const revertBackApplication = (userId, opportunityId) =>
-  API.put(`/api/users/candidate/revert-application`, { userId, opportunityId });
+  API.put(`/api/user/candidate/revert-application`, { userId, opportunityId });
 export const deleteOpportunity = (opportunityId) =>
   API.delete(`/api/requirements/deleteOpportunity/${opportunityId}`);
 
@@ -141,6 +142,6 @@ export const getChatResponse = (data) =>
 /* ========== Notifications APIs ========== */
 
 export const getNotifications = () =>
-  API.get("/api/users/job/user/job-notifications");
+  API.get("/api/user/job/user/job-notifications");
 export const markNotificationAsRead = (notificationId) =>
-  API.put(`/api/users/notifications/markAsRead`, { notificationId });
+  API.put(`/api/user/notifications/markAsRead`, { notificationId });
