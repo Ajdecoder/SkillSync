@@ -33,8 +33,8 @@ Userrouter.use(verifyUser)
 
 Userrouter.put("/candidate/opportunity/apply-to-job", notificationMiddleware, JobApply);
 Userrouter.put("/candidate/revert-application", RevertApplication);
-Userrouter.get("/job/user/job-notifications", Notifications);
-Userrouter.get("/job/user/job-notifications/:notificationId", NotificationsById);
+Userrouter.get("/job-notifications", Notifications);
+Userrouter.get("/job-notifications/:notificationId", NotificationsById);
 Userrouter.put("/notifications/markAsRead", NotificationAsRead)
 Userrouter.get("/id/:id", async(req,res) => {
   try {

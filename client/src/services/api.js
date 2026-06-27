@@ -142,6 +142,6 @@ export const getChatResponse = (data) =>
 /* ========== Notifications APIs ========== */
 
 export const getNotifications = () =>
-  API.get("/api/user/job/user/job-notifications");
+  API.get("/api/user/job-notifications");
 export const markNotificationAsRead = (notificationId) =>
   API.put(`/api/user/notifications/markAsRead`, { notificationId });

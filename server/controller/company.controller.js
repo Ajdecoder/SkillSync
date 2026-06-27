@@ -61,6 +61,10 @@ export const allOpportunitiesData = async (req, res) => {
     // Initialize query object
     const query = {};
 
+    const page = parseInt(req.query.page) || 1; // Current page, default 1
+    const limit = parseInt(req.query.limit) || 10; // Results per page, default 10
+    const skip = (page - 1) * limit;
+
     // Handle minSalary filter
     if (req.query.minSalary) {
       query["salaryRange.maxSalary"] = { $gte: Number(req.query.minSalary) };
@@ -92,7 +96,7 @@ export const allOpportunitiesData = async (req, res) => {
         [req.query.skill]
           .map(s => s.trim())
           .filter(s => s.length > 0);
-      
+
       query["skills.skillName"] = {
         $in: skillsArr.map(s => new RegExp(`^${s}$`, "i"))
       };
@@ -102,9 +106,10 @@ export const allOpportunitiesData = async (req, res) => {
 
     console.log("Final query for MongoDB:", query);
 
-    let Addedopportunities = await OpportunityCollection.find(query).populate("recruiterDetails");
-
-    res.json({ length: Addedopportunities.length, Addedopportunities });
+    let Addedopportunities = await OpportunityCollection.find(query).populate("recruiterDetails").limit(limit).skip(skip).exec();
+    const totalCount = await OpportunityCollection.countDocuments(query);
+    const totalPages = Math.ceil(totalCount / limit);
+    res.json({ length: Addedopportunities.length, Addedopportunities, page, limit, totalCount, totalPages });
   } catch (error) {
     console.error("Error fetching data:", error.message);
     res.status(500).json({
