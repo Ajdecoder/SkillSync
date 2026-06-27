@@ -9,13 +9,10 @@ import {
   FiCalendar,
 } from "react-icons/fi";
 import { FaRupeeSign } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
 
 const AddOpportunityCard = ({ opportunity }) => {
 
   console.log('opportunity data:', opportunity)
-
-  const navigate = useNavigate();
 
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -32,9 +29,7 @@ const AddOpportunityCard = ({ opportunity }) => {
   };
 
   const handleConnectClick = () => {
-    navigate(`/opportunity/connect/${opportunity._id}`, {
-      state: { opportunity },
-    });
+    window.open(`/opportunity/connect/${opportunity._id}`, "_blank");
   };
 
   const {

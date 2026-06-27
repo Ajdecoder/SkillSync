@@ -5,8 +5,15 @@ import "./components/breakpoints/tablet.css";
 import { useTheme } from "./components/context/ThemeContext";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { useEffect } from "react";
 
 function App() {
+
+  useEffect(() => {
+    console.log("token in localStorage:", localStorage.getItem("authToken"));
+    console.log("token in googleUser:", localStorage.getItem("authToken"));
+  }, [])
+
   const { theme } = useTheme();
 
   return (

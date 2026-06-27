@@ -38,12 +38,16 @@ export const RegCandidate = () => {
       !user.password ||
       !user.reEnterPassword
     ) {
-      toast.info("Please fill in all fields");
+      toast.info("Please fill in all fields", {
+          autoClose: 1000,
+        });
       return;
     }
 
     if (user.password !== user.reEnterPassword) {
-      toast.error("Passwords do not match");
+      toast.error("Passwords do not match", {
+          autoClose: 1000,
+        });
       return;
     }
 
@@ -52,9 +56,11 @@ export const RegCandidate = () => {
       const res = await registerCandidate(user);
 
       loginWithJWT(res.data);
-      localStorage.setItem("jwttoken", res.data.token);
+      localStorage.setItem("authToken", res.data.token);
 
-      toast.success("Candidate registered successfully");
+      toast.success("Candidate registered successfully", {
+          autoClose: 1000,
+        });
       navigate("/");
     } catch (err) {
       const msg =
@@ -62,7 +68,9 @@ export const RegCandidate = () => {
         err.response?.data?.message ||
         "Registration failed";
 
-      toast.error(msg);
+      toast.error(msg, {
+          autoClose: 1000,
+        });
     } finally {
       setLoading(false);
     }

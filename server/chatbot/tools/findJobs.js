@@ -12,7 +12,7 @@ export const findJobsTool = tool(
     try {
       const jobs = await OpportunityCollection.find(query)
         .limit(5)
-        .lean();
+        .lean()
 
       if (!jobs.length) {
         return "No relevant jobs found. Try expanding your search criteria!";

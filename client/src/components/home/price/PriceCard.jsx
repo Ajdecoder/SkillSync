@@ -37,7 +37,7 @@ const PriceCard = ({ best, plan, list, package_price, ptext }) => {
           ))}
         </ul>
         <button
-          className="btn5  hover:bg-sky-600 hover:text-white hover:scale-105 duration-300 ease-in-out"
+          className="btn5 w-10"
           style={{
             background: plan === "Standard" ? "#216eb9" : "#fff",
             color: plan === "Standard" ? "#fff" : "#216eb9",

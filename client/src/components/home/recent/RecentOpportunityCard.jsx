@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AddOpportunityCard from "../../AddOpportunity/OpportunityCard.jsx";
 import { Spinner } from "../../common/loadingSpinner/spinner.jsx";
 
@@ -7,6 +7,12 @@ const RecentOpportunity = ({
   filterdOpportunities = [],
   opportunitiesLoading
 }) => {
+
+  const [loadMore, setLoadMore] = useState(false)
+
+  const handleLoadMore = () => {
+    setLoadMore(true)
+  }
 
    if (opportunitiesLoading) {
       return <Spinner />
@@ -33,6 +39,11 @@ const RecentOpportunity = ({
           {opportunitiesToShow.map((opportunity) =>
             renderOpportunityCard(opportunity)
           )}
+          <div className="flex justify-center mt-6">
+            {loadMore ? <Spinner /> : <button onClick={handleLoadMore} className="gap-2 px-6 py-3
+            bg-gradient-to-r from-emerald-500 to-cyan-500 
+            rounded-lg text-white font-semibold">Load More</button>}
+          </div>
         </div>
       ) : (
         <div className="text-center text-gray-500">

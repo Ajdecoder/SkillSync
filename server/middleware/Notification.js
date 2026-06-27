@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 
 const notificationMiddleware = async (req, res, next) => {
   try {
+    console.log("Notification Middleware Hit:", req.body);
     const { action, payload } = req.body;
 
     if (!payload || !action) {

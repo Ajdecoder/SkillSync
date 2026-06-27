@@ -11,6 +11,28 @@ import Pricing from "../pricing/Pricing";
 import Blog from "../blog/Blog.jsx";
 import { BlogPage } from "../blog/BlogPage.jsx";
 import NotFoundPage from "../4NOT4/404.jsx";
+import FAQsPage from "../resources/faqs/FAQs.jsx";
+import ContractManagementPage from "../resources/contract-management/ContractManagement.jsx";
+import EmployeeSupportPage from "../resources/employee-support/EmployeeSupport.jsx";
+import GuidesTipsPage from "../resources/guides-tips/GuidesTips.jsx";
+import OurPartnersPage from "../resources/our-partners/OurPartners.jsx";
+import OurMissionPage from "../company/our-mission/OurMission.jsx";
+import CareersPage from "../company/careers/Careers.jsx";
+import PrivacyPolicyPage from "../company/privacy-policy/PrivacyPolicy.jsx";
+import TermsOfServicePage from "../company/terms-of-service/TermsOfService.jsx";
+import PressReleasesPage from "../company/press-releases/PressReleases.jsx";
+import LinkedInPage from "../connect/linkedin/LinkedIn.jsx";
+import NewsletterPage from "../connect/newsletter/Newsletter.jsx";
+import TwitterPage from "../connect/twitter/Twitter.jsx";
+import FacebookPage from "../connect/facebook/Facebook.jsx";
+import DisclaimerPage from "../legal/disclaimer/Disclaimer.jsx";
+import TrademarkInformationPage from "../legal/trademark-information/TrademarkInformation.jsx";
+import LicensingPage from "../legal/licensing/Licensing.jsx";
+import CookiePolicyPage from "../legal/cookie-policy/CookiePolicy.jsx";
+import SupportContactUsPage from "../support/contact-us/ContactUs.jsx";
+import SupportFAQPage from "../support/faq/SupportFAQ.jsx";
+import ShippingReturnsPage from "../support/shipping-returns/ShippingReturns.jsx";
+import WarrantyInformationPage from "../support/warranty-information/WarrantyInformation.jsx";
 
 // Authentication
 import { ChooseLoginMode } from "../Login/ChooseLoginMode.jsx";
@@ -266,5 +288,91 @@ export const RoutesConfig = () => [
     key="reset-password"
     path="/reset-password"
     element={<ResetPassword />}
+  />,
+  <Route key="resources-faqs" path="/resources/faqs" element={<FAQsPage />} />,
+  <Route
+    key="resources-contract-management"
+    path="/resources/contract-management"
+    element={<ContractManagementPage />}
+  />,
+  <Route
+    key="resources-employee-support"
+    path="/resources/employee-support"
+    element={<EmployeeSupportPage />}
+  />,
+  <Route
+    key="resources-guides-tips"
+    path="/resources/guides-tips"
+    element={<GuidesTipsPage />}
+  />,
+  <Route
+    key="resources-our-partners"
+    path="/resources/our-partners"
+    element={<OurPartnersPage />}
+  />,
+
+  // Company Pages
+  <Route
+    key="company-our-mission"
+    path="/company/our-mission"
+    element={<OurMissionPage />}
+  />,
+  <Route key="company-careers" path="/company/careers" element={<CareersPage />} />,
+  <Route
+    key="company-privacy-policy"
+    path="/company/privacy-policy"
+    element={<PrivacyPolicyPage />}
+  />,
+  <Route
+    key="company-terms-of-service"
+    path="/company/terms-of-service"
+    element={<TermsOfServicePage />}
+  />,
+  <Route
+    key="company-press-releases"
+    path="/company/press-releases"
+    element={<PressReleasesPage />}
+  />,
+
+  // Connect Pages
+  <Route key="connect-linkedin" path="/connect/linkedin" element={<LinkedInPage />} />,
+  <Route
+    key="connect-newsletter"
+    path="/connect/newsletter"
+    element={<NewsletterPage />}
+  />,
+  <Route key="connect-twitter" path="/connect/twitter" element={<TwitterPage />} />,
+  <Route key="connect-facebook" path="/connect/facebook" element={<FacebookPage />} />,
+
+  // Legal Pages
+  <Route key="legal-disclaimer" path="/legal/disclaimer" element={<DisclaimerPage />} />,
+  <Route
+    key="legal-trademark-information"
+    path="/legal/trademark-information"
+    element={<TrademarkInformationPage />}
+  />,
+  <Route key="legal-licensing" path="/legal/licensing" element={<LicensingPage />} />,
+  <Route
+    key="legal-cookie-policy"
+    path="/legal/cookie-policy"
+    element={<CookiePolicyPage />}
+  />,
+
+  // Support Pages
+  <Route
+    key="support-contact-us"
+    path="/support/contact-us"
+    element={<SupportContactUsPage />}
+  />,
+  <Route key="support-faq" path="/support/faq" element={<SupportFAQPage />} />,
+  <Route
+    key="support-shipping-returns"
+    path="/support/shipping-returns"
+    element={<ShippingReturnsPage />}
+  />,
+  <Route
+    key="support-warranty-information"
+    path="/support/warranty-information"
+    element={<WarrantyInformationPage />}
   />,
 ];

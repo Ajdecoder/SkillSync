@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { API } from "@/services/api";
 
 const useFetchData = (url) => {
-  console.log('usel=====>',url)
+  console.log('usel=====>', url)
   const [data, setData] = useState(null);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -10,11 +11,8 @@ const useFetchData = (url) => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(url, {
-        withCredentials:true,
-        headers:{
-          Authorization: `Bearer ${localStorage.getItem("jwttoken") || localStorage.getItem('googleUser')}`
-        }
+      const response = await API.get(url, {
+        withCredentials: true,
       });
       setData(response.data || {});
       setLoading(false)
@@ -33,7 +31,7 @@ const useFetchData = (url) => {
     }
   }, [url]);
 
-  return { data, error, loading , setError };
+  return { data, error, loading, setError };
 };
 
 export default useFetchData;

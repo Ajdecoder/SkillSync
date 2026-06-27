@@ -19,7 +19,7 @@ export const addOpportunity = async (req, res) => {
     minSalary,
     desc_Opportunity,
     skills,
-    Opportunity_type,
+    requirement_type,
     recruiterDetails,
   } = payload;
 
@@ -39,7 +39,7 @@ export const addOpportunity = async (req, res) => {
       },
       desc_Opportunity,
       skills,
-      Opportunity_type,
+      requirement_type,
       recruiterDetails
     });
 
@@ -61,6 +61,10 @@ export const allOpportunitiesData = async (req, res) => {
     // Initialize query object
     const query = {};
 
+    const page = parseInt(req.query.page) || 1; // Current page, default 1
+    const limit = parseInt(req.query.limit) || 10; // Results per page, default 10
+    const skip = (page - 1) * limit;
+
     // Handle minSalary filter
     if (req.query.minSalary) {
       query["salaryRange.maxSalary"] = { $gte: Number(req.query.minSalary) };
@@ -71,8 +75,8 @@ export const allOpportunitiesData = async (req, res) => {
       query["salaryRange.minSalary"] = { $lte: Number(req.query.maxSalary) };
     }
 
-    if (req.query.Opportunity_type) {
-      query["Opportunity_type"] = req.query.Opportunity_type;
+    if (req.query.requirement_type) {
+      query["requirement_type"] = req.query.requirement_type;
     }
 
     if (req.query.location) {
@@ -92,7 +96,7 @@ export const allOpportunitiesData = async (req, res) => {
         [req.query.skill]
           .map(s => s.trim())
           .filter(s => s.length > 0);
-      
+
       query["skills.skillName"] = {
         $in: skillsArr.map(s => new RegExp(`^${s}$`, "i"))
       };
@@ -102,9 +106,10 @@ export const allOpportunitiesData = async (req, res) => {
 
     console.log("Final query for MongoDB:", query);
 
-    let Addedopportunities = await OpportunityCollection.find(query);
-
-    res.json({ length: Addedopportunities.length, Addedopportunities });
+    let Addedopportunities = await OpportunityCollection.find(query).populate("recruiterDetails").limit(limit).skip(skip).exec();
+    const totalCount = await OpportunityCollection.countDocuments(query);
+    const totalPages = Math.ceil(totalCount / limit);
+    res.json({ length: Addedopportunities.length, Addedopportunities, page, limit, totalCount, totalPages });
   } catch (error) {
     console.error("Error fetching data:", error.message);
     res.status(500).json({
@@ -151,7 +156,7 @@ export const getOpportunitytById = async (req, res) => {
 
 
     const getOpportunityFromAddOpportunity =
-      await OpportunityCollection.findById(OpportunityId).populate("recruiterDetails");;
+      await OpportunityCollection.findById(OpportunityId).populate("recruiterDetails");
 
 
     if (!getOpportunityFromAddOpportunity) {
@@ -208,5 +213,186 @@ export const deleteOpportunity = async (req, res) => {
 }
 
 
+export const addManyOpportunities = async (req, res) => {
+  try {
+    const { payload } = req.body;
 
+    if (!Array.isArray(payload)) {
+      return res.status(400).json({
+        message: "Payload must be an array of opportunities.",
+      });
+    }
 
+    if (payload.length === 0) {
+      return res.status(400).json({
+        message: "Payload cannot be empty.",
+      });
+    }
+
+    if (payload.length > 1000) {
+      return res.status(400).json({
+        message: "Maximum 1000 opportunities allowed at once.",
+      });
+    }
+
+    const allowedRequirementTypes = [
+      "Full-Time",
+      "Part-Time",
+      "Contract",
+      "Internship",
+    ];
+
+    const cleanText = (value) => {
+      if (value === undefined || value === null) return undefined;
+      return String(value).trim();
+    };
+
+    const cleanPhone = (value) => {
+      if (!value) return undefined;
+      return String(value).replace(/\D/g, "");
+    };
+
+    const cleanSalary = (value) => {
+      if (value === undefined || value === null || value === "") return undefined;
+      const num = Number(value);
+      return Number.isFinite(num) && num >= 0 ? num : undefined;
+    };
+
+    const cleanSkills = (skills) => {
+      if (!Array.isArray(skills)) return [];
+
+      return skills
+        .map((skill) => {
+          if (typeof skill === "string") {
+            return { skillName: cleanText(skill) };
+          }
+
+          return {
+            skillName: cleanText(skill?.skillName),
+          };
+        })
+        .filter((skill) => skill.skillName);
+    };
+
+    const validDocs = [];
+    const rejectedRows = [];
+
+    payload.forEach((item, index) => {
+      const title = cleanText(item.title);
+      const company_name = cleanText(item.company_name);
+      const email = cleanText(item.email)?.toLowerCase();
+      const ph_no = cleanPhone(item.ph_no);
+      const requirement_type = cleanText(item.requirement_type);
+      const location = cleanText(item.location)?.toLowerCase();
+
+      const minSalary = cleanSalary(item.minSalary ?? item.salaryRange?.minSalary);
+      const maxSalary = cleanSalary(item.maxSalary ?? item.salaryRange?.maxSalary);
+
+      const errors = [];
+
+      if (!title) errors.push("title is required");
+      if (!company_name) errors.push("company_name is required");
+      if (!email) errors.push("email is required");
+      if (!requirement_type) errors.push("requirement_type is required");
+      if (!item.recruiterDetails) errors.push("recruiterDetails is required");
+
+      if (email && !/^\S+@\S+\.\S+$/.test(email)) {
+        errors.push("invalid email");
+      }
+
+      if (ph_no && !/^[0-9]{10}$/.test(ph_no)) {
+        errors.push("invalid phone number");
+      }
+
+      if (
+        requirement_type &&
+        !allowedRequirementTypes.includes(requirement_type)
+      ) {
+        errors.push(
+          "requirement_type must be Full-Time, Part-Time, Contract, or Internship"
+        );
+      }
+
+      if (
+        minSalary !== undefined &&
+        maxSalary !== undefined &&
+        minSalary > maxSalary
+      ) {
+        errors.push("minSalary cannot be greater than maxSalary");
+      }
+
+      if (errors.length > 0) {
+        rejectedRows.push({
+          index,
+          errors,
+          data: item,
+        });
+
+        return;
+      }
+
+      validDocs.push({
+        title,
+        desc_requirement: cleanText(item.desc_requirement),
+        skills: cleanSkills(item.skills),
+
+        company_name,
+        company_website: cleanText(item.company_website),
+        email,
+        ph_no,
+
+        requirement_type,
+        location,
+
+        salaryRange: {
+          minSalary,
+          maxSalary,
+        },
+
+        candidatesApplied: Array.isArray(item.candidatesApplied)
+          ? item.candidatesApplied
+          : [],
+
+        company_logo: cleanText(item.company_logo),
+
+        recruiterDetails: item.recruiterDetails,
+
+        isActive:
+          typeof item.isActive === "boolean"
+            ? item.isActive
+            : true,
+      });
+    });
+
+    if (validDocs.length === 0) {
+      return res.status(400).json({
+        message: "No valid opportunities found.",
+        received: payload.length,
+        inserted: 0,
+        rejected: rejectedRows.length,
+        rejectedRows,
+      });
+    }
+
+    const insertedDocs = await OpportunityCollection.insertMany(validDocs, {
+      ordered: false,
+      runValidators: true,
+    });
+
+    return res.status(201).json({
+      message: "Opportunities inserted successfully.",
+      received: payload.length,
+      inserted: insertedDocs.length,
+      rejected: rejectedRows.length,
+      rejectedRows,
+      ids: insertedDocs.map((doc) => doc._id),
+    });
+  } catch (err) {
+    console.error("Bulk insert opportunity error:", err);
+
+    return res.status(500).json({
+      message: "Failed to add opportunities. Please try again later.",
+      error: err.message,
+    });
+  }
+};

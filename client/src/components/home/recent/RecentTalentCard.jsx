@@ -5,23 +5,25 @@ import TalentsCard from "./TalentsCards.jsx";
 const RecentTalentCard = ({
   addedTalents = [],
   filterdTalents = [],
-  TalentsLoading=false
+  TalentsLoading = false
 }) => {
 
   // console.log("addedTalents:", addedTalents);
-// console.log("filterdTalents:", filterdTalents);
-// console.log("TalentsLoading:", TalentsLoading);
-
+  // console.log("filterdTalents:", filterdTalents);
+  // console.log("TalentsLoading:", TalentsLoading);
+  const handleLoadMore = () => {
+    setLoadMore(true)
+  }
 
   if (TalentsLoading === true) {
-  return <Spinner />;
-}
+    return <Spinner />;
+  }
 
   // Use filtered data if available, else fallback to all added Talents
   const TalentsToShow =
     filterdTalents.length > 0 ? filterdTalents : addedTalents;
 
-    // console.log('recentrale',addedTalents)
+  // console.log('recentrale',addedTalents)
 
   const renderTalentCard = (talent) => {
     // console.log('renderTalentCard talents', talent)
@@ -40,6 +42,11 @@ const RecentTalentCard = ({
           {TalentsToShow.map((talent) =>
             renderTalentCard(talent)
           )}
+          <div className="flex justify-center mt-6">
+            {loadMore ? <Spinner /> : <button onClick={handleLoadMore} className="gap-2 px-6 py-3
+                      bg-gradient-to-r from-emerald-500 to-cyan-500 
+                      rounded-lg text-white font-semibold">Load More</button>}
+          </div>
         </div>
       ) : (
         <div className="text-center text-gray-500">

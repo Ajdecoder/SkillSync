@@ -31,6 +31,9 @@ export const getAllCandidateProfiles = async (req, res) => {
 
     const query = {};
 
+    const page = parseInt(req.query.page) || 1; // Current page, default 1
+    const limit = parseInt(req.query.limit) || 10; // Results per page, default 10
+    const skip = (page - 1) * limit;
     // =========================
     // LOCATION (city, state, country)
     // supports: Mumbai | Mumbai,Maharashtra | Mumbai,Maharashtra,India
@@ -105,11 +108,16 @@ export const getAllCandidateProfiles = async (req, res) => {
 
     console.log("Final Mongo Query:", query);
 
-    const candidates = await CandidateUserProfile.find(query);
-
+    const candidates = await CandidateUserProfile.find(query).limit(limit).skip(skip).exec();
+    const totalCount = await CandidateUserProfile.countDocuments(query);
+    const totalPages = Math.ceil(totalCount / limit);
     res.status(200).json({
       candidates,
       length: candidates.length,
+      page,
+      limit,
+      totalCount,
+      totalPages,
     });
   } catch (error) {
     console.error("Error fetching candidates:", error);

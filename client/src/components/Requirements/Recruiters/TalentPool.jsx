@@ -137,7 +137,9 @@ const TalentPool = () => {
   };
 
   const handleInterest = (candidateId) => {
-    toast.success("Interest Expressed!");
+    toast.success("Interest Expressed!", {
+          autoClose: 1000,
+        });
     console.log("Expressed Interest for:", candidateId);
   };
 

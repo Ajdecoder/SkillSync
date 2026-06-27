@@ -9,7 +9,7 @@ export const GoogleAuth = ({ role }) => {
   // console.log("Client ID from ENV:", import.meta.env.VITE_APP_GOOGLE_CLIENT_ID);
   // console.log("Client ID from ENV:", clientId);
   const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("googleUser"))
+    JSON.parse(localStorage.getItem("authToken"))
   );
 
   let navigate = useNavigate();
@@ -17,20 +17,23 @@ export const GoogleAuth = ({ role }) => {
 
   const handleLoginSuccess = async (response) => {
 
-    console.log(response,'it give res')
+    console.log(response, 'it give res')
     try {
       const res = await axios.post(
         `${PORT_CLIENT}/auth/google`,
         {
           token: response.credential, // Google ID token
           role: role,
+        }, {
+          withCredentials: true
         }
       );
 
-      const {  token } = res.data;
-      localStorage.setItem("googleUser", JSON.stringify(token));
+      const { token } = res.data;
+      console.log(token, 'it give tokenn')
+      localStorage.setItem("authToken", JSON.stringify(token));
       setUser(user);
-      
+
       navigate("/");
       window.location.reload(); // Refresh to update UI
     } catch (error) {
@@ -39,8 +42,8 @@ export const GoogleAuth = ({ role }) => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("jwttoken");
-    localStorage.removeItem("googleUser");
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("authToken");
     setUser(null);
     window.location.reload();
   };

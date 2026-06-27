@@ -1,4 +1,5 @@
 import express from "express";
+import { cookieOptions } from "../utils/cookiesConfig.js";
 
 import verifyUser from "../middleware/auth.js";
 import {
@@ -18,6 +19,7 @@ import {
 } from "../controller/recruiters/user.recruiter.controller.js";
 import { Notifications, NotificationsById, NotificationAsRead } from "../controller/notification.controller.js";
 import notificationMiddleware from "../middleware/Notification.js";
+import { Candidate, Recruiter } from "../db/database.js";
 
 const Userrouter = express.Router();
 
@@ -31,16 +33,27 @@ Userrouter.use(verifyUser)
 
 Userrouter.put("/candidate/opportunity/apply-to-job", notificationMiddleware, JobApply);
 Userrouter.put("/candidate/revert-application", RevertApplication);
-Userrouter.get("/job/user/job-notifications", Notifications);
-Userrouter.get("/job/user/job-notifications/:notificationId", NotificationsById);
+Userrouter.get("/job-notifications", Notifications);
+Userrouter.get("/job-notifications/:notificationId", NotificationsById);
 Userrouter.put("/notifications/markAsRead", NotificationAsRead)
+Userrouter.get("/id/:id", async(req,res) => {
+  try {
+    const { id } = req.params;
+    console.log('id in api',id)
+    const user = await Candidate.findById(id) || await Recruiter.findById(id);
+    if(user){
+      return res.status(200).json({
+        success:true,
+        user
+      })
+    }
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    return res.status(500).json({ error: "Error fetching user" });
+  }
+})
 Userrouter.post("/logout", (req, res) => {
-  res.clearCookie("jwttoken", {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
-    maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-  });
+  res.clearCookie("authToken", cookieOptions);
 
   return res.status(200).json({
     message: "Logged out successfully",

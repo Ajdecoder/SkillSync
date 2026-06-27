@@ -2,6 +2,7 @@ import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { Candidate, CandidateUserProfile, Recruiter, RecruiterUserProfile } from '../db/database.js';
+import { cookieOptions } from '../utils/cookiesConfig.js';
 
 export const GoogleLogin = async (req, res) => {
     try {
@@ -107,12 +108,7 @@ export const GoogleLogin = async (req, res) => {
             { expiresIn: '24h' }
         );
 
-        res.cookie('jwttoken', authToken, {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'None',
-            maxAge: 7 * 24 * 60 * 60 * 1000,
-        });
+        res.cookie('authToken', authToken, cookieOptions);
 
         res.status(200).json({
             message: profileCreated ? "Registered & Logged in Successfully" : "Logged in Successfully",

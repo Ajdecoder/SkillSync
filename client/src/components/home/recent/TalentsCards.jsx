@@ -42,7 +42,7 @@ const TalentCard = ({ talent }) => {
 
   const handleViewProfile = () => {
     if (!_id) return;
-    navigate(`/candidateinfo/${_id}`);
+    window.open(`/candidateinfo/${_id}`, "_blank");
   };
 
   const renderSkill = (skill) => {

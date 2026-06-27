@@ -66,7 +66,7 @@ const OpportunityConnectPage = () => {
     if (currentUser?.email) {
       fetchUserProfile();
     }
-  }, [post_id]);
+  }, [currentUser]);
 
   const handleJobApply = async () => {
     if (!userId || !companyData?._id) return;
@@ -90,14 +90,18 @@ const OpportunityConnectPage = () => {
       setUserHasApplied(true);
 
       // Set toast message on successful application
-      toast.success("Application submitted successfully!");
+      toast.success("Application submitted successfully!", {
+        autoClose: 1000,
+      });
     } catch (err) {
       console.error("Error applying to the job:", err);
       setError("There was an error applying to the opportunity.");
 
       // Show error toast
-      toast.error("Failed to apply for the job.");
-      
+      toast.error("Failed to apply for the job.", {
+        autoClose: 1000,
+      });
+
     } finally {
       setLoadingApply(false);
     }
@@ -111,7 +115,9 @@ const OpportunityConnectPage = () => {
       await revertBackApplication(userId, companyData?._id);
       setUserHasApplied(false);
 
-      toast.success("Application reverted successfully!");
+      toast.success("Application reverted successfully!", {
+        autoClose: 1000,
+      });
 
       const updatedCandidates = companyData?.candidatesApplied.filter(
         (candidateId) => candidateId !== userId
@@ -120,7 +126,9 @@ const OpportunityConnectPage = () => {
       setShowRevertModal(false);
     } catch (err) {
       console.error("Error reverting application:", err);
-      toast.error("Failed to revert the application.");
+      toast.error("Failed to revert the application.", {
+        autoClose: 1000,
+      });
       setError("There was an error reverting the application.");
     } finally {
       setLoadingApply(false);
@@ -173,11 +181,15 @@ const OpportunityConnectPage = () => {
       // If bookmark is false, add bookmark. Otherwise, remove bookmark.
       if (!bookmark) {
         await bookmarkOpportunity(userId, post_id); // Add bookmark
-        toast.success("Opportunity Bookmared!");
-        
+        toast.success("Opportunity Bookmared!", {
+          autoClose: 1000,
+        });
+
       } else {
         await removeBookmarkedOpportunity(userId, post_id); // Remove bookmark
-        toast.success("Opportunity Unbookmared!");
+        toast.success("Opportunity Unbookmared!", {
+          autoClose: 1000,
+        });
       }
 
       // Toggle the bookmark state after the operation
@@ -185,7 +197,9 @@ const OpportunityConnectPage = () => {
       // console.log(userId, post_id);
     } catch (error) {
       console.error("Error updating bookmark:", error);
-      toast.error("Failed to update bookmark.");
+      toast.error("Failed to update bookmark.", {
+          autoClose: 1000,
+        });
     }
   };
 
@@ -270,7 +284,7 @@ const OpportunityConnectPage = () => {
             </div>
             <div className="flex items-center gap-2">
               <FiClock className="text-cyan-400" />
-              {console.log("Created at",createdAt)}
+              {console.log("Created at", createdAt)}
               <span>{new Date(createdAt).toLocaleDateString()}</span>
             </div>
           </motion.div>
@@ -581,14 +595,14 @@ const OpportunityConnectPage = () => {
           </motion.button>
 
           {/* Apply Button */}
-          <motion.div className="mt-8" variants={itemVariants}>            
+          <motion.div className="mt-8" variants={itemVariants}>
             <motion.button
               onClick={handleJobApply}
               whileHover={!userHasApplied && { scale: 1.02 }}
               whileTap={!userHasApplied && { scale: 0.98 }}
               className={`w-full py-4 rounded-xl font-semibold transition-all ${userHasApplied || userHasAlreadyApplied
-                  ? "bg-emerald-400/30 text-emerald-400 cursor-not-allowed"
-                  : "bg-gradient-to-r from-emerald-400 to-cyan-400 hover:from-emerald-500 hover:to-cyan-500 text-gray-900"
+                ? "bg-emerald-400/30 text-emerald-400 cursor-not-allowed"
+                : "bg-gradient-to-r from-emerald-400 to-cyan-400 hover:from-emerald-500 hover:to-cyan-500 text-gray-900"
                 }`}
               disabled={userHasApplied || userHasAlreadyApplied}
             >
