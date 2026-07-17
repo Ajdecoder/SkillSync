@@ -35,15 +35,10 @@ const RecentOpportunity = ({
   return (
     <div className="space-y-8 opportunity-card-container">
       {opportunitiesToShow.length > 0 ? (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mx-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mx-4 justify-center">
           {opportunitiesToShow.map((opportunity) =>
             renderOpportunityCard(opportunity)
           )}
-          <div className="flex justify-center mt-6">
-            {loadMore ? <Spinner /> : <button onClick={handleLoadMore} className="gap-2 px-6 py-3
-            bg-gradient-to-r from-emerald-500 to-cyan-500 
-            rounded-lg text-white font-semibold">Load More</button>}
-          </div>
         </div>
       ) : (
         <div className="text-center text-gray-500">

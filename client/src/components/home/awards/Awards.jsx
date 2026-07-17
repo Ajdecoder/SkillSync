@@ -4,7 +4,7 @@ import { awards } from "../..//common/constants";
 
 const Awards = () => {
   return (
-    <section className="py-20 bg-gradient-to-r from-blue-900 to-indigo-900">
+    <section className="py-20 bg-gradient-to-r from-blue-900 to-indigo-900 opacity-125">
       <div className="container mx-auto px-4">
         {/* Heading Section */}
         <div className="text-center mb-16">

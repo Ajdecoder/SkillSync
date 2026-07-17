@@ -182,7 +182,7 @@ const Hero = () => {
       {currentUser ? (
         // 1. LOGGED IN VIEW (Glassmorphism Style)
         <section className="relative flex justify-center items-center bg-gray-50 dark:bg-gray-900 py-20 w-full min-h-[600px] overflow-hidden">
-          
+
           <div className="z-0 absolute inset-0">
             <img
               src="/images/banner.jpg" // Ensure this image is high quality
@@ -212,7 +212,7 @@ const Hero = () => {
               )}
             </motion.div>
 
-            
+
             <motion.div
               className="bg-white/80 dark:bg-gray-800/80 shadow-2xl backdrop-blur-lg mx-auto p-4 border border-white/20 dark:border-gray-700 rounded-2xl"
               initial={{ opacity: 0, scale: 0.95 }}
@@ -259,55 +259,136 @@ const Hero = () => {
         </section>
       ) : (
         // 2. GUEST VIEW (Modern Landing Page Style)
-        <section className="relative bg-gray-900 py-24 lg:py-32 w-full overflow-hidden">
-          
-          <div className="top-0 left-0 z-0 absolute w-full h-full overflow-hidden">
-            <div className="-top-[20%] -left-[10%] absolute bg-purple-600/20 blur-[100px] rounded-full w-[50%] h-[50%]"></div>
-            <div className="top-[40%] -right-[10%] absolute bg-blue-600/20 blur-[120px] rounded-full w-[40%] h-[60%]"></div>
-          </div>
 
-          <motion.div
-            className="z-10 relative space-y-8 mx-auto px-4 text-center container"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}>
-            <div className="space-y-6 mx-auto max-w-3xl">
-              <h1 className="bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 font-black text-transparent text-5xl md:text-7xl tracking-tight">
-                Search Your Way
-              </h1>
-              <p className="font-light text-gray-300 text-xl leading-relaxed">
-                Whether you're looking to hire top talent or find your next job,
-                we connect you with the right opportunities using smart
-                technology.
-              </p>
-            </div>
+        <>
+          {/* Guest Hero */}
+          <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gray-100 dark:bg-gray-950">
+            {/* Background */}
+            <img
+              src="/images/banner.jpg"
+              alt="Search Your Way"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+
+            {/* Light/Dark Mode Overlays */}
+
+            <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-white/60 to-white/90 dark:from-black/85 dark:via-black/60 dark:to-black/85" />
+
+            {/* Decorative Blobs */}
+            <div className="absolute left-0 top-0 h-80 w-80 rounded-full bg-green-400/20 blur-[120px] dark:bg-green-500/20" />
+
+            <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-indigo-400/20 blur-[140px] dark:bg-indigo-500/20" />
 
             <motion.div
-              className="flex sm:flex-row flex-col justify-center items-center gap-6 mt-12"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.8 }}>
-              <Link
-                to="/login"
-                className="group relative bg-white shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_rgba(255,255,255,0.5)] px-8 py-4 rounded-full overflow-hidden font-bold text-gray-900 transition-all">
-                <span className="z-10 relative flex items-center gap-2">
-                  <FaUserTie className="text-purple-600" /> Start Searching
-                </span>
-                <div className="absolute inset-0 bg-gray-100 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300 transform"></div>
-              </Link>
+              transition={{ duration: 0.8 }}
+              className="container relative z-10 mx-auto px-6"
+            >
+              <div className="mx-auto max-w-4xl text-center text-gray-900 dark:text-white">
+                <h1 className="mt-8 text-5xl font-extrabold leading-tight md:text-7xl">
+                  Find Your Next
 
-              <Link
-                to="/requirements/add-opportunity"
-                className="group flex items-center gap-2 bg-transparent px-8 py-4 border border-gray-600 hover:border-purple-500 rounded-full font-medium text-white hover:text-purple-400 transition-all">
-                <FaBriefcase /> Post a Job
-                <FaArrowRight className="transition-transform group-hover:translate-x-1" />
-              </Link>
+                  <span className="block text-green-600 dark:text-green-400">
+                    Opportunity Faster
+                  </span>
+                </h1>
+
+                <p className="mx-auto mt-8 max-w-3xl text-lg leading-8 text-gray-700 dark:text-gray-200 md:text-xl">
+                  Search thousands of verified jobs, discover exceptional talent, and
+                  build meaningful professional connections through one modern platform.
+                </p>
+
+                <div className="mt-12 flex flex-col justify-center gap-5 sm:flex-row">
+                  <Link
+                    to="/login"
+                    className="group inline-flex items-center justify-center gap-3 rounded-xl bg-green-600 px-8 py-4 font-semibold text-white shadow-xl transition-all duration-300 hover:scale-105 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600"
+                  >
+                    <FaUserTie />
+
+                    Start Searching
+                  </Link>
+
+                  <Link
+                    to="/requirements/add-opportunity"
+                    className="group inline-flex items-center justify-center gap-3 rounded-xl border border-gray-900/20 bg-white/50 px-8 py-4 font-semibold text-gray-900 shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105 hover:bg-white/80 dark:border-white/30 dark:bg-white/10 dark:text-white dark:hover:bg-white/20"
+                  >
+                    <FaBriefcase />
+
+                    Post a Job
+
+                    <FaArrowRight className="transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </div>
+
+                {/* Stats */}
+                <div className="mt-20 grid grid-cols-2 gap-8 md:grid-cols-4">
+                  <div>
+                    <h3 className="text-3xl font-bold text-green-600 dark:text-green-400">
+                      10K+
+                    </h3>
+
+                    <p className="mt-2 text-gray-700 dark:text-gray-300">
+                      Professionals
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="text-3xl font-bold text-green-600 dark:text-green-400">
+                      2K+
+                    </h3>
+
+                    <p className="mt-2 text-gray-700 dark:text-gray-300">
+                      Active Jobs
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="text-3xl font-bold text-green-600 dark:text-green-400">
+                      500+
+                    </h3>
+
+                    <p className="mt-2 text-gray-700 dark:text-gray-300">
+                      Companies
+                    </p>
+                  </div>
+
+                  <div>
+                    <h3 className="text-3xl font-bold text-green-600 dark:text-green-400">
+                      95%
+                    </h3>
+
+                    <p className="mt-2 text-gray-700 dark:text-gray-300">
+                      Success Rate
+                    </p>
+                  </div>
+                </div>
+              </div>
             </motion.div>
-          </motion.div>
-        </section>
+
+            {/* Scroll Indicator */}
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce text-gray-900 dark:text-white">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-7 w-7"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </div>
+          </section>
+        </>
+
       )}
 
-      
+
       <div className="bg-gray-50 dark:bg-gray-950">
         <Recent
           loading={opportunitiesLoading || candidatesLoading}
