@@ -5,7 +5,7 @@ const PriceCard = ({ best, plan, list, package_price, ptext }) => {
   return (
     <div className="content justify-center flex-wrap mtop gap-4">
       <motion.div
-        className="box shadow bg-black text-white opacity-25"
+        className="box shadow bg-black text-white opacity-2"
       >
         <div className="topbtn">
           <button className="rounded-[50%] bg-orange-600 p-2">

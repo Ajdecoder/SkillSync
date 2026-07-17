@@ -12,25 +12,37 @@ const Location = () => {
             title="Explore By Company and Location"
           />
 
-          <div className="content grid3 mtop">
+          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {location.map((item, index) => (
               <div
-                className="box"
-                key={index}
+                key={item.id || index}
+                className="group relative overflow-hidden rounded-xl"
               >
                 <img
                   src={item.cover}
                   alt={item.name}
-                  width="100%" // Make image width responsive
-                  height="auto" // Maintain image aspect ratio
+                  className="h-64 w-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                <div className="overlay">
-                  <h5>{item.name}</h5>
-                  <p>
-                    <label>{item.Experts}</label>
-                    <label>{item.Offices}</label>
-                    <label>{item.Apartments}</label>
-                  </p>
+
+                {/* Hover layer */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/70 p-5 text-center text-white opacity-0 transition-all duration-300 group-hover:opacity-100">
+                  <h5 className="mb-3 translate-y-4 text-xl font-semibold transition-transform duration-300 group-hover:translate-y-0">
+                    {item.name}
+                  </h5>
+
+                  <div className="flex translate-y-4 flex-wrap justify-center gap-2 text-sm transition-transform duration-300 group-hover:translate-y-0">
+                    <span className="rounded-md bg-white/20 px-3 py-1 backdrop-blur-sm">
+                      {item.Experts}
+                    </span>
+
+                    <span className="rounded-md bg-white/20 px-3 py-1 backdrop-blur-sm">
+                      {item.Offices}
+                    </span>
+
+                    <span className="rounded-md bg-white/20 px-3 py-1 backdrop-blur-sm">
+                      {item.Apartments}
+                    </span>
+                  </div>
                 </div>
               </div>
             ))}

@@ -16,28 +16,35 @@ div#smooth-scroll {
   height: 100%;
 }
 
-
-html::-webkit-scrollbar {
-  background-color: #000;
-  /* width: 12px; */
-  /* border-radius: 10px; */
+/* Chrome, Edge and Safari */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
 
-html::-webkit-scrollbar-track {
-  border-radius: 10px;
-  box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.3);
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track {
+  background: #111827;
 }
 
-html::-webkit-scrollbar-thumb {
-  background-image: -webkit-gradient(
-    linear,
-    left bottom,
-    left top,
-    color-stop(0.5, #a520ca),
-    color-stop(1, #2681cc)
-  );
- border-radius: 10px;
-  box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.3);
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  border: 2px solid #111827;
+  border-radius: 999px;
+  background: linear-gradient(to top, #a520ca, #2681cc);
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to top, #b92ddd, #3295ed);
+}
+
+/* Firefox */
+html,
+body {
+  scrollbar-width: thin;
+  scrollbar-color: #7c3aed #111827;
 }
 
 body {
