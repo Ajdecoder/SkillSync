@@ -518,7 +518,7 @@ export const UploadCandidateResume = async (req, res) => {
           let updatedUser = await CandidateUserProfile.findByIdAndUpdate(
             userId,
             {
-              resume: result.secure_url,
+              resume: `${result.secure_url}.pdf`,
               resumeFileName: file.originalname,
             },
             { new: true }
@@ -528,7 +528,7 @@ export const UploadCandidateResume = async (req, res) => {
             updatedUser = await RecruiterUserProfile.findByIdAndUpdate(
               userId,
               {
-                resume: result.secure_url,
+                resume: `${result.secure_url}.pdf`,
                 resumeFileName: file.originalname,
               },
               { new: true }

@@ -33,7 +33,7 @@ const HireResources = () => {
       addedTalents={candidates}
       TalentsLoading={loading}
     />
-    </div>
+    </div>  
   ) : (
     <LoginPromoPage />
   );

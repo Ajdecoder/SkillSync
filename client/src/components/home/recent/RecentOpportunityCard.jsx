@@ -18,36 +18,44 @@ const RecentOpportunity = ({
       return <Spinner />
     }
 
-  // console.log(addedOpportunities,filterdOpportunities)
-  // Use filtered data if available, else fallback to all added opportunities
-    const opportunitiesToShow =
-      filterdOpportunities.length > 0 ? filterdOpportunities : addedOpportunities;
+  const normalizedAdded = Array.isArray(addedOpportunities)
+    ? addedOpportunities
+    : [];
+  const normalizedFiltered = Array.isArray(filterdOpportunities)
+    ? filterdOpportunities
+    : [];
 
-  const renderOpportunityCard = (opportunity) => {
-    return (
-      <AddOpportunityCard
-        key={opportunity._id}
-        opportunity={opportunity}
-      />
-    );
-  };
+  const opportunitiesToShow =
+    normalizedFiltered.length > 0
+      ? normalizedFiltered
+      : normalizedAdded;
 
   return (
     <div className="space-y-8 opportunity-card-container">
       {opportunitiesToShow.length > 0 ? (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mx-4">
           {opportunitiesToShow.map((opportunity) =>
-            renderOpportunityCard(opportunity)
+            <AddOpportunityCard
+              key={opportunity._id}
+              opportunity={opportunity}
+            />
           )}
           <div className="flex justify-center mt-6">
-            {loadMore ? <Spinner /> : <button onClick={handleLoadMore} className="gap-2 px-6 py-3
-            bg-gradient-to-r from-emerald-500 to-cyan-500 
-            rounded-lg text-white font-semibold">Load More</button>}
+            {loadMore ? (
+              <Spinner />
+            ) : (
+              <button
+                onClick={handleLoadMore}
+                className="gap-2 px-6 py-3 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-lg text-white font-semibold"
+              >
+                Load More
+              </button>
+            )}
           </div>
         </div>
       ) : (
         <div className="text-center text-gray-500">
-          No matching opportunities found.
+          No opportunities available.
         </div>
       )}
     </div>

@@ -36,7 +36,7 @@ const Footer = () => {
     >
       {/* Newsletter Section */}
       <div
-        className={`footer-section ${isVisible ? "animate-slideInLeft relative top-[30px]" : ""
+        className={` ${isVisible ? "animate-slideInLeft relative top-[30px]" : ""
           }`}
       >
         <div className="newsletter text-center px-4 md:px-8">
@@ -49,7 +49,7 @@ const Footer = () => {
             inbox every month.
           </p>
 
-          <div className="flex justify-center items-center gap-3 flex-wrap">
+          <div className="flex justify-center items-center gap-3">
             <input
               type="email"
               placeholder="Email Address"
@@ -74,7 +74,7 @@ const Footer = () => {
 
       {/* Links Section */}
       <div
-        className={`footer-section ${isVisible ? "animate-slideInLeft" : ""}`}
+        className={` ${isVisible ? "animate-slideInLeft" : ""}`}
       >
         <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10 mt-14 px-4 md:px-8 text-center">
           {footer.map((val, index) => (

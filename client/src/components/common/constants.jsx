@@ -17,7 +17,7 @@ import {
 
 export const nav = [
   {
-    text: "home", 
+    text: "home",
     path: "/",
     icon: <FaHome />,
   },
@@ -27,21 +27,9 @@ export const nav = [
     path: "/requirements",
     icon: <FaClipboardList />,
   },
-  {
-    text: "contact",
-    path: "/contact",
-    icon: <FaEnvelope />,
-  },
-  {
-    text: "about",
-    path: "/about",
-    icon: <FaInfoCircle />,
-  },
-  {
-    text: "blogs",
-    path: "/blogs",
-    icon: <FaBlog />,
-  },
+
+  { text: "Market Trends", path: "requirements/market-trends", icon: <FaChartLine /> },
+
 ];
 
 export const filterData = [
@@ -116,7 +104,7 @@ export const navExpandRecruiter = [
 
 export const navExpandCAndidate = [
   {
-    text: "Browse Opportunities",
+    text: "Opportunities",
     path: "requirements/browse-opportunities",
     icon: <FaBriefcase />,
   },

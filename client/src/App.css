@@ -171,8 +171,8 @@ img {
   font-weight: 400;
   border: 5px solid #216eb91f;
   background: #fff;
-  width: 10%;
-  height: 3rem;
+  /* width: 10%; */
+  /* height: 3rem; */
 }
 
 .newsletter {

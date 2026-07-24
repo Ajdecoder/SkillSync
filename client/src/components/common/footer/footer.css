@@ -152,6 +152,6 @@ footer img {
 }
 
 /* When footer becomes visible, trigger the animations */
-footer.footer-visible .footer-section {
+footer.footer-visible . {
   animation: slideInLeft 1s ease-out forwards;
 }

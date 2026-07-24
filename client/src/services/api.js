@@ -71,7 +71,6 @@ export const getAllCandidateProfiles = (query) =>
   API.get("/api/user/profile/candidates", { params: query });
 export const getAllRecruitersProfiles = () =>
   API.get("/api/user/profile/emails/user/recruiters");
-
 /* ========== Opportunities APIs ========== */
 
 export const addOpportunity = (data) =>

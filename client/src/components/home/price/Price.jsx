@@ -12,8 +12,8 @@ const Price = () => {
           <Heading
             title="Select Your Package"
             subtitle="Choose the perfect plan tailored to your needs. Whether you're looking for simplicity or advanced features, we’ve designed our packages to deliver value and flexibility. Explore your options and find the ideal fit for your goals."
-            titleClassName="text-3xl font-bold text-center mb-4 dark:text-white"
-            subtitleClassName="text-lg text-gray-600 text-center mb-8 dark:text-gray-300"
+            titleClassName="text-3xl font-bold mb-4 dark:text-white"
+            subtitleClassName="text-lg text-gray-600 text-left mb-8 dark:text-gray-300"
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-10 p-3">            {price?.map((item, index) => {

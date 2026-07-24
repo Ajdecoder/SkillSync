@@ -11,8 +11,9 @@ const Team = () => {
         <Heading
           title="Our Team"
           subtitle="With diverse expertise and a shared commitment to excellence, our team collaborates seamlessly to create impactful results. Together, we believe in pushing boundaries, embracing challenges, and achieving greatness."
-          titleClassName="text-3xl font-bold text-center mb-4 dark:text-white"
-          subtitleClassName="text-lg text-gray-600 text-center mb-8 dark:text-gray-300"
+          titleClassName="text-3xl font-bold mb-4 dark:text-white"
+          subtitleClassName="text-lg text-gray-600 mb-8 dark:text-gray-300"
+          align="left"
         />
 
         <div className="mt-10 grid gap-1 sm:grid-cols-2 lg:grid-cols-3">
