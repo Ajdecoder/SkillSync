@@ -181,7 +181,7 @@ const Hero = () => {
     <>
       {currentUser ? (
         // 1. LOGGED IN VIEW (Glassmorphism Style)
-        <section className="relative flex justify-center items-center bg-gray-50 dark:bg-gray-900 py-20 w-full min-h-[600px] overflow-hidden">
+        <section className="relative flex justify-center items-center  py-20 w-full min-h-[600px] overflow-hidden">
 
           <div className="z-0 absolute inset-0">
             <img
@@ -189,7 +189,6 @@ const Hero = () => {
               alt="Background"
               className="opacity-20 dark:opacity-10 w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-50 dark:to-gray-900"></div>
           </div>
 
           <div className="z-10 relative space-y-8 mx-auto max-w-5xl text-center">

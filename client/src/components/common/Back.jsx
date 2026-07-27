@@ -3,13 +3,13 @@ import React from "react"
 const Back = ({ name, title, cover }) => {
   return (
     <section className="relative min-h-[320px] overflow-hidden bg-slate-950 text-white">
-      {cover && (
+      {/* {cover && (
         <img
           src={cover}
           alt=""
           className="absolute inset-0 h-full w-full object-cover opacity-35"
         />
-      )}
+      )} */}
 
       <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-slate-950/30" />
 
