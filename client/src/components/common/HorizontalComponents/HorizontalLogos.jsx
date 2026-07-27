@@ -13,7 +13,7 @@ const HorizontalLogos = () => {
   ];
 
   return (
-    <div className="py-10 dark:bg-gray-300 dark:text-white">
+    <div className="py-10 dark:text-white">
       <Marquee
         speed={140}
         gradient={true}

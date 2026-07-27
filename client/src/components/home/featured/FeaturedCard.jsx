@@ -31,7 +31,7 @@ const cardVariants = {
 
 const FeaturedCard = () => {
   return (
-    <section className="overflow-hidden bg-gray-50 py-16 dark:bg-gray-950 sm:py-20 rouned-7">
+    <section className="overflow-hidden bg-gray-50 py-16 bg-transparent sm:py-20 rouned-7">
       <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8"> 
         {/* Section Heading */}
         <motion.div

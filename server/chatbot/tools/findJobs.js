@@ -45,7 +45,7 @@ export const findJobsTool = tool(
 export const findJobsByRoleTool = tool(
   async (input) => {
     
-    console.log('input: ', input)
+    console.log('input here: ', input)
 
     let role = "";
     let skills = [];
@@ -72,7 +72,7 @@ export const findJobsByRoleTool = tool(
     } else if (role) {
       query = { title: { $regex: role, $options: "i" } };
     } else {
-      return "No role or skills provided.";
+      return "No role or skills provided login or create an account";
     }
 
     const jobs = await OpportunityCollection.find(query).limit(5).lean();
