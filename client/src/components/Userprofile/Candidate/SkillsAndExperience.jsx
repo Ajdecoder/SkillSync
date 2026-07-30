@@ -42,6 +42,7 @@ const ExperienceDisplay = ({ experience }) => (
                   ? `${new Date(exp.duration.start).toLocaleDateString(
                     "en-IN",
                     {
+                      timeZone: "UTC",
                       year: "numeric",
                       month: "short",
                     }
@@ -50,6 +51,7 @@ const ExperienceDisplay = ({ experience }) => (
                 -{" "}
                 {exp.duration.end
                   ? `${new Date(exp.duration.end).toLocaleDateString("en-IN", {
+                    timeZone: "UTC",
                     year: "numeric",
                     month: "short",
                   })}`
@@ -172,11 +174,9 @@ const EditExperience = ({
 }) => {
   const formatDateForInput = (isoString) => {
     if (!isoString) return "";
-    const date = new Date(isoString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
+    // Avoid local timezone shifts by splitting the ISO string or using it as-is
+    const dateStr = typeof isoString === "string" ? isoString : new Date(isoString).toISOString();
+    return dateStr.split('T')[0];
   };
 
   return (

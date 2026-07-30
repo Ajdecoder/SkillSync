@@ -8,19 +8,14 @@ import { motion } from "framer-motion";
 import {
   FaBookmark,
   FaBriefcase,
-  FaForward,
   FaLink,
   FaUser,
 } from "react-icons/fa";
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { CiBeaker1 } from "react-icons/ci";
-import { useNavigate } from "react-router-dom";
-import useFetchData from "../../hooks/useGetDataFetch";
-import { PORT_CLIENT } from "../../../commonClient";
 import NotificationToasts from "../../common/Toast/Toast";
-import { IoReturnUpForward } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { Link as LucidLink } from "lucide-react";
 
 export const BookmarkedOpportunity = () => {
   const [bookmarkedOpportunities, setBookmarkedOpportunities] = useState([]);
@@ -32,63 +27,52 @@ export const BookmarkedOpportunity = () => {
   const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
 
-  const { data: opportunitiesData } = useFetchData(
-    `${PORT_CLIENT}/api/requirements/addedOpportunities`
-  );
-
   const currentUser = loggedInUser || googleUser;
 
   useEffect(() => {
     if (!currentUser?.email) return;
 
+    let ignore = false;
+
     const fetchBookmarkedOpportunities = async () => {
       try {
-        const response = await getUserProfileByEmail(currentUser?.email);
-        console.log(response);
-        const bookmarks =
-          response?.data?.candidateProfile?.OpportunityBookmarks || [];
-        setBookmarkedOpportunities(bookmarks);
+        const response = await getUserProfileByEmail(currentUser.email);
 
-        const fetchedUserId = response?.data?.candidateProfile?._id;
-        if (fetchedUserId) {
-          setUserId(fetchedUserId);
-        } else {
-          console.error("User ID not found in the profile.");
+        if (ignore) return;
+
+        const profile = response?.data?.candidateProfile;
+
+        setBookmarkedOpportunities(profile?.OpportunityBookmarks || []);
+        setUserId(profile?._id || null);
+      } catch (err) {
+        if (!ignore) {
+          showToast("Failed to fetch bookmarked opportunities.", "error");
         }
-      } catch (error) {
-        console.error("Error fetching bookmarked opportunities:", error);
-        showToast("Failed to fetch bookmarked opportunities.", "error");
       }
     };
 
     fetchBookmarkedOpportunities();
-  }, []);
+
+    return () => {
+      ignore = true;
+    };
+  }, [currentUser?.email]);
 
   const showToast = (message, type) => setToastState({ message, type });
 
   const handleBookmarkClick = async (postId) => {
-    if (!userId) {
-      showToast("User ID is missing. Please try again.", "error");
-      return;
-    }
+    const previous = bookmarkedOpportunities;
 
-    // Optimistic update: Remove the opportunity from the UI immediately
-    setBookmarkedOpportunities((prev) =>
-      prev.filter((opportunity) => opportunity._id !== postId)
+    setBookmarkedOpportunities(prev =>
+      prev.filter(item => item._id !== postId)
     );
 
     try {
       await removeBookmarkedOpportunity(userId, postId);
-      showToast("Opportunity removed from bookmarks.", "success");
-    } catch (error) {
-      console.error("Error removing bookmark:", error);
+      showToast("Opportunity removed.", "success");
+    } catch (err) {
+      setBookmarkedOpportunities(previous);
       showToast("Failed to remove bookmark.", "error");
-
-      // Revert the UI update if the API call fails
-      const response = await getUserProfileByEmail(currentUser?.email);
-      const bookmarks =
-        response?.data?.candidateProfile?.OpportunityBookmarks || [];
-      setBookmarkedOpportunities(bookmarks);
     }
   };
 
@@ -160,6 +144,8 @@ export const BookmarkedOpportunity = () => {
 
                   <Link
                     to={`/opportunity/connect/${opportunity._id}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="absolute right-4 cursor-pointer text-blue-600 hover:text-blue-800"
                   >
                     <FaLink className="h-5 w-5" />
