@@ -15,11 +15,11 @@ const companyRouter = express.Router();
 
 companyRouter.get("/addedOpportunities", allOpportunitiesData);
 companyRouter.post("/addedOpportunities/bulk", addManyOpportunities);
+companyRouter.get("/Companyrequirements/:id", getOpportunitytById);
 companyRouter.use(verifyUser)
 
 companyRouter.post("/addOpportunity", notificationMiddleware, addOpportunity);
 companyRouter.get("/jobListeningsByRecruiter/:recruiterId", jobListeningsByRecruiter);
-companyRouter.get("/Companyrequirements/:id", getOpportunitytById);
 companyRouter.delete("/deleteOpportunity/:id", deleteOpportunity);
 companyRouter.put("/updateOpportunity", updateOpportunity)
 

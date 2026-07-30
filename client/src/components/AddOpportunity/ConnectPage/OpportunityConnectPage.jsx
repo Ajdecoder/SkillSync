@@ -69,7 +69,9 @@ const OpportunityConnectPage = () => {
   }, [currentUser]);
 
   const handleJobApply = async () => {
-    if (!userId || !companyData?._id) return;
+    if (!userId || !companyData?._id) return toast.info("Please login to apply for the job", {
+      autoClose: 1000,
+    });
 
     try {
       setLoadingApply(true);

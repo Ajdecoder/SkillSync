@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import chatBotRoutes from "./routes/chat.Routes.js";
 import UserProfileRoutes from "./routes/userProfile.Routes.js";
 import BookmarRoutes from "./routes/bookmark.Routes.js";
+import searchRoutes from "./routes/search.Routes.js";
 import { GoogleLogin } from "./controller/googleAuth.controller.js";
 
 dotenv.config();
@@ -43,6 +44,8 @@ app.use("/api/requirements/", companyRoutes);
 app.use("/api/chatbot/", chatBotRoutes);
 
 app.use("/api/bookmark/", BookmarRoutes);
+
+app.use("/api/search/", searchRoutes);
 
 app.post('/auth/google/', GoogleLogin)
 

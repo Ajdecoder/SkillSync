@@ -300,7 +300,7 @@ const Hero = () => {
 
                 <div className="mt-12 flex flex-col justify-center gap-5 sm:flex-row">
                   <Link
-                    to="/login"
+                    to="/search"
                     className="group inline-flex items-center justify-center gap-3 rounded-xl bg-green-600 px-8 py-4 font-semibold text-white shadow-xl transition-all duration-300 hover:scale-105 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600"
                   >
                     <FaUserTie />

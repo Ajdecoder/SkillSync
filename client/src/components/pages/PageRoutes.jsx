@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 
 // Public Pages
 import Home from "../home/Home";
+import Search from "../search/Search.jsx";
 import About from "../about/About";
 import Services from "../services/Services";
 import Contact from "../contact/Contact";
@@ -91,6 +92,7 @@ const RequireRole = ({ role, children }) => {
 export const RoutesConfig = () => [
   // Public Routes
   <Route key="home" path="/" element={<Home />} />,
+  <Route key="search" path="/search" element={<Search />} />,
   <Route key="about" path="/about" element={<About />} />,
   <Route key="services" path="/services" element={<Services />} />,
   <Route key="contact" path="/contact" element={<Contact />} />,
