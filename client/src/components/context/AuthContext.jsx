@@ -9,6 +9,14 @@ export const AuthProvider = ({ children }) => {
   const [googleUser, setGoogleUser] = useState(null);
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState(null);
+
+useEffect(() => {
+    if (!loggedInUser?.email) return;
+
+    getUserProfileByEmail(loggedInUser.email)
+      .then(res => setProfile(res.data.candidateProfile));
+}, [loggedInUser?.email]);
 
   const logout = () => {
     setLoggedInUser(null);
@@ -81,6 +89,7 @@ export const AuthProvider = ({ children }) => {
         loginWithGoogle,
         logout,
         loading,
+        profile
       }}
     >
       {!loading ? children : <LoginLoading />}

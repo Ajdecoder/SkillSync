@@ -22,6 +22,7 @@ import { toast } from "react-toastify";
 
 export const ViewCandidateInfo = () => {
   const { candidateId } = useParams();
+  console.log("Candidate ID:", candidateId);
   const [candidate, setCandidate] = useState(null);
   const [recruiterId, setRecruiterId] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -125,7 +126,7 @@ export const ViewCandidateInfo = () => {
     }
   };
 
-  if (loading) return <Spinner />;
+  // if (loading) return <Spinner />;
 
   if (!candidate) return <div>No candidate data found.</div>;
 

@@ -23,6 +23,6 @@ UserProfileRouter.get("/email/:email", getUserProfileByEmail);
 UserProfileRouter.get("/id/:id", getUserProfileById);
 UserProfileRouter.get("/candidates", getAllCandidateProfiles);
 UserProfileRouter.get("/recruiters", getAllRecruiterProfiles);
-UserProfileRouter.put("/update/email/:email", updateUserProfileByEmail);
+UserProfileRouter.put("/email/:email", updateUserProfileByEmail);
 
 export default UserProfileRouter;

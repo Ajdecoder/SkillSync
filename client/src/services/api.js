@@ -66,7 +66,7 @@ export const getUserProfileByEmail = (email) =>
 export const getUserProfileById = (id) =>
   API.get(`/api/user/profile/id/${id}`);
 export const updateUserProfileByEmail = (email, data) =>
-  API.put(`/api/user/profile/update/email/${email}`, { data });
+  API.put(`/api/user/profile/email/${email}`, { data });
 export const getAllCandidateProfiles = (query) =>
   API.get("/api/user/profile/candidates", { params: query });
 export const getAllRecruitersProfiles = () =>
@@ -145,3 +145,7 @@ export const getNotifications = () =>
   API.get("/api/user/job-notifications");
 export const markNotificationAsRead = (notificationId) =>
   API.put(`/api/user/notifications/markAsRead`, { notificationId });
+
+/* ========== Market Trends APIs ========== */
+export const getMarketTrendsData = () => API.get("/api/market-trends");
+

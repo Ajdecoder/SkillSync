@@ -4,6 +4,7 @@ import { adminProfileSchema, candidateProfileSchema, recruiterProfileSchema } fr
 import { userSchema } from "../models/user.model.js";
 import { BookMarkSchema } from "../models/CandidateModals/BookMarks.model.js";
 import blogSchema from "../models/blogs.js";
+import { marketTrendSchema } from "../models/marketTrend.model.js";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -36,3 +37,4 @@ export const RecruiterUserProfile = connect.model("RecruiterUserProfile", recrui
 export const adminUserProfile = connect.model("AdminUserProfile", adminProfileSchema, "AdminProfileCollection");
 export const Bookmars = connect.model("Bookmarks", BookMarkSchema, "BookmarksCollection");
 export const Blogs = connect.model("Blogs", blogSchema, "BlogsCollection");
+export const MarketTrends = connect.model("MarketTrends", marketTrendSchema, "MarketTrendsCollection");

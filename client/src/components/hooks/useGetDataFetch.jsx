@@ -1,38 +1,47 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState, useRef } from "react";
 import { API } from "@/services/api";
 
 const useFetchData = (url) => {
-  console.log('usel=====>', url)
   const [data, setData] = useState(null);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const response = await API.get(url, {
-        withCredentials: true,
-      });
-      setData(response.data || {});
-      setLoading(false)
-      setError(false);
-    } catch (error) {
-      console.error("API Error:", error.message);
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const lastFetchedUrl = useRef(null);
 
   useEffect(() => {
-    if (url) {
-      fetchData();
-    }
+    if (!url) return;
+
+    // Skip if we already fetched this exact URL
+    if (lastFetchedUrl.current === url && data !== null) return;
+
+    const controller = new AbortController();
+
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await API.get(url, {
+          withCredentials: true,
+          signal: controller.signal,
+        });
+        lastFetchedUrl.current = url;
+        setData(response.data || {});
+        setError(false);
+      } catch (error) {
+        if (error.name === "CanceledError" || error.name === "AbortError") return;
+        console.error("API Error:", error.message);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      controller.abort();
+    };
   }, [url]);
 
   return { data, error, loading, setError };
 };
 
 export default useFetchData;
-

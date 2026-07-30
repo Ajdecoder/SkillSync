@@ -1,56 +1,89 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Spinner } from "../../common/loadingSpinner/spinner.jsx";
 import TalentsCard from "./TalentsCards.jsx";
+import { API } from "../../../services/api";
 
-const RecentTalentCard = ({
-  addedTalents = [],
-  filterdTalents = [],
-  TalentsLoading = false
-}) => {
+const RecentTalentCard = () => {
+  const [talents, setTalents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
 
-  // console.log("addedTalents:", addedTalents);
-  // console.log("filterdTalents:", filterdTalents);
-  // console.log("TalentsLoading:", TalentsLoading);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(6);
+
+  useEffect(() => {
+    setLimit(3);
+    setPage(1);
+  }, [page, limit])
+
+  const [totalPages, setTotalPages] = useState(1);
+
+  const fetchTalents = async (pageNo = 1) => {
+    try {
+      pageNo === 1 ? setLoading(true) : setLoadingMore(true);
+
+      const { data } = await API.get(
+        `/api/user/profile/candidates/?page=${pageNo}&limit=${limit}`
+      );
+
+      if (pageNo === 1) {
+        setTalents(data.candidates);
+      } else {
+        setTalents((prev) => [...prev, ...data.candidates]);
+      }
+
+      setPage(data.page);
+      setTotalPages(data.totalPages);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+      setLoadingMore(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchTalents(1);
+  }, []);
+
   const handleLoadMore = () => {
-    setLoadMore(true)
-  }
+    if (page < totalPages) {
+      fetchTalents(page + 1);
+    }
+  };
 
-  if (TalentsLoading === true) {
+  if (loading) {
     return <Spinner />;
   }
 
-  // Use filtered data if available, else fallback to all added Talents
-  const TalentsToShow =
-    filterdTalents.length > 0 ? filterdTalents : addedTalents;
-
-  // console.log('recentrale',addedTalents)
-
-  const renderTalentCard = (talent) => {
-    // console.log('renderTalentCard talents', talent)
-    return (
-      <TalentsCard
-        key={talent?._id}
-        talent={talent}
-      />
-    );
-  };
-
   return (
     <div className="space-y-8 talent-card-container">
-      {TalentsToShow.length > 0 ? (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mx-4">
-          {TalentsToShow.map((talent) =>
-            renderTalentCard(talent)
-          )}
-          <div className="flex justify-center mt-6">
-            {loadMore ? <Spinner /> : <button onClick={handleLoadMore} className="gap-2 px-6 py-3
-                      bg-gradient-to-r from-emerald-500 to-cyan-500 
-                      rounded-lg text-white font-semibold">Load More</button>}
+      {talents?.length > 0 ? (
+        <div className="mx-4">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {talents.map((talent) => (
+              <TalentsCard
+                key={talent._id}
+                talent={talent}
+              />
+            ))}
           </div>
+
+          {page < totalPages && (
+            <div className="flex justify-center mt-8">
+              <button
+                onClick={handleLoadMore}
+                disabled={loadingMore}
+                className="px-6 py-3 rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold hover:shadow-lg transition disabled:opacity-50"
+              >
+                {loadingMore ? "Loading..." : "Load More"}
+              </button>
+            </div>
+          )}
         </div>
       ) : (
         <div className="text-center text-gray-500">
-          No matching Talents found.
+          No matching talents found.
         </div>
       )}
     </div>

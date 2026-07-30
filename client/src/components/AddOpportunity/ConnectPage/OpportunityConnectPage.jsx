@@ -45,12 +45,12 @@ const OpportunityConnectPage = () => {
   const currentUser = loggedInUser || googleUser;
 
   useEffect(() => {
-    console.log(companyData);
+    if (!currentUser?.email || !companyData) return;
+
     const fetchUserProfile = async () => {
       setJobPoster(companyData?.recruiterDetails?._id);
-      console.log(companyData?.recruiterDetails?._id);
       try {
-        const user = await getUserProfileByEmail(currentUser?.email);
+        const user = await getUserProfileByEmail(currentUser.email);
         setUserId(user.data.candidateProfile._id);
         setBookmark(
           user.data.candidateProfile.OpportunityBookmarks.some(
@@ -63,13 +63,13 @@ const OpportunityConnectPage = () => {
       }
     };
 
-    if (currentUser?.email) {
-      fetchUserProfile();
-    }
-  }, [currentUser]);
+    fetchUserProfile();
+  }, [currentUser?.email, companyData]);
 
   const handleJobApply = async () => {
-    if (!userId || !companyData?._id) return;
+    if (!userId || !companyData?._id) return toast.info("Please login to apply for the job", {
+      autoClose: 1000,
+    });
 
     try {
       setLoadingApply(true);
@@ -154,7 +154,6 @@ const OpportunityConnectPage = () => {
     desc_requirement,
     requirement_type,
     salaryRange,
-    email,
     ph_no,
     title,
     createdAt,
@@ -163,8 +162,6 @@ const OpportunityConnectPage = () => {
     _id,
     recruiterDetails,
   } = companyData;
-
-  console.log("companyData here:", companyData)
 
   const userHasAlreadyApplied = candidatesApplied?.includes(userId);
 
@@ -270,12 +267,12 @@ const OpportunityConnectPage = () => {
           {/* Location & Type */}
           <motion.div
             className="flex items-center gap-4 dark:text-gray-400"
-            variants={itemVariants}
+            variants={itemVariants} 
           >
             <div className="flex items-center gap-2">
               <FiGlobe className="text-emerald-400" />
               <Link
-                href={`http://${company_website}`}
+                to={`http://${company_website}`}
                 target="_blank"
                 className="hover:text-emerald-400 transition-colors"
               >
@@ -346,10 +343,10 @@ const OpportunityConnectPage = () => {
                 <div className="flex items-center gap-2">
                   <FiMail className="text-cyan-600 dark:text-cyan-400" />
                   <a
-                    href={`mailto:${email}`}
+                    href={`mailto:${recruiterDetails?.email}`}
                     className="hover:text-cyan-700 dark:hover:text-cyan-300"
                   >
-                    {email}
+                    {recruiterDetails?.email}
                   </a>
                 </div>
                 <div className="flex items-center gap-2">
