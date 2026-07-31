@@ -149,8 +149,8 @@ const AddOpportunityCard = ({ opportunity }) => {
         >
           <div className="flex items-center gap-2">
             <FiMail className="text-cyan-600" />
-            <a href={`mailto:${recruiterDetails?.email}`} className="text-cyan-600">
-              {recruiterDetails?.email} 
+            <a href={`mailto:${recruiterDetails?.email || email}`} className="text-cyan-600">
+              {recruiterDetails?.email || email} 
             </a>
           </div>
 
