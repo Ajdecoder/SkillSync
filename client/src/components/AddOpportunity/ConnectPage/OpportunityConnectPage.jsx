@@ -157,6 +157,7 @@ const OpportunityConnectPage = () => {
     ph_no,
     title,
     createdAt,
+    updatedAt,
     company_website,
     candidatesApplied,
     _id,
@@ -172,7 +173,9 @@ const OpportunityConnectPage = () => {
   };
 
   const handleBookmarClick = async () => {
-    if (!userId || !post_id) return;
+    if (!userId || !post_id) return toast.info("Please login to bookmark the job", {
+      autoClose: 1000,
+    });
 
     try {
       // If bookmark is false, add bookmark. Otherwise, remove bookmark.
@@ -281,8 +284,8 @@ const OpportunityConnectPage = () => {
             </div>
             <div className="flex items-center gap-2">
               <FiClock className="text-cyan-400" />
-              {console.log("Created at", createdAt)}
-              <span>{new Date(createdAt).toLocaleDateString()}</span>
+              {console.log("Created at", createdAt || updatedAt)}
+              <span>{new Date(createdAt || updatedAt).toLocaleDateString()}</span>
             </div>
           </motion.div>
 

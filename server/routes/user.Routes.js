@@ -1,5 +1,4 @@
 import express from "express";
-import { cookieOptions } from "../utils/cookiesConfig.js";
 
 import verifyUser from "../middleware/auth.js";
 import {
@@ -20,6 +19,7 @@ import {
 import { Notifications, NotificationsById, NotificationAsRead } from "../controller/notification.controller.js";
 import notificationMiddleware from "../middleware/Notification.js";
 import { Candidate, Recruiter } from "../db/database.js";
+import { logoutCookieOptions } from "../utils/cookiesConfig.js";
 
 const Userrouter = express.Router();
 
@@ -53,7 +53,7 @@ Userrouter.get("/id/:id", async(req,res) => {
   }
 })
 Userrouter.post("/logout", (req, res) => {
-  res.clearCookie("authToken", cookieOptions);
+  res.clearCookie("authToken", logoutCookieOptions);
 
   return res.status(200).json({
     message: "Logged out successfully",

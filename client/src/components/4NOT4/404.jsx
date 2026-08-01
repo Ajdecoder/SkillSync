@@ -1,46 +1,24 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { Search } from "lucide-react";
 
 const NotFoundPage = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 to-black">
       <motion.div
         className="text-center"
-        initial={{ y: -1000 }}
+        initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 60, duration: 1.5 }}
       >
         <motion.div
           className="relative m-auto"
-          initial={{ scale: 1 }}
-          animate={{ scale: [1, 1.2, 1] }}
+          initial={{ scale: 0.7 }}
+          animate={{ scale: [0.7, 1, 0.7] }}
           transition={{ duration: 1, repeat: Infinity }}
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-24 h-24 mx-auto"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <motion.circle
-              cx="10.5"
-              cy="10.5"
-              r="7.5"
-              stroke="white"
-              strokeWidth="2"
-            />
-            <motion.line
-              x1="15.75"
-              y1="15.75"
-              x2="21"
-              y2="21"
-              stroke="white"
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-          </svg>
+          <Search className="w-24 h-24 mx-auto" color="red" />
         </motion.div>
 
         <motion.h1

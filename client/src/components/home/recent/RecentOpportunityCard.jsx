@@ -75,11 +75,11 @@ const RecentOpportunity = ({
           </div>
 
           {page < totalPages && (
-            <div className="flex justify-center mt-8">
+            <div className="flex justify-center mt-8 ">
               <button
                 onClick={handleLoadMore}
                 disabled={loadingMore}
-                className="px-6 py-3 rounded-lg bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold hover:shadow-lg transition disabled:opacity-50"
+                className="px-6 py-3 rounded-lg bg-gradient-to-r mb-4 from-emerald-500 to-cyan-500 text-white font-semibold hover:shadow-lg transition disabled:opacity-50"
               >
                 {loadingMore ? "Loading..." : "Load More"}
               </button>

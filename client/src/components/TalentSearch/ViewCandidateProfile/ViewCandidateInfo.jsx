@@ -19,6 +19,7 @@ import { useAuth } from "../../context/AuthContext";
 import NotificationToasts from "../../common/Toast/Toast";
 import HireTalentModal from "../../Requirements/Recruiters/HireTalents/HireTalentModal";
 import { toast } from "react-toastify";
+import { LoginRecruiter } from "@/components/Login/LoginRecruiter";
 
 export const ViewCandidateInfo = () => {
   const { candidateId } = useParams();
@@ -38,6 +39,7 @@ export const ViewCandidateInfo = () => {
     const fetchCandidateProfile = async () => {
       try {
         const { data } = await getUserProfileById(candidateId);
+        console.log("Candidate Profile Data:", data);
         setCandidate({
           ...data.profile,
           skills: data.profile.skills.length
@@ -90,10 +92,9 @@ export const ViewCandidateInfo = () => {
       }
     };
 
-    if (currentUser?.email) {
-      fetchRecruiterProfile();
-      fetchCandidateProfile();
-    }
+    fetchRecruiterProfile();
+    fetchCandidateProfile();
+
   }, [candidateId, currentUser]); // Ensure it re-fetches when the candidate changes
 
   // Handle Bookmark Click
@@ -128,7 +129,7 @@ export const ViewCandidateInfo = () => {
 
   // if (loading) return <Spinner />;
 
-  if (!candidate) return <div>No candidate data found.</div>;
+  if (!candidate) return <LoginRecruiter/>;
 
   // Helper Components
   const SectionWrapper = ({ title, children }) => (

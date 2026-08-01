@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { Candidate, OpportunityCollection } from "../../db/database.js";
 import { CandidateUserProfile } from "../../db/database.js";
-import { cookieOptions } from "../../utils/cookiesConfig.js";
+import { loginCookieOptions } from "../../utils/cookiesConfig.js";
 
 // Candidate Login
 export const CandidateLogin = async (req, res) => {
@@ -38,7 +38,7 @@ export const CandidateLogin = async (req, res) => {
 
     const refreshToken = await candidate.generateRefreshToken();
 
-    res.cookie("authToken", token, cookieOptions);
+    res.cookie("authToken", token, loginCookieOptions);
 
 
     return res.status(200).json({
@@ -102,7 +102,7 @@ export const CandidateRegister = async (req, res) => {
 
     const token = await newCandidate.generateToken();
 
-    res.cookie("authToken", token, cookieOptions);
+    res.cookie("authToken", token, loginCookieOptions);
 
 
     return res.status(201).json({

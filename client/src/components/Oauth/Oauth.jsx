@@ -25,8 +25,8 @@ export const GoogleAuth = ({ role }) => {
           token: response.credential, // Google ID token
           role: role,
         }, {
-          withCredentials: true
-        }
+        withCredentials: true
+      }
       );
 
       const { token } = res.data;
@@ -50,24 +50,14 @@ export const GoogleAuth = ({ role }) => {
 
   return (
     <GoogleOAuthProvider clientId={clientId}>
-      {user ? (
-        <div>
-          <p>Welcome, {user.name}</p>
-          <button
-            onClick={handleLogout}
-            type="button"
-            className="inline-flex items-center bg-red-500 hover:bg-red-600 me-2 mb-2 px-5 py-2.5 rounded-lg focus:outline-none focus:ring-4 focus:ring-red-500/50 font-medium text-white text-sm text-center"
-          >
-            Logout
-          </button>
-        </div>
-      ) : (
-        <GoogleLogin
-          onSuccess={handleLoginSuccess}
-          onError={() => console.error("Login Failed")}
-          text="continue_with"
-        />
-      )}
+      {
+        (
+          <GoogleLogin
+            onSuccess={handleLoginSuccess}
+            onError={() => console.error("Login Failed")}
+            text="continue_with"
+          />
+        )}
     </GoogleOAuthProvider>
   );
 };
