@@ -29,7 +29,7 @@ export const GoogleLogin = async (req, res) => {
         let profileCreated = false;
 
         if (role === 'candidate') {
-            user = await Candidate.findOne({ email });
+            user = await candidate?.findOne({ email });
             profile = await CandidateUserProfile.findOne({ email });
 
             // Case 1: Account missing

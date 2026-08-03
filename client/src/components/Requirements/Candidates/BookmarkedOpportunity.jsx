@@ -120,7 +120,7 @@ export const BookmarkedOpportunity = () => {
         >
           {bookmarkedOpportunities.map((opportunity) => (
             <motion.li
-              key={opportunity._id}
+              key={opportunity?._id}
               className="group relative p-6 border border-gray-200 rounded-xl bg-white hover:border-blue-200 transition-all duration-300 shadow-sm hover:shadow-lg"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -134,16 +134,16 @@ export const BookmarkedOpportunity = () => {
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-gray-800">
-                      {opportunity.title || "Unknown Title"}
+                      {opportunity?.title || "Unknown Title"}
                     </h3>
                     {console.log(opportunity)}
                     <p className="text-gray-500 font-medium">
-                      {opportunity.company_name || "Unknown Company"}
+                      {opportunity?.company_name || "Unknown Company"}
                     </p>
                   </div>
 
                   <Link
-                    to={`/opportunity/connect/${opportunity._id}`}
+                    to={`/opportunity/connect/${opportunity?._id}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="absolute right-4 cursor-pointer text-blue-600 hover:text-blue-800"
@@ -155,15 +155,15 @@ export const BookmarkedOpportunity = () => {
                   <div className="flex items-center gap-2 text-gray-600">
                     <FaIndianRupeeSign className="h-5 w-5 text-purple-600" />
                     <span>
-                      ₹{opportunity.salaryRange?.minSalary ?? "N/A"} - ₹
-                      {opportunity.salaryRange?.maxSalary ?? "N/A"}
+                      ₹{opportunity?.salaryRange?.minSalary ?? "N/A"} - ₹
+                      {opportunity?.salaryRange?.maxSalary ?? "N/A"}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-gray-600">
                     <FaUser className="h-5 w-5 text-green-600" />
                     <div className="flex flex-wrap gap-2">
-                      {opportunity.skills?.length > 0 ? (
-                        opportunity.skills.map((skill, index) => (
+                      {opportunity?.skills?.length > 0 ? (
+                        opportunity?.skills.map((skill, index) => (
                           <span
                             key={index}
                             className="px-3 py-1 bg-gray-100 rounded-full text-sm"
@@ -183,7 +183,7 @@ export const BookmarkedOpportunity = () => {
                   className="w-full mt-4 px-5 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  onClick={() => handleBookmarkClick(opportunity._id)}
+                  onClick={() => handleBookmarkClick(opportunity?._id)}
                 >
                   <FaBookmark className="h-5 w-5" /> Unbookmark
                 </motion.button>

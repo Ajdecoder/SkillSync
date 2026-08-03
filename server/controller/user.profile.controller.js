@@ -322,7 +322,7 @@ export const unbookmarkOpportunity = async (req, res) => {
     });
   } catch (error) {
     console.error("Error unbookmarking opportunity:", error);
-    res.status(500).json({ message: "Error unbookmarking opportunity." });
+    res.status(500).json({ message: "Error unbookmarking opportunity?." });
   }
 };
 

@@ -13,7 +13,7 @@ const HireTalentModal = ({ candidate, onClose }) => {
     try {
       //   const response = await axios.post("/api/hire-candidate", {
       //     recruiterId: "RECRUITER_ID",  // Get from user session
-      //     candidateId: candidate._id,
+      //     candidateId: candidate?._id,
       //     jobTitle,
       //     jobType,
       //     salaryOffered,
@@ -22,14 +22,14 @@ const HireTalentModal = ({ candidate, onClose }) => {
       //   });
 
       toast.success("Hiring request sent!", {
-          autoClose: 1000,
-        });
+        autoClose: 1000,
+      });
       onClose(); // Close modal after submission
     } catch (error) {
       console.error("Error sending hiring request", error);
       toast.error("Something went wrong.", {
-          autoClose: 1000,
-        });
+        autoClose: 1000,
+      });
     }
   };
 
@@ -37,7 +37,7 @@ const HireTalentModal = ({ candidate, onClose }) => {
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
       <div className="bg-white p-6 rounded-xl shadow-lg w-96 dark:bg-gray-700 dark:text-white">
         <h2 className="text-xl font-bold mb-4">
-          Hire {candidate.name || "NA"}
+          Hire {candidate?.name || "NA"}
         </h2>
 
         <input

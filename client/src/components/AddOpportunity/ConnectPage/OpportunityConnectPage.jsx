@@ -95,7 +95,7 @@ const OpportunityConnectPage = () => {
       });
     } catch (err) {
       console.error("Error applying to the job:", err);
-      setError("There was an error applying to the opportunity.");
+      setError("There was an error applying to the opportunity?.");
 
       // Show error toast
       toast.error("Failed to apply for the job.", {
@@ -198,8 +198,8 @@ const OpportunityConnectPage = () => {
     } catch (error) {
       console.error("Error updating bookmark:", error);
       toast.error("Failed to update bookmark.", {
-          autoClose: 1000,
-        });
+        autoClose: 1000,
+      });
     }
   };
 
@@ -270,7 +270,7 @@ const OpportunityConnectPage = () => {
           {/* Location & Type */}
           <motion.div
             className="flex items-center gap-4 dark:text-gray-400"
-            variants={itemVariants} 
+            variants={itemVariants}
           >
             <div className="flex items-center gap-2">
               <FiGlobe className="text-emerald-400" />

@@ -44,7 +44,7 @@ const notifyCandidatesForNewJob = async (payload) => {
 
     for (const candidate of candidates) {
       const message = `New Job Posted: ${payload.title} at ${payload.company_name}.`;
-      await sendNotification(candidate._id, message, "job_posted", payload.jobId);
+      await sendNotification(candidate?._id, message, "job_posted", payload.jobId);
     }
   } catch (error) {
     console.error("Error notifying candidates:", error);

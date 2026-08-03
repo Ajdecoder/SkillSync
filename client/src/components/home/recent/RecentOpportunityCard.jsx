@@ -65,10 +65,10 @@ const RecentOpportunity = ({
     <div className="space-y-8 opportunity-card-container">
       {opportunities.length > 0 ? (
         <>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mx-4">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-4 mx-4">
             {opportunities.map((opportunity) => (
               <AddOpportunityCard
-                key={opportunity._id}
+                key={opportunity?._id}
                 opportunity={opportunity}
               />
             ))}

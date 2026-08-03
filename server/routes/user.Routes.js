@@ -11,7 +11,7 @@ import {
   CandidateRegister,
   JobApply,
   RevertApplication,
-} from "../controller/candidates/user.candidate.controller.js";
+} from "../controller/candidates/user.candidate?.controller.js";
 import {
   RecruiterLogin,
   RecruiterRegister,
@@ -36,14 +36,14 @@ Userrouter.put("/candidate/revert-application", RevertApplication);
 Userrouter.get("/job-notifications", Notifications);
 Userrouter.get("/job-notifications/:notificationId", NotificationsById);
 Userrouter.put("/notifications/markAsRead", NotificationAsRead)
-Userrouter.get("/id/:id", async(req,res) => {
+Userrouter.get("/id/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    console.log('id in api',id)
-    const user = await Candidate.findById(id) || await Recruiter.findById(id);
-    if(user){
+    console.log('id in api', id)
+    const user = await candidate?.findById(id) || await Recruiter.findById(id);
+    if (user) {
       return res.status(200).json({
-        success:true,
+        success: true,
         user
       })
     }
