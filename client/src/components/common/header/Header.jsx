@@ -149,7 +149,7 @@ const Header = () => {
                   to={subItem.path}
                   className={({ isActive }) =>
                     clsx(
-                      "inline-block hover:bg-gray-100 dark:hover:bg-gray-700 ml-0 p w-full text-gray-700 dark:text-gray-300",
+                      "inline-block hover:bg-gray-100 dark:hover:bg-gray-700 ml-0 w-full text-gray-700 dark:text-gray-300 p",
                       isActive && "active bg-gray-100 dark:bg-gray-700"
                     )
                   }
