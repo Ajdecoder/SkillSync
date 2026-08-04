@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { jwttokenDecode } from "../utils/decode";
 import { LoginLoading } from "../Login/LoginLoading";
-import { logoutUser } from "../../services/api";
+import { getUserProfileByEmail, logoutUser } from "../../services/api";
 
 const AuthContext = createContext();
 
@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
 useEffect(() => {
     if (!loggedInUser?.email) return;
 
-    getUserProfileByEmail(loggedInUser.email)
+    getUserProfileByEmail(loggedInUser?.email)
       .then(res => setProfile(res.data.candidateProfile));
 }, [loggedInUser?.email]);
 

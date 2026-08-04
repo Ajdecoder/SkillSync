@@ -44,9 +44,9 @@ export const OpportunitiesFilter = ({
     const values = opportunities.flatMap(o =>
       o.salaryRange
         ? [
-            o.salaryRange.minSalary || 0,
-            o.salaryRange.maxSalary || 0,
-          ]
+          o.salaryRange.minSalary || 0,
+          o.salaryRange.maxSalary || 0,
+        ]
         : []
     );
     return values.length
@@ -76,7 +76,7 @@ export const OpportunitiesFilter = ({
           onChange={e =>
             setData(prev => ({ ...prev, location: e.target.value }))
           }
-          className="w-full rounded-lg border bg-gray-50 dark:bg-gray-800 p-2.5"
+          className="w-full rounded-lg bg-gray-50 dark:bg-gray-800 p-2.5"
         >
           <option value="">All Cities</option>
           {uniqueCities.map(city => (
@@ -158,7 +158,7 @@ export const OpportunitiesFilter = ({
               requirement_type: e.target.value,
             }))
           }
-          className="w-full rounded-lg border bg-gray-50 dark:bg-gray-800 p-2.5"
+          className="w-full rounded-lg bg-gray-50 dark:bg-gray-800 p-2.5"
         >
           <option value="">Any</option>
           {RequirementOptions.map(type => (

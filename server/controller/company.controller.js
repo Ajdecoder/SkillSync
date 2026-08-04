@@ -43,13 +43,13 @@ export const addOpportunity = async (req, res) => {
       recruiterDetails
     });
 
-    await newOpportunity.save();
-    res.status(201).json({ message: "Opportunity added successfully.", id: newOpportunity._id });
+    await newopportunity?.save();
+    res.status(201).json({ message: "Opportunity added successfully.", id: newopportunity?._id });
   } catch (err) {
     console.error("Error:", err);
     res
       .status(500)
-      .json({ message: "Failed to add opportunity. Please try again later." });
+      .json({ message: "Failed to add opportunity?. Please try again later." });
   }
 };
 
@@ -167,7 +167,7 @@ export const getOpportunitytById = async (req, res) => {
   } catch (error) {
     console.error("Error fetching Opportunity:", error.message);
     res.status(500).json({
-      message: "An error occurred while fetching the Opportunity.",
+      message: "An error occurred while fetching the opportunity?.",
     });
   }
 };
@@ -193,7 +193,7 @@ export const updateOpportunity = async (req, res) => {
     console.log("Opportunity updated successfully");
   } catch (error) {
     console.error("Error updating Opportunity:", error);
-    res.status(500).json({ message: "Error updating Opportunity." });
+    res.status(500).json({ message: "Error updating opportunity?." });
   }
 };
 
@@ -208,7 +208,7 @@ export const deleteOpportunity = async (req, res) => {
     res.status(200).json({ message: "Opportunity deleted successfully." });
   } catch (error) {
     console.error("Error deleting Opportunity:", error);
-    res.status(500).json({ message: "Error deleting Opportunity." });
+    res.status(500).json({ message: "Error deleting opportunity?." });
   }
 }
 

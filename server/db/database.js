@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { AddOpportunitySchema } from "../models/RecruiterModels/AddOpportunity.model.js";
+import { AddOpportunitySchema } from "../models/RecruiterModels/Addopportunity?.model.js";
 import { adminProfileSchema, candidateProfileSchema, recruiterProfileSchema } from "../models/UserProfile.model.js";
 import { userSchema } from "../models/user.model.js";
 import { BookMarkSchema } from "../models/CandidateModals/BookMarks.model.js";
@@ -9,7 +9,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const connectDB = async () => {  
+const connectDB = async () => {
   try {
     const connection = await mongoose.connect(process.env.MONGO_URL);
     console.log("collection MongoDB connected successfully");

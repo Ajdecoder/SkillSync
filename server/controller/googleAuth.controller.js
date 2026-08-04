@@ -2,7 +2,7 @@ import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { Candidate, CandidateUserProfile, Recruiter, RecruiterUserProfile } from '../db/database.js';
-import { cookieOptions } from '../utils/cookiesConfig.js';
+import { loginCookieOptions } from '../utils/cookiesConfig.js';
 
 export const GoogleLogin = async (req, res) => {
     try {
@@ -29,7 +29,7 @@ export const GoogleLogin = async (req, res) => {
         let profileCreated = false;
 
         if (role === 'candidate') {
-            user = await Candidate.findOne({ email });
+            user = await candidate?.findOne({ email });
             profile = await CandidateUserProfile.findOne({ email });
 
             // Case 1: Account missing
@@ -108,7 +108,7 @@ export const GoogleLogin = async (req, res) => {
             { expiresIn: '24h' }
         );
 
-        res.cookie('authToken', authToken, cookieOptions);
+        res.cookie('authToken', authToken, loginCookieOptions);
 
         res.status(200).json({
             message: profileCreated ? "Registered & Logged in Successfully" : "Logged in Successfully",

@@ -1,19 +1,19 @@
 import bcrypt from "bcrypt";
 import { Candidate, OpportunityCollection } from "../../db/database.js";
 import { CandidateUserProfile } from "../../db/database.js";
-import { cookieOptions } from "../../utils/cookiesConfig.js";
+import { loginCookieOptions } from "../../utils/cookiesConfig.js";
 
 // Candidate Login
 export const CandidateLogin = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const candidate = await Candidate.findOne({ email });
+    const candidate = await candidate?.findOne({ email });
     if (!candidate) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const passwordMatch = await bcrypt.compare(password, candidate.password);
+    const passwordMatch = await bcrypt.compare(password, candidate?.password);
     if (!passwordMatch) {
       return res
         .status(401)
@@ -21,34 +21,34 @@ export const CandidateLogin = async (req, res) => {
     }
 
     let candidateProfile = await CandidateUserProfile.findOne({
-      candidateInfo: candidate._id,
+      candidateInfo: candidate?._id,
     });
     if (!candidateProfile) {
       candidateProfile = new CandidateUserProfile({
-        candidateInfo: candidate._id,
-        email: candidate.email,
-        name: candidate.name,
-        role: candidate.role,
+        candidateInfo: candidate?._id,
+        email: candidate?.email,
+        name: candidate?.name,
+        role: candidate?.role,
       });
 
       await candidateProfile.save();
     }
 
-    const token = await candidate.generateToken();
+    const token = await candidate?.generateToken();
 
-    const refreshToken = await candidate.generateRefreshToken();
+    const refreshToken = await candidate?.generateRefreshToken();
 
-    res.cookie("authToken", token, cookieOptions);
+    res.cookie("authToken", token, loginCookieOptions);
 
 
     return res.status(200).json({
       success: true,
       message: "Login successful",
-      id: candidate._id,
+      id: candidate?._id,
       accountInfo: {
-        name: candidate.name,
-        email: candidate.email,
-        role: candidate.role,
+        name: candidate?.name,
+        email: candidate?.email,
+        role: candidate?.role,
       },
       token,
       refreshToken,
@@ -83,15 +83,15 @@ export const CandidateRegister = async (req, res) => {
       role,
       password: hashedPassword,
     });
-    await newCandidate.save();
+    await newcandidate?.save();
 
     let candidateProfile = await CandidateUserProfile.findOne({
-      candidateInfo: newCandidate._id,
+      candidateInfo: newcandidate?._id,
     });
 
     if (!candidateProfile) {
       candidateProfile = new CandidateUserProfile({
-        candidateInfo: newCandidate._id,
+        candidateInfo: newcandidate?._id,
         email,
         name,
         role,
@@ -100,9 +100,9 @@ export const CandidateRegister = async (req, res) => {
       await candidateProfile.save();
     }
 
-    const token = await newCandidate.generateToken();
+    const token = await newcandidate?.generateToken();
 
-    res.cookie("authToken", token, cookieOptions);
+    res.cookie("authToken", token, loginCookieOptions);
 
 
     return res.status(201).json({
@@ -121,12 +121,12 @@ export const CandidateRegister = async (req, res) => {
 // Candidate Forgot Password
 export const CandidateForgotPassword = async (req, res) => {
   try {
-    const candidate = await Candidate.findOne({ email: req.body.email });
+    const candidate = await candidate?.findOne({ email: req.body.email });
     if (!candidate) {
       return res.status(404).json({ message: "Email not found" });
     }
 
-    const resetToken = await candidate.generateForgetPassToken();
+    const resetToken = await candidate?.generateForgetPassToken();
 
     res.status(200).json({ success: true, resetToken });
   } catch (error) {
@@ -151,12 +151,12 @@ export const JobApply = async (req, res) => {
       return res.status(404).json({ message: "Opportunity not found." });
     }
 
-    if (opportunity.candidatesApplied.includes(userId)) {
-      return res.status(400).json({ message: "User has already applied for this opportunity." });
+    if (opportunity?.candidatesApplied.includes(userId)) {
+      return res.status(400).json({ message: "User has already applied for this opportunity?." });
     }
 
-    opportunity.candidatesApplied.push(userId);
-    await opportunity.save();
+    opportunity?.candidatesApplied.push(userId);
+    await opportunity?.save();
 
     res.status(200).json({ message: "Application submitted successfully." });
   } catch (error) {
@@ -179,9 +179,9 @@ export const RevertApplication = async (req, res) => {
       return res.status(404).json({ message: "Opportunity not found." });
     }
 
-    const getIndexofId = opportunity.candidatesApplied.indexOf(userId);
-    opportunity.candidatesApplied.splice(getIndexofId);
-    await opportunity.save();
+    const getIndexofId = opportunity?.candidatesApplied.indexOf(userId);
+    opportunity?.candidatesApplied.splice(getIndexofId);
+    await opportunity?.save();
 
     res.status(200).json({ message: "Application cancelled successfully." });
   } catch (error) {

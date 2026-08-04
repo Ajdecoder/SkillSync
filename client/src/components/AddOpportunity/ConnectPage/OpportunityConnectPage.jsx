@@ -95,7 +95,7 @@ const OpportunityConnectPage = () => {
       });
     } catch (err) {
       console.error("Error applying to the job:", err);
-      setError("There was an error applying to the opportunity.");
+      setError("There was an error applying to the opportunity?.");
 
       // Show error toast
       toast.error("Failed to apply for the job.", {
@@ -157,6 +157,7 @@ const OpportunityConnectPage = () => {
     ph_no,
     title,
     createdAt,
+    updatedAt,
     company_website,
     candidatesApplied,
     _id,
@@ -172,7 +173,9 @@ const OpportunityConnectPage = () => {
   };
 
   const handleBookmarClick = async () => {
-    if (!userId || !post_id) return;
+    if (!userId || !post_id) return toast.info("Please login to bookmark the job", {
+      autoClose: 1000,
+    });
 
     try {
       // If bookmark is false, add bookmark. Otherwise, remove bookmark.
@@ -195,8 +198,8 @@ const OpportunityConnectPage = () => {
     } catch (error) {
       console.error("Error updating bookmark:", error);
       toast.error("Failed to update bookmark.", {
-          autoClose: 1000,
-        });
+        autoClose: 1000,
+      });
     }
   };
 
@@ -267,7 +270,7 @@ const OpportunityConnectPage = () => {
           {/* Location & Type */}
           <motion.div
             className="flex items-center gap-4 dark:text-gray-400"
-            variants={itemVariants} 
+            variants={itemVariants}
           >
             <div className="flex items-center gap-2">
               <FiGlobe className="text-emerald-400" />
@@ -281,8 +284,8 @@ const OpportunityConnectPage = () => {
             </div>
             <div className="flex items-center gap-2">
               <FiClock className="text-cyan-400" />
-              {console.log("Created at", createdAt)}
-              <span>{new Date(createdAt).toLocaleDateString()}</span>
+              {console.log("Created at", createdAt || updatedAt)}
+              <span>{new Date(createdAt || updatedAt).toLocaleDateString()}</span>
             </div>
           </motion.div>
 
