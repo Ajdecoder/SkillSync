@@ -10,16 +10,15 @@ const Team = () => {
       <div className="container mx-auto px-4">
         <Heading
           title="Our Team"
-          subtitle="With diverse expertise and a shared commitment to excellence, our team collaborates seamlessly to create impactful results. Together, we believe in pushing boundaries, embracing challenges, and achieving greatness."
-          titleClassName="text-3xl font-bold mb-4 dark:text-white"
-          subtitleClassName="text-lg text-gray-600 mb-8 dark:text-gray-300"
-          align="left"
+          subtitle="Meet the talented individuals behind our success! Our dedicated team of professionals brings diverse skills, unique perspectives, and a shared commitment to excellence to every project."
+          titleClassName="text-3xl font-bold text-center mb-4 dark:text-white"
+          subtitleClassName="text-lg text-gray-600 text-center mb-8 dark:text-gray-300"
         />
 
         <div className="mt-10 grid gap-1 sm:grid-cols-2 lg:grid-cols-3">
           {team.map((member, index) => (
             <div
-              className="box shadow-lg rounded-lg overflow-hidden bg-white transition-transform transform hover:scale-105 dark:bg-gray-700 "
+              className="box shadow-lg rounded-lg overflow-hidden bg-white transition-transform transform  dark:bg-gray-700"
               key={index}
             >
               <div className="details space-y-4 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-400 dark:border-gray-700 p-10">

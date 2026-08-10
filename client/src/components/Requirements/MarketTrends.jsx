@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import "./MarketTrends.css";
+import { getMarketTrendsData } from "../../services/api";
 import {
   LineChart,
   Line,
@@ -12,28 +13,7 @@ import {
   Legend,
 } from "recharts";
 
-const data = [
-  { name: "January", jobPostings: 150, talentSearches: 120, activeUsers: 90 },
-  { name: "February", jobPostings: 180, talentSearches: 140, activeUsers: 110 },
-  { name: "March", jobPostings: 200, talentSearches: 160, activeUsers: 130 },
-  { name: "April", jobPostings: 220, talentSearches: 180, activeUsers: 150 },
-  { name: "May", jobPostings: 250, talentSearches: 200, activeUsers: 170 },
-  { name: "June", jobPostings: 300, talentSearches: 240, activeUsers: 200 },
-  { name: "July", jobPostings: 350, talentSearches: 280, activeUsers: 230 },
-  { name: "August", jobPostings: 400, talentSearches: 320, activeUsers: 270 },
-
-  {
-    name: "September",
-    jobPostings: 450,
-    talentSearches: 350,
-    activeUsers: 300,
-  },
-  { name: "October", jobPostings: 500, talentSearches: 380, activeUsers: 320 },
-  { name: "November", jobPostings: 550, talentSearches: 420, activeUsers: 350 },
-  { name: "December", jobPostings: 600, talentSearches: 460, activeUsers: 380 },
-];
-
-const MyChart = () => (
+const MyChart = ({ data }) => (
   <div style={{ width: "100%", height: 450 }}>
     <ResponsiveContainer>
       <LineChart
@@ -83,6 +63,20 @@ const MyChart = () => (
 );
 
 const MarketTrends = () => {
+  const [chartData, setChartData] = useState([]);
+
+  useEffect(() => {
+    const fetchMarketTrends = async () => {
+      try {
+        const response = await getMarketTrendsData();
+        setChartData(response.data);
+      } catch (error) {
+        console.error("Error fetching market trends:", error);
+      }
+    };
+    fetchMarketTrends();
+  }, []);
+
   const trends = [
     {
       id: 1,
@@ -155,7 +149,7 @@ const MarketTrends = () => {
             Dynamic Market Graph
           </h2>
           <div className="bg-gray-200 dark:bg-gray-700 rounded-lg flex items-center justify-center">
-            <MyChart />
+            <MyChart data={chartData} />
           </div>
         </motion.div>
       </section>

@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Heading from "../../common/Heading";
-import RzecentOpportunity from "./RecentOpportunityCard";
 import { useAuth } from "../../context/AuthContext";
-import { SampleRecentCard } from "../../SampleRecentCard";
-import TalentsCard from "./TalentsCards";
-import { useNavigate } from "react-router-dom";
 import { Spinner } from "../../common/loadingSpinner/spinner";
-import { getAllCandidateProfiles } from "../../../services/api";
-import { LoginLoading } from "../../Login/LoginLoading";
 import RecentTalentCard from "./RecentTalentCard";
 import RecentOpportunity from "./RecentOpportunityCard";
 
@@ -40,7 +34,7 @@ const Recent = ({ filteredopportunity, opportunity, loading, candidates, filtere
                 <RecentOpportunity
                   opportunitiesLoading={loading}
                   addedOpportunities={opportunity}
-                  filterdOpportunities={filteredopportunity}
+                  filterdOpportunities={opportunity}
                 />
               </div>
             </section>

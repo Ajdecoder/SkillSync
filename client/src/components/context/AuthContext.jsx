@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { jwttokenDecode } from "../utils/decode";
 import { LoginLoading } from "../Login/LoginLoading";
-import { logoutUser } from "../../services/api";
+import { getUserProfileByEmail, logoutUser } from "../../services/api";
 
 const AuthContext = createContext();
 
@@ -9,6 +9,14 @@ export const AuthProvider = ({ children }) => {
   const [googleUser, setGoogleUser] = useState(null);
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState(null);
+
+useEffect(() => {
+    if (!loggedInUser?.email) return;
+
+    getUserProfileByEmail(loggedInUser?.email)
+      .then(res => setProfile(res.data.candidateProfile));
+}, [loggedInUser?.email]);
 
   const logout = () => {
     setLoggedInUser(null);
@@ -81,6 +89,7 @@ export const AuthProvider = ({ children }) => {
         loginWithGoogle,
         logout,
         loading,
+        profile
       }}
     >
       {!loading ? children : <LoginLoading />}

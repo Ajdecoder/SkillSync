@@ -1,14 +1,15 @@
 import mongoose from "mongoose";
-import { AddOpportunitySchema } from "../models/RecruiterModels/AddOpportunity.model.js";
+import { AddOpportunitySchema } from "../models/RecruiterModels/Addopportunity.model.js";
 import { adminProfileSchema, candidateProfileSchema, recruiterProfileSchema } from "../models/UserProfile.model.js";
 import { userSchema } from "../models/user.model.js";
 import { BookMarkSchema } from "../models/CandidateModals/BookMarks.model.js";
 import blogSchema from "../models/blogs.js";
+import { marketTrendSchema } from "../models/marketTrend.model.js";
 import dotenv from "dotenv";
 
 dotenv.config();
 
-const connectDB = async () => {  
+const connectDB = async () => {
   try {
     const connection = await mongoose.connect(process.env.MONGO_URL);
     console.log("collection MongoDB connected successfully");
@@ -36,3 +37,4 @@ export const RecruiterUserProfile = connect.model("RecruiterUserProfile", recrui
 export const adminUserProfile = connect.model("AdminUserProfile", adminProfileSchema, "AdminProfileCollection");
 export const Bookmars = connect.model("Bookmarks", BookMarkSchema, "BookmarksCollection");
 export const Blogs = connect.model("Blogs", blogSchema, "BlogsCollection");
+export const MarketTrends = connect.model("MarketTrends", marketTrendSchema, "MarketTrendsCollection");

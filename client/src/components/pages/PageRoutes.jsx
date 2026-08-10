@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 
 // Public Pages
 import Home from "../home/Home";
+import Search from "../search/Search.jsx";
 import About from "../about/About";
 import Services from "../services/Services";
 import Contact from "../contact/Contact";
@@ -36,19 +37,19 @@ import WarrantyInformationPage from "../support/warranty-information/WarrantyInf
 
 // Authentication
 import { ChooseLoginMode } from "../Login/ChooseLoginMode.jsx";
-import { LoginCandidate } from "../Login/LoginCandidate.jsx";
+import { LoginCandidate } from "../Login/Logincandidate?.jsx";
 import { LoginRecruiter } from "../Login/LoginRecruiter.jsx";
 import { Register } from "../Register/ChooseRegisterMode.jsx";
-import { RegCandidate } from "../Register/RegCandidate.jsx";
+import { RegCandidate } from "../Register/Regcandidate?.jsx";
 import { RegRecruiter } from "../Register/RegRecruiter.jsx";
 
 // Candidate Pages
-import { SavedOpportunity } from "../Requirements/Candidates/SavedOpportunity.jsx";
+import { SavedOpportunity } from "../Requirements/Candidates/Savedopportunity?.jsx";
 import { AllBookmarks } from "../Requirements/Candidates/AllBookmarks.jsx";
 
 // Recruiter Pages
 import HireResources from "../Requirements/Recruiters/HireTalent.jsx";
-import AddOpportunity from "../Requirements/Recruiters/AddOpportunity.jsx";
+import AddOpportunity from "../Requirements/Recruiters/Addopportunity?.jsx";
 import TalentPool from "../Requirements/Recruiters/TalentPool.jsx";
 import { ListedListenings } from "../Requirements/Recruiters/JobListings/ListedListenings.jsx";
 import { MyJobListings } from "../Requirements/Recruiters/MyJobListings.jsx";
@@ -91,6 +92,7 @@ const RequireRole = ({ role, children }) => {
 export const RoutesConfig = () => [
   // Public Routes
   <Route key="home" path="/" element={<Home />} />,
+  <Route key="search" path="/search" element={<Search />} />,
   <Route key="about" path="/about" element={<About />} />,
   <Route key="services" path="/services" element={<Services />} />,
   <Route key="contact" path="/contact" element={<Contact />} />,

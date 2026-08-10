@@ -1,7 +1,6 @@
 import React from "react"
 import img from "/images/logo.png"
 import Back from "../common/Back"
-import "../home/featured/Featured.css"
 import FeaturedCard from "../home/featured/FeaturedCard"
 
 const Services = () => {

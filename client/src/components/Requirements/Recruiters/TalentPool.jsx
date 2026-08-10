@@ -23,7 +23,7 @@ const TalentPool = () => {
 
   console.log("FilteredCandidates", filteredCandidates);
 
-  
+
 
   useEffect(() => {
     fetchCandidates();
@@ -49,8 +49,8 @@ const TalentPool = () => {
     if (filters.search) {
       filtered = filtered.filter(
         (candidate) =>
-          candidate.name.toLowerCase().includes(filters.search.toLowerCase()) ||
-          candidate.skills.some((skill) =>
+          candidate?.name.toLowerCase().includes(filters.search.toLowerCase()) ||
+          candidate?.skills.some((skill) =>
             skill.toLowerCase().includes(filters.search.toLowerCase())
           )
       );
@@ -58,13 +58,13 @@ const TalentPool = () => {
 
     if (filters.skill) {
       filtered = filtered.filter((candidate) =>
-        candidate.skills.includes(filters.skill)
+        candidate?.skills.includes(filters.skill)
       );
     }
 
     if (filters.experience) {
       filtered = filtered.filter((candidate) => {
-        const experiences = candidate.experience || [];
+        const experiences = candidate?.experience || [];
 
         let totalMonths = 0;
 
@@ -91,20 +91,20 @@ const TalentPool = () => {
     if (filters.city) {
       filtered = filtered.filter(
         (candidate) =>
-          candidate.location?.city?.toLowerCase() === filters.city.toLowerCase()
+          candidate?.location?.city?.toLowerCase() === filters.city.toLowerCase()
       );
     }
     if (filters.state) {
       filtered = filtered.filter(
         (candidate) =>
-          candidate.location?.state?.toLowerCase() ===
+          candidate?.location?.state?.toLowerCase() ===
           filters.state.toLowerCase()
       );
     }
     if (filters.country) {
       filtered = filtered.filter(
         (candidate) =>
-          candidate.location?.country?.toLowerCase() ===
+          candidate?.location?.country?.toLowerCase() ===
           filters.country.toLowerCase()
       );
     }
@@ -114,8 +114,8 @@ const TalentPool = () => {
         const min = filters.minSalary ? parseInt(filters.minSalary) : 0;
         const max = filters.maxSalary ? parseInt(filters.maxSalary) : Infinity;
 
-        const candidateMin = candidate.preferences.salaryRange?.min || 0;
-        const candidateMax = candidate.preferences.salaryRange?.max || Infinity;
+        const candidateMin = candidate?.preferences.salaryRange?.min || 0;
+        const candidateMax = candidate?.preferences.salaryRange?.max || Infinity;
 
         return candidateMax >= min && candidateMin <= max;
       });
@@ -123,13 +123,13 @@ const TalentPool = () => {
 
     if (filters.jobType) {
       filtered = filtered.filter(
-        (candidate) => candidate.preferences.jobType === filters.jobType
+        (candidate) => candidate?.preferences.jobType === filters.jobType
       );
     }
 
     if (filters.industry) {
       filtered = filtered.filter(
-        (candidate) => candidate.preferences.industry === filters.industry
+        (candidate) => candidate?.preferences.industry === filters.industry
       );
     }
 
@@ -138,8 +138,8 @@ const TalentPool = () => {
 
   const handleInterest = (candidateId) => {
     toast.success("Interest Expressed!", {
-          autoClose: 1000,
-        });
+      autoClose: 1000,
+    });
     console.log("Expressed Interest for:", candidateId);
   };
 
@@ -202,29 +202,29 @@ const TalentPool = () => {
         {filteredCandidates.length > 0 ? (
           filteredCandidates.map((candidate) => (
             <motion.div
-              key={candidate._id}
+              key={candidate?._id}
               whileHover={{ scale: 1.02 }}
               className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100 dark:border-gray-700"
             >
               <div className="flex items-center gap-4 mb-4">
                 <img
-                  src={candidate.profilePicture || "/default-avatar.png"}
-                  alt={candidate.name}
+                  src={candidate?.profilePicture || "/default-avatar.png"}
+                  alt={candidate?.name}
                   className="w-16 h-16 rounded-full object-cover border-2 border-white shadow"
                 />
                 <div>
                   <h2 className="font-bold text-lg text-gray-800 dark:text-white">
-                    {candidate.name || "Candidate"}
+                    {candidate?.name || "Candidate"}
                   </h2>
                   <p className="text-sm text-gray-600 dark:text-gray-300">
-                    {candidate.role || "No Role Specified"}
+                    {candidate?.role || "No Role Specified"}
                   </p>
                   <div className="flex items-center gap-2 mt-1">
                     <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
-                      {candidate.experience?.length || 0} yrs exp
+                      {candidate?.experience?.length || 0} yrs exp
                     </span>
                     <span className="text-xs text-gray-500 dark:text-gray-400">
-                      {candidate.location?.city || "Remote"}
+                      {candidate?.location?.city || "Remote"}
                     </span>
                   </div>
                 </div>
@@ -247,8 +247,8 @@ const TalentPool = () => {
                     Salary:
                   </span>
                   <span className="font-medium text-green-700 dark:text-green-400">
-                    ₹{candidate.preferences.salaryRange.min} - ₹
-                    {candidate.preferences.salaryRange.max}
+                    ₹{candidate?.preferences.salaryRange.min} - ₹
+                    {candidate?.preferences.salaryRange.max}
                   </span>
                 </div>
                 <div className="flex items-center gap-2 text-sm">
@@ -256,15 +256,15 @@ const TalentPool = () => {
                     Job Type:
                   </span>
                   <span className="font-medium text-purple-700 dark:text-purple-400">
-                    {candidate.preferences.jobType}
+                    {candidate?.preferences.jobType}
                   </span>
                 </div>
               </div>
 
               <div className="flex gap-3 mb-4">
-                {candidate.socialLinks.linkedin && (
+                {candidate?.socialLinks.linkedin && (
                   <a
-                    href={candidate.socialLinks.linkedin}
+                    href={candidate?.socialLinks.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-600 hover:text-blue-700 dark:hover:text-blue-400"
@@ -272,9 +272,9 @@ const TalentPool = () => {
                     LinkedIn
                   </a>
                 )}
-                {candidate.socialLinks.github && (
+                {candidate?.socialLinks.github && (
                   <a
-                    href={candidate.socialLinks.github}
+                    href={candidate?.socialLinks.github}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-gray-600 hover:text-gray-700 dark:hover:text-gray-400"
@@ -282,9 +282,9 @@ const TalentPool = () => {
                     GitHub
                   </a>
                 )}
-                {candidate.socialLinks.portfolio && (
+                {candidate?.socialLinks.portfolio && (
                   <a
-                    href={candidate.socialLinks.portfolio}
+                    href={candidate?.socialLinks.portfolio}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-green-600 hover:text-green-700 dark:hover:text-green-400"
@@ -299,13 +299,13 @@ const TalentPool = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex-1 text-center transition-colors"
-                  onClick={() => handleInterest(candidate._id)}
+                  onClick={() => handleInterest(candidate?._id)}
                 >
                   Express Interest
                 </motion.button>
                 <button
                   className="border border-gray-300 hover:border-gray-400 text-gray-700 px-4 py-2 rounded-lg flex-1 text-center transition-colors dark:border-gray-600 dark:text-gray-200"
-                  onClick={() => navigate(`/candidateinfo/${candidate._id}`)}
+                  onClick={() => navigate(`/candidateinfo/${candidate?._id}`)}
                 >
                   View Profile
                 </button>

@@ -29,7 +29,7 @@ const AddOpportunityCard = ({ opportunity }) => {
   };
 
   const handleConnectClick = () => {
-    window.open(`/opportunity/connect/${opportunity._id}`, "_blank");
+    window.open(`/opportunity/connect/${opportunity?._id}`, "_blank");
   };
 
   const {
@@ -43,6 +43,7 @@ const AddOpportunityCard = ({ opportunity }) => {
     candidatesApplied,
     createdAt,
     updatedAt,
+    recruiterDetails
   } = opportunity;
 
   const availableDate = createdAt || updatedAt
@@ -148,8 +149,8 @@ const AddOpportunityCard = ({ opportunity }) => {
         >
           <div className="flex items-center gap-2">
             <FiMail className="text-cyan-600" />
-            <a href={`mailto:${email}`} className="text-cyan-600">
-              {email}
+            <a href={`mailto:${recruiterDetails?.email || email}`} className="text-cyan-600">
+              {recruiterDetails?.email || email}
             </a>
           </div>
 

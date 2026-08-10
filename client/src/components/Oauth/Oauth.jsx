@@ -1,22 +1,30 @@
-import { GoogleLogin } from "@react-oauth/google";
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { PORT_CLIENT } from "../../commonClient";
+import { useState } from "react";
 
 export const GoogleAuth = ({ role }) => {
-  const navigate = useNavigate();
+  const clientId = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
+  // console.log("Client ID from ENV:", import.meta.env.VITE_APP_GOOGLE_CLIENT_ID);
+  // console.log("Client ID from ENV:", clientId);
+  const [user, setUser] = useState(
+    JSON.parse(localStorage?.getItem("authToken"))
+  );
+
+  let navigate = useNavigate();
+
 
   const handleLoginSuccess = async (response) => {
     try {
       const res = await axios.post(
         `${PORT_CLIENT}/auth/google`,
         {
-          token: response.credential,
-          role,
-        },
-        {
-          withCredentials: true,
-        }
+          token: response.credential, // Google ID token
+          role: role,
+        }, {
+        withCredentials: true
+      }
       );
 
       const { token } = res.data;
@@ -31,10 +39,15 @@ export const GoogleAuth = ({ role }) => {
   };  
 
   return (
-    <GoogleLogin
-      onSuccess={handleLoginSuccess}
-      onError={() => console.log("Login Failed")}
-      text="continue_with"
-    />
+    <GoogleOAuthProvider clientId={clientId}>
+      {
+        (
+          <GoogleLogin
+            onSuccess={handleLoginSuccess}
+            onError={() => console.error("Login Failed")}
+            text="continue_with"
+          />
+        )}
+    </GoogleOAuthProvider>
   );
 };

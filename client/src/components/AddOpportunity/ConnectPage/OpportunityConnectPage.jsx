@@ -45,12 +45,12 @@ const OpportunityConnectPage = () => {
   const currentUser = loggedInUser || googleUser;
 
   useEffect(() => {
-    console.log(companyData);
+    if (!currentUser?.email || !companyData) return;
+
     const fetchUserProfile = async () => {
       setJobPoster(companyData?.recruiterDetails?._id);
-      console.log(companyData?.recruiterDetails?._id);
       try {
-        const user = await getUserProfileByEmail(currentUser?.email);
+        const user = await getUserProfileByEmail(currentUser.email);
         setUserId(user.data.candidateProfile._id);
         setBookmark(
           user.data.candidateProfile.OpportunityBookmarks.some(
@@ -63,13 +63,13 @@ const OpportunityConnectPage = () => {
       }
     };
 
-    if (currentUser?.email) {
-      fetchUserProfile();
-    }
-  }, [currentUser]);
+    fetchUserProfile();
+  }, [currentUser?.email, companyData]);
 
   const handleJobApply = async () => {
-    if (!userId || !companyData?._id) return;
+    if (!userId || !companyData?._id) return toast.info("Please login to apply for the job", {
+      autoClose: 1000,
+    });
 
     try {
       setLoadingApply(true);
@@ -95,7 +95,7 @@ const OpportunityConnectPage = () => {
       });
     } catch (err) {
       console.error("Error applying to the job:", err);
-      setError("There was an error applying to the opportunity.");
+      setError("There was an error applying to the opportunity?.");
 
       // Show error toast
       toast.error("Failed to apply for the job.", {
@@ -154,17 +154,15 @@ const OpportunityConnectPage = () => {
     desc_requirement,
     requirement_type,
     salaryRange,
-    email,
     ph_no,
     title,
     createdAt,
+    updatedAt,
     company_website,
     candidatesApplied,
     _id,
     recruiterDetails,
   } = companyData;
-
-  console.log("companyData here:", companyData)
 
   const userHasAlreadyApplied = candidatesApplied?.includes(userId);
 
@@ -175,7 +173,9 @@ const OpportunityConnectPage = () => {
   };
 
   const handleBookmarClick = async () => {
-    if (!userId || !post_id) return;
+    if (!userId || !post_id) return toast.info("Please login to bookmark the job", {
+      autoClose: 1000,
+    });
 
     try {
       // If bookmark is false, add bookmark. Otherwise, remove bookmark.
@@ -198,8 +198,8 @@ const OpportunityConnectPage = () => {
     } catch (error) {
       console.error("Error updating bookmark:", error);
       toast.error("Failed to update bookmark.", {
-          autoClose: 1000,
-        });
+        autoClose: 1000,
+      });
     }
   };
 
@@ -275,7 +275,7 @@ const OpportunityConnectPage = () => {
             <div className="flex items-center gap-2">
               <FiGlobe className="text-emerald-400" />
               <Link
-                href={`http://${company_website}`}
+                to={`http://${company_website}`}
                 target="_blank"
                 className="hover:text-emerald-400 transition-colors"
               >
@@ -284,8 +284,8 @@ const OpportunityConnectPage = () => {
             </div>
             <div className="flex items-center gap-2">
               <FiClock className="text-cyan-400" />
-              {console.log("Created at", createdAt)}
-              <span>{new Date(createdAt).toLocaleDateString()}</span>
+              {console.log("Created at", createdAt || updatedAt)}
+              <span>{new Date(createdAt || updatedAt).toLocaleDateString()}</span>
             </div>
           </motion.div>
 
@@ -346,10 +346,10 @@ const OpportunityConnectPage = () => {
                 <div className="flex items-center gap-2">
                   <FiMail className="text-cyan-600 dark:text-cyan-400" />
                   <a
-                    href={`mailto:${email}`}
+                    href={`mailto:${recruiterDetails?.email}`}
                     className="hover:text-cyan-700 dark:hover:text-cyan-300"
                   >
-                    {email}
+                    {recruiterDetails?.email}
                   </a>
                 </div>
                 <div className="flex items-center gap-2">

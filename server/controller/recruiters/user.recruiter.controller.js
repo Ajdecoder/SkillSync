@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { Recruiter, RecruiterUserProfile } from "../../db/database.js";
-import { cookieOptions } from "../../utils/cookiesConfig.js";
+import { loginCookieOptions } from "../../utils/cookiesConfig.js";
 
 // Helper function to create a new recruiter profile
 const createRecruiterProfile = async (recruiter) => {
@@ -41,7 +41,7 @@ export const RecruiterRegister = async (req, res) => {
     delete recruiterProfile.recruiterInfo.password;
 
     const token = await newRecruiter.generateToken();
-    res.cookie("authToken", token, cookieOptions);
+    res.cookie("authToken", token, loginCookieOptions);
 
 
     res.status(201).json({
@@ -80,7 +80,7 @@ export const RecruiterLogin = async (req, res) => {
     }
 
     const token = await recruiter.generateToken();
-    res.cookie("authToken", token, cookieOptions);
+    res.cookie("authToken", token, loginCookieOptions);
 
 
     return res.status(200).json({

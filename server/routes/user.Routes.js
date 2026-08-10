@@ -1,5 +1,4 @@
 import express from "express";
-import { cookieOptions } from "../utils/cookiesConfig.js";
 
 import verifyUser from "../middleware/auth.js";
 import {
@@ -20,6 +19,7 @@ import {
 import { Notifications, NotificationsById, NotificationAsRead } from "../controller/notification.controller.js";
 import notificationMiddleware from "../middleware/Notification.js";
 import { Candidate, Recruiter } from "../db/database.js";
+import { logoutCookieOptions } from "../utils/cookiesConfig.js";
 
 const Userrouter = express.Router();
 
@@ -36,14 +36,14 @@ Userrouter.put("/candidate/revert-application", RevertApplication);
 Userrouter.get("/job-notifications", Notifications);
 Userrouter.get("/job-notifications/:notificationId", NotificationsById);
 Userrouter.put("/notifications/markAsRead", NotificationAsRead)
-Userrouter.get("/id/:id", async(req,res) => {
+Userrouter.get("/id/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    console.log('id in api',id)
-    const user = await Candidate.findById(id) || await Recruiter.findById(id);
-    if(user){
+    console.log('id in api', id)
+    const user = await candidate?.findById(id) || await Recruiter.findById(id);
+    if (user) {
       return res.status(200).json({
-        success:true,
+        success: true,
         user
       })
     }
@@ -53,7 +53,7 @@ Userrouter.get("/id/:id", async(req,res) => {
   }
 })
 Userrouter.post("/logout", (req, res) => {
-  res.clearCookie("authToken", cookieOptions);
+  res.clearCookie("authToken", logoutCookieOptions);
 
   return res.status(200).json({
     message: "Logged out successfully",

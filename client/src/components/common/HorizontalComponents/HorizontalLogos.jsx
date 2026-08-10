@@ -13,7 +13,7 @@ const HorizontalLogos = () => {
   ];
 
   return (
-    <div className="py-10 dark:bg-gray-300 dark:text-white">
+    <div className="py-10">
       <Marquee
         speed={140}
         gradient={true}
@@ -25,7 +25,7 @@ const HorizontalLogos = () => {
             <img
               src={logo}
               alt={`Logo ${index + 1}`}
-              className="block w-58 h-48 object-cover cursor-default"
+              className="block w-58 h-40 object-cover cursor-default"
             />
           </div>
         ))}

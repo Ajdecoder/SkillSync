@@ -108,7 +108,7 @@ export const getAllCandidateProfiles = async (req, res) => {
 
     console.log("Final Mongo Query:", query);
 
-    const candidates = await CandidateUserProfile.find(query).limit(limit).skip(skip).exec();
+    const candidates = await CandidateUserProfile.find(query).limit(limit).sort({ createdAt: -1 }).skip(skip).exec();
     const totalCount = await CandidateUserProfile.countDocuments(query);
     const totalPages = Math.ceil(totalCount / limit);
     res.status(200).json({
@@ -322,7 +322,7 @@ export const unbookmarkOpportunity = async (req, res) => {
     });
   } catch (error) {
     console.error("Error unbookmarking opportunity:", error);
-    res.status(500).json({ message: "Error unbookmarking opportunity." });
+    res.status(500).json({ message: "Error unbookmarking opportunity?." });
   }
 };
 
