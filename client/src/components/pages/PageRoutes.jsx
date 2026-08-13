@@ -175,7 +175,7 @@ export const RoutesConfig = () => [
       <PreventLoggedIn>
         <RegRecruiter />
       </PreventLoggedIn>
-    }
+    } 
   />,
 
   // Candidate Protected Routes

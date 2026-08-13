@@ -13,22 +13,22 @@ import {
   FaEnvelope,
   FaInfoCircle,
   FaBlog,
+  FaSearch,
 } from "react-icons/fa";
 
 export const nav = [
   {
     text: "home",
     path: "/",
-    icon: <FaHome />,
+    icon: <FaHome size={20} />,
   },
   {
     flag: "expand",
     text: "Requirement",
     path: "/requirements",
-    icon: <FaClipboardList />,
+    icon: <FaClipboardList size={20} />,
   },
-
-  { text: "Market Trends", path: "requirements/market-trends", icon: <FaChartLine /> },
+  { text: "Market Trends", path: "requirements/market-trends", icon: <FaChartLine size={20} /> },
 
 ];
 

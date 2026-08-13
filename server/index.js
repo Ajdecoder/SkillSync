@@ -22,7 +22,7 @@ const allowedOrigins = [
   "http://localhost:5174",
   "http://localhost:5175"
 ].filter(Boolean);
-
+  
 const corsOptions = {
   origin: allowedOrigins,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],

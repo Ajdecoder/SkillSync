@@ -25,7 +25,7 @@ const Recent = ({ filteredopportunity, opportunity, loading, candidates, filtere
       {currentUser ? (
         <>
           {(currentUser?.role === "candidate") && (
-            <section className="recent padding dark:bg-gray-800 dark:text-white">
+            <section className="recent dark:bg-gray-800 dark:text-white">
               <div className="container">
                 <Heading
                   title="Newly Listed Companies"

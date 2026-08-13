@@ -69,7 +69,7 @@ const Header = () => {
     <header className="bg-white dark:bg-gray-900 mt-1 mb-1 border dark:border-gray-700 rounded-xl">
       <div className="relative flex items-center justify-between h-16 sm:h-18 lg:h-20 px-3 sm:px-5 lg:px-6 bg-white dark:bg-gray-900 rounded-xl">
         {/* Logo */}
-        <div className="logo">
+        <div className="logo hidden lg:block">
           <NavLink to="/">
             <img src={logo} alt="Logo" className="dark:invert dark:filter" />
           </NavLink>
@@ -112,21 +112,23 @@ const Header = () => {
                 />
               </>
             ) : (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2 sm:gap-3">
+                {/* Sign In */}
                 <Link
                   to="/login"
-                  className="flex items-center gap-2 px-5 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100 hover:dark:bg-gray-800 transition-all duration-300 dark:text-white"
+                  className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-white text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300"
                 >
-                  <i className="fa fa-sign-in"></i>
-                  <span >Sign In</span>
+                  <i className="fa fa-sign-in text-sm"></i>
+                  <span className="hidden xs:inline sm:inline">Sign In</span>
                 </Link>
 
+                {/* Sign Up */}
                 <Link
                   to="/signup"
-                  className="flex items-center gap-2 px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 shadow-md hover:shadow-lg transition-all duration-300"
+                  className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700 shadow-md hover:shadow-lg transition-all duration-300"
                 >
-                  <i className="fa fa-user-plus"></i>
-                  <span>Sign Up</span>
+                  <i className="fa fa-user-plus text-sm"></i>
+                  <span className="hidden xs:inline sm:inline">Sign Up</span>
                 </Link>
               </div>
             )}

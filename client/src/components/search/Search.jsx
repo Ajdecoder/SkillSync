@@ -1,39 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { API } from "../../services/api";
-import { Link } from "react-router-dom";
 
 const Search = () => {
-  const [query, setQuery] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const urlQuery = searchParams.get("q") || "";
+
+  const [inputValue, setInputValue] = useState(urlQuery);
   const [results, setResults] = useState({ talents: [], opportunities: [] });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [hasSearched, setHasSearched] = useState(false);
-
-  const handleSearch = async () => {
-    if (!query.trim()) return;
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await API.get(`/api/search?q=${encodeURIComponent(query)}`);
-      if (response.data && response.data.success) {
-        setResults(response.data.data);
-      } else {
-        setResults({ talents: [], opportunities: [] });
-      }
-      setHasSearched(true);
-    } catch (err) {
-      console.error(err);
-      setError("Failed to fetch search results. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      handleSearch();
-    }
-  };
 
   const badgeColors = [
     "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300",
@@ -45,84 +22,213 @@ const Search = () => {
 
   const getBadgeColor = (idx) => badgeColors[idx % badgeColors.length];
 
+  const fetchResults = useCallback(async (q) => {
+    if (!q.trim()) {
+      setResults({ talents: [], opportunities: [] });
+      setHasSearched(false);
+      setError(null);
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await API.get(
+        `/api/search?q=${encodeURIComponent(q.trim())}`
+      );
+
+      if (response.data?.success) {
+        setResults(response.data.data || { talents: [], opportunities: [] });
+      } else {
+        setResults({ talents: [], opportunities: [] });
+      }
+      setHasSearched(true);
+    } catch (err) {
+      console.error(err);
+      setError("Something went wrong while searching. Please try again.");
+      setResults({ talents: [], opportunities: [] });
+      setHasSearched(true);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  // Sync input + fetch whenever the URL `q` changes (back/forward, shared links, etc.)
+  useEffect(() => {
+    setInputValue(urlQuery);
+    fetchResults(urlQuery);
+  }, [urlQuery, fetchResults]);
+
+  const handleSearch = (e) => {
+    e?.preventDefault();
+    const trimmed = inputValue.trim();
+
+    if (!trimmed) {
+      setSearchParams({});
+      return;
+    }
+
+    // Update URL → triggers the effect above
+    setSearchParams({ q: trimmed });
+  };
+
+  const handleClear = () => {
+    setInputValue("");
+    setSearchParams({});
+  };
+
+  const popularSearches = [
+    "React Developer",
+    "UI/UX Designer",
+    "Full Stack",
+    "Product Manager",
+    "Data Analyst",
+  ];
+
+  const totalResults =
+    (results.opportunities?.length || 0) + (results.talents?.length || 0);
+
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 font-sans">
-      {/* Gradient Hero Section */}
-      <div className="relative bg-gradient-to-br from-indigo-600 via-blue-700 to-blue-500 overflow-hidden">
-        {/* Abstract background shapes */}
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none opacity-20">
-          <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-white blur-3xl"></div>
-          <div className="absolute top-1/2 right-[-10%] w-[40rem] h-[40rem] rounded-full bg-cyan-300 blur-3xl"></div>
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 font-sans">
+      {/* Hero */}
+      <div className="relative bg-gradient-to-br from-red-600 via-gren-700 to-blue-500 overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none opacity-20">
+          <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-white blur-3xl" />
+          <div className="absolute top-1/2 right-[-10%] w-[40rem] h-[40rem] rounded-full bg-cyan-300 blur-3xl" />
         </div>
 
-        <div className="relative z-10 container mx-auto px-4 py-24 text-center">
-          <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-6 tracking-tight drop-shadow-sm">
-            Discover Exceptional Talent <br className="hidden md:block" /> & Opportunities
+        <div className="relative z-10 container mx-auto px-4 pt-16 pb-20 sm:pt-20 sm:pb-24 text-center">
+          <p className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-blue-50 text-xs sm:text-sm font-medium mb-5 border border-white/20">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse" />
+            Search talent & opportunities in one place
+          </p>
+ 
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-4 tracking-tight leading-tight">
+            Find the right match,
+            <br className="hidden sm:block" /> faster
           </h1>
-          <p className="text-lg md:text-xl text-blue-100 mb-12 max-w-2xl mx-auto font-light">
-            Connect with top-tier professionals or find your next career-defining role.
+
+          <p className="text-base sm:text-lg text-blue-100/90 mb-10 max-w-xl mx-auto font-light">
+            Search by skill, role, or keyword — discover people and jobs that fit.
           </p>
 
-          {/* Glassmorphism Search Bar */}
-          <div className="max-w-3xl mx-auto backdrop-blur-xl bg-white/10 border border-white/20 p-2 md:p-3 rounded-2xl flex items-center shadow-2xl transition-all hover:bg-white/15">
-            <i className="fa-solid fa-magnifying-glass text-white/70 text-xl ml-4 mr-3"></i>
-            <input 
-              type="text" 
-              placeholder="Search by keyword, skill, or job title..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onKeyDown={handleKeyDown}
-              className="w-full bg-transparent text-white placeholder-white/70 text-lg focus:outline-none px-2"
+          {/* Search bar */}
+          <form
+            onSubmit={handleSearch}
+            className="max-w-2xl mx-auto backdrop-blur-xl bg-white/10 border border-white/25 p-1.5 sm:p-2 rounded-2xl flex items-center shadow-2xl focus-within:bg-white/15 focus-within:ring-2 focus-within:ring-white/30 transition"
+          >
+            <i className="fa-solid fa-magnifying-glass text-white/70 text-lg ml-3 sm:ml-4 shrink-0" />
+
+            <input
+              type="search"
+              placeholder="e.g. React, Product Designer, Bangalore..."
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              className="w-full bg-transparent text-white placeholder-white/60 text-base sm:text-lg focus:outline-none px-3 py-2.5 sm:py-3"
+              autoComplete="off"
+              aria-label="Search query"
             />
-            <button 
-              onClick={handleSearch}
-              disabled={loading}
-              className="px-6 py-3 bg-white text-blue-700 font-bold rounded-xl hover:bg-blue-50 transition duration-300 disabled:opacity-70 disabled:cursor-not-allowed shadow-sm ml-2 whitespace-nowrap"
+
+            {inputValue && (
+              <button
+                type="button"
+                onClick={handleClear}
+                className="p-2 text-white/60 hover:text-white transition shrink-0"
+                aria-label="Clear search"
+              >
+                <i className="fa-solid fa-xmark text-lg" />
+              </button>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading || !inputValue.trim()}
+              className="px-5 sm:px-6 py-2.5 sm:py-3 bg-white text-blue-700 font-bold rounded-xl hover:bg-blue-50 active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed shadow-sm ml-1 shrink-0 text-sm sm:text-base"
             >
-              Search
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <i className="fa-solid fa-spinner fa-spin" />
+                  <span className="hidden sm:inline">Searching</span>
+                </span>
+              ) : (
+                "Search"
+              )}
             </button>
-          </div>
+          </form>
+
+          {/* Popular chips — only when no active search */}
+          {!urlQuery && (
+            <div className="mt-6 flex flex-wrap justify-center gap-2 max-w-xl mx-auto">
+              <span className="text-blue-100/70 text-sm mr-1 self-center">
+                Try:
+              </span>
+              {popularSearches.map((term) => (
+                <button
+                  key={term}
+                  type="button"
+                  onClick={() => {
+                    setInputValue(term);
+                    setSearchParams({ q: term });
+                  }}
+                  className="px-3 py-1 rounded-full text-xs sm:text-sm bg-white/10 hover:bg-white/20 text-white border border-white/20 transition"
+                >
+                  {term}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Results Section */}
-      <div className="container mx-auto px-4 py-16 max-w-6xl">
+      {/* Results area */}
+      <div className="container mx-auto px-4 py-10 sm:py-14 max-w-6xl">
         {error && (
-          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 p-4 rounded-xl text-center mb-8 flex items-center justify-center gap-2">
-            <i className="fa-solid fa-circle-exclamation"></i>
+          <div className="bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 p-4 rounded-xl text-center mb-8 flex items-center justify-center gap-2">
+            <i className="fa-solid fa-circle-exclamation" />
             {error}
           </div>
         )}
 
-        {/* Initial Empty State */}
+        {/* Empty / idle state */}
         {!hasSearched && !loading && !error && (
-          <div className="text-center py-20 opacity-60">
-            <i className="fa-solid fa-compass text-6xl text-gray-300 dark:text-gray-600 mb-6 block"></i>
-            <h3 className="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-2">Ready to explore?</h3>
-            <p className="text-gray-500 dark:text-gray-400 max-w-md mx-auto">Enter a skill, job title, or keyword above to uncover amazing opportunities and talented professionals.</p>
+          <div className="text-center py-16 sm:py-20">
+            <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-indigo-900/40 dark:to-blue-900/40 flex items-center justify-center">
+              <i className="fa-solid fa-compass text-3xl text-indigo-500 dark:text-indigo-400" />
+            </div>
+            <h3 className="text-xl sm:text-2xl font-semibold text-gray-800 dark:text-gray-100 mb-2">
+              Start exploring
+            </h3>
+            <p className="text-gray-500 dark:text-gray-400 max-w-md mx-auto text-sm sm:text-base">
+              Type a skill, job title, or keyword above — or pick a popular
+              search to get started.
+            </p>
           </div>
         )}
 
-        {/* Skeleton Loading */}
+        {/* Loading skeletons */}
         {loading && (
-          <div className="space-y-12 animate-pulse mt-8">
+          <div className="space-y-12 animate-pulse">
             {[1, 2].map((section) => (
               <div key={section}>
-                <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded w-48 mb-6"></div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="h-8 bg-gray-200 dark:bg-gray-800 rounded-lg w-48 mb-6" />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="p-6 border border-gray-100 dark:border-gray-800 rounded-2xl bg-white dark:bg-gray-800 shadow-sm h-40">
+                    <div
+                      key={i}
+                      className="p-5 border border-gray-100 dark:border-gray-800 rounded-2xl bg-white dark:bg-gray-900 h-36"
+                    >
                       <div className="flex gap-4 mb-4">
-                        <div className="w-12 h-12 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
-                        <div className="flex-1 space-y-2">
-                          <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-3/4"></div>
-                          <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/2"></div>
+                        <div className="w-11 h-11 bg-gray-200 dark:bg-gray-800 rounded-full shrink-0" />
+                        <div className="flex-1 space-y-2 pt-1">
+                          <div className="h-4 bg-gray-200 dark:bg-gray-800 rounded w-3/4" />
+                          <div className="h-3 bg-gray-200 dark:bg-gray-800 rounded w-1/2" />
                         </div>
                       </div>
-                      <div className="flex gap-2 mt-6">
-                        <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-md w-16"></div>
-                        <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-md w-20"></div>
-                        <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded-md w-12"></div>
+                      <div className="flex gap-2">
+                        <div className="h-6 bg-gray-200 dark:bg-gray-800 rounded-md w-16" />
+                        <div className="h-6 bg-gray-200 dark:bg-gray-800 rounded-md w-20" />
+                        <div className="h-6 bg-gray-200 dark:bg-gray-800 rounded-md w-14" />
                       </div>
                     </div>
                   ))}
@@ -132,134 +238,214 @@ const Search = () => {
           </div>
         )}
 
-        {/* Actual Results */}
+        {/* Results */}
         {hasSearched && !loading && (
-          <div className="space-y-16">
-            
-            {/* Opportunities Section */}
+          <div className="space-y-14">
+            {/* Summary bar */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-2 border-b border-gray-200 dark:border-gray-800">
+              <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base">
+                {totalResults === 0 ? (
+                  <>
+                    No results for{" "}
+                    <span className="font-semibold text-gray-900 dark:text-white">
+                      “{urlQuery}”
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    Showing{" "}
+                    <span className="font-semibold text-gray-900 dark:text-white">
+                      {totalResults}
+                    </span>{" "}
+                    result{totalResults !== 1 ? "s" : ""} for{" "}
+                    <span className="font-semibold text-gray-900 dark:text-white">
+                      “{urlQuery}”
+                    </span>
+                  </>
+                )}
+              </p>
+              {urlQuery && (
+                <button
+                  type="button"
+                  onClick={handleClear}
+                  className="text-sm text-blue-600 dark:text-blue-400 hover:underline self-start sm:self-auto"
+                >
+                  Clear search
+                </button>
+              )}
+            </div>
+
+            {/* Opportunities */}
             <section>
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-blue-600 dark:text-blue-400">
-                  <i className="fa-solid fa-briefcase text-lg"></i>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
+                  <i className="fa-solid fa-briefcase" />
                 </div>
-                <h3 className="text-3xl font-bold text-gray-800 dark:text-white">
-                  Opportunities <span className="text-lg font-normal text-gray-500 ml-2">({results.opportunities?.length || 0})</span>
-                </h3>
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+                  Opportunities
+                  <span className="ml-2 text-base font-normal text-gray-500 dark:text-gray-400">
+                    ({results.opportunities?.length || 0})
+                  </span>
+                </h2>
               </div>
-              
+
               {results.opportunities?.length > 0 ? (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                   {results.opportunities.map((job) => (
-                    <Link to={`/opportunity/connect/${job._id}`} key={job._id} className="group block">
-                      <div className="p-6 border border-gray-100 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                        <div className="flex justify-between items-start mb-4 gap-4">
-                          <div>
-                            <h4 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    <Link
+                      to={`/opportunity/connect/${job._id}`}
+                      key={job._id}
+                      className="group block h-full"
+                    >
+                      <article className="h-full p-5 sm:p-6 border border-gray-100 dark:border-gray-800 rounded-2xl bg-white dark:bg-gray-900 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex flex-col">
+                        <div className="flex justify-between items-start gap-3 mb-3">
+                          <div className="min-w-0">
+                            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-2">
                               {job.title}
-                            </h4>
-                            <div className="flex flex-wrap items-center text-gray-600 dark:text-gray-300 mt-2 gap-4 text-sm font-medium">
-                              <span className="flex items-center gap-1.5"><i className="fa-regular fa-building text-gray-400"></i> {job.company_name}</span>
-                              <span className="flex items-center gap-1.5"><i className="fa-solid fa-location-dot text-gray-400"></i> {job.location}</span>
+                            </h3>
+                            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400 mt-2">
+                              {job.company_name && (
+                                <span className="flex items-center gap-1.5">
+                                  <i className="fa-regular fa-building text-gray-400" />
+                                  {job.company_name}
+                                </span>
+                              )}
+                              {job.location && (
+                                <span className="flex items-center gap-1.5">
+                                  <i className="fa-solid fa-location-dot text-gray-400" />
+                                  {job.location}
+                                </span>
+                              )}
                             </div>
                           </div>
-                          <span className="px-3 py-1 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 text-xs font-bold rounded-full border border-green-200 dark:border-green-800/30 whitespace-nowrap">
-                            {job.requirement_type}
-                          </span>
+                          {job.requirement_type && (
+                            <span className="shrink-0 px-2.5 py-1 bg-emerald-50 dark:bg-emerald-900/25 text-emerald-700 dark:text-emerald-400 text-xs font-semibold rounded-full border border-emerald-200/80 dark:border-emerald-800/40">
+                              {job.requirement_type}
+                            </span>
+                          )}
                         </div>
-                        <p className="text-gray-500 dark:text-gray-400 text-sm line-clamp-2 mb-4 leading-relaxed">
+
+                        <p className="text-gray-500 dark:text-gray-400 text-sm line-clamp-2 mb-4 flex-1 leading-relaxed">
                           {job.desc_requirement || "No description provided."}
                         </p>
-                        <div className="flex flex-wrap gap-2 mt-auto">
+
+                        <div className="flex flex-wrap gap-2">
                           {job.skills?.slice(0, 4).map((skill, idx) => (
-                            <span key={idx} className={`px-2.5 py-1 rounded-md text-xs font-medium ${getBadgeColor(idx)}`}>
+                            <span
+                              key={idx}
+                              className={`px-2.5 py-1 rounded-md text-xs font-medium ${getBadgeColor(idx)}`}
+                            >
                               {skill.skillName || skill}
                             </span>
                           ))}
                           {job.skills?.length > 4 && (
-                            <span className="px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+                            <span className="px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300">
                               +{job.skills.length - 4}
                             </span>
                           )}
                         </div>
-                      </div>
+                      </article>
                     </Link>
                   ))}
                 </div>
               ) : (
-                <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-12 text-center shadow-sm">
-                  <div className="w-20 h-20 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i className="fa-solid fa-magnifying-glass-minus text-2xl text-gray-400"></i>
-                  </div>
-                  <h4 className="text-xl font-bold text-gray-800 dark:text-white mb-2">No opportunities found</h4>
-                  <p className="text-gray-500 dark:text-gray-400">We couldn't find any roles matching your search criteria. Try using different keywords.</p>
-                </div>
+                <EmptyBlock
+                  icon="fa-magnifying-glass-minus"
+                  title="No opportunities found"
+                  description="Try a different keyword or check the Talents section below."
+                />
               )}
             </section>
 
-            {/* Talents Section */}
+            {/* Talents */}
             <section>
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center text-purple-600 dark:text-purple-400">
-                  <i className="fa-solid fa-users text-lg"></i>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center text-purple-600 dark:text-purple-400 shrink-0">
+                  <i className="fa-solid fa-users" />
                 </div>
-                <h3 className="text-3xl font-bold text-gray-800 dark:text-white">
-                  Talents <span className="text-lg font-normal text-gray-500 ml-2">({results.talents?.length || 0})</span>
-                </h3>
+                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
+                  Talents
+                  <span className="ml-2 text-base font-normal text-gray-500 dark:text-gray-400">
+                    ({results.talents?.length || 0})
+                  </span>
+                </h2>
               </div>
 
               {results.talents?.length > 0 ? (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                   {results.talents.map((talent) => (
-                    <Link to={`/candidateinfo/${talent._id}`} key={talent._id} className="group block">
-                      <div className="p-6 border border-gray-100 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-start gap-5">
-                        <img 
-                          src={talent.profilePicture || "https://i.pinimg.com/1200x/d9/04/bb/d904bbc138e6cba76e5470df5054b106.jpg"} 
-                          alt={talent.name} 
-                          className="w-16 h-16 rounded-full object-cover border-2 border-gray-50 dark:border-gray-700 shadow-sm group-hover:border-blue-200 dark:group-hover:border-blue-800 transition-colors" 
+                    <Link
+                      to={`/candidateinfo/${talent._id}`}
+                      key={talent._id}
+                      className="group block h-full"
+                    >
+                      <article className="h-full p-5 sm:p-6 border border-gray-100 dark:border-gray-800 rounded-2xl bg-white dark:bg-gray-900 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 flex items-start gap-4">
+                        <img
+                          src={
+                            talent.profilePicture ||
+                            "https://i.pinimg.com/1200x/d9/04/bb/d904bbc138e6cba76e5470df5054b106.jpg"
+                          }
+                          alt={talent.name}
+                          className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover border-2 border-gray-100 dark:border-gray-800 shadow-sm group-hover:border-blue-200 dark:group-hover:border-blue-700 transition-colors shrink-0"
                         />
-                        <div className="flex-1">
-                          <h4 className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors truncate">
                             {talent.name}
-                          </h4>
-                          <p className="text-sm text-gray-600 dark:text-gray-300 font-medium mt-1 flex items-center gap-1.5">
-                            <i className="fa-solid fa-location-crosshairs text-gray-400"></i> {talent.location?.city || "Remote / Open"}
+                          </h3>
+                          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 flex items-center gap-1.5">
+                            <i className="fa-solid fa-location-crosshairs text-gray-400 shrink-0" />
+                            <span className="truncate">
+                              {talent.location?.city || "Remote / Open"}
+                            </span>
                           </p>
-                          <div className="mt-4 flex flex-wrap gap-2">
+                          <div className="mt-3 flex flex-wrap gap-2">
                             {talent.skills?.slice(0, 4).map((skill, idx) => (
-                              <span key={idx} className={`px-2.5 py-1 rounded-md text-xs font-medium ${getBadgeColor(idx + 2)}`}>
+                              <span
+                                key={idx}
+                                className={`px-2.5 py-1 rounded-md text-xs font-medium ${getBadgeColor(idx + 2)}`}
+                              >
                                 {skill}
                               </span>
                             ))}
                             {talent.skills?.length > 4 && (
-                              <span className="px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+                              <span className="px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300">
                                 +{talent.skills.length - 4}
                               </span>
                             )}
                           </div>
                         </div>
-                        <div className="text-gray-300 dark:text-gray-600 group-hover:text-blue-500 transition-colors">
-                           <i className="fa-solid fa-chevron-right"></i>
-                        </div>
-                      </div>
+                        <i className="fa-solid fa-chevron-right text-gray-300 dark:text-gray-600 group-hover:text-blue-500 transition-colors mt-2 shrink-0" />
+                      </article>
                     </Link>
                   ))}
                 </div>
               ) : (
-                <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl p-12 text-center shadow-sm">
-                  <div className="w-20 h-20 bg-gray-50 dark:bg-gray-700 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i className="fa-solid fa-user-xmark text-2xl text-gray-400"></i>
-                  </div>
-                  <h4 className="text-xl font-bold text-gray-800 dark:text-white mb-2">No talents found</h4>
-                  <p className="text-gray-500 dark:text-gray-400">We couldn't find any candidates matching your search criteria. Try broadening your terms.</p>
-                </div>
+                <EmptyBlock
+                  icon="fa-user-xmark"
+                  title="No talents found"
+                  description="Try broadening your search or use a different skill keyword."
+                />
               )}
             </section>
-            
           </div>
         )}
       </div>
     </div>
   );
 };
+
+const EmptyBlock = ({ icon, title, description }) => (
+  <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl p-10 sm:p-12 text-center shadow-sm">
+    <div className="w-16 h-16 bg-gray-50 dark:bg-gray-800 rounded-full flex items-center justify-center mx-auto mb-4">
+      <i className={`fa-solid ${icon} text-xl text-gray-400`} />
+    </div>
+    <h4 className="text-lg font-bold text-gray-800 dark:text-white mb-2">
+      {title}
+    </h4>
+    <p className="text-gray-500 dark:text-gray-400 text-sm max-w-sm mx-auto">
+      {description}
+    </p>
+  </div>
+);
 
 export default Search;

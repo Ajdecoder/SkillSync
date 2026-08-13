@@ -8,7 +8,7 @@ export const CandidateLogin = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const candidate = await candidate?.findOne({ email });
+    const candidate = await Candidate?.findOne({ email });
     if (!candidate) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -83,15 +83,15 @@ export const CandidateRegister = async (req, res) => {
       role,
       password: hashedPassword,
     });
-    await newcandidate?.save();
+    await newCandidate?.save();
 
     let candidateProfile = await CandidateUserProfile.findOne({
-      candidateInfo: newcandidate?._id,
+      candidateInfo: newCandidate?._id,
     });
 
     if (!candidateProfile) {
       candidateProfile = new CandidateUserProfile({
-        candidateInfo: newcandidate?._id,
+        candidateInfo: newCandidate?._id,
         email,
         name,
         role,
@@ -100,7 +100,7 @@ export const CandidateRegister = async (req, res) => {
       await candidateProfile.save();
     }
 
-    const token = await newcandidate?.generateToken();
+    const token = await newCandidate?.generateToken();
 
     res.cookie("authToken", token, loginCookieOptions);
 
