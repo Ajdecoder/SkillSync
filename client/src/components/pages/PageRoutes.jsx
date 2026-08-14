@@ -37,7 +37,7 @@ import WarrantyInformationPage from "../support/warranty-information/WarrantyInf
 
 // Authentication
 import { ChooseLoginMode } from "../Login/ChooseLoginMode.jsx";
-import { LoginCandidate } from "../Login/Logincandidate?.jsx";
+import { LoginCandidate } from "../Login/LoginCandidate.jsx";
 import { LoginRecruiter } from "../Login/LoginRecruiter.jsx";
 import { Register } from "../Register/ChooseRegisterMode.jsx";
 import { RegCandidate } from "../Register/Regcandidate?.jsx";
