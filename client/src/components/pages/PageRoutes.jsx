@@ -44,7 +44,7 @@ import { RegCandidate } from "../Register/Regcandidate?.jsx";
 import { RegRecruiter } from "../Register/RegRecruiter.jsx";
 
 // Candidate Pages
-import { SavedOpportunity } from "../Requirements/Candidates/Savedopportunity?.jsx";
+import { SavedOpportunity } from "../Requirements/Candidates/SavedOpportunity.jsx";
 import { AllBookmarks } from "../Requirements/Candidates/AllBookmarks.jsx";
 
 // Recruiter Pages
