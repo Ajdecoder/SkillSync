@@ -9,7 +9,7 @@ const Heading = ({ title, subtitle, align = "center", titleClassName, subtitleCl
   };
 
   return (
-    <div className={`w-full ${alignmentClasses[align]} py-8 px-4`}>
+    <div className={`w-full ${alignmentClasses[align]} py-8 px-4 text-lg md:text-sm sm:text-base`}>
       <h1 className={`text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-5xl mb-3 transition-colors duration-300 ${titleClassName}`} >
         {title}
       </h1>

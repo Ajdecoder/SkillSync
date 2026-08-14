@@ -109,7 +109,7 @@ const MarketTrends = () => {
       {/* Header Section */}
       <header className="trends-header text-center m-10">
         <div className="min-w-full">
-          <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-4 p-3">
+          <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">
             Market Trends
           </h1>
           <p className="text-gray-600 dark:text-gray-300 text-lg">

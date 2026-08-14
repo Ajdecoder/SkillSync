@@ -109,7 +109,7 @@ const Footer = () => {
             </div>
 
             {/* Footer Link Columns */}
-            <div className="grid grid-cols-1 gap-x-10 gap-y-10 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid grid-cols-2 gap-x-10 gap-y-10 sm:grid-cols-4 xl:grid-cols-3">
               {footer.map((section, index) => (
                 <div key={section.title || index} className="min-w-0">
                   <h3 className="mb-5 text-sm font-bold uppercase tracking-wider text-gray-900 dark:text-white">

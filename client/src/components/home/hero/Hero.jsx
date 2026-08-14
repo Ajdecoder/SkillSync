@@ -259,9 +259,9 @@ const Hero = () => {
       ) : (
         // 2. GUEST VIEW (Modern Landing Page Style)
 
-        <>
+        <>  
           {/* Guest Hero */}
-          <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gray-100 dark:bg-gray-950">
+          <section className="relative flex min-h-[62rem] sm:min-h-[45rem] md:min-h-[48rem] items-center justify-center overflow-hidden bg-gray-100 dark:bg-gray-950">
             {/* Background */}
             <img
               src="/images/banner.jpg"

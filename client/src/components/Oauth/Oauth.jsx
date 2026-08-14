@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { PORT_CLIENT } from "../../commonClient";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export const GoogleAuth = ({ role }) => {
   const clientId = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
@@ -16,8 +16,6 @@ export const GoogleAuth = ({ role }) => {
 
 
   const handleLoginSuccess = async (response) => {
-
-    console.log(response, 'it give res')
     try {
       const res = await axios.post(
         `${PORT_CLIENT}/auth/google`,
@@ -30,23 +28,15 @@ export const GoogleAuth = ({ role }) => {
       );
 
       const { token } = res.data;
-      console.log(token, 'it give tokenn')
+
       localStorage.setItem("authToken", JSON.stringify(token));
-      setUser(user);
 
       navigate("/");
-      window.location.reload(); // Refresh to update UI
+      window.location.reload();
     } catch (error) {
-      console.error("Google Login Failed:", error);
+      console.error(error);
     }
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("authToken");
-    setUser(null);
-    window.location.reload();
-  };
+  };  
 
   return (
     <GoogleOAuthProvider clientId={clientId}>

@@ -6,7 +6,7 @@ import { location } from "../..//common/constants";
 const Location = () => {
   return (
     <>
-      <section className="location padding dark:bg-[#0f0f0f] dark:text-white">
+      <section className="m-3 padding dark:bg-[#0f0f0f] dark:text-white">
         <div className="container">
           <Heading
             title="Explore By Company and Location"

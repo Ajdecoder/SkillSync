@@ -13,35 +13,23 @@ import {
   FaEnvelope,
   FaInfoCircle,
   FaBlog,
+  FaSearch,
 } from "react-icons/fa";
 
 export const nav = [
   {
-    text: "home", 
+    text: "home",
     path: "/",
-    icon: <FaHome />,
+    icon: <FaHome size={20} />,
   },
   {
     flag: "expand",
     text: "Requirement",
     path: "/requirements",
-    icon: <FaClipboardList />,
+    icon: <FaClipboardList size={20} />,
   },
-  {
-    text: "contact",
-    path: "/contact",
-    icon: <FaEnvelope />,
-  },
-  {
-    text: "about",
-    path: "/about",
-    icon: <FaInfoCircle />,
-  },
-  {
-    text: "blogs",
-    path: "/blogs",
-    icon: <FaBlog />,
-  },
+  { text: "Market Trends", path: "requirements/market-trends", icon: <FaChartLine size={20} /> },
+
 ];
 
 export const filterData = [
@@ -116,7 +104,7 @@ export const navExpandRecruiter = [
 
 export const navExpandCAndidate = [
   {
-    text: "Browse Opportunities",
+    text: "Opportunities",
     path: "requirements/browse-opportunities",
     icon: <FaBriefcase />,
   },

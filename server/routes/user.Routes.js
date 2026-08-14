@@ -11,7 +11,7 @@ import {
   CandidateRegister,
   JobApply,
   RevertApplication,
-} from "../controller/candidates/user.candidate?.controller.js";
+} from "../controller/candidates/user.candidate.controller.js";
 import {
   RecruiterLogin,
   RecruiterRegister,

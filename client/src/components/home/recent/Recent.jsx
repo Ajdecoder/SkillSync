@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Heading from "../../common/Heading";
-import RecentOpportunity from "./RecentOpportunityCard";
 import { useAuth } from "../../context/AuthContext";
-import { SampleRecentCard } from "../../SampleRecentCard";
-import TalentsCard from "./TalentsCards";
-import { useNavigate } from "react-router-dom";
 import { Spinner } from "../../common/loadingSpinner/spinner";
-import { getAllCandidateProfiles } from "../../../services/api";
-import { LoginLoading } from "../../Login/LoginLoading";
 import RecentTalentCard from "./RecentTalentCard";
+import RecentOpportunity from "./RecentOpportunityCard";
 
 const Recent = ({ filteredopportunity, opportunity, loading, candidates, filteredCandidates, opportunitiesError, candidatesError: talentsError }) => {
+
+  console.log('fskfjs',opportunity)
 
   const { loggedInUser, googleUser } = useAuth();
   const currentUser = loggedInUser || googleUser;
@@ -28,7 +25,7 @@ const Recent = ({ filteredopportunity, opportunity, loading, candidates, filtere
       {currentUser ? (
         <>
           {(currentUser?.role === "candidate") && (
-            <section className="recent padding dark:bg-gray-800 dark:text-white">
+            <section className="recent dark:bg-gray-800 dark:text-white">
               <div className="container">
                 <Heading
                   title="Newly Listed Companies"
@@ -37,7 +34,7 @@ const Recent = ({ filteredopportunity, opportunity, loading, candidates, filtere
                 <RecentOpportunity
                   opportunitiesLoading={loading}
                   addedOpportunities={opportunity}
-                  filterdOpportunities={filteredopportunity}
+                  filterdOpportunities={opportunity}
                 />
               </div>
             </section>
@@ -60,7 +57,15 @@ const Recent = ({ filteredopportunity, opportunity, loading, candidates, filtere
           )}
         </>
       ) : (
-        <SampleRecentCard />
+        <section className="recent padding dark:bg-gray-800 dark:text-white">
+          <div className="container">
+            <RecentOpportunity
+              opportunitiesLoading={loading}
+              addedOpportunities={opportunity}
+              // filterdOpportunities={filteredopportunity}
+            />
+          </div>
+        </section>
       )}
     </>
   );

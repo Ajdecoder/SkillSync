@@ -10,9 +10,6 @@ const UserDropdown = ({ showAboutUser, currentUser, setConfirmLogout, confirmlog
       
       {/* 1. USER INFO HEADER SECTION */}
       <div className="flex items-center gap-3 mb-2 p-3 border-gray-100 dark:border-gray-700/50 border-b">
-        <div className="flex justify-center items-center bg-gradient-to-tr from-blue-500 to-indigo-600 shadow-sm rounded-full w-10 h-10 text-white">
-          <FaRegUser className="text-base" />
-        </div>
         <div className="flex flex-col min-w-0">
           <span className="font-semibold text-gray-800 dark:text-gray-200 text-sm truncate">
             {currentUser?.name || "Guest User"}

@@ -88,7 +88,7 @@ const RecentOpportunity = ({
         </>
       ) : (
         <div className="text-center text-gray-500">
-          No matching opportunities found.
+          No opportunities available.
         </div>
       )}
     </div>

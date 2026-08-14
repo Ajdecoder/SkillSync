@@ -36,7 +36,7 @@ export const searchAll = async (req, res) => {
         { location: searchRegex },
         { requirement_type: searchRegex }
       ]
-    }).populate("recruiterDetails", "name companyOverview companyLogo").limit(20);
+    }).limit(20);
 
     return res.status(200).json({
       success: true,

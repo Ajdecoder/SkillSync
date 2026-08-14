@@ -2,7 +2,6 @@ import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { Candidate, CandidateUserProfile, Recruiter, RecruiterUserProfile } from '../db/database.js';
-import { loginCookieOptions } from '../utils/cookiesConfig.js';
 
 export const GoogleLogin = async (req, res) => {
     try {
@@ -21,7 +20,6 @@ export const GoogleLogin = async (req, res) => {
         }
 
         const { email, name, picture, sub: googleId } = googleData;
-        console.log('google password', googleId)
         const hashedPassword = await bcrypt.hash(googleId, 10); // Dummy password
 
         let user = null;
@@ -29,7 +27,7 @@ export const GoogleLogin = async (req, res) => {
         let profileCreated = false;
 
         if (role === 'candidate') {
-            user = await candidate?.findOne({ email });
+            user = await Candidate.findOne({ email });
             profile = await CandidateUserProfile.findOne({ email });
 
             // Case 1: Account missing
@@ -105,10 +103,8 @@ export const GoogleLogin = async (req, res) => {
                 role: user.role,
             },
             process.env.JWT_SECRET,
-            { expiresIn: '24h' }
+            { expiresIn: '7d' }
         );
-
-        res.cookie('authToken', authToken, loginCookieOptions);
 
         res.status(200).json({
             message: profileCreated ? "Registered & Logged in Successfully" : "Logged in Successfully",
