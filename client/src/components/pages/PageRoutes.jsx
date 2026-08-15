@@ -49,7 +49,7 @@ import { AllBookmarks } from "../Requirements/Candidates/AllBookmarks.jsx";
 
 // Recruiter Pages
 import HireResources from "../Requirements/Recruiters/HireTalent.jsx";
-import AddOpportunity from "../Requirements/Recruiters/Addopportunity.jsx";
+import AddOpportunity from "../Requirements/Recruiters/AddOpportunity.jsx";
 import TalentPool from "../Requirements/Recruiters/TalentPool.jsx";
 import { ListedListenings } from "../Requirements/Recruiters/JobListings/ListedListenings.jsx";
 import { MyJobListings } from "../Requirements/Recruiters/MyJobListings.jsx";
