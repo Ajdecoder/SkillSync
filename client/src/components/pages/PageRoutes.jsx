@@ -40,7 +40,7 @@ import { ChooseLoginMode } from "../Login/ChooseLoginMode.jsx";
 import { LoginCandidate } from "../Login/LoginCandidate.jsx";
 import { LoginRecruiter } from "../Login/LoginRecruiter.jsx";
 import { Register } from "../Register/ChooseRegisterMode.jsx";
-import { RegCandidate } from "../Register/Regcandidate.jsx";
+import { RegCandidate } from "../Register/RegCandidate.jsx";
 import { RegRecruiter } from "../Register/RegRecruiter.jsx";
 
 // Candidate Pages
