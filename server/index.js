@@ -58,7 +58,7 @@ app.get("/", (req, res) => {
 
 app.get("/health", (req, res) => {
   res.status(200).json({
-    environment: process.env.NODE_ENV ? "production" : "development" ,
+    environment: process.env.NODE_ENV === "production" ? "production" : "development",
     message: "Server is running",
     status: "success",
   });
