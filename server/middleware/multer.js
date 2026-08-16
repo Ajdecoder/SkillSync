@@ -1,9 +1,9 @@
 import multer from "multer";
 
-// Common memory storage
+
 const storage = multer.memoryStorage();
 
-// 🖼️ Image uploader
+
 export const imageUploader = multer({
   storage,
   fileFilter: (req, file, cb) => {
@@ -12,10 +12,10 @@ export const imageUploader = multer({
     }
     cb(null, true);
   },
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+  limits: { fileSize: 5 * 1024 * 1024 }, 
 }).single("avatar");
 
-// 📄 Resume uploader (for .pdf, .doc, .docx)
+
 export const resumeUploader = multer({
   storage,
   fileFilter: (req, file, cb) => {
@@ -24,5 +24,5 @@ export const resumeUploader = multer({
     }
     cb(null, true);
   },
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB max
+  limits: { fileSize: 10 * 1024 * 1024 }, 
 }).single("file");
