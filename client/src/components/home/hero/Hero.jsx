@@ -89,46 +89,110 @@ const Hero = () => {
     }
   }, [role, candidatesData, opportunitiesData]);
 
+  const hasActiveFilters = (value) => {
+    if (Array.isArray(value)) return value.length > 0;
+    return value !== "" && value !== null && value !== undefined;
+  };
+
   const filteredOpportunities = useMemo(() => {
-    const { selectedCity, selectedExpertType, selectedPriceRange } =
+    const { location, skills, minSalary, maxSalary, requirement_type } =
       filterCategory;
+
     return opportunities.filter((opportunity) => {
-      return (
-        (selectedCity === "" ||
-          !selectedCity ||
-          opportunity?.address === selectedCity) &&
-        (selectedExpertType === "" ||
-          !selectedExpertType ||
-          opportunity?.expertType === selectedExpertType) &&
-        (selectedPriceRange === "" ||
-          !selectedPriceRange ||
-          opportunity?.priceRange === selectedPriceRange)
-      );
+      const cityMatch =
+        !hasActiveFilters(location) ||
+        opportunity?.location === location;
+
+      const skillMatch =
+        !hasActiveFilters(skills) ||
+        skills.some((skill) =>
+          (opportunity?.skills || []).some(
+            (opSkill) =>
+              String(opSkill?.skillName || opSkill).toLowerCase() ===
+              String(skill).toLowerCase()
+          )
+        );
+
+      const salaryRange = opportunity?.salaryRange || {};
+      const min = Number(salaryRange.minSalary || 0);
+      const max = Number(salaryRange.maxSalary || 0);
+      const salaryMatch =
+        (!hasActiveFilters(minSalary) && !hasActiveFilters(maxSalary)) ||
+        ((minSalary === "" || min >= Number(minSalary)) &&
+          (maxSalary === "" || max <= Number(maxSalary)));
+
+      const requirementMatch =
+        !hasActiveFilters(requirement_type) ||
+        opportunity?.requirement_type === requirement_type;
+
+      return cityMatch && skillMatch && salaryMatch && requirementMatch;
     });
   }, [opportunities, filterCategory]);
 
   const filteredCandidates = useMemo(() => {
-    const { location, skills, availabilityStatus } = filterCategory;
-    console.log("Filtering candidates with:", { location, skills, availabilityStatus });
+    const { location, skills, availability, workEnvironment, minSalary, maxSalary } =
+      filterCategory;
+
     return candidates.filter((candidate) => {
       const cityMatch =
-        !location?.length ||
-        candidate?.location?.city
-          ?.toLowerCase()
-          .includes(location[0]?.toLowerCase() || "");
+        !hasActiveFilters(location) ||
+        !!candidate?.location?.city &&
+        candidate.location.city.toLowerCase().includes(location.city?.toLowerCase() || "");
+
       const skillMatch =
-        !skills?.length ||
+        !hasActiveFilters(skills) ||
         skills.some((skill) =>
           candidate?.skills?.some(
-            (cSkill) => cSkill.toLowerCase() === skill.toLowerCase(),
+            (cSkill) => String(cSkill).toLowerCase() === String(skill).toLowerCase(),
           ),
         );
+
       const availabilityMatch =
-        !availabilityStatus ||
-        candidate?.availabilityStatus === availabilityStatus;
-      return cityMatch && skillMatch && availabilityMatch;
+        !hasActiveFilters(availability) ||
+        candidate?.availabilityStatus === availability;
+
+      const workEnvironmentMatch =
+        !hasActiveFilters(workEnvironment) ||
+        candidate?.workEnvironment === workEnvironment;
+
+      const expectedSalary = Number(candidate?.expectedSalary || 0);
+      const salaryMatch =
+        (!hasActiveFilters(minSalary) && !hasActiveFilters(maxSalary)) ||
+        ((minSalary === "" || expectedSalary >= Number(minSalary)) &&
+          (maxSalary === "" || expectedSalary <= Number(maxSalary)));
+
+      return cityMatch && skillMatch && availabilityMatch && workEnvironmentMatch && salaryMatch;
     });
   }, [candidates, filterCategory]);
+
+  const hasActiveOpportunityFilters = [
+    filterCategory.location,
+    filterCategory.skills,
+    filterCategory.minSalary,
+    filterCategory.maxSalary,
+    filterCategory.requirement_type,
+  ].some(hasActiveFilters);
+
+  const hasActiveCandidateFilters = [
+    filterCategory.location,
+    filterCategory.skills,
+    filterCategory.availability,
+    filterCategory.workEnvironment,
+    filterCategory.minSalary,
+    filterCategory.maxSalary,
+  ].some(hasActiveFilters);
+
+  const normalizeLocationQuery = (location) => {
+    if (!location) return "";
+    if (typeof location === "string") return location;
+    if (Array.isArray(location)) return location.filter(Boolean).join(",");
+    if (typeof location === "object") {
+      return [location.city, location.state, location.country]
+        .filter(Boolean)
+        .join(",");
+    }
+    return "";
+  };
 
   const handleSearch = (role) => {
     setIsSearching(true);
@@ -140,8 +204,9 @@ const Hero = () => {
         queryParams.skill = filterCategory.skills;
       }
     }
-    console.log(filterCategory, "flksjdflk");
-    if (filterCategory.location) queryParams.location = filterCategory.location;
+
+    const normalizedLocation = normalizeLocationQuery(filterCategory.location);
+    if (normalizedLocation) queryParams.location = normalizedLocation;
     if (filterCategory.minSalary)
       queryParams.minSalary = filterCategory.minSalary;
     if (filterCategory.maxSalary)
@@ -167,6 +232,7 @@ const Hero = () => {
       getAllCandidateProfiles(queryParams)
         .then((res) => {
           setCandidates(res.data.candidates || []);
+          console.log('data of candidates setter',candidates)
           setIsSearching(false);
         })
         .catch((err) => {
@@ -392,12 +458,14 @@ const Hero = () => {
         <Recent
           loading={opportunitiesLoading || candidatesLoading}
           opportunity={opportunities}
-          filteredopportunity={filteredOpportunities}
+          filteredOpportunities={filteredOpportunities}
           filterCategory={filterCategory}
           candidates={candidates}
-          filteredcandidates={filteredCandidates}
+          filteredCandidates={filteredCandidates}
           opportunitiesError={opportunitiesError}
           candidatesError={candidatesError}
+          hasActiveOpportunityFilters={hasActiveOpportunityFilters}
+          hasActiveCandidateFilters={hasActiveCandidateFilters}
         />
       </div>
     </>

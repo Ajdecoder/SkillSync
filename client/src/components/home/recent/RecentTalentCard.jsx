@@ -3,7 +3,12 @@ import { Spinner } from "../../common/loadingSpinner/spinner.jsx";
 import TalentsCard from "./TalentsCards.jsx";
 import { API } from "../../../services/api";
 
-const RecentTalentCard = () => {
+const RecentTalentCard = ({
+  addedTalents = [],
+  filterdTalents = [],
+  TalentsLoading,
+  isFilteringActive = false,
+}) => {
   const [talents, setTalents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -56,12 +61,18 @@ const RecentTalentCard = () => {
     return <Spinner />;
   }
 
+  const isFiltered = isFilteringActive;
+
+  const showTalents = isFiltered
+    ? filterdTalents
+    : talents;
+
   return (
     <div className="space-y-8 talent-card-container">
-      {talents?.length > 0 ? (
+      {showTalents?.length > 0 ? (
         <div className="mx-4">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {talents.map((talent) => (
+            {showTalents.map((talent) => (
               <TalentsCard
                 key={talent._id}
                 talent={talent}
@@ -69,7 +80,7 @@ const RecentTalentCard = () => {
             ))}
           </div>
 
-          {page < totalPages && (
+          {!isFiltered && page < totalPages && (
             <div className="flex justify-center mt-8">
               <button
                 onClick={handleLoadMore}
