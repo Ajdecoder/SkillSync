@@ -38,9 +38,20 @@ export const getAllCandidateProfiles = async (req, res) => {
     // LOCATION (city, state, country)
     // supports: Mumbai | Mumbai,Maharashtra | Mumbai,Maharashtra,India
     // =========================
-    if (location) {
-      console.log('location is', location)
-      const parts = location.split(",").map(v => v.trim());
+    const normalizedLocation =
+      typeof location === "string"
+        ? location
+        : Array.isArray(location)
+          ? location.join(",")
+          : location && typeof location === "object"
+            ? [location.city, location.state, location.country].filter(Boolean).join(",")
+            : "";
+
+    if (normalizedLocation) {
+      const parts = normalizedLocation
+        .split(",")
+        .map((v) => v.trim())
+        .filter(Boolean);
 
       if (parts[0]) {
         query["location.city"] = new RegExp(`^${parts[0]}$`, "i");

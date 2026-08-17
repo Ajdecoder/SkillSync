@@ -9,7 +9,7 @@ const DesktopNav = ({ nav, navExpand }) => {
   const location = useLocation();
 
   return (
-    <ul className="hidden md:flex items-center gap-6 lg:gap-8 text-xs md:text-sm">
+    <ul className="hidden md:flex items-center gap-6 lg:gap-8 text-xs md:text-[11px] sm:text-[10px]">
       {nav.map((item, index) =>
         item.text === "Requirement" ? (
           <li className="flex items-center gap-2" key={index}>

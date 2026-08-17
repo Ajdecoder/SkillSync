@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { FaSearch, FaTimes, FaBriefcase, FaUser } from "react-icons/fa";
 import clsx from "clsx";
 import { API } from "@/services/api";
+import { useNavigate } from "react-router-dom";
 
 const SearchDropdown = ({ onSelect }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,6 +11,7 @@ const SearchDropdown = ({ onSelect }) => {
   const [loading, setLoading] = useState(false);
   const inputRef = useRef(null);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate()
 
   // Close on outside click
   useEffect(() => {
@@ -56,11 +58,24 @@ const SearchDropdown = ({ onSelect }) => {
   }, [query]);
 
   const handleSelect = (item, type) => {
-    onSelect?.({ ...item, type });
-    setQuery("");
-    setIsOpen(false);
-    setResults({ opportunities: [], talents: [] });
-  };
+  console.log(item, type, "fsfs");
+
+  onSelect?.({ ...item, type });
+
+  setQuery("");
+  setIsOpen(false);
+  setResults({
+    opportunities: [],
+    talents: [],
+  });
+
+  const searchValue =
+    type === "opportunity"
+      ? item.title
+      : item.name;
+
+  navigate(`/search?q=${encodeURIComponent(searchValue)}`);
+};
 
   const clearSearch = () => {
     setQuery("");
@@ -73,14 +88,14 @@ const SearchDropdown = ({ onSelect }) => {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      {/* Trigger */}
+      
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         className={clsx(
           "flex items-center gap-2 rounded-full text-sm transition-all duration-200",
           "border border-slate-600/80 bg-slate-800/60 text-slate-300",
           "hover:bg-slate-700/80 hover:border-slate-500 hover:text-white",
-          "px-3 py-1.5 sm:px-4",
+          "px-3 py-1.5 sm:px-4 w-[15rem] sm:w-[10rem]",
           isOpen && "bg-slate-700 border-blue-500 text-white ring-2 ring-blue-500/30"
         )}
       >
@@ -88,13 +103,13 @@ const SearchDropdown = ({ onSelect }) => {
         <span className="hidden sm:inline">Search...</span>
       </button>
 
-      {/* Dropdown */}
-      {/* Dropdown */}
+      
+      
       {isOpen && (
         <div className="absolute top-full right-0 mt-2 w-80 sm:w-96 z-50">
           <div className="bg-slate-800 border border-slate-700 rounded-xl shadow-2xl overflow-hidden">
 
-            {/* Input */}
+            
             <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-700">
               <FaSearch size={14} className="text-slate-400 shrink-0" />
               <input
@@ -112,7 +127,7 @@ const SearchDropdown = ({ onSelect }) => {
               )}
             </div>
 
-            {/* Count Badge */}
+            
             {!loading && query && hasResults && (
               <div className="px-4 py-2 text-xs text-slate-400 border-b border-slate-700/70 bg-slate-900/40">
                 {results.opportunities.length > 0 && (
@@ -127,7 +142,7 @@ const SearchDropdown = ({ onSelect }) => {
               </div>
             )}
 
-            {/* Results */}
+            
             <div className="max-h-80 overflow-y-auto">
               {loading && (
                 <div className="px-4 py-6 text-center text-sm text-slate-400">
@@ -147,7 +162,7 @@ const SearchDropdown = ({ onSelect }) => {
                 </div>
               )}
 
-              {/* Opportunities */}
+              
               {!loading && results.opportunities.length > 0 && (
                 <div>
                   <div className="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-900/50">
@@ -175,7 +190,7 @@ const SearchDropdown = ({ onSelect }) => {
                 </div>
               )}
 
-              {/* Talents */}
+              
               {!loading && results.talents.length > 0 && (
                 <div>
                   <div className="px-4 py-2 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-900/50">

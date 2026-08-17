@@ -91,7 +91,7 @@ const Search = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 font-sans">
-      {/* Hero */}
+     
       <div className="relative bg-gradient-to-br from-red-600 via-gren-700 to-blue-500 overflow-hidden">
         <div className="absolute inset-0 pointer-events-none opacity-20">
           <div className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-white blur-3xl" />
@@ -113,7 +113,7 @@ const Search = () => {
             Search by skill, role, or keyword — discover people and jobs that fit.
           </p>
 
-          {/* Search bar */}
+         
           <form
             onSubmit={handleSearch}
             className="max-w-2xl mx-auto backdrop-blur-xl bg-white/10 border border-white/25 p-1.5 sm:p-2 rounded-2xl flex items-center shadow-2xl focus-within:bg-white/15 focus-within:ring-2 focus-within:ring-white/30 transition"
@@ -157,7 +157,7 @@ const Search = () => {
             </button>
           </form>
 
-          {/* Popular chips — only when no active search */}
+         
           {!urlQuery && (
             <div className="mt-6 flex flex-wrap justify-center gap-2 max-w-xl mx-auto">
               <span className="text-blue-100/70 text-sm mr-1 self-center">
@@ -181,7 +181,7 @@ const Search = () => {
         </div>
       </div>
 
-      {/* Results area */}
+     
       <div className="container mx-auto px-4 py-10 sm:py-14 max-w-6xl">
         {error && (
           <div className="bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800/60 text-red-600 dark:text-red-400 p-4 rounded-xl text-center mb-8 flex items-center justify-center gap-2">
@@ -190,7 +190,7 @@ const Search = () => {
           </div>
         )}
 
-        {/* Empty / idle state */}
+       
         {!hasSearched && !loading && !error && (
           <div className="text-center py-16 sm:py-20">
             <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-gradient-to-br from-indigo-100 to-blue-100 dark:from-indigo-900/40 dark:to-blue-900/40 flex items-center justify-center">
@@ -206,7 +206,7 @@ const Search = () => {
           </div>
         )}
 
-        {/* Loading skeletons */}
+       
         {loading && (
           <div className="space-y-12 animate-pulse">
             {[1, 2].map((section) => (
@@ -238,10 +238,10 @@ const Search = () => {
           </div>
         )}
 
-        {/* Results */}
+       
         {hasSearched && !loading && (
           <div className="space-y-14">
-            {/* Summary bar */}
+           
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 pb-2 border-b border-gray-200 dark:border-gray-800">
               <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base">
                 {totalResults === 0 ? (
@@ -275,7 +275,7 @@ const Search = () => {
               )}
             </div>
 
-            {/* Opportunities */}
+           
             <section>
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
@@ -357,7 +357,7 @@ const Search = () => {
               )}
             </section>
 
-            {/* Talents */}
+           
             <section>
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-900/40 flex items-center justify-center text-purple-600 dark:text-purple-400 shrink-0">

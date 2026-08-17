@@ -111,15 +111,12 @@ export const CandidatesFilters = ({
     >
       <div className="border-b border-gray-100 bg-gradient-to-r from-blue-50 to-indigo-50 px-6 py-5 dark:border-gray-800 dark:from-gray-900 dark:to-gray-950">
         <div className="flex items-start justify-between gap-4">
-          <div>
             <h2 className="text-lg font-bold text-gray-950 dark:text-white">
               Candidate Filters
             </h2>
             <p className="text-sm text-gray-500 dark:text-gray-400">
               Refine candidates by role-fit criteria.
             </p>
-          </div>
-
           <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-900/40 dark:text-blue-200">
             {activeFilters} active
           </span>

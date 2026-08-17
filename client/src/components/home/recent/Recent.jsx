@@ -5,10 +5,17 @@ import { Spinner } from "../../common/loadingSpinner/spinner";
 import RecentTalentCard from "./RecentTalentCard";
 import RecentOpportunity from "./RecentOpportunityCard";
 
-const Recent = ({ filteredopportunity, opportunity, loading, candidates, filteredCandidates, opportunitiesError, candidatesError: talentsError }) => {
-
-  console.log('fskfjs',opportunity)
-
+const Recent = ({
+  filteredOpportunities,
+  opportunity,
+  loading,
+  candidates,
+  filteredCandidates,
+  opportunitiesError,
+  candidatesError: talentsError,
+  hasActiveOpportunityFilters = false,
+  hasActiveCandidateFilters = false,
+}) => {
   const { loggedInUser, googleUser } = useAuth();
   const currentUser = loggedInUser || googleUser;
 
@@ -34,7 +41,8 @@ const Recent = ({ filteredopportunity, opportunity, loading, candidates, filtere
                 <RecentOpportunity
                   opportunitiesLoading={loading}
                   addedOpportunities={opportunity}
-                  filterdOpportunities={opportunity}
+                  filterdOpportunities={hasActiveOpportunityFilters ? filteredOpportunities : []}
+                  isFilteringActive={hasActiveOpportunityFilters}
                 />
               </div>
             </section>
@@ -50,7 +58,8 @@ const Recent = ({ filteredopportunity, opportunity, loading, candidates, filtere
                 <RecentTalentCard
                   TalentsLoading={loading}
                   addedTalents={candidates}
-                  filterdTalents={filteredCandidates}
+                  filterdTalents={hasActiveCandidateFilters ? filteredCandidates : []}
+                  isFilteringActive={hasActiveCandidateFilters}
                 />
               </div>
             </section>
