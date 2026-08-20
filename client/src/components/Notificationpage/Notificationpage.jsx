@@ -51,12 +51,12 @@ const NotificationPage = () => {
         <div className="flex items-center justify-center min-h-[90vh]">
           <div className="bg-transparent rounded-2xl shadow-lg w-[320px] p-8 text-center">
 
-            {/* Bell container */}
+            
             <div className="relative flex justify-center mb-6 h-[19vh]">
-              {/* Background circle */}
+              
               <div className="absolute w-32 h-32 rounded-full bg-gray-100" />
 
-              {/* Ringing bell */}
+              
               <motion.div
                 animate={{ rotate: [0, -10, 10, -10, 10, 0] }}
                 transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 2 }}
@@ -66,7 +66,7 @@ const NotificationPage = () => {
               </motion.div>
             </div>
 
-            {/* Text */}
+            
             <h2 className="text-lg font-semibold text-gray-800 dark:text-white ">
               No Notifications Yet
             </h2>
@@ -87,7 +87,7 @@ const NotificationPage = () => {
       animate={{ opacity: 1, y: 0 }}
       className="bg-white dark:bg-gray-800 p-6 shadow-lg rounded-lg max-w-lg w-full"
     >
-      {/* Back Button for mobile */}
+      
       {isMobile && (
         <button onClick={handleBack} className="p-2 bg-black text-white">
           <IoIosArrowBack />
@@ -98,7 +98,7 @@ const NotificationPage = () => {
         {selectedNotification?.message}
       </h3>
 
-      {/* Company Info */}
+      
       <div className="mb-3">
         <p className="text-sm text-gray-500">Company</p>
         <h3 className="text-lg font-semibold">
@@ -114,7 +114,7 @@ const NotificationPage = () => {
         </a>
       </div>
 
-      {/* Job Description */}
+      
       <div className="mb-3">
         <p className="text-sm text-gray-500">Job Description</p>
         <p className="text-base text-gray-800 dark:text-gray-200">
@@ -123,7 +123,7 @@ const NotificationPage = () => {
         </p>
       </div>
 
-      {/* Job Details */}
+      
       <div className="mb-3">
         <p className="text-sm text-gray-500">Job Type</p>
         <p className="text-base text-gray-800 dark:text-gray-200">
@@ -132,7 +132,7 @@ const NotificationPage = () => {
         </p>
       </div>
 
-      {/* Salary */}
+      
       <div className="mb-3">
         <p className="text-sm text-gray-500">Salary Range</p>
         <p className="text-base text-gray-800 dark:text-gray-200">
@@ -144,7 +144,7 @@ const NotificationPage = () => {
         </p>
       </div>
 
-      {/* Location */}
+      
       <div className="mb-3">
         <p className="text-sm text-gray-500">Location</p>
         <p className="text-base text-gray-800 dark:text-gray-200">
@@ -152,7 +152,7 @@ const NotificationPage = () => {
         </p>
       </div>
 
-      {/* Contact Info */}
+      
       <div className="mb-3">
         <p className="text-sm text-gray-500">Contact Email</p>
         <p className="text-base text-gray-800 dark:text-gray-200">
@@ -168,7 +168,7 @@ const NotificationPage = () => {
         </p>
       </div>
 
-      {/* Skills Required */}
+      
       <div className="mb-3">
         <p className="text-sm text-gray-500">Required Skills</p>
         <ul className="list-disc list-inside text-gray-800 dark:text-gray-200">
@@ -182,12 +182,12 @@ const NotificationPage = () => {
         </ul>
       </div>
 
-      {/* Timestamp */}
+      
       <p className="text-sm text-gray-500 mt-4">
         Posted on: {formatTime(selectedNotification?.createdAt)}
       </p>
 
-      {/* Go to job */}
+      
 
       <button className="mb-4 text-xl p-2 bg-black text-white" >fdsfdsf</button>
     </motion.div>
@@ -216,7 +216,7 @@ const NotificationPage = () => {
             Application from {selectedNotification?.applicant?.name}
           </h3>
 
-          {/* Candidate Info */}
+          
           <div className="flex items-center gap-4 mb-3">
             <img
               src={selectedNotification?.applicant?.profilePicture}
@@ -233,7 +233,7 @@ const NotificationPage = () => {
             </div>
           </div>
 
-          {/* Location */}
+          
           <div className="mb-3">
             <p className="text-sm text-gray-500">Location</p>
             <p className="text-base text-gray-800">
@@ -243,7 +243,7 @@ const NotificationPage = () => {
             </p>
           </div>
 
-          {/* Skills */}
+          
           <div className="mb-3">
             <p className="text-sm text-gray-500">Skills</p>
             <ul className="list-disc list-inside text-gray-800">
@@ -291,7 +291,7 @@ const NotificationPage = () => {
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-100 dark:bg-gray-900 m-3 border rounded-lg overflow-hidden">
-      {/* Left: Notification List */}
+      
       <div
         className={`left-notification-plane w-full md:w-1/3 bg-white dark:bg-gray-800 shadow-lg border-r dark:border-gray-700 p-4 overflow-auto ...
 ${selectedNotificationId && isMobile ? "hidden" : "block"}`}
@@ -319,7 +319,7 @@ ${selectedNotificationId && isMobile ? "hidden" : "block"}`}
         </div>
       </div>
 
-      {/* Right: Notification Details */}
+      
       <div
         className={`right-notification-plane h-screen w-full md:w-2/3 p-6 flex items-center justify-center bg-white dark:bg-gray-800 text-black dark:text-white ...
  ${!selectedNotificationId && isMobile ? "hidden" : "block"}`}

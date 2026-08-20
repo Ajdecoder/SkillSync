@@ -77,7 +77,6 @@ export const ChooseSkills = ({ nextStep, prevStep }) => {
       <h1 className="text-2xl font-bold text-gray-800 text-center dark:text-white">
         Skills Required
       </h1>
-      {/* Selected Skills */}
       <div className="flex flex-wrap gap-2">
         {selectedSkills.map((skill) => (
           <div
@@ -93,7 +92,6 @@ export const ChooseSkills = ({ nextStep, prevStep }) => {
           <p className="text-gray-500">No skills selected yet.</p>
         )}
       </div>
-      {/* Skill Suggestions */}
       <div className="space-y-4">
         <h2 className="text-lg font-medium text-gray-700 dark:text-white">Suggested Skills</h2>
         <div className="flex flex-wrap gap-2">
@@ -108,7 +106,6 @@ export const ChooseSkills = ({ nextStep, prevStep }) => {
           ))}
         </div>
       </div>
-      {/* Add Custom Skill */}
       <div className="space-y-2">
         <h2 className="text-lg font-medium text-gray-700 dark:text-white">
           Add a Custom Skill
@@ -131,12 +128,10 @@ export const ChooseSkills = ({ nextStep, prevStep }) => {
         </div>
       </div>
 
-      {/* Error Message */}
       {error && (
         <p className="shake-animated text-red-500 text-sm">{error}</p>
       )}
 
-      {/* Buttons */}
       <div className="flex justify-between">
         <button
           type="button"

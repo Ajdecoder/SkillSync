@@ -31,7 +31,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-5">
-        {/* Email */}
+        
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-black mb-2 ">
             Email <span className="text-red-500 dark:text-black">*</span>
@@ -51,7 +51,7 @@ const StepTwo = ({ nextStep, prevStep }) => {
           />
         </div>
 
-        {/* Phone Number */}
+        
         <div className="relative">
           <div className="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
             <svg

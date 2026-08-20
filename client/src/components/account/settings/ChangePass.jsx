@@ -26,7 +26,6 @@ const ChangePassword = () => {
       <div className="w-full max-w-md bg-white rounded-lg shadow-xl p-8 space-y-6">
         <h2 className="text-3xl font-semibold text-center text-gray-700">Change Your Password</h2>
         
-        {/* Success and Error Messages */}
         {success && <p className="text-green-600 text-sm text-center">{success}</p>}
         {error && <p className="text-red-600 text-sm text-center">{error}</p>}
         

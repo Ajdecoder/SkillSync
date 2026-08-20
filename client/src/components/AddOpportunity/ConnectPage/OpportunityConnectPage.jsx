@@ -235,7 +235,7 @@ const OpportunityConnectPage = () => {
         animate="visible"
         className="w-full max-w-4xl bg-white/80 dark:bg-gray-800/50 backdrop-blur-lg rounded-3xl p-6 md:p-8 shadow-lg dark:shadow-2xl border border-gray-300 dark:border-gray-700/30"
       >
-        {/* Header Section */}
+        
         <div className="flex justify-between items-start mb-8">
           <motion.div variants={itemVariants}>
             <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-emerald-600 to-cyan-600 dark:from-emerald-400 dark:to-cyan-400 bg-clip-text text-transparent">
@@ -265,9 +265,9 @@ const OpportunityConnectPage = () => {
           </motion.button>
         </div>
 
-        {/* Main Content */}
+        
         <div className="space-y-8">
-          {/* Location & Type */}
+          
           <motion.div
             className="flex items-center gap-4 dark:text-gray-400"
             variants={itemVariants}
@@ -289,12 +289,12 @@ const OpportunityConnectPage = () => {
             </div>
           </motion.div>
 
-          {/* Description */}
+          
           <motion.div variants={itemVariants}>
             <p className="dark:text-gray-300 leading-relaxed">{desc_requirement}</p>
           </motion.div>
 
-          {/* Skills Grid */}
+          
           <motion.div
             className="grid grid-cols-2 md:grid-cols-4 gap-3"
             variants={itemVariants}
@@ -312,7 +312,7 @@ const OpportunityConnectPage = () => {
             ))}
           </motion.div>
 
-          {/* Details Grid */}
+          
           <motion.div
             className="grid grid-cols-1 md:grid-cols-2 gap-6"
             variants={itemVariants}
@@ -360,7 +360,7 @@ const OpportunityConnectPage = () => {
             </div>
           </motion.div>
 
-          {/* Expandable Section */}
+          
           <AnimatePresence>
             {showMore && (
               <motion.div
@@ -371,7 +371,7 @@ const OpportunityConnectPage = () => {
             )}
           </AnimatePresence>
 
-          {/* Show More Content */}
+          
           <motion.div>
             {showMore && (
               <motion.div
@@ -382,7 +382,7 @@ const OpportunityConnectPage = () => {
                 exit={{ opacity: 1, height: 0 }}
                 className="overflow-hidden space-y-8 pt-6"
               >
-                {/* Company Overview */}
+                
                 <motion.div
                   variants={itemVariants}
                   className="p-6 bg-gray-700/20 rounded-xl"
@@ -413,7 +413,7 @@ const OpportunityConnectPage = () => {
                   </div>
                 </motion.div>
 
-                {/* Company Location */}
+                
                 <motion.div
                   variants={itemVariants}
                   className="p-6 bg-gray-700/20 rounded-xl"
@@ -427,7 +427,7 @@ const OpportunityConnectPage = () => {
                   </div>
                 </motion.div>
 
-                {/* Recruitment Process */}
+                
                 <motion.div
                   variants={itemVariants}
                   className="p-6 bg-gray-700/20 rounded-xl"
@@ -479,7 +479,7 @@ const OpportunityConnectPage = () => {
                   </div>
                 </motion.div>
 
-                {/* Past Hires */}
+                
                 <motion.div
                   variants={itemVariants}
                   className="p-6 bg-gray-700/20 rounded-xl"
@@ -518,7 +518,7 @@ const OpportunityConnectPage = () => {
                   </motion.ul>
                 </motion.div>
 
-                {/* Team Members */}
+                
                 <motion.div
                   variants={itemVariants}
                   className="p-6 bg-gray-700/20 rounded-xl "
@@ -579,7 +579,7 @@ const OpportunityConnectPage = () => {
             )}
           </motion.div>
 
-          {/* Show More Button */}
+          
           <motion.button
             onClick={() => setShowMore(!showMore)}
             className="w-full flex items-center justify-center gap-2 text-gray-400 hover:text-emerald-400 transition-colors"
@@ -594,7 +594,7 @@ const OpportunityConnectPage = () => {
             </motion.span>
           </motion.button>
 
-          {/* Apply Button */}
+          
           <motion.div className="mt-8" variants={itemVariants}>
             <motion.button
               onClick={handleJobApply}
@@ -638,7 +638,7 @@ const OpportunityConnectPage = () => {
           </motion.h1>
         )}
 
-        {/* Revert Modal */}
+        
         <AnimatePresence>
           {showRevertModal && (
             <motion.div
