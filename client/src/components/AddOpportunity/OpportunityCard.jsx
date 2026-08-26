@@ -60,12 +60,9 @@ const AddOpportunityCard = ({ opportunity }) => {
         dark:from-gray-900 dark:to-black 
         shadow-lg hover:shadow-xl border border-gray-200 dark:border-transparent overflow-hidden"
     >
-      {/* Gradient Hover Overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-      {/* Content */}
       <div className="relative flex flex-col flex-1 space-y-4">
-        {/* Header */}
         <motion.div variants={itemVariants}>
           <h3 className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text text-transparent">
             {title}
@@ -84,7 +81,7 @@ const AddOpportunityCard = ({ opportunity }) => {
           </div>
         </motion.div>
 
-        {/* Meta */}
+        
         <motion.div
           variants={itemVariants}
           className="grid grid-cols-3 gap-4 text-center"
@@ -117,7 +114,7 @@ const AddOpportunityCard = ({ opportunity }) => {
           </div>
         </motion.div>
 
-        {/* Description */}
+        
         <motion.p
           variants={itemVariants}
           className="text-gray-600 dark:text-gray-400"
@@ -127,7 +124,7 @@ const AddOpportunityCard = ({ opportunity }) => {
             : "No description provided"}
         </motion.p>
 
-        {/* Skills */}
+        
         {skills?.length > 0 && (
           <motion.div variants={itemVariants} className="flex flex-wrap gap-2">
             {skills.map((skill, i) => (
@@ -142,7 +139,7 @@ const AddOpportunityCard = ({ opportunity }) => {
           </motion.div>
         )}
 
-        {/* Contact */}
+        
         <motion.div
           variants={itemVariants}
           className="pt-4 border-t border-gray-300 space-y-2"
@@ -161,7 +158,7 @@ const AddOpportunityCard = ({ opportunity }) => {
         </motion.div>
       </div>
 
-      {/* Button – always at bottom */}
+      
       <motion.div variants={itemVariants} className="pt-6 mt-auto relative">
         <motion.button
           onClick={handleConnectClick}

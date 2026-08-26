@@ -28,7 +28,6 @@ export const Settings = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
-        {/* Communication and Privacy Settings */}
         <section className="lg:col-span-7 space-y-6">
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 md:p-8">
             <div className="flex items-center space-x-3 mb-6">
@@ -76,7 +75,6 @@ export const Settings = () => {
           </div>
         </section>
 
-        {/* Account Management */}
         <section className="lg:col-span-5 space-y-6">
           <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-6 md:p-8">
             <div className="flex items-center space-x-3 mb-6">

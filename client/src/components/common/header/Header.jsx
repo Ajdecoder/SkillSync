@@ -68,17 +68,17 @@ const Header = () => {
   return (
     <header className="bg-white dark:bg-gray-900 mt-1 mb-1 border dark:border-gray-700 rounded-xl">
       <div className="relative flex items-center justify-between h-16 sm:h-18 lg:h-20 px-3 sm:px-5 lg:px-6 bg-white dark:bg-gray-900 rounded-xl">
-        {/* Logo */}
+        
         <div className="logo hidden lg:block">
           <NavLink to="/">
             <img src={logo} alt="Logo" className="dark:invert dark:filter" />
           </NavLink>
         </div>
 
-        {/* Desktop nav */}
+        
         <DesktopNav nav={nav} navExpand={navExpand} />
 
-        {/* Mobile nav (slide-in panel) */}
+        
         <MobileNav
           isOpen={isNavListOpen}
           onClose={() => setIsNavListOpen(false)}
@@ -90,7 +90,7 @@ const Header = () => {
         <div className="nav-group flex items-center gap-6">
           {currentUser && <NotificationButton />}
 
-          {/* User section */}
+          
           <div ref={dropdownRef} className="button relative">
             {currentUser ? (
               <>
@@ -113,7 +113,7 @@ const Header = () => {
               </>
             ) : (
               <div className="flex items-center gap-2 sm:gap-3">
-                {/* Sign In */}
+                
                 <Link
                   to="/login"
                   className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-white text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300"
@@ -122,7 +122,7 @@ const Header = () => {
                   <span className="hidden xs:inline sm:inline">Sign In</span>
                 </Link>
 
-                {/* Sign Up */}
+                
                 <Link
                   to="/signup"
                   className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700 shadow-md hover:shadow-lg transition-all duration-300"
@@ -134,7 +134,7 @@ const Header = () => {
             )}
           </div>
 
-          {/* Theme toggle */}
+          
           <button
             className={clsx(
               "p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors",
@@ -146,7 +146,7 @@ const Header = () => {
             {theme === "light" ? <FaRegMoon size={21} /> : <FaSun size={21} />}
           </button>
 
-          {/* Mobile hamburger */}
+          
           <button
             onClick={() => setIsNavListOpen(true)}
             className="text-gray-700 dark:text-gray-300 text-3xl md:hidden"

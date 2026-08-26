@@ -163,8 +163,6 @@ const ReviewJobOpportunity = ({ prevStep }) => {
 
       <form onSubmit={handleSubmit} className="space-y-6 dark:text-white">
         {" "}
-        {/* Wrapping with form */}
-        {/* Job Title */}
         <div className="border-b p-4">
           <h3 className="text-xl font-semibold text-gray-700">Job Title</h3>
           {editMode ? (
@@ -178,7 +176,7 @@ const ReviewJobOpportunity = ({ prevStep }) => {
             <p className="text-gray-600">{localFormData.title || "N/A"}</p>
           )}
         </div>
-        {/* Company Name */}
+        
         <div className="border-b p-4">
           <h3 className="text-xl font-semibold text-gray-700">Company Name</h3>
           {editMode ? (
@@ -196,7 +194,7 @@ const ReviewJobOpportunity = ({ prevStep }) => {
             </p>
           )}
         </div>
-        {/* Company Website */}
+        
         <div className="border-b p-4">
           <h3 className="text-xl font-semibold text-gray-700">
             Company Website
@@ -216,7 +214,7 @@ const ReviewJobOpportunity = ({ prevStep }) => {
             </p>
           )}
         </div>
-        {/* Phone Number */}
+        
         <div className="border-b p-4">
           <h3 className="text-xl font-semibold text-gray-700">Phone Number</h3>
           {editMode ? (
@@ -230,7 +228,7 @@ const ReviewJobOpportunity = ({ prevStep }) => {
             <p className="text-gray-600">{localFormData.ph_no || "N/A"}</p>
           )}
         </div>
-        {/* Location */}
+        
         <div className="border-b p-4">
           <h3 className="text-xl font-semibold text-gray-700">Location</h3>
           {editMode ? (
@@ -244,7 +242,7 @@ const ReviewJobOpportunity = ({ prevStep }) => {
             <p className="text-gray-600">{localFormData.location || "N/A"}</p>
           )}
         </div>
-        {/* Job Type */}
+        
         <div className="border-b p-4">
           <h3 className="text-xl font-semibold text-gray-700">Job Type</h3>
           {editMode ? (
@@ -260,7 +258,7 @@ const ReviewJobOpportunity = ({ prevStep }) => {
             </p>
           )}
         </div>
-        {/* Salary Range */}
+        
         <div className="border-b p-4">
           <h3 className="text-xl font-semibold text-gray-700 mb-2">
             Salary Range
@@ -294,7 +292,7 @@ const ReviewJobOpportunity = ({ prevStep }) => {
             </p>
           )}
         </div>
-        {/* Job Description */}
+        
         <div className="border-b p-4">
           <h3 className="text-xl font-semibold text-gray-700">
             Job Description
@@ -314,7 +312,7 @@ const ReviewJobOpportunity = ({ prevStep }) => {
             </p>
           )}
         </div>
-        {/* Skills */}
+        
         <div className="border-b p-4">
           <h3 className="text-xl font-semibold text-gray-700">Skills</h3>
           {editMode ? (
@@ -351,9 +349,9 @@ const ReviewJobOpportunity = ({ prevStep }) => {
             </p>
           )}
         </div>
-        {/* Action Buttons */}
+        
         <div className="flex justify-between mt-8">
-          {/* Back Button */}
+          
           <button
             type="button" // Prevent form submission
             className="bg-gray-500 text-white px-6 py-3 rounded-md shadow-md hover:bg-gray-600 transition duration-300"
@@ -364,7 +362,7 @@ const ReviewJobOpportunity = ({ prevStep }) => {
             Back
           </button>
 
-          {/* Submit/Save Changes Button */}
+          
           <button
             type="button" // Prevent form submission
             className={`${editMode
@@ -381,7 +379,7 @@ const ReviewJobOpportunity = ({ prevStep }) => {
                 : "Submit"}
           </button>
 
-          {/* Edit Button */}
+          
           {!editMode && (
             <button
               type="button" // Prevent form submission

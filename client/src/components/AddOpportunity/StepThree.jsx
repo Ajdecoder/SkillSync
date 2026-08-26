@@ -30,7 +30,7 @@ const StepThree = ({ prevStep, nextStep }) => {
     <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg dark:bg-gray-800 transition-colors duration-300">
       <h2 className="text-2xl font-bold text-gray-800 mb-4 dark:text-white">Step 3: Job Details</h2>
       <form className="space-y-4">
-        {/* Salary Range */}
+        
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Salary Range
@@ -61,7 +61,6 @@ const StepThree = ({ prevStep, nextStep }) => {
           </div>
         </div>
 
-        {/* Description and Requirements */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Description and Requirements
@@ -76,12 +75,10 @@ const StepThree = ({ prevStep, nextStep }) => {
           />
         </div>
 
-        {/* Error Message */}
         {error && (
           <p className="shake-animated text-red-500 text-sm">{error}</p>
         )}
 
-        {/* Buttons */}
         <div className="flex justify-between">
           <button
             type="button"

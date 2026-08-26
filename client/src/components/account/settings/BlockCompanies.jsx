@@ -6,7 +6,6 @@ export const BlockCompanies = () => {
     <>
         
 
-      {/* Block Companies */}
       <section className="space-y-6">
         <h2 className="text-2xl font-semibold text-gray-800">Block Companies</h2>
         <div>
