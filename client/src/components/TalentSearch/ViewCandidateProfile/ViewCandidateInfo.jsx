@@ -92,7 +92,6 @@ export const ViewCandidateInfo = () => {
       }
     };
 
-    fetchRecruiterProfile();
     fetchCandidateProfile();
 
   }, [candidateId, currentUser]); // Ensure it re-fetches when the candidate changes

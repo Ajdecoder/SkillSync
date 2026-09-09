@@ -64,6 +64,7 @@ const MyChart = ({ data }) => (
 
 const MarketTrends = () => {
   const [chartData, setChartData] = useState([]);
+  console.log('chard data here',chartData)
 
   useEffect(() => {
     const fetchMarketTrends = async () => {
@@ -105,10 +106,10 @@ const MarketTrends = () => {
   ];
 
   return (
-    <div className="min-h-full bg-gray-100 dark:bg-gray-900 flex flex-col items-center px-6 py-10">
+    <div className="bg-gray-100 dark:bg-gray-900 flex flex-col items-center px-6 py-10 m-1">
       {/* Header Section */}
-      <header className="trends-header text-center m-10">
-        <div className="min-w-full">
+      <header className="trends-header text-center m-1">
+        <div className="min-w-full mt-3">
           <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">
             Market Trends
           </h1>
@@ -120,7 +121,7 @@ const MarketTrends = () => {
       </header>
 
       {/* Trends Section */}
-      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl mt-1">
         {trends.map((trend) => (
           <motion.div
             key={trend.id}
