@@ -95,7 +95,7 @@ const SearchDropdown = ({ onSelect }) => {
           "flex items-center gap-2 rounded-full text-sm transition-all duration-200",
           "border border-slate-600/80 bg-slate-800/60 text-slate-300",
           "hover:bg-slate-700/80 hover:border-slate-500 hover:text-white",
-          "px-3 py-1.5 sm:px-4 w-[15rem] sm:w-[10rem]",
+          "px-3 py-1.5 sm:px-4 w-[11rem] sm:w-[10rem] md:w-[9rem] lg:w-[10rem]",
           isOpen && "bg-slate-700 border-blue-500 text-white ring-2 ring-blue-500/30"
         )}
       >
@@ -118,6 +118,12 @@ const SearchDropdown = ({ onSelect }) => {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search jobs or candidates..."
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && query.trim()) {
+                    navigate(`/search?q=${encodeURIComponent(query.trim())}`);
+                    setIsOpen(false);
+                  }
+                }}
                 className="flex-1 bg-transparent outline-none text-sm text-slate-100 placeholder:text-slate-500"
               />
               {query && (

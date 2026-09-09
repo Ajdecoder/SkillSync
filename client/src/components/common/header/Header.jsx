@@ -119,7 +119,7 @@ const Header = () => {
                   className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-white text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300"
                 >
                   <i className="fa fa-sign-in text-sm"></i>
-                  <span className="hidden xs:inline sm:inline">Sign In</span>
+                  <span className=" xs:inline sm:inline">Sign In</span>
                 </Link>
 
                 
@@ -128,7 +128,7 @@ const Header = () => {
                   className="flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-1.5 sm:py-2 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700 shadow-md hover:shadow-lg transition-all duration-300"
                 >
                   <i className="fa fa-user-plus text-sm"></i>
-                  <span className="hidden xs:inline sm:inline">Sign Up</span>
+                  <span className=" xs:inline sm:inline">Sign Up</span>
                 </Link>
               </div>
             )}
