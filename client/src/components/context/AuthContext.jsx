@@ -11,12 +11,12 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState(null);
 
-useEffect(() => {
+  useEffect(() => {
     if (!loggedInUser?.email) return;
 
     getUserProfileByEmail(loggedInUser?.email)
       .then(res => setProfile(res.data.candidateProfile));
-}, [loggedInUser?.email]);
+  }, []);
 
   const logout = () => {
     setLoggedInUser(null);

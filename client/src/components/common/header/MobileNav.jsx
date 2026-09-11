@@ -39,7 +39,7 @@ const MobileNav = ({ isOpen, onClose, nav, navExpand, subnavLogo }) => {
                 onClick={onClose}
                 className={({ isActive }) =>
                   clsx(
-                    "block py-3 text-slate-500 hover:text-slate-700 dark:hover:text-white dark:text-gray-300 rounded-lg transition-colors duration-300",
+                    "block py-3 text-slate-500 dark:hover:text-white dark:text-gray-300 rounded-lg transition-colors duration-300 hover:text-blue-600",
                     isActive &&
                       !location.pathname.includes("requirement") &&
                       "text-blue-600 dark:text-blue-400"
