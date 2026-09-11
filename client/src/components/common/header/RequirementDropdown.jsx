@@ -72,10 +72,8 @@ const RequirementDropdown = ({
 
                     !isDesktop && [
                         "w-full justify-between",
-                        "px-3 py-3",
+                        "pr-3 py-3",
                         "rounded-lg",
-                        "hover:bg-slate-100",
-                        "dark:hover:bg-slate-800",
                     ],
 
                     (showDropdown || isRequirementActive) && [
@@ -94,7 +92,7 @@ const RequirementDropdown = ({
                         "dark:text-slate-500",
                         showDropdown && "rotate-180",
                         (showDropdown || isRequirementActive) &&
-                            "text-blue-500 dark:text-blue-400"
+                        "text-blue-500 dark:text-blue-400"
                     )}
                 />
             </button>
@@ -106,41 +104,41 @@ const RequirementDropdown = ({
                     "border",
                     "border-slate-200 dark:border-slate-700",
                     "bg-white dark:bg-slate-900",
-                    "shadow-xl shadow-slate-900/10 dark:shadow-black/30",
+                    "shadow-sm shadow-slate-900/10 dark:shadow-black/30",
                     "transition-all duration-200 ease-out",
 
                     isDesktop
                         ? [
-                              "absolute left-1/2 top-full",
-                              "mt-3",
-                              "w-[min(90vw,520px)]",
-                              "-translate-x-1/2",
-                              "rounded-2xl",
-                              "origin-top",
-                          ]
+                            "absolute left-1/2 top-full",
+                            "mt-3",
+                            "w-[min(90vw,520px)]",
+                            "-translate-x-1/2",
+                            "rounded-2xl",
+                            "origin-top",
+                        ]
                         : [
-                              "static",
-                              "w-full",
-                              "mt-1",
-                              "rounded-xl",
-                          ],
+                            "static",
+                            "w-full",
+                            "mt-1",
+                            "rounded-xl",
+                        ],
 
                     showDropdown
                         ? [
-                              "visible",
-                              "translate-y-0",
-                              "scale-100",
-                              "opacity-100",
-                          ]
+                            "visible",
+                            "translate-y-0",
+                            "scale-100",
+                            "opacity-100",
+                        ]
                         : isDesktop
-                        ? [
-                              "invisible",
-                              "-translate-y-2",
-                              "scale-95",
-                              "opacity-0",
-                              "pointer-events-none",
-                          ]
-                        : ["hidden"]
+                            ? [
+                                "invisible",
+                                "-translate-y-2",
+                                "scale-95",
+                                "opacity-0",
+                                "pointer-events-none",
+                            ]
+                            : ["hidden"]
                 )}
             >
                 {/* Desktop arrow */}
@@ -187,15 +185,15 @@ const RequirementDropdown = ({
                             "overflow-y-auto scrollbar-thin",
                             isDesktop
                                 ? [
-                                      "grid",
-                                      "grid-cols-1 sm:grid-cols-2",
-                                      "gap-1",
-                                      "max-h-[min(60vh,420px)]",
-                                  ]
+                                    "grid",
+                                    "grid-cols-1 sm:grid-cols-2",
+                                    "gap-1",
+                                    "max-h-[min(60vh,420px)]",
+                                ]
                                 : [
-                                      "flex flex-col",
-                                      "max-h-[60vh]",
-                                  ]
+                                    "flex flex-col",
+                                    "max-h-[60vh]",
+                                ]
                         )}
                     >
                         {navExpand.map((subItem, subIndex) => (

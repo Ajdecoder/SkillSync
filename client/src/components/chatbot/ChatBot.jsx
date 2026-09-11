@@ -54,7 +54,7 @@ export const ChatBot = () => {
       }
     };
     fetchProfile();
-  }, [currentUser]);
+  }, []);
 
   useEffect(() => {
     scrollToBottom();

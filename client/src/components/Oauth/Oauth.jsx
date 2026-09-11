@@ -33,18 +33,17 @@ export const GoogleAuth = ({ role }) => {
     } catch (error) {
       console.error(error);
     }
-  };  
+  };
 
   return (
     <GoogleOAuthProvider clientId={clientId}>
-      {
-        (
-          <GoogleLogin
-            onSuccess={handleLoginSuccess}
-            onError={() => console.error("Login Failed")}
-            text="continue_with"
-          />
-        )}
+      <div className="w-full flex justify-center">
+        <GoogleLogin
+          onSuccess={handleLoginSuccess}
+          onError={() => console.error("Login Failed")}
+          text="continue_with"
+        />
+      </div>
     </GoogleOAuthProvider>
   );
 };

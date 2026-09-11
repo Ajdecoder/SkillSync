@@ -64,9 +64,9 @@ const NotificationButton = () => {
   };
 
   return (
-    <div className="z-40 relative">
+    <div className="z-20 relative">
       <button className="notification-button" onClick={handleBellClick}>
-        <i className="text-3xl fa-solid fa-bell"></i>
+        <i className="text-3xl fa-solid fa-bell z-10 relative"></i>
         {unreadCount > 0 && (
           <span className="top-0 right-0 absolute flex justify-center items-center bg-red-500 rounded-full w-4 h-4 text-white text-xs">
             {unreadCount}

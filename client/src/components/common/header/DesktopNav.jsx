@@ -22,7 +22,7 @@ const DesktopNav = ({ nav, navExpand }) => {
               to={item.path}
               className={({ isActive }) =>
                 clsx(
-                  "flex items-center gap-1.5 text-slate-400 hover:text-white transition-colors",
+                  "flex items-center gap-1.5 text-slate-400 hover:text-blue-500 transition-colors",
                   isActive &&
                     !location.pathname.includes("requirement") &&
                     "text-blue-400"
