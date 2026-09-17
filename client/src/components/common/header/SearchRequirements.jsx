@@ -18,6 +18,7 @@ const SearchDropdown = ({ onSelect }) => {
     opportunities: [],
     talents: [],
   });
+
   const [loading, setLoading] = useState(false);
 
   const { loggedInUser, googleUser } = useAuth();
@@ -26,10 +27,6 @@ const SearchDropdown = ({ onSelect }) => {
   const inputRef = useRef(null);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
-
-  // -----------------------------------------
-  // Helpers
-  // -----------------------------------------
 
   const formatSalary = (value) => {
     if (!value) return null;
@@ -47,10 +44,6 @@ const SearchDropdown = ({ onSelect }) => {
       talents: [],
     });
   };
-
-  // -----------------------------------------
-  // Close dropdown on outside click
-  // -----------------------------------------
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -72,19 +65,11 @@ const SearchDropdown = ({ onSelect }) => {
     };
   }, []);
 
-  // -----------------------------------------
-  // Focus input when dropdown opens
-  // -----------------------------------------
-
   useEffect(() => {
     if (isOpen) {
       inputRef.current?.focus();
     }
   }, [isOpen]);
-
-  // -----------------------------------------
-  // Debounced search
-  // -----------------------------------------
 
   useEffect(() => {
     if (!query.trim()) {
@@ -106,6 +91,9 @@ const SearchDropdown = ({ onSelect }) => {
           opportunities: apiData.opportunities || [],
           talents: apiData.talents || [],
         });
+
+        console.log("Search results:", apiData);
+
       } catch (error) {
         console.error("Search failed:", error);
 
@@ -117,10 +105,6 @@ const SearchDropdown = ({ onSelect }) => {
 
     return () => clearTimeout(timer);
   }, [query]);
-
-  // -----------------------------------------
-  // Select search result
-  // -----------------------------------------
 
   const handleSelect = (item, type) => {
     onSelect?.({
@@ -142,10 +126,6 @@ const SearchDropdown = ({ onSelect }) => {
     );
   };
 
-  // -----------------------------------------
-  // Clear search
-  // -----------------------------------------
-
   const clearSearch = () => {
     setQuery("");
     clearResults();
@@ -161,10 +141,6 @@ const SearchDropdown = ({ onSelect }) => {
       className="relative"
       ref={dropdownRef}
     >
-      {/* -----------------------------------------
-          Search Trigger
-      ----------------------------------------- */}
-
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
@@ -174,18 +150,15 @@ const SearchDropdown = ({ onSelect }) => {
           "text-sm font-medium transition-all duration-200",
           "w-[11rem] sm:w-[10rem] md:w-[9rem] lg:w-[15rem]",
 
-          // Light mode
           "border-slate-200 bg-white text-slate-600",
           "shadow-sm hover:border-slate-300 hover:bg-slate-50",
           "hover:text-slate-900",
 
-          // Dark mode
           "dark:border-slate-700 dark:bg-slate-900/80",
           "dark:text-slate-300",
           "dark:hover:border-slate-600 dark:hover:bg-slate-800",
           "dark:hover:text-white",
 
-          // Open state
           isOpen && [
             "border-blue-500 bg-blue-50 text-blue-600",
             "ring-4 ring-blue-500/10",
@@ -205,10 +178,6 @@ const SearchDropdown = ({ onSelect }) => {
         </span>
       </button>
 
-      {/* -----------------------------------------
-          Dropdown
-      ----------------------------------------- */}
-
       {isOpen && (
         <div className="absolute right-0 top-full z-50 mt-3 w-[20rem] sm:w-[24rem]">
           <div
@@ -217,18 +186,12 @@ const SearchDropdown = ({ onSelect }) => {
               "shadow-xl shadow-slate-900/10",
               "backdrop-blur-xl",
 
-              // Light
               "border-slate-200 bg-white",
 
-              // Dark
               "dark:border-slate-700/80 dark:bg-slate-900/95",
               "dark:shadow-black/40"
             )}
           >
-            {/* -----------------------------------------
-                Search Input
-            ----------------------------------------- */}
-
             <div
               className={clsx(
                 "flex items-center gap-3 border-b px-4 py-3.5",
@@ -294,10 +257,6 @@ const SearchDropdown = ({ onSelect }) => {
               )}
             </div>
 
-            {/* -----------------------------------------
-                Result Count
-            ----------------------------------------- */}
-
             {!loading && query && hasResults && (
               <div
                 className={clsx(
@@ -333,14 +292,7 @@ const SearchDropdown = ({ onSelect }) => {
               </div>
             )}
 
-            {/* -----------------------------------------
-                Results Container
-            ----------------------------------------- */}
-
             <div className="max-h-[22rem] overflow-y-auto">
-              {/* -----------------------------------------
-                  Loading
-              ----------------------------------------- */}
 
               {loading && (
                 <div className="flex flex-col items-center justify-center px-4 py-10">
@@ -358,10 +310,6 @@ const SearchDropdown = ({ onSelect }) => {
                   </p>
                 </div>
               )}
-
-              {/* -----------------------------------------
-                  Empty Query
-              ----------------------------------------- */}
 
               {!loading && !query && (
                 <div className="flex flex-col items-center justify-center px-5 py-10 text-center">
@@ -386,9 +334,6 @@ const SearchDropdown = ({ onSelect }) => {
                 </div>
               )}
 
-              {/* -----------------------------------------
-                  No Results
-              ----------------------------------------- */}
 
               {!loading && query && !hasResults && (
                 <div className="flex flex-col items-center justify-center px-5 py-10 text-center">
@@ -413,16 +358,10 @@ const SearchDropdown = ({ onSelect }) => {
                 </div>
               )}
 
-              {/* =================================================
-                  CANDIDATE ROLE → SHOW JOBS
-              ================================================= */}
-
               {!loading &&
-                currentUser?.role === "candidate" &&
+                currentUser?.role !== "recruiter" &&
                 results.opportunities.length > 0 && (
                   <div>
-                    {/* Section Header */}
-
                     <div
                       className={clsx(
                         "sticky top-0 z-10 flex items-center gap-2",
@@ -446,8 +385,6 @@ const SearchDropdown = ({ onSelect }) => {
                         Job Opportunities
                       </span>
                     </div>
-
-                    {/* Jobs */}
 
                     {results.opportunities.map((item) => {
                       const skills =
@@ -475,8 +412,6 @@ const SearchDropdown = ({ onSelect }) => {
                             "dark:hover:bg-slate-800/80"
                           )}
                         >
-                          {/* Company Logo */}
-
                           <div
                             className={clsx(
                               "flex h-10 w-10 shrink-0 items-center justify-center",
@@ -504,11 +439,7 @@ const SearchDropdown = ({ onSelect }) => {
                             )}
                           </div>
 
-                          {/* Job Information */}
-
                           <div className="min-w-0 flex-1">
-                            {/* Title */}
-
                             <div className="flex items-center gap-2">
                               <p
                                 className={clsx(
@@ -537,8 +468,6 @@ const SearchDropdown = ({ onSelect }) => {
                               </span>
                             </div>
 
-                            {/* Company + Location */}
-
                             <div className="mt-1 flex min-w-0 items-center gap-2 text-xs">
                               {item.company_name && (
                                 <span className="truncate font-medium text-slate-500 dark:text-slate-400">
@@ -559,8 +488,6 @@ const SearchDropdown = ({ onSelect }) => {
                                 </span>
                               )}
                             </div>
-
-                            {/* Skills */}
 
                             {skills.length > 0 && (
                               <div className="mt-2 flex gap-1.5 overflow-hidden">
@@ -593,8 +520,6 @@ const SearchDropdown = ({ onSelect }) => {
                               </div>
                             )}
 
-                            {/* Salary */}
-
                             {(item.salaryRange?.minSalary ||
                               item.salaryRange?.maxSalary) && (
                                 <p className="mt-2 text-xs font-medium text-slate-500 dark:text-slate-400">
@@ -616,8 +541,6 @@ const SearchDropdown = ({ onSelect }) => {
                               )}
                           </div>
 
-                          {/* Arrow */}
-
                           <span
                             className={clsx(
                               "mt-3 shrink-0 text-lg transition-transform",
@@ -636,16 +559,10 @@ const SearchDropdown = ({ onSelect }) => {
                   </div>
                 )}
 
-              {/* =================================================
-                  RECRUITER / OTHER ROLE → SHOW CANDIDATES
-              ================================================= */}
-
               {!loading &&
-                currentUser?.role !== "candidate" &&
+                currentUser?.role === "recruiter" &&
                 results.talents.length > 0 && (
                   <div>
-                    {/* Section Header */}
-
                     <div
                       className={clsx(
                         "sticky top-0 z-10 flex items-center gap-2",
@@ -669,8 +586,6 @@ const SearchDropdown = ({ onSelect }) => {
                         Candidates
                       </span>
                     </div>
-
-                    {/* Candidates */}
 
                     {results.talents.map((item) => {
                       const skills =
@@ -720,8 +635,6 @@ const SearchDropdown = ({ onSelect }) => {
                             "dark:hover:bg-slate-800/80"
                           )}
                         >
-                          {/* Profile Picture */}
-
                           <div
                             className={clsx(
                               "h-10 w-10 shrink-0 overflow-hidden rounded-full",
@@ -757,11 +670,7 @@ const SearchDropdown = ({ onSelect }) => {
                             )}
                           </div>
 
-                          {/* Candidate Information */}
-
                           <div className="min-w-0 flex-1">
-                            {/* Name + Availability */}
-
                             <div className="flex items-center gap-2">
                               <p
                                 className={clsx(
@@ -801,13 +710,9 @@ const SearchDropdown = ({ onSelect }) => {
                               )}
                             </div>
 
-                            {/* Role */}
-
                             <p className="mt-0.5 truncate text-xs font-medium text-slate-500 dark:text-slate-400">
                               {currentRole}
                             </p>
-
-                            {/* Location + Environment + Job Type */}
 
                             <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-slate-400 dark:text-slate-500">
                               {location && (
@@ -841,8 +746,6 @@ const SearchDropdown = ({ onSelect }) => {
                               )}
                             </div>
 
-                            {/* Skills */}
-
                             {skills.length > 0 && (
                               <div className="mt-2 flex gap-1.5 overflow-hidden">
                                 {skills.map((skill) => (
@@ -871,8 +774,6 @@ const SearchDropdown = ({ onSelect }) => {
                               </div>
                             )}
 
-                            {/* Salary Preference */}
-
                             {item.preferences?.salaryRange
                               ?.min && (
                                 <p className="mt-2 text-xs font-medium text-slate-500 dark:text-slate-400">
@@ -894,8 +795,6 @@ const SearchDropdown = ({ onSelect }) => {
                                 </p>
                               )}
                           </div>
-
-                          {/* Arrow */}
 
                           <span
                             className={clsx(
