@@ -203,17 +203,19 @@ const Search = () => {
 
             <input
               type="search"
-              placeholder="Search React, Product Designer, Bangalore..."
+              placeholder={
+                isRecruiter
+                  ? "Search React, Product Designer, Bangalore..."
+                  : isCandidate
+                    ? "Search for talents..."
+                    : "Search jobs, skills, or talents..."
+              }
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               className="
-          w-full bg-transparent
-          text-slate-900 dark:text-white
-          placeholder-slate-400 dark:placeholder-slate-500
-          text-base sm:text-lg
-          focus:outline-none
-          px-3 py-2.5 sm:py-3
-        "
+    w-full bg-transparenttext-slate-900 dark:text-white placeholder-slate-400 :placeholder-slate-500
+text-base sm:text-lg focus:outline-none px-3 py-2.5 sm:py-3
+"
               autoComplete="off"
               aria-label="Search query"
             />
@@ -230,7 +232,7 @@ const Search = () => {
           "
                 aria-label="Clear search"
               >
-                <i className="fa-solid fa-xmark text-lg" />
+                {/* <i className="fa-solid fa-xmark text-lg" /> */}
               </button>
             )}
 
@@ -433,14 +435,6 @@ const Search = () => {
                   primary
                 />
 
-                <OpportunitySection
-                  title="Related Opportunities"
-                  subtitle="Opportunities related to your search"
-                  count={opportunityCount}
-                  opportunities={results.opportunities}
-                  getBadgeColor={getBadgeColor}
-                  recruiter
-                />
               </>
             ) : (
               <>
@@ -452,14 +446,6 @@ const Search = () => {
                   getBadgeColor={getBadgeColor}
                   candidate={isCandidate}
                   primary
-                />
-
-                <TalentSection
-                  title="Related Talents"
-                  subtitle="Profiles related to your search"
-                  count={talentCount}
-                  talents={results.talents}
-                  getBadgeColor={getBadgeColor}
                 />
               </>
             )}
