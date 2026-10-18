@@ -217,7 +217,6 @@ const Search = () => {
               autoComplete="off"
               aria-label="Search query"
             />
-
             {inputValue && (
               <button
                 type="button"
