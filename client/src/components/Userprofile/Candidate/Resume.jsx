@@ -96,7 +96,7 @@ const ResumeUpload = ({ user }) => {
 
       <div className="flex items-center gap-4 mt-4">
         <h4 className="text-lg font-medium dark:text-black">
-          {user?.resumeFileName || "No resume uploaded"}
+          {user?.resumeFileName || "No resume uploaded" || file?.name}
         </h4>
 
         {user?.resume && (

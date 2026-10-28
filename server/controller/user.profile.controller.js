@@ -13,10 +13,6 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-/**
- * Get All Candidates
- */
-
 export const getAllCandidateProfiles = async (req, res) => {
   try {
     const {
@@ -34,10 +30,6 @@ export const getAllCandidateProfiles = async (req, res) => {
     const page = parseInt(req.query.page) || 1; // Current page, default 1
     const limit = parseInt(req.query.limit) || 10; // Results per page, default 10
     const skip = (page - 1) * limit;
-    // =========================
-    // LOCATION (city, state, country)
-    // supports: Mumbai | Mumbai,Maharashtra | Mumbai,Maharashtra,India
-    // =========================
     const normalizedLocation =
       typeof location === "string"
         ? location
@@ -77,10 +69,6 @@ export const getAllCandidateProfiles = async (req, res) => {
       }
     }
 
-
-    // =========================
-    // SALARY RANGE (preferences.salaryRange)
-    // =========================
     if (minSalary) {
       query["preferences.salaryRange.max"] = {
         $gte: Number(minSalary),
@@ -93,23 +81,14 @@ export const getAllCandidateProfiles = async (req, res) => {
       };
     }
 
-    // =========================
-    // JOB TYPE
-    // =========================
     if (jobType) {
       query["preferences.jobType"] = new RegExp(`^${jobType}$`, "i");
     }
 
-    // =========================
-    // WORK ENVIRONMENT
-    // =========================
     if (workEnvironment) {
       query.workEnvironment = new RegExp(`^${workEnvironment}$`, "i");
     }
 
-    // =========================
-    // AVAILABILITY
-    // =========================
     if (availabilityStatus) {
       query.availabilityStatus = new RegExp(
         `^${availabilityStatus}$`,
@@ -139,12 +118,6 @@ export const getAllCandidateProfiles = async (req, res) => {
 };
 
 
-
-
-/**
- * Get All Recruiters
- */
-
 export const getAllRecruiterProfiles = async (req, res) => {
   try {
     const users = await RecruiterUserProfile.find();
@@ -154,15 +127,11 @@ export const getAllRecruiterProfiles = async (req, res) => {
   }
 };
 
-/**
- * Get User Profile by Id
- */
 export const getUserProfileById = async (req, res) => {
   try {
     const { id } = req.params;
     console.log("Fetching profile for user ID:", id);
 
-    // Check candidate profile
     const candidateProfile = await CandidateUserProfile.findById(id).populate([
       "candidateInfo",
     ]);
@@ -170,7 +139,6 @@ export const getUserProfileById = async (req, res) => {
       return res.status(200).json({ profile: candidateProfile });
     }
 
-    // Check recruiter profile
     const recruiterProfile = await RecruiterUserProfile.findById(id).populate([
       "recruiterInfo",
     ]);
@@ -178,7 +146,6 @@ export const getUserProfileById = async (req, res) => {
       return res.status(200).json({ profile: recruiterProfile });
     }
 
-    // User profile not found
     return res.status(404).json({ message: "User profile not found" });
   } catch (error) {
     console.error("Error fetching user profile:", error);
@@ -188,15 +155,11 @@ export const getUserProfileById = async (req, res) => {
   }
 };
 
-/**
- * Get User Profile by Email
- */
 export const getUserProfileByEmail = async (req, res) => {
 
   try {
     const { email } = req.params;
 
-    // Check both candidate and recruiter profiles
     const candidateProfile = await CandidateUserProfile.findOne({
       email,
     }).populate(["candidateInfo", "OpportunityBookmarks"]);
@@ -220,9 +183,6 @@ export const getUserProfileByEmail = async (req, res) => {
   }
 };
 
-/**
- * Update User Profile by Email
- */
 export const updateUserProfileByEmail = async (req, res) => {
   try {
     const { email } = req.params;
@@ -232,7 +192,6 @@ export const updateUserProfileByEmail = async (req, res) => {
       return res.status(400).json({ message: "No update data provided" });
     }
 
-    // Try updating candidate profile
     const updatedCandidateProfile = await CandidateUserProfile.findOneAndUpdate(
       { email },
       { $set: data },
@@ -246,7 +205,6 @@ export const updateUserProfileByEmail = async (req, res) => {
       });
     }
 
-    // Try updating recruiter profile
     const updatedRecruiterProfile = await RecruiterUserProfile.findOneAndUpdate(
       { email },
       { $set: data },
@@ -272,30 +230,23 @@ export const updateUserProfileByEmail = async (req, res) => {
     });
   }
 };
-/**
- * Bookmark Opportunites
- */
 
 export const bookmarkOpportunity = async (req, res) => {
   try {
     const { userId, post_id } = req.body;
 
-    // Find the user
     const profile = await CandidateUserProfile.findById(userId);
     if (!profile) {
       return res.status(404).json({ message: "User not found." });
     }
 
-    // Check if the opportunity is already bookmarked
     const isBookmarked = profile.OpportunityBookmarks.includes(post_id);
 
     if (isBookmarked) {
-      // Remove bookmark
       profile.OpportunityBookmarks = profile.OpportunityBookmarks.filter(
         (id) => id.toString() !== post_id
       );
     } else {
-      // Add bookmark
       profile.OpportunityBookmarks.push(post_id);
     }
 
@@ -319,12 +270,10 @@ export const unbookmarkOpportunity = async (req, res) => {
       return res.status(404).json({ message: "User not found." });
     }
 
-    // Remove the bookmarked opportunity
     profile.OpportunityBookmarks = profile.OpportunityBookmarks.filter(
       (bookmark) => bookmark.toString() !== post_id
     );
 
-    // Save the updated profile
     await profile.save();
 
     res.status(200).json({
@@ -336,10 +285,6 @@ export const unbookmarkOpportunity = async (req, res) => {
     res.status(500).json({ message: "Error unbookmarking opportunity?." });
   }
 };
-
-/**
- * Bookmark Talents
- */
 
 export const bookmarkTalents = async (req, res) => {
   try {

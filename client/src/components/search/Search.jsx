@@ -219,7 +219,6 @@ text-base sm:text-lg focus:outline-none px-3 py-2.5 sm:py-3
               autoComplete="off"
               aria-label="Search query"
             />
-
             {inputValue && (
               <button
                 type="button"

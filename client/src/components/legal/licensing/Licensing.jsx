@@ -1,18 +1,21 @@
-import React from "react";
+import InfoPage from "../../common/InfoPage";
 
-const TempPage = () => {
-  return (
-    <main className="min-h-screen flex items-center justify-center px-4 py-20 bg-gray-50">
-      <div className="max-w-xl w-full rounded-2xl bg-white p-8 text-center shadow-sm border border-gray-200">
-        <h1 className="text-3xl font-bold text-gray-900">Page Coming Soon</h1>
+const LicensingPage = () => (
+  <InfoPage
+    title="Licensing"
+    intro="Please respect the rights in SkillSync platform materials and user-submitted content."
+    sections={[
+      {
+        title: "Platform materials",
+        text: "Unless a separate license says otherwise, SkillSync branding, design, and original platform materials may not be copied, redistributed, or used commercially without permission.",
+      },
+      {
+        title: "User-submitted content",
+        text: "Users remain responsible for content they submit and must have the rights needed to share it. Contact SkillSync if you have a question about permitted use.",
+      },
+    ]}
+    action={{ label: "Contact Us", to: "/contact" }}
+  />
+);
 
-        <p className="mt-3 text-gray-600">
-          This page is temporarily created. Final content and design will be
-          added later.
-        </p>
-      </div>
-    </main>
-  );
-};
-
-export default TempPage;
+export default LicensingPage;

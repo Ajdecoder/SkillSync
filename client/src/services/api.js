@@ -45,7 +45,6 @@ API.interceptors.request.use(async (req) => {
   return req;
 });
 
-/* ========== Authentication APIs ========== */
 
 export const loginCandidate = (data) =>
   API.post("/api/user/login/candidate", data);
@@ -57,9 +56,10 @@ export const registerRecruiter = (data) =>
   API.post("/api/user/register/recruiter", data);
 export const forgotPassword = (data) =>
   API.post("/api/user/account/Forgotpassword", data);
+export const resetPassword = (data) =>
+  API.post("/api/user/account/Resetpassword", data);
 export const logoutUser = () => API.post("/api/user/logout");
 
-/* ========== Profile APIs ========== */
 
 export const getUserProfileByEmail = (email) =>
   API.get(`/api/user/profile/email/${email}`);
@@ -71,7 +71,6 @@ export const getAllCandidateProfiles = (query) =>
   API.get("/api/user/profile/candidates", { params: query });
 export const getAllRecruitersProfiles = () =>
   API.get("/api/user/profile/emails/user/recruiters");
-/* ========== Opportunities APIs ========== */
 
 export const addOpportunity = (data) =>
   API.post("/api/requirements/addOpportunity", data);
@@ -85,7 +84,6 @@ export const getOpportunities = (query) =>
 export const updateOpportunity = (data) =>
   API.put("/api/requirements/updateOpportunity", data);
 
-/* ========== joblisting APIs ========== */
 
 export const jobListeningsByRecruiter = (recruiterId) => {
   console.log("got rec id in api.js", recruiterId);
@@ -101,7 +99,6 @@ export const revertBackApplication = (userId, opportunityId) =>
 export const deleteOpportunity = (opportunityId) =>
   API.delete(`/api/requirements/deleteOpportunity/${opportunityId}`);
 
-/* ========== Bookmark Opportunities APIs ========== */
 
 export const getBookmarkOpportunities = () =>
   API.get(`/api/bookmark/candidate/bookmark-opportunities`);
@@ -117,7 +114,6 @@ export const removeBookmarkedOpportunity = (userId, post_id) =>
     data: { userId, post_id },
   });
 
-/* ========== Bookmark Talents APIs ========== */
 
 export const getbookmarkTalents = () =>
   API.get(`/api/bookmark/talents/bookmark-opportunities`);
@@ -133,18 +129,14 @@ export const removeBookmarkedTalent = (recruiterId, candidateId) =>
     data: { recruiterId, candidateId },
   });
 
-/* ========== Chat APIs ========== */
 
 export const getChatResponse = (data) =>
   API.post("/api/chatbot/chat-response", data);
 
-/* ========== Notifications APIs ========== */
 
 export const getNotifications = () =>
   API.get("/api/user/job-notifications");
 export const markNotificationAsRead = (notificationId) =>
   API.put(`/api/user/notifications/markAsRead`, { notificationId });
 
-/* ========== Market Trends APIs ========== */
 export const getMarketTrendsData = () => API.get("/api/market-trends");
-

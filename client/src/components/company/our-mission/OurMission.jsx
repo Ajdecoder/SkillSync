@@ -1,18 +1,21 @@
-import React from "react";
+import InfoPage from "../../common/InfoPage";
 
-const TempPage = () => {
-  return (
-    <main className="min-h-screen flex items-center justify-center px-4 py-20 bg-gray-50">
-      <div className="max-w-xl w-full rounded-2xl bg-white p-8 text-center shadow-sm border border-gray-200">
-        <h1 className="text-3xl font-bold text-gray-900">Page Coming Soon</h1>
+const OurMissionPage = () => (
+  <InfoPage
+    title="Our Mission"
+    intro="SkillSync exists to make it easier for talented people and trusted companies to find the right professional match."
+    sections={[
+      {
+        title: "Better connections",
+        text: "We bring candidate profiles, skills, and job opportunities together so people can discover relevant possibilities and employers can find talent.",
+      },
+      {
+        title: "A more useful job search",
+        text: "Our goal is to help candidates present their experience clearly and give recruiters tools to manage opportunities and explore talent.",
+      },
+    ]}
+    action={{ label: "Discover SkillSync", to: "/" }}
+  />
+);
 
-        <p className="mt-3 text-gray-600">
-          This page is temporarily created. Final content and design will be
-          added later.
-        </p>
-      </div>
-    </main>
-  );
-};
-
-export default TempPage;
+export default OurMissionPage;

@@ -9,6 +9,7 @@ import {
   CandidateForgotPassword,
   CandidateLogin,
   CandidateRegister,
+  CandidateResetPassword,
   JobApply,
   RevertApplication,
 } from "../controller/candidates/user.candidate.controller.js";
@@ -20,6 +21,7 @@ import { Notifications, NotificationsById, NotificationAsRead } from "../control
 import notificationMiddleware from "../middleware/Notification.js";
 import { Candidate, Recruiter } from "../db/database.js";
 import { logoutCookieOptions } from "../utils/cookiesConfig.js";
+import router from "./search.Routes.js";
 
 const Userrouter = express.Router();
 
@@ -28,9 +30,23 @@ Userrouter.post("/login/recruiter", LoginValidation, RecruiterLogin);
 Userrouter.post("/register/candidate", SignupValidation, CandidateRegister);
 Userrouter.post("/register/recruiter", SignupValidation, RecruiterRegister);
 Userrouter.post("/account/Forgotpassword", CandidateForgotPassword);
+Userrouter.post("/account/Resetpassword", CandidateResetPassword);
 
 Userrouter.use(verifyUser)
 
+Userrouter.get("/me", (req, res) => {
+
+  console.log('req data',req)
+
+  return res.json({
+    user: {
+      userId: req.user.userId,
+      name: req.user.name,
+      email: req.user.email,
+      role: req.user.role,
+    },
+  });
+});
 Userrouter.put("/candidate/opportunity/apply-to-job", notificationMiddleware, JobApply);
 Userrouter.put("/candidate/revert-application", RevertApplication);
 Userrouter.get("/job-notifications", Notifications);
@@ -40,7 +56,7 @@ Userrouter.get("/id/:id", async (req, res) => {
   try {
     const { id } = req.params;
     console.log('id in api', id)
-    const user = await candidate?.findById(id) || await Recruiter.findById(id);
+    const user = await Candidate?.findById(id) || await Recruiter.findById(id);
     if (user) {
       return res.status(200).json({
         success: true,

@@ -1,18 +1,25 @@
-import React from "react";
+import InfoPage from "../../common/InfoPage";
 
-const TempPage = () => {
-  return (
-    <main className="min-h-screen flex items-center justify-center px-4 py-20 bg-gray-50">
-      <div className="max-w-xl w-full rounded-2xl bg-white p-8 text-center shadow-sm border border-gray-200">
-        <h1 className="text-3xl font-bold text-gray-900">Page Coming Soon</h1>
+const FAQsPage = () => (
+  <InfoPage
+    title="Frequently Asked Questions"
+    intro="Quick answers to common questions about finding opportunities, presenting your experience, and connecting with employers on SkillSync."
+    sections={[
+      {
+        title: "How do I get started?",
+        text: "Create a candidate account to build your profile and explore opportunities, or register as a recruiter to share openings and discover talent.",
+      },
+      {
+        title: "How can I keep track of opportunities?",
+        text: "Use the opportunity browsing and bookmarking tools in your account to save roles you want to revisit.",
+      },
+      {
+        title: "Where can I get help?",
+        text: "If you need assistance with your account or the platform, visit our Employee Support page or contact the SkillSync team.",
+      },
+    ]}
+    action={{ label: "Explore SkillSync", to: "/" }}
+  />
+);
 
-        <p className="mt-3 text-gray-600">
-          This page is temporarily created. Final content and design will be
-          added later.
-        </p>
-      </div>
-    </main>
-  );
-};
-
-export default TempPage;
+export default FAQsPage;

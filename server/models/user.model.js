@@ -7,6 +7,8 @@ export const userSchema = new mongoose.Schema({
   name: { type: String },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  passwordResetToken: { type: String, select: false },
+  passwordResetExpires: { type: Date, select: false },
   refreshToken: { type: String },
   role: {
     type: String,
@@ -55,7 +57,12 @@ userSchema.methods.generateRefreshToken = async function () {
   }
 };
 
-userSchema.methods.generateForgetPassToken = function (req, res) {
-  const Resettoken = crypto.randomBytes(140).toString("hex");
-  return Resettoken;
-}
+userSchema.methods.generateForgetPassToken = function () {
+  const resetToken = crypto.randomBytes(32).toString("hex");
+  this.passwordResetToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
+  this.passwordResetExpires = Date.now() + 60 * 60 * 1000;
+  return resetToken;
+};

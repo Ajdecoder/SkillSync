@@ -6,6 +6,7 @@ import { Candidate, CandidateUserProfile, Recruiter, RecruiterUserProfile } from
 export const GoogleLogin = async (req, res) => {
     try {
         const { token, role } = req.body;
+        console.log('role in googlelogin', role)
 
         if (!token || !role) {
             return res.status(400).json({ message: 'Token and role are required' });
@@ -21,6 +22,25 @@ export const GoogleLogin = async (req, res) => {
 
         const { email, name, picture, sub: googleId } = googleData;
         const hashedPassword = await bcrypt.hash(googleId, 10); // Dummy password
+
+        const candidate = await Candidate.findOne({ email });
+        const recruiter = await Recruiter.findOne({ email });
+
+        if (candidate && role !== "candidate") {
+            console.log('Candidate found with different role');
+            return res.status(403).json({
+                message: "This Google account belongs candidate account.",
+                role: "candidate",
+            });
+        }
+
+        if (recruiter && role !== "recruiter") {
+            console.log('Recruiter found with different role');
+            return res.status(403).json({
+                message: "This Google account belongs recruiter account.",
+                role: "recruiter",
+            });
+        }
 
         let user = null;
         let profile = null;
@@ -106,7 +126,7 @@ export const GoogleLogin = async (req, res) => {
             { expiresIn: '7d' }
         );
 
-        res.cookie('authToken', authToken,{
+        res.cookie('authToken', authToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
