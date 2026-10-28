@@ -8,7 +8,7 @@ export const tools = [findJobsTool, findJobsByRoleTool, findCandidatesTool];
 
 export const llmWithTools = new ChatGroq({
   apiKey: process.env.GROQ_API_KEY,
-  model: "llama-3.3-70b-versatile",
+  model: "openai/gpt-oss-20b",
   temperature: 0.2,
   prompt: messages
 }).bindTools(tools);

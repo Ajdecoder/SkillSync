@@ -97,6 +97,7 @@ export const RoutesConfig = () => [
   <Route key="services" path="/services" element={<Services />} />,
   <Route key="contact" path="/contact" element={<Contact />} />,
   <Route key="pricing" path="/pricing" element={<Pricing />} />,
+  <Route key="blog-index" path="/blog" element={<Blog />} />,
   <Route
     key="blogs"
     path="/blogs"
@@ -183,9 +184,9 @@ export const RoutesConfig = () => [
     key="candidate-opportunities"
     path="/requirements/browse-opportunities"
     element={
-      <RequireRole role="candidate">
+      // <RequireRole role="candidate">
         <SavedOpportunity />
-      </RequireRole>
+      // </RequireRole>
     }
   />,
   <Route
@@ -292,9 +293,15 @@ export const RoutesConfig = () => [
     element={<ResetPassword />}
   />,
   <Route key="resources-faqs" path="/resources/faqs" element={<FAQsPage />} />,
+  <Route key="footer-faqs" path="/faqs" element={<FAQsPage />} />,
   <Route
     key="resources-contract-management"
     path="/resources/contract-management"
+    element={<ContractManagementPage />}
+  />,
+  <Route
+    key="footer-contract-management"
+    path="/contract"
     element={<ContractManagementPage />}
   />,
   <Route
@@ -303,13 +310,28 @@ export const RoutesConfig = () => [
     element={<EmployeeSupportPage />}
   />,
   <Route
+    key="footer-employee-support"
+    path="/support"
+    element={<EmployeeSupportPage />}
+  />,
+  <Route
     key="resources-guides-tips"
     path="/resources/guides-tips"
     element={<GuidesTipsPage />}
   />,
   <Route
+    key="footer-guides-tips"
+    path="/guides"
+    element={<GuidesTipsPage />}
+  />,
+  <Route
     key="resources-our-partners"
     path="/resources/our-partners"
+    element={<OurPartnersPage />}
+  />,
+  <Route
+    key="footer-our-partners"
+    path="/partners"
     element={<OurPartnersPage />}
   />,
 
@@ -319,10 +341,17 @@ export const RoutesConfig = () => [
     path="/company/our-mission"
     element={<OurMissionPage />}
   />,
+  <Route key="footer-our-mission" path="/mission" element={<OurMissionPage />} />,
   <Route key="company-careers" path="/company/careers" element={<CareersPage />} />,
+  <Route key="footer-careers" path="/careers" element={<CareersPage />} />,
   <Route
     key="company-privacy-policy"
     path="/company/privacy-policy"
+    element={<PrivacyPolicyPage />}
+  />,
+  <Route
+    key="footer-privacy-policy"
+    path="/privacy"
     element={<PrivacyPolicyPage />}
   />,
   <Route
@@ -331,34 +360,56 @@ export const RoutesConfig = () => [
     element={<TermsOfServicePage />}
   />,
   <Route
+    key="footer-terms-of-service"
+    path="/terms"
+    element={<TermsOfServicePage />}
+  />,
+  <Route
     key="company-press-releases"
     path="/company/press-releases"
+    element={<PressReleasesPage />}
+  />,
+  <Route
+    key="footer-press-releases"
+    path="/press"
     element={<PressReleasesPage />}
   />,
 
   // Connect Pages
   <Route key="connect-linkedin" path="/connect/linkedin" element={<LinkedInPage />} />,
+  <Route key="footer-linkedin" path="/linkedin" element={<LinkedInPage />} />,
   <Route
     key="connect-newsletter"
     path="/connect/newsletter"
     element={<NewsletterPage />}
   />,
+  <Route key="footer-newsletter" path="/newsletter" element={<NewsletterPage />} />,
   <Route key="connect-twitter" path="/connect/twitter" element={<TwitterPage />} />,
+  <Route key="footer-twitter" path="/twitter" element={<TwitterPage />} />,
   <Route key="connect-facebook" path="/connect/facebook" element={<FacebookPage />} />,
+  <Route key="footer-facebook" path="/facebook" element={<FacebookPage />} />,
 
   // Legal Pages
   <Route key="legal-disclaimer" path="/legal/disclaimer" element={<DisclaimerPage />} />,
+  <Route key="footer-disclaimer" path="/disclaimer" element={<DisclaimerPage />} />,
   <Route
     key="legal-trademark-information"
     path="/legal/trademark-information"
     element={<TrademarkInformationPage />}
   />,
+  <Route
+    key="footer-trademark-information"
+    path="/trademark"
+    element={<TrademarkInformationPage />}
+  />,
   <Route key="legal-licensing" path="/legal/licensing" element={<LicensingPage />} />,
+  <Route key="footer-licensing" path="/licensing" element={<LicensingPage />} />,
   <Route
     key="legal-cookie-policy"
     path="/legal/cookie-policy"
     element={<CookiePolicyPage />}
   />,
+  <Route key="footer-cookie-policy" path="/cookie" element={<CookiePolicyPage />} />,
 
   // Support Pages
   <Route
@@ -366,15 +417,22 @@ export const RoutesConfig = () => [
     path="/support/contact-us"
     element={<SupportContactUsPage />}
   />,
+  <Route key="footer-faq" path="/faq" element={<SupportFAQPage />} />,
   <Route key="support-faq" path="/support/faq" element={<SupportFAQPage />} />,
   <Route
     key="support-shipping-returns"
     path="/support/shipping-returns"
     element={<ShippingReturnsPage />}
   />,
+  <Route key="footer-shipping-returns" path="/shipping" element={<ShippingReturnsPage />} />,
   <Route
     key="support-warranty-information"
     path="/support/warranty-information"
+    element={<WarrantyInformationPage />}
+  />,
+  <Route
+    key="footer-warranty-information"
+    path="/warranty"
     element={<WarrantyInformationPage />}
   />,
 ];

@@ -1,18 +1,24 @@
-import React from "react";
+import InfoPage from "../../common/InfoPage";
 
-const TempPage = () => {
-  return (
-    <main className="min-h-screen flex items-center justify-center px-4 py-20 bg-gray-50">
-      <div className="max-w-xl w-full rounded-2xl bg-white p-8 text-center shadow-sm border border-gray-200">
-        <h1 className="text-3xl font-bold text-gray-900">Page Coming Soon</h1>
+const DisclaimerPage = () => (
+  <InfoPage
+    title="Disclaimer"
+    intro="SkillSync provides tools to help candidates and employers discover and discuss professional opportunities."
+    sections={[
+      {
+        title: "Information on the platform",
+        text: "Profiles, listings, and other user-submitted information are provided by their respective users. Review details independently and confirm important information directly with the relevant person or organization.",
+      },
+      {
+        title: "Independent decisions",
+        text: "SkillSync helps users connect but does not make hiring decisions or guarantee employment, candidate suitability, or the outcome of an agreement between users.",
+      },
+      {
+        title: "Not professional advice",
+        text: "Platform content is general information and is not legal, financial, or career advice tailored to your circumstances.",
+      },
+    ]}
+  />
+);
 
-        <p className="mt-3 text-gray-600">
-          This page is temporarily created. Final content and design will be
-          added later.
-        </p>
-      </div>
-    </main>
-  );
-};
-
-export default TempPage;
+export default DisclaimerPage;

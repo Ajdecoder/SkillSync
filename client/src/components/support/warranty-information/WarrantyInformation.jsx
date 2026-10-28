@@ -1,18 +1,21 @@
-import React from "react";
+import InfoPage from "../../common/InfoPage";
 
-const TempPage = () => {
-  return (
-    <main className="min-h-screen flex items-center justify-center px-4 py-20 bg-gray-50">
-      <div className="max-w-xl w-full rounded-2xl bg-white p-8 text-center shadow-sm border border-gray-200">
-        <h1 className="text-3xl font-bold text-gray-900">Page Coming Soon</h1>
+const WarrantyInformationPage = () => (
+  <InfoPage
+    title="Warranty Information"
+    intro="SkillSync provides online tools for professional profiles, opportunity discovery, and recruitment."
+    sections={[
+      {
+        title: "Digital platform",
+        text: "No physical products are sold through this page, so product warranty coverage does not apply to SkillSync platform access.",
+      },
+      {
+        title: "Service support",
+        text: "If a SkillSync feature is not working as expected, contact our team with the page, browser, and a description of the issue so we can help investigate.",
+      },
+    ]}
+    action={{ label: "Contact Support", to: "/contact" }}
+  />
+);
 
-        <p className="mt-3 text-gray-600">
-          This page is temporarily created. Final content and design will be
-          added later.
-        </p>
-      </div>
-    </main>
-  );
-};
-
-export default TempPage;
+export default WarrantyInformationPage;

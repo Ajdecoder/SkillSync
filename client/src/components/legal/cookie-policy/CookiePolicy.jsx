@@ -1,18 +1,25 @@
-import React from "react";
+import InfoPage from "../../common/InfoPage";
 
-const TempPage = () => {
-  return (
-    <main className="min-h-screen flex items-center justify-center px-4 py-20 bg-gray-50">
-      <div className="max-w-xl w-full rounded-2xl bg-white p-8 text-center shadow-sm border border-gray-200">
-        <h1 className="text-3xl font-bold text-gray-900">Page Coming Soon</h1>
+const CookiePolicyPage = () => (
+  <InfoPage
+    title="Cookie Policy"
+    intro="Web technologies such as cookies or local storage may be used to support essential site and account functionality."
+    sections={[
+      {
+        title: "Why these technologies are used",
+        text: "They can help a website remember settings, maintain an account session, and provide core features. Available behavior may depend on the browser and the features you use.",
+      },
+      {
+        title: "Manage browser storage",
+        text: "Most browsers let you review or clear cookies and site data. Restricting storage may affect sign-in or other parts of the site.",
+      },
+      {
+        title: "Questions",
+        text: "This is a general overview and not a complete inventory of technologies used by the platform. Contact SkillSync if you need more information.",
+      },
+    ]}
+    action={{ label: "Contact Us", to: "/contact" }}
+  />
+);
 
-        <p className="mt-3 text-gray-600">
-          This page is temporarily created. Final content and design will be
-          added later.
-        </p>
-      </div>
-    </main>
-  );
-};
-
-export default TempPage;
+export default CookiePolicyPage;

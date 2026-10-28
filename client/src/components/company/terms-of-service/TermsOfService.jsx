@@ -1,18 +1,25 @@
-import React from "react";
+import InfoPage from "../../common/InfoPage";
 
-const TempPage = () => {
-  return (
-    <main className="min-h-screen flex items-center justify-center px-4 py-20 bg-gray-50">
-      <div className="max-w-xl w-full rounded-2xl bg-white p-8 text-center shadow-sm border border-gray-200">
-        <h1 className="text-3xl font-bold text-gray-900">Page Coming Soon</h1>
+const TermsOfServicePage = () => (
+  <InfoPage
+    title="Terms of Service"
+    intro="These guidelines describe responsible use of SkillSync. Review any terms presented during account creation or when using a specific service."
+    sections={[
+      {
+        title: "Use the platform responsibly",
+        text: "Provide accurate information, protect your account credentials, and use SkillSync for legitimate professional networking, job search, and recruitment.",
+      },
+      {
+        title: "Respect other users",
+        text: "Keep communications professional and do not post misleading, unlawful, or harmful content. Candidates and employers are responsible for evaluating opportunities and making their own arrangements.",
+      },
+      {
+        title: "Questions about these guidelines",
+        text: "This overview is not a substitute for complete legal terms. Contact SkillSync if you need clarification about platform use.",
+      },
+    ]}
+    action={{ label: "Contact Us", to: "/contact" }}
+  />
+);
 
-        <p className="mt-3 text-gray-600">
-          This page is temporarily created. Final content and design will be
-          added later.
-        </p>
-      </div>
-    </main>
-  );
-};
-
-export default TempPage;
+export default TermsOfServicePage;
